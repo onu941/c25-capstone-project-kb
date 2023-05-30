@@ -51,3 +51,13 @@ export function StandardInputDeleteDisabled(props: InputProps) {
     </div>
   );
 }
+
+export function TextArea(props: InputProps) {
+  return (
+    <textarea
+      className="dark:bg-slate-200 dark:text-black rounded-lg h-32 "
+      placeholder={props.placeholder}
+      maxLength={150}
+    ></textarea>
+  );
+}
