@@ -6,7 +6,7 @@ import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import HandleUser from "./pages/HandleUser";
 import { Search } from "./pages/Search";
-import NewRoom from "./pages/NewRoom";
+import NewRoom from "./components/NewRoom";
 import { Chats } from "./pages/Chats";
 
 function App() {
