@@ -6,6 +6,7 @@ import {
   MiniInput,
   StandardInput,
   StandardInputDeleteDisabled,
+  TextArea,
 } from "./Inputs";
 import { PrimaryButton } from "./Buttons";
 import { Tab } from "./Tab";
@@ -17,7 +18,9 @@ type FormState = {
   address_1: string;
   address_2: string;
   address_3: string;
-  equipment: string[];
+  equipment_1: string;
+  equipment_2: string;
+  equipment_3: string;
 };
 
 export default function NewRoom() {
@@ -30,20 +33,13 @@ export default function NewRoom() {
       : setPartyroomName(e.target.value);
   };
 
-  const onSubmit = (data: FormState) => {
-    console.log("data:", data);
-  };
-
   const { register, handleSubmit } = useForm<FormState>();
 
   return (
     <>
       <FullScreen>
         <AppHeader title={partyroomName}></AppHeader>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex mt-6 flex-col w-full px-8"
-        >
+        <form className="flex mt-6 flex-col w-full px-8 mb-12">
           <StandardInput
             type="text"
             placeholder="name your partyroom"
@@ -78,7 +74,7 @@ export default function NewRoom() {
             type="text"
             register={register("address_3")}
           />
-          <p>Hashtags TBD</p>
+          <div className="text-3xl flex justify-center my-6">Hashtags TBD</div>
           <FormHeader title="Facilities (min. 3)" />
           <StandardInputDeleteDisabled
             placeholder="equipment 1"
@@ -96,22 +92,14 @@ export default function NewRoom() {
             register={register("equipment_3")}
           />
           <div className="w-full flex place-content-center mt-5">
-            <PrimaryButton label="Add more" />
+            <PrimaryButton label="Add More" />
           </div>
+          <FormHeader title="Tell us a little more about your partyroom:" />
+          <TextArea placeholder="Max 150 characters" />
         </form>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
-        <p>More stuff</p>
+        <div className="flex w-full place-content-center">
+          <PrimaryButton label="Next: Upload Images" />
+        </div>
       </FullScreen>
       <Tab />
     </>
