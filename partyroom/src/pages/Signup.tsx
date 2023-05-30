@@ -2,8 +2,7 @@ import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
 import { FullScreenInitial } from "../components/Containers";
 import { useForm } from "react-hook-form";
 import { PrimaryButton } from "../components/Buttons";
-import { Link, Route, Routes } from "react-router-dom";
-import Landing from "./HandleUser";
+import { Link } from "react-router-dom";
 
 type FormState = {
   name: string;
@@ -32,19 +31,19 @@ export default function Login() {
         className="flex flex-col place-content-center place-items-center mb-20"
       >
         <input
-          className="text-black px-2 py-2 rounded-lg mb-5"
+          className="text-black px-2 py-2 rounded-lg mb-5 text-center"
           type="text"
           placeholder="enter your name"
           {...register("name")}
         ></input>
         <input
-          className="text-black px-2 py-2 rounded-lg mb-5"
+          className="text-black px-2 py-2 rounded-lg mb-5 text-center"
           type="tel"
           placeholder="enter phone #"
           {...register("phoneNo")}
         ></input>
         <input
-          className="text-black px-2 py-2 rounded-lg mb-8"
+          className="text-black px-2 py-2 rounded-lg mb-8 text-center"
           type="password"
           placeholder="enter password"
           {...register("password")}

@@ -22,7 +22,11 @@ export default function Landing() {
   return (
     <>
       <FullScreen>
-        <AppHeader isOpen={isOpen} toggleSidebar={toggleSidebar}></AppHeader>
+        <AppHeader
+          isOpen={isOpen}
+          toggleSidebar={toggleSidebar}
+          title="Welcome, user"
+        ></AppHeader>
         <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}></Sidebar>
         <BodyHeader title="Your next booking:"></BodyHeader>
         <BookingCard
