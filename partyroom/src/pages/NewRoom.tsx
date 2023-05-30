@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
-import { FullScreen } from "./Containers";
-import { AppHeader, FormHeader } from "./Header";
+import { FullScreen } from "../components/Containers";
+import { AppHeader, FormHeader } from "../components/Header";
 import { useState } from "react";
 import {
   MiniInput,
   StandardInput,
   StandardInputDeleteDisabled,
-} from "./Inputs";
-import { PrimaryButton } from "./Buttons";
-import { Tab } from "./Tab";
+} from "../components/Inputs";
+import { PrimaryButton } from "../components/Buttons";
+import { Tab } from "../components/Tab";
 
 type FormState = {
   name: string;
