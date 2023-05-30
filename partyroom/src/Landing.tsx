@@ -1,15 +1,12 @@
-import { useState } from "react";
-import { PrimaryButton } from "./components/Buttons";
+import React from "react";
 import { FullScreen } from "./components/Containers";
+import { AppHeader, BodyHeader } from "./components/Header";
 
 export default function Landing() {
   return (
     <FullScreen>
-      <div className="h-36 w-52 dark:bg-slate-600 rounded-xl flex place-content-center place-items-center mb-28">
-        Logo
-      </div>
-      <PrimaryButton label="New User"></PrimaryButton>
-      <PrimaryButton label="Existing User"></PrimaryButton>
+      <AppHeader></AppHeader>
+      <BodyHeader title="Your next booking:"></BodyHeader>
     </FullScreen>
   );
 }
