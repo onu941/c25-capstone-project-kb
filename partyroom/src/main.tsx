@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import Landing from "./Landing.tsx";
+import HandleUser from "./HandleUser.tsx";
 import Login from "./Login.tsx";
 import Signup from "./Signup.tsx";
 import App from "./App.tsx";
