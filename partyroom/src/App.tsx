@@ -9,6 +9,7 @@ import { Search } from "./pages/Search";
 import NewRoom from "./pages/NewRoom";
 import { Chats } from "./pages/Chats";
 import Example from "./components/ComboboxDemo";
+import NewRoom2 from "./pages/NewRoom2";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/landing" element={<Landing />}></Route>
           <Route path="/search" element={<Search />}></Route>
           <Route path="/new_room" element={<NewRoom />}></Route>
+          <Route path="/new_room_2" element={<NewRoom2 />}></Route>
           <Route path="/chats" element={<Chats />}></Route>
           <Route path="/example" element={<Example />}></Route>
         </Routes>
