@@ -18,10 +18,3 @@ export function PrimaryButton(props: ButtonProps) {
     </button>
   );
 }
-
-export default function Example() {
-
-  return (
-
-  );
-}
