@@ -25,3 +25,29 @@ export function LandingCarousel() {
     </div>
   );
 }
+
+export function FormCarousel() {
+  return (
+    <div className="px-0">
+      <div className="carousel mb-8">
+        <div className="carousel-item">
+          <img
+            src={seulgi}
+            alt="seulgi"
+            className="rounded-md mx-1 drop-shadow-lg"
+          ></img>
+          <img
+            src={seulgi}
+            alt="seulgi"
+            className="rounded-md mx-1 drop-shadow-lg"
+          ></img>
+          <img
+            src={seulgi}
+            alt="seulgi"
+            className="rounded-md mx-1 drop-shadow-lg"
+          ></img>
+        </div>
+      </div>
+    </div>
+  );
+}

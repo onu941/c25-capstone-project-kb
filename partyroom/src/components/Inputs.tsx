@@ -1,7 +1,8 @@
 import { Combobox } from "@headlessui/react";
-import { TrashIcon } from "@heroicons/react/20/solid";
-import React, { useState } from "react";
+import { ChevronUpDownIcon, TrashIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
+import { addressLine2, addressLine3 } from "../assets/geography";
 
 type InputProps = {
   type?: string;
@@ -11,6 +12,38 @@ type InputProps = {
   name?: string;
   onDelete?: () => void;
 };
+
+export function AddressLine2() {
+  return (
+    <select
+      className="rounded-lg w-full dark:bg-slate-200 dark:text-gray-500 mb-6 text-center"
+      placeholder="Pick your district"
+    >
+      <option disabled selected>
+        line 2
+      </option>
+      {addressLine2.map((line) => {
+        return <option>{line}</option>;
+      })}
+    </select>
+  );
+}
+
+export function AddressLine3() {
+  return (
+    <select
+      className="rounded-lg w-full dark:bg-slate-200 dark:text-gray-500 mb-6 flex text-center"
+      placeholder="Pick your district"
+    >
+      <option disabled selected>
+        line 3
+      </option>
+      {addressLine3.map((line) => {
+        return <option>{line}</option>;
+      })}
+    </select>
+  );
+}
 
 export function StandardInput(props: InputProps) {
   return (
@@ -83,126 +116,5 @@ export function TextArea(props: InputProps) {
       placeholder={props.placeholder}
       maxLength={150}
     ></textarea>
-  );
-}
-
-function AddressLine2() {
-  const addressLine2 = [
-    "Kennedy Town",
-    "Shek Tong Tsui",
-    "Sai Ying Pun",
-    "Sheung Wan",
-    "Central",
-    "Admiralty",
-    "Mid-levels",
-    "Peak",
-    "Wan Chai",
-    "Causeway Bay",
-    "Happy Valley",
-    "Tai Hang",
-    "So Kon Po",
-    "Jardine's Lookout",
-    "Tin Hau",
-    "Braemar Hill",
-    "North Point",
-    "Quarry Bay",
-    "Sai Wan Ho",
-    "Shau Kei Wan",
-    "Chai Wan",
-    "Siu Sai Wan",
-    "Pokfulam",
-    "Aberdeen",
-    "Ap Lei Chau",
-    "Wong Chuk Hang",
-    "Shouson Hill",
-    "Repulse Bay",
-    "Chung Hom Kok",
-    "Stanley",
-    "Tai Tam",
-    "Shek O",
-    "Tsim Sha Tsui",
-    "Yau Ma Tei",
-    "King's Park",
-    "Mong Kok",
-    "Tai Kok Tsui",
-    "Mei Foo",
-    "Lai Chi Kok",
-    "Cheung Sha Wan",
-    "Sham Shui Po",
-    "Shek Kip Mei",
-    "Yau Yat Tsuen",
-    "Tai Wo Ping",
-    "Stonecutters Island",
-    "Hung Hom",
-    "To Kwa Wan",
-    "Ma Tau Kok",
-    "Ma Tau Wai",
-    "Kai Tak",
-    "Kowloon City",
-    "Ho Man Tin",
-    "Kowloon Tong",
-    "Beacon Hill",
-    "San Po Kong",
-    "Wong Tai Sin",
-    "Lok Fu",
-    "Diamond Hill",
-    "Tsz Wan Shan",
-    "Ngau Chi Wan",
-    "Ping Shek",
-    "Kowloon Bay",
-    "Ngau Tau Kok",
-    "Kwun Tong",
-    "Sau Mau Ping",
-    "Lam Tin",
-    "Yau Tong",
-    "Lei Yue Mun",
-    "Kwai Chung",
-    "Tsing Yi",
-    "Tsuen Wan",
-    "Sham Tseng",
-    "Ma Wan",
-    "Sunny Bay",
-    "Tuen Mun",
-    "Tin Shui Wai",
-    "Yuen Long",
-    "Kam Tin",
-    "Tai Po",
-    "Tai Wai",
-    "Sha Tin",
-    "Fo Tan",
-    "Wu Kai Sha",
-    "Ma On Shan",
-    "Clearwater Bay",
-    "Sai Kung",
-    "Tsueng Kwan O",
-    "Hang Hau",
-    "Tiu Keng Leng",
-    "Cheung Chau",
-    "Peng Chau",
-    "Tung Chung",
-    "Lamma Island",
-  ];
-
-  const [selectedLine2, setSelectedLine2] = useState(addressLine2[0]);
-  const [query, setQuery] = useState("");
-
-  const filteredLine2 =
-    query === ""
-      ? addressLine2
-      : addressLine2.filter((line) => {
-          return line.toLowerCase().includes(query.toLowerCase());
-        });
-
-  return (
-    <Combobox value={selectedLine2} onChange={setSelectedLine2}>
-      <Combobox.Input onChange={(event) => setQuery(event.target.value)} />
-      <Combobox.Options className="text-black">
-        {filteredLine2.map((line) => (
-          <Combobox.Option className="text-black" key={line} value={line}>
-            {line}
-          </Combobox.Option>
-        ))}
-      </Combobox.Options>
-    </Combobox>
   );
 }

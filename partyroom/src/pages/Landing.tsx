@@ -14,20 +14,20 @@ import {
 } from "@heroicons/react/20/solid";
 
 export default function Landing() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    setSidebarIsOpen(!sidebarIsOpen);
   };
   return (
     <>
       <FullScreen>
         <AppHeader
-          isOpen={isOpen}
+          isOpen={sidebarIsOpen}
           toggleSidebar={toggleSidebar}
           title="Welcome, user"
         ></AppHeader>
-        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar}></Sidebar>
+        <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
         <BodyHeader title="Your next booking:"></BodyHeader>
         <BookingCard
           date={25}

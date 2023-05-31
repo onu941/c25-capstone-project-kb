@@ -3,6 +3,8 @@ import { FullScreen } from "../components/Containers";
 import { AppHeader, FormHeader } from "../components/Header";
 import { useState } from "react";
 import {
+  AddressLine2,
+  AddressLine3,
   MiniInput,
   StandardInput,
   StandardInputDeleteDisabled,
@@ -11,6 +13,8 @@ import {
 } from "../components/Inputs";
 import { PrimaryButton } from "../components/Buttons";
 import { Tab } from "../components/Tab";
+import { Sidebar } from "../components/Sidebar";
+import { Link } from "react-router-dom";
 
 type EquipmentField = {
   id: number;
@@ -28,6 +32,7 @@ type FormState = {
 };
 
 export default function NewRoom() {
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [partyroomName, setPartyroomName] = useState("Submit Your Partyroom");
   const [equipmentFields, setEquipmentFields] = useState<EquipmentField[]>([
     { id: 1, name: "Equipment 1" },
@@ -41,7 +46,7 @@ export default function NewRoom() {
       : setPartyroomName(e.target.value);
   };
 
-  const handleAddMore = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleAddMore = () => {
     const newId = equipmentFields.length + 1;
     setEquipmentFields((prev) => [
       ...prev,
@@ -59,10 +64,19 @@ export default function NewRoom() {
     console.log(data);
   };
 
+  const toggleSidebar = () => {
+    setSidebarIsOpen(!sidebarIsOpen);
+  };
+
   return (
     <>
       <FullScreen>
-        <AppHeader title={partyroomName}></AppHeader>
+        <AppHeader
+          title={partyroomName}
+          toggleSidebar={toggleSidebar}
+          isOpen={sidebarIsOpen}
+        ></AppHeader>
+        <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
         <form
           className="flex mt-6 flex-col w-full px-8 mb-12"
           onSubmit={handleSubmit(onSubmit)}
@@ -91,6 +105,8 @@ export default function NewRoom() {
             type="text"
             register={register("address_1")}
           />
+          {/* <AddressLine2 />
+          <AddressLine3 /> */}
           <StandardInput
             placeholder="line 2"
             type="text"
@@ -134,8 +150,10 @@ export default function NewRoom() {
           <TextArea placeholder="Max 150 characters" />
           <PrimaryButton label="submit" type="submit"></PrimaryButton>
         </form>
-        <div className="flex w-full place-content-center">
-          <PrimaryButton label="Next: Upload Images" />
+        <div className="flex w-full place-content-center mb-12">
+          <Link to="/new_room_2">
+            <PrimaryButton label="Next: Upload Images" />
+          </Link>
         </div>
       </FullScreen>
       <Tab />
