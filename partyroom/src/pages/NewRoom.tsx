@@ -12,6 +12,11 @@ import {
 import { PrimaryButton } from "../components/Buttons";
 import { Tab } from "../components/Tab";
 
+type EquipmentField = {
+  id: number;
+  name: string;
+};
+
 type FormState = {
   name: string;
   area: number;
@@ -19,15 +24,16 @@ type FormState = {
   address_1: string;
   address_2: string;
   address_3: string;
-  equipment_1: string;
-  equipment_2: string;
-  equipment_3: string;
-  equipment: string[];
+  equipment: EquipmentField[];
 };
 
 export default function NewRoom() {
   const [partyroomName, setPartyroomName] = useState("Submit Your Partyroom");
-  const [numAdditionalInputs, setNumAdditionalInputs] = useState(0);
+  const [equipmentFields, setEquipmentFields] = useState<EquipmentField[]>([
+    { id: 1, name: "Equipment 1" },
+    { id: 2, name: "Equipment 2" },
+    { id: 3, name: "Equipment 3" },
+  ]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value.trim() === ""
@@ -36,7 +42,15 @@ export default function NewRoom() {
   };
 
   const handleAddMore = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setNumAdditionalInputs((prev) => prev + 1);
+    const newId = equipmentFields.length + 1;
+    setEquipmentFields((prev) => [
+      ...prev,
+      { id: newId, name: `Equipment ${newId}` },
+    ]);
+  };
+
+  const handleDelete = (id: number) => {
+    setEquipmentFields((prev) => prev.filter((field) => field.id !== id));
   };
 
   const { register, handleSubmit } = useForm<FormState>();
@@ -89,32 +103,26 @@ export default function NewRoom() {
           />
           <div className="text-3xl flex justify-center my-6">Hashtags TBD</div>
           <FormHeader title="Facilities (min. 3)" />
-          <StandardInputDeleteDisabled
-            placeholder="equipment 1"
-            type="text"
-            register={register("equipment_1")}
-          />
-          <StandardInputDeleteDisabled
-            placeholder="equipment 2"
-            type="text"
-            register={register("equipment_2")}
-          />
-          <StandardInputDeleteDisabled
-            placeholder="equipment 3"
-            type="text"
-            register={register("equipment_3")}
-          />
-          {Array(numAdditionalInputs)
-            .fill(null)
-            .map((_, index) => (
-              <StandardInputDeleteEnabled
-                key={index}
-                placeholder={`equipment ${index + 4}`}
+          {equipmentFields.map((field) =>
+            field.id <= 3 ? (
+              <StandardInputDeleteDisabled
+                key={field.id}
+                placeholder={`equipment ${field.id}`}
                 type="text"
-                register={register(`equipment.${index}` as const)}
-                name={`equipment.${index}`}
+                register={register(`equipment.${field.id - 1}.name` as const)}
+                name={`equipment.${field.id - 1}.name`}
               />
-            ))}
+            ) : (
+              <StandardInputDeleteEnabled
+                key={field.id}
+                placeholder={`equipment ${field.id}`}
+                type="text"
+                register={register(`equipment.${field.id - 1}.name` as const)}
+                name={`equipment.${field.id - 1}.name`}
+                onDelete={() => handleDelete(field.id)}
+              />
+            )
+          )}
           <div className="w-full flex place-content-center mt-5">
             <PrimaryButton
               type="button"
