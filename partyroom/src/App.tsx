@@ -8,6 +8,7 @@ import HandleUser from "./pages/HandleUser";
 import { Search } from "./pages/Search";
 import NewRoom from "./pages/NewRoom";
 import { Chats } from "./pages/Chats";
+import Example from "./components/ComboboxDemo";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/search" element={<Search />}></Route>
           <Route path="/new_room" element={<NewRoom />}></Route>
           <Route path="/chats" element={<Chats />}></Route>
+          <Route path="/example" element={<Example />}></Route>
         </Routes>
       </FullScreen>
     </>
