@@ -1,15 +1,16 @@
-import { useForm } from "react-hook-form";
-import { FullScreen } from "./Containers";
-import { AppHeader, FormHeader } from "./Header";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { FullScreen } from "../components/Containers";
+import { AppHeader, FormHeader } from "../components/Header";
 import { useState } from "react";
 import {
   MiniInput,
   StandardInput,
   StandardInputDeleteDisabled,
+  StandardInputDeleteEnabled,
   TextArea,
-} from "./Inputs";
-import { PrimaryButton } from "./Buttons";
-import { Tab } from "./Tab";
+} from "../components/Inputs";
+import { PrimaryButton } from "../components/Buttons";
+import { Tab } from "../components/Tab";
 
 type FormState = {
   name: string;
@@ -21,11 +22,12 @@ type FormState = {
   equipment_1: string;
   equipment_2: string;
   equipment_3: string;
+  equipment: string[];
 };
 
 export default function NewRoom() {
   const [partyroomName, setPartyroomName] = useState("Submit Your Partyroom");
-  const [equipmentItems, setEquipmentItems] = useState<string[]>([]);
+  const [numAdditionalInputs, setNumAdditionalInputs] = useState(0);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value.trim() === ""
@@ -33,13 +35,27 @@ export default function NewRoom() {
       : setPartyroomName(e.target.value);
   };
 
+  const handleAddMore = (e: React.MouseEvent<HTMLButtonElement>) => {
+    console.log("add more clicked");
+    setNumAdditionalInputs((prev) => prev + 1);
+  };
+
   const { register, handleSubmit } = useForm<FormState>();
+
+  const onSubmit: SubmitHandler<FormState> = (data) => {
+    console.log(data);
+  };
+
+  console.log("rendering");
 
   return (
     <>
       <FullScreen>
         <AppHeader title={partyroomName}></AppHeader>
-        <form className="flex mt-6 flex-col w-full px-8 mb-12">
+        <form
+          className="flex mt-6 flex-col w-full px-8 mb-12"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <StandardInput
             type="text"
             placeholder="name your partyroom"
@@ -91,11 +107,27 @@ export default function NewRoom() {
             type="text"
             register={register("equipment_3")}
           />
+          {Array(numAdditionalInputs)
+            .fill(null)
+            .map((_, index) => (
+              <StandardInputDeleteEnabled
+                key={index}
+                placeholder={`equipment ${index + 4}`}
+                type="text"
+                register={register(`equipment.${index}` as const)}
+                name={`equipment.${index}`}
+              />
+            ))}
           <div className="w-full flex place-content-center mt-5">
-            <PrimaryButton label="Add More" />
+            <PrimaryButton
+              type="button"
+              onClick={handleAddMore}
+              label="Add More"
+            />
           </div>
           <FormHeader title="Tell us a little more about your partyroom:" />
           <TextArea placeholder="Max 150 characters" />
+          <PrimaryButton label="submit" type="submit"></PrimaryButton>
         </form>
         <div className="flex w-full place-content-center">
           <PrimaryButton label="Next: Upload Images" />

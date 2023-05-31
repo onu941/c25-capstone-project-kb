@@ -6,6 +6,7 @@ type InputProps = {
   placeholder?: string;
   register?: UseFormRegisterReturn;
   onChange?: (arg: any) => void;
+  name?: string;
 };
 
 export function StandardInput(props: InputProps) {
@@ -46,6 +47,26 @@ export function StandardInputDeleteDisabled(props: InputProps) {
       <div className="w-fit">
         <button disabled>
           <TrashIcon className="h-9 w-9 text-slate-600" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function StandardInputDeleteEnabled(props: InputProps) {
+  return (
+    <div className="flex flex-row columns-2 gap-4">
+      <div className="w-full">
+        <input
+          placeholder={props.placeholder}
+          type={props.type}
+          className="dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-full"
+          {...props.register}
+        ></input>
+      </div>
+      <div className="w-fit">
+        <button disabled>
+          <TrashIcon className="h-9 w-9 text-slate-300" />
         </button>
       </div>
     </div>
