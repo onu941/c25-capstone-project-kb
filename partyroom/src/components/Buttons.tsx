@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Switch } from "@headlessui/react";
+
 interface ButtonProps {
   label: string;
   type?: "button" | "submit";
@@ -13,5 +16,12 @@ export function PrimaryButton(props: ButtonProps) {
     >
       {props.label}
     </button>
+  );
+}
+
+export default function Example() {
+
+  return (
+
   );
 }
