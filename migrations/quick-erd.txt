@@ -1,0 +1,113 @@
+user
+----
+id integer PK
+name varchar(32)
+email varchar(255)
+phone integer
+password varchar(32)
+image_id varchar(255) FK >0- image.id
+bio varchar(255)
+is_admin boolean
+created_at datetime
+updated_at datetime
+
+
+partyRoom
+---------
+id integer PK
+name varchar(32)
+host_user_id integer FK >0- user.id
+rating integer
+partyRoomImage_id integer FK >0- partyRoomImage.id
+area_id integer FK >0- area.id
+capacity integer
+category_id integer FK >0- category.id
+phone integer
+address varchar(255)
+equipment_id integer FK >0- equipment.id
+priceList_id integer FK >0- priceList.id
+detail varchar(5000)
+is_hidden boolean
+created_at datetime
+updated_at datetime
+
+
+partyRoomImage
+--------------
+id integer PK
+partyRoom_id integer FK >0- partyRoom.id
+image_id integer FK >0- image.id
+
+
+image
+-----
+id integer PK
+content varchar(255)
+
+
+area
+----
+id integer PK
+name varchar(32)
+
+
+category
+--------
+id integer PK
+name varchar(32)
+
+
+equipment
+---------
+id integer PK
+name varchar(32)
+
+
+priceList
+---------
+id integer PK
+partyRoom_id integer FK >0- partyRoom.id
+visitor integer
+price integer
+
+
+bookingInfo
+-----------
+id integer PK
+partyRoom_id integer FK >0- partyRoom.id
+booking_user_id integer FK >0- user.id
+visitor integer
+
+
+session
+-------
+id integer PK
+bookingInfo_id integer FK >0- bookingInfo.id
+date datetime
+timeSlot_id integer FK >0- timeSlot.id
+is_hidden boolean
+
+
+timeSlot
+--------
+id integer PK
+time datetime
+
+
+comment
+-------
+id integer PK
+partyRoom_id integer FK >0- partyRoom.id
+user_id integer FK >0- user.id
+commentImage_id integer FK >0- commentImage.id
+rating integer
+detail varchar(255)
+created_at datetime
+updated_at datetime
+
+
+commentImage
+------------
+id integer PK
+comment_id integer FK >0- comment.id
+image_id integer FK >0- image.id
