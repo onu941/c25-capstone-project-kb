@@ -36,7 +36,6 @@ export default function NewRoom() {
   };
 
   const handleAddMore = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("add more clicked");
     setNumAdditionalInputs((prev) => prev + 1);
   };
 
@@ -45,8 +44,6 @@ export default function NewRoom() {
   const onSubmit: SubmitHandler<FormState> = (data) => {
     console.log(data);
   };
-
-  console.log("rendering");
 
   return (
     <>
