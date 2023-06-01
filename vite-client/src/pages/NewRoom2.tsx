@@ -7,8 +7,6 @@ import {
   AddressLine3,
   MiniInput,
   StandardInput,
-  StandardInputDeleteDisabled,
-  StandardInputDeleteEnabled,
   TextArea,
 } from "../components/Inputs";
 import { PrimaryButton } from "../components/Buttons";
@@ -58,6 +56,23 @@ export default function NewRoom2() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.target.value.trim() === ""
+      ? setPartyroomName("Continue Submitting")
+      : setPartyroomName("Continue Submitting " + e.target.value);
+  };
+
+  const handleAddMore = () => {
+    const newId = equipmentFields.length + 1;
+    setEquipmentFields((prev) => [
+      ...prev,
+      { id: newId, name: `Equipment ${newId}` },
+    ]);
+  };
+
+  const handleDelete = (id: number) => {
+    setEquipmentFields((prev) => prev.filter((field) => field.id !== id));
+  };
   return (
     <>
       <FullScreen>
@@ -110,6 +125,78 @@ export default function NewRoom2() {
           <div className={!enabled ? "hidden" : ""}>
             <hr className=" mb-5 border-slate-500" />
             <FormHeader title="Confirm your partyroom:" />
+            <StandardInput
+              type="text"
+              placeholder="name your partyroom"
+              register={register("name")}
+              onChange={handleInputChange}
+            />
+            <div className="flex flex-row w-full justify-between">
+              <MiniInput
+                type="text"
+                placeholder="area"
+                register={register("area")}
+              />
+              <MiniInput
+                type="text"
+                placeholder="capacity"
+                register={register("capacity")}
+              />
+            </div>
+            <FormHeader title="Address: " />
+            <StandardInput
+              placeholder="line 1"
+              type="text"
+              register={register("address_1")}
+              canEdit={false}
+              canDelete={false}
+            />
+            {/* <AddressLine2 />
+          <AddressLine3 /> */}
+            <StandardInput
+              placeholder="line 2"
+              type="text"
+              register={register("address_2")}
+            />
+            <StandardInput
+              placeholder="line 3"
+              type="text"
+              register={register("address_3")}
+            />
+            <div className="text-3xl flex justify-center my-6">
+              Hashtags TBD
+            </div>
+            <FormHeader title="Facilities (min. 3)" />
+            {equipmentFields.map((field) =>
+              field.id <= 3 ? (
+                <StandardInput
+                  key={field.id}
+                  placeholder={`equipment ${field.id}`}
+                  type="text"
+                  register={register(`equipment.${field.id - 1}.name` as const)}
+                  name={`equipment.${field.id - 1}.name`}
+                />
+              ) : (
+                <StandardInput
+                  key={field.id}
+                  placeholder={`equipment ${field.id}`}
+                  type="text"
+                  register={register(`equipment.${field.id - 1}.name` as const)}
+                  name={`equipment.${field.id - 1}.name`}
+                  onDelete={() => handleDelete(field.id)}
+                  canDelete
+                />
+              )
+            )}
+            <div className="w-full flex place-content-center mt-5">
+              <PrimaryButton
+                type="button"
+                onClick={handleAddMore}
+                label="Add More"
+              />
+            </div>
+            <FormHeader title="Tell us a little more about your partyroom:" />
+            <TextArea placeholder="Max 150 characters" />
             <Link to="/new_room">
               <PrimaryButton type="button" label="Reset Progress" />
               <PrimaryButton type="submit" label="Submit Your Room!" />
