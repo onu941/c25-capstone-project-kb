@@ -6,8 +6,6 @@ import {
   AddressLine3,
   MiniInput,
   StandardInput,
-  StandardInputDeleteDisabled,
-  StandardInputDeleteEnabled,
   TextArea,
 } from "../components/Inputs";
 import { PrimaryButton } from "../components/Buttons";
@@ -104,6 +102,8 @@ export default function NewRoom() {
             placeholder="line 1"
             type="text"
             register={register("address_1")}
+            canEdit={false}
+            canDelete={false}
           />
           {/* <AddressLine2 />
           <AddressLine3 /> */}
@@ -121,7 +121,7 @@ export default function NewRoom() {
           <FormHeader title="Facilities (min. 3)" />
           {equipmentFields.map((field) =>
             field.id <= 3 ? (
-              <StandardInputDeleteDisabled
+              <StandardInput
                 key={field.id}
                 placeholder={`equipment ${field.id}`}
                 type="text"
@@ -129,13 +129,14 @@ export default function NewRoom() {
                 name={`equipment.${field.id - 1}.name`}
               />
             ) : (
-              <StandardInputDeleteEnabled
+              <StandardInput
                 key={field.id}
                 placeholder={`equipment ${field.id}`}
                 type="text"
                 register={register(`equipment.${field.id - 1}.name` as const)}
                 name={`equipment.${field.id - 1}.name`}
                 onDelete={() => handleDelete(field.id)}
+                canDelete
               />
             )
           )}
