@@ -1,4 +1,3 @@
-import { useForm, SubmitHandler } from "react-hook-form";
 import { FullScreen } from "../components/Containers";
 import { AppHeader, FormHeader } from "../components/Header";
 import { useState } from "react";
@@ -15,6 +14,7 @@ import { PrimaryButton } from "../components/Buttons";
 import { Tab } from "../components/Tab";
 import { Sidebar } from "../components/Sidebar";
 import { Link } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type EquipmentField = {
   id: number;
