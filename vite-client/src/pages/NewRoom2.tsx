@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
 import { FormCarousel, LandingCarousel } from "../components/Carousels";
 import { Switch } from "@headlessui/react";
+import { PlusIcon } from "@heroicons/react/20/solid";
 
 type EquipmentField = {
   id: number;
@@ -87,17 +88,17 @@ export default function NewRoom2() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div
-            className="px-10 py-16 rounded-xl border-dashed border-2 border-slate-500 text-lg text-justify mb-8"
+            className="px-10 py-12 rounded-xl border-dashed border-2 border-slate-500 text-lg text-justify mb-8"
             {...getRootProps()}
           >
             <input {...getInputProps()} />
             {isDragActive ? (
               <p>Drop the files here</p>
             ) : (
-              <p className="text-slate-300">
-                Drag and drop some files here, or press to select files to
-                upload
-              </p>
+              <div className="flex flex-col place-content-center place-items-center text-slate-300">
+                <PlusIcon className="h-40 w-40 mb-3" />
+                Upload some photos
+              </div>
             )}
           </div>
           <p className="text-center mb-8 text-xl">Image Preview here</p>
