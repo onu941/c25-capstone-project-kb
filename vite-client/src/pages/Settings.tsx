@@ -1,5 +1,5 @@
 import { FullScreen } from "../components/Containers";
-import { AppHeader } from "../components/Header";
+import { AppHeader, BodyHeader } from "../components/Header";
 import { useState } from "react";
 import { SettingsTab, Tab } from "../components/Tab";
 import { BookingCard, PartyroomCard } from "../components/Cards";
@@ -57,7 +57,9 @@ export function SetRooms() {
 export function SetGeneral() {
   return (
     <FullScreen>
-      <div className="flex place-content-center mt-12">settings general</div>
+      <div className="w-full flex place-content-center">
+        <div className="dark:bg-slate-500 p-8 rounded-lg w-11/12 flex place-content-center"></div>
+      </div>
     </FullScreen>
   );
 }
