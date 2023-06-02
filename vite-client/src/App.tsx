@@ -10,17 +10,19 @@ import NewRoom from "./pages/NewRoom";
 import { Chats } from "./pages/Chats";
 import Example from "./components/ComboboxDemo";
 import NewRoom2 from "./pages/NewRoom2";
+import Settings from "./pages/Settings";
+import History from "./pages/History";
 
-function isLoggedIn() {
-  return true;
-}
+// function isLoggedIn() {
+//   return true;
+// }
 
 function App() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    isLoggedIn() ? navigate("/landing") : navigate("/handle_user");
-  }, []);
+  // useEffect(() => {
+  //   isLoggedIn() ? navigate("/landing") : navigate("/handle_user");
+  // }, []);
 
   return (
     <>
@@ -35,7 +37,9 @@ function App() {
           <Route path="/new_room_2" element={<NewRoom2 />} />
           <Route path="/chats" element={<Chats />} />
           <Route path="/example" element={<Example />} />
-          <Route path="/" element={<Navigate to="/handle_user" replace />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/" element={<Navigate to="/landing" replace />} />
         </Routes>
       </FullScreen>
     </>
