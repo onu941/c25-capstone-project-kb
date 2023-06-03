@@ -12,6 +12,7 @@ import { addressLine2, addressLine3 } from "../assets/geography";
 type InputProps = {
   type?: string;
   placeholder?: string;
+  value?: string;
   register?: UseFormRegisterReturn;
   onChange?: (arg: any) => void;
   name?: string;
@@ -65,9 +66,10 @@ export function StandardInput(props: InputProps) {
         <input
           placeholder={props.placeholder}
           type={props.type}
-          className="dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-full"
+          className="dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg"
           {...props.register}
           onChange={props.onChange}
+          value={props.value}
         ></input>
       </div>
       {props.canEdit ? (

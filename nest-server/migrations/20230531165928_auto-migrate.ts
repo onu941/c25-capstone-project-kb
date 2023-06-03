@@ -66,7 +66,7 @@ export async function up(knex: Knex): Promise<void> {
   }
 
   if (!(await knex.schema.hasTable("category"))) {
-    await knex.schema.createTable(t"category", (table) => {
+    await knex.schema.createTable("category", (table) => {
       table.increments("id");
       table.string("name", 32);
     });
