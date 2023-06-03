@@ -1,13 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { InjectKnex, Knex } from 'nestjs-knex';
 
 @Controller()
 export class AppController {
-  constructor(
-    private readonly appService: AppService,
-    @InjectKnex() private readonly knex: Knex,
-  ) {}
+  constructor(private readonly appService: AppService) {}
 
   @Get()
   getHello(): string {
