@@ -71,9 +71,10 @@ export function SetGeneral() {
           <span className="text-xl mb-12 font-semibold">Account Help</span>
           <div className="px-32 flex flex-col place-items-center">
             <PrimaryButton label="User Support" />
-            <PrimaryButton label="Deactivate Account" />
+            <PrimaryButton label="Deactivate Account (Needs danger)" />
           </div>
         </div>
+        <PrimaryButton label="Logout (needs other colour)" />
       </div>
     </FullScreen>
   );
