@@ -1,24 +1,26 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.interface';
+import { InjectKnex } from 'nestjs-knex';
+import { Knex } from 'knex';
 
 @Injectable()
 export class UserService {
   users: User[];
-
-  constructor() {
-    this.users = [];
-    this.users[1] = { id: 1, name: 'kevin' };
-    this.users[2] = { id: 2, name: 'kk' };
-  }
+  constructor(@InjectKnex() private readonly knex: Knex) {}
 
   async getUserList() {
-    return this.users.filter((user) => user);
+    const users = await this.knex.table('users').select('*');
+    if (!users) {
+      throw new NotFoundException();
+    }
+    return users;
   }
 
   async getUserById(id: number) {
-    const user = this.users[id];
+    const user = await this.knex.table('users').where({ id }).first();
     if (!user) {
       throw new NotFoundException();
     }
+    return user;
   }
 }
