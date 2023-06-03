@@ -5,108 +5,120 @@ name varchar(32)
 email varchar(255)
 phone integer
 password varchar(32)
-image_id varchar(255) FK >0- image.id
+image_id FK - image.id
 bio varchar(255)
 is_admin boolean
 created_at datetime
 updated_at datetime
 
-
-partyRoom
+party_room
 ---------
 id integer PK
 name varchar(32)
 host_user_id integer FK >0- user.id
-rating integer
-partyRoomImage_id integer FK >0- partyRoomImage.id
-area_id integer FK >0- area.id
+avg_rating integer
+party_room_image_id integer FK >0- party_room_image.id
+district_id integer FK >0- district.id
 capacity integer
-category_id integer FK >0- category.id
+party_room_category_id integer FK >0- party_room_category.id
 phone integer
 address varchar(255)
-equipment_id integer FK >0- equipment.id
-priceList_id integer FK >0- priceList.id
+party_room_equipment_id integer FK >0- party_room_equipment.id
+party_room_price_list_id integer FK >0- party_room_price_list.id
 detail varchar(5000)
 is_hidden boolean
 created_at datetime
 updated_at datetime
 
-
-partyRoomImage
+party_room_image
 --------------
 id integer PK
-partyRoom_id integer FK >0- partyRoom.id
+party_room_id integer FK >0- party_room.id
 image_id integer FK >0- image.id
-
 
 image
 -----
 id integer PK
-content varchar(255)
+file_name varchar(255)
 
-
-area
+district
 ----
 id integer PK
 name varchar(32)
 
+party_room_category
+--------
+id integer PK
+party_room_id FK >0- party_room.id
+category_id FK >0- category.id
 
 category
 --------
 id integer PK
 name varchar(32)
 
+party_room_equipment
+---------
+id integer PK
+party_room_id FK >0- party_room.id
+equipment_id FK >0- equipment.id
 
 equipment
 ---------
 id integer PK
 name varchar(32)
 
-
-priceList
+party_room_price_list
 ---------
 id integer PK
-partyRoom_id integer FK >0- partyRoom.id
-visitor integer
+party_room_id FK >0- party_room.id
+price_id FK >0- price.id
+headcount integer
+is_holiday boolean
+start_time dateTime
+total_hour integer 
+created_at datetime
+updated_at datetime
+
+price
+-----
+id integer PK
 price integer
 
-
-bookingInfo
+booking_info
 -----------
 id integer PK
-partyRoom_id integer FK >0- partyRoom.id
+party_room_id integer FK >0- party_room.id
 booking_user_id integer FK >0- user.id
 visitor integer
-
 
 session
 -------
 id integer PK
-bookingInfo_id integer FK >0- bookingInfo.id
+booking_info_id integer FK >0- booking_info.id
 date datetime
-timeSlot_id integer FK >0- timeSlot.id
+time_slot_id integer FK >0- time_slot.id
+total_amount_per_hour integer
 is_hidden boolean
 
-
-timeSlot
+time_slot
 --------
 id integer PK
-time datetime
-
+start_time datetime
 
 comment
 -------
 id integer PK
-partyRoom_id integer FK >0- partyRoom.id
-user_id integer FK >0- user.id
-commentImage_id integer FK >0- commentImage.id
+party_room_id integer FK >0- party_room.id
+comment_user_id integer FK >0- user.id
+comment_image_id integer FK >0- comment_image.id
 rating integer
 detail varchar(255)
+is_hidden boolean
 created_at datetime
 updated_at datetime
 
-
-commentImage
+comment_image
 ------------
 id integer PK
 comment_id integer FK >0- comment.id

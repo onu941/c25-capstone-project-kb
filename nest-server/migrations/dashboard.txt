@@ -1,0 +1,17 @@
+1. party room avg_rating ranking
+1.5. party room rating and booking quantity relationship (monthly)
+2. user comment rating 
+3. party room capacity and the capacity user usually book 
+4. district comparison
+5. equipment comparison
+6. price comparison per person and per room
+7. categories comparison
+8. party room image quantity comparison
+9. booking date (how close to the booked date)
+10. popularity comparison
+11. details comparison(long or short)
+12. session and holiday and month analysis
+
+graph, xy axis, analysis sight
+y axis - fact
+x axis - dimension
