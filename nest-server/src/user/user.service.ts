@@ -9,7 +9,9 @@ export class UserService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
   async getUserList() {
-    const users = await this.knex.table('users').select('*');
+    const users = await this.knex
+      .table('users')
+      .select('id', 'name', 'email', 'phone', 'password');
     if (!users) {
       throw new NotFoundException();
     }
@@ -17,7 +19,10 @@ export class UserService {
   }
 
   async getUserById(id: number) {
-    const user = await this.knex.table('users').where({ id }).first();
+    const user = await this.knex
+      .table('users')
+      .where({ id })
+      .first(['id', 'name', 'email', 'phone', 'password']);
     if (!user) {
       throw new NotFoundException();
     }
