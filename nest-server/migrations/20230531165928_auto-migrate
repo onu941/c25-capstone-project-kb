@@ -15,75 +15,102 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable("partyRoom"))) {
-    await knex.schema.createTable("partyRoom", (table) => {
+  if (!(await knex.schema.hasTable("party_room"))) {
+    await knex.schema.createTable("party_room", (table) => {
       table.increments("id");
       table.string("name", 32);
       table.integer("host_user_id").unsigned().references("user.id");
-      table.integer("rating");
-      table.integer("partRoomImage_id").unsigned().references("partRoomImage.id");
-      table.integer("area_id").unsigned().references("area.id");
+      table.integer("avg_rating");
+      table.integer("party_room_image_id").unsigned().references("party_room_image.id");
+      table.integer("district_id").unsigned().references("district.id");
       table.integer("capacity");
-      table.integer("category_id").unsigned().references("category.id");
+      table.integer("party_room_category_id").unsigned().references("party_room_category.id");
       table.integer("phone");
       table.string("address", 255);
-      table.integer("equipment_id").unsigned().references("equipment.id");
-      table.integer("priceList_id").unsigned().references("priceList.id");
+      table.integer("party_room_equipment_id").unsigned().references("party_room_equipment.id");
+      table.integer("party_room_price_list_id").unsigned().references("party_room_price_list.id");
       table.string("detail", 255);
       table.boolean("is_hidden");
       table.timestamps(false, true);
     });
   }
 
-  if (!(await knex.schema.hasTable("image"))) {
-    await knex.schema.createTable("image", (table) => {
+  if (!(await knex.schema.hasTable("party_room_image"))) {
+    await knex.schema.createTable("party_room_image", (table) => {
       table.increments("id");
-      table.string("content", 255);
-    });
-  }
-
-  if (!(await knex.schema.hasTable("partyRoomImage"))) {
-    await knex.schema.createTable("partyRoomImage", (table) => {
-      table.increments("id");
-      table.integer("partyRoom_id").unsigned().references("partyRoom.id");
+      table.integer("party_room_id").unsigned().references("party_room.id");
       table.integer("image_id").unsigned().references("image.id");
     });
   }
 
-  if (!(await knex.schema.hasTable("area"))) {
-    await knex.schema.createTable("area", (table) => {
+  if (!(await knex.schema.hasTable("image"))) {
+      await knex.schema.createTable("image", (table) => {
+        table.increments("id");
+        table.string("file_name", 255);
+      });
+    }
+
+  if (!(await knex.schema.hasTable("district"))) {
+    await knex.schema.createTable("district", (table) => {
       table.increments("id");
-      table.string("name", 30);
+      table.string("name", 32);
+    });
+  }
+
+  if (!(await knex.schema.hasTable("party_room_category"))) {
+    await knex.schema.createTable("party_room_category", (table) => {
+      table.increments("id");
+      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("category_id").unsigned().references("category.id");
     });
   }
 
   if (!(await knex.schema.hasTable("category"))) {
-    await knex.schema.createTable("category", (table) => {
+    await knex.schema.createTable(t"category", (table) => {
       table.increments("id");
-      table.string("name", 30);
+      table.string("name", 32);
+    });
+  }
+
+  if (!(await knex.schema.hasTable("party_room_equipment"))) {
+    await knex.schema.createTable("party_room_equipment", (table) => {
+      table.increments("id");
+      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("equipment_id").unsigned().references("equipment.id");
     });
   }
 
   if (!(await knex.schema.hasTable("equipment"))) {
     await knex.schema.createTable("equipment", (table) => {
       table.increments("id");
-      table.string("name", 30);
+      table.string("name", 32);
     });
   }
 
-  if (!(await knex.schema.hasTable("priceList"))) {
-    await knex.schema.createTable("priceList", (table) => {
+  if (!(await knex.schema.hasTable("party_room_price_list"))) {
+    await knex.schema.createTable("party_room_price_list", (table) => {
       table.increments("id");
-      table.integer("partyRoom_id").unsigned().references("partyRoom.id");
-      table.integer("visitor");
-      table.integer("price");
+      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("price_id").unsigned().references("price.id")
+      table.integer("headcount");
+      table.boolean("is_holiday");
+      table.datetime("start_time");
+      table.integer("total_hour");
+      table.timestamps(false, true);
     });
   }
 
-  if (!(await knex.schema.hasTable("bookingInfo"))) {
-    await knex.schema.createTable("bookingInfo", (table) => {
+  if (!(await knex.schema.hasTable("price"))) {
+    await knex.schema.createTable("price", (table) => {
       table.increments("id");
-      table.integer("partyRoom_id").unsigned().references("partyRoom.id");
+      table.integer("price", 32);
+    });
+  }
+
+  if (!(await knex.schema.hasTable("booking_info"))) {
+    await knex.schema.createTable("booking_info", (table) => {
+      table.increments("id");
+      table.integer("party_room_id").unsigned().references("party_room.id");
       table.integer("booking_user_id").unsigned().references("user.id");
       table.integer("visitor");
     });
@@ -92,34 +119,36 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable("session"))) {
     await knex.schema.createTable("session", (table) => {
       table.increments("id");
-      table.integer("bookingInfo_id").unsigned().references("bookingInfo.id");
-      table.integer("date");
-      table.integer("timeSlot_id").unsigned().references("timeSlot.id");
+      table.integer("booking_info_id").unsigned().references("booking_info.id");
+      table.datetime("date");
+      table.integer("time_slot_id").unsigned().references("time_slot.id");
+      table.integer("total_amount")
       table.boolean("is_hidden");
     });
   }
 
-  if (!(await knex.schema.hasTable("timeSlot"))) {
-    await knex.schema.createTable("timeSlot", (table) => {
+  if (!(await knex.schema.hasTable("time_slot"))) {
+    await knex.schema.createTable("time_slot", (table) => {
       table.increments("id");
-      table.integer("time");
+      table.datetime("start_time");
     });
   }
 
   if (!(await knex.schema.hasTable("comment"))) {
     await knex.schema.createTable("comment", (table) => {
       table.increments("id");
-      table.integer("partyRoom_id").unsigned().references("partyRoom.id");
-      table.integer("user_id").unsigned().references("user.id");
-      table.integer("commentImage_id ").unsigned().references("commentImage.id");
+      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("comment_user_id").unsigned().references("user.id");
+      table.integer("comment_image_id ").unsigned().references("comment_image.id");
       table.integer("rating");
       table.string("detail", 255);
+      table.boolean("is_hidden");
       table.timestamps(false, true);
     });
   }
 
-  if (!(await knex.schema.hasTable("commentImage"))) {
-    await knex.schema.createTable("commentImage", (table) => {
+  if (!(await knex.schema.hasTable("comment_image"))) {
+    await knex.schema.createTable("comment_image", (table) => {
       table.increments("id");
       table.integer("comment_id").unsigned().references("comment.id");
       table.integer("image_id").unsigned().references("image.id");
