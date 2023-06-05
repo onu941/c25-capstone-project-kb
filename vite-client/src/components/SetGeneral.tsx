@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { PrimaryButton } from "./minicomponents/Buttons";
 import { FullScreen } from "./minicomponents/Containers";
 import { StandardInput } from "./minicomponents/Inputs";
@@ -20,7 +21,11 @@ export function SetGeneral() {
             <PrimaryButton label="Deactivate Account (Needs danger)" />
           </div>
         </div>
-        <PrimaryButton label="Logout (needs other colour)" />
+      </div>
+      <div className="mb-24 flex justify-center">
+        <Link to="/handle_user">
+          <PrimaryButton label="Logout (needs other colour)" />
+        </Link>
       </div>
     </FullScreen>
   );
