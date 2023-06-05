@@ -1,23 +1,22 @@
+import { UseFormRegister, UseFormHandleSubmit } from "react-hook-form";
+import { FullScreenInitial } from "./minicomponents/Containers";
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
-import { FullScreenInitial } from "../components/Containers";
-import { useForm } from "react-hook-form";
-import { PrimaryButton } from "../components/Buttons";
-import { Link } from "react-router-dom";
+import { PrimaryButton } from "./minicomponents/Buttons";
 
-type FormState = {
+export type HandleUserFormState = {
   name: string;
   phoneNo: any;
   password: string;
 };
 
-export default function Login() {
-  const { register, handleSubmit } = useForm<FormState>({});
+export interface SignupProps {
+  register: UseFormRegister<HandleUserFormState>;
+  handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
+  onSignupSubmit: (data: HandleUserFormState) => void;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  const onSubmit = (data: FormState) => {
-    data.phoneNo = parseInt(data.phoneNo, 10);
-    console.log("submitted form data:", data);
-  };
-
+export function Signup(props: SignupProps) {
   return (
     <FullScreenInitial>
       <button
@@ -27,34 +26,35 @@ export default function Login() {
         New User
       </button>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={props.handleSubmit(props.onSignupSubmit)}
         className="flex flex-col place-content-center place-items-center mb-20"
       >
         <input
           className="text-black px-2 py-2 rounded-lg mb-5 text-center"
           type="text"
           placeholder="enter your name"
-          {...register("name")}
+          {...props.register("name")}
         ></input>
         <input
           className="text-black px-2 py-2 rounded-lg mb-5 text-center"
           type="tel"
           placeholder="enter phone #"
-          {...register("phoneNo")}
+          {...props.register("phoneNo")}
         ></input>
         <input
           className="text-black px-2 py-2 rounded-lg mb-8 text-center"
           type="password"
           placeholder="enter password"
-          {...register("password")}
+          {...props.register("password")}
         ></input>
         <button type="submit">
           <ArrowRightCircleIcon className="h-14 w-14"></ArrowRightCircleIcon>
         </button>
       </form>
-      <Link to="/handle_user">
-        <PrimaryButton label="Back"></PrimaryButton>
-      </Link>
+      <PrimaryButton
+        label="Back"
+        onClick={() => props.setPage("initial")}
+      ></PrimaryButton>
     </FullScreenInitial>
   );
 }

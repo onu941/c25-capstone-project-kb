@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { FullScreen } from "../components/Containers";
-import { AppHeader, BodyHeader, ReviewHeader } from "../components/Header";
-import { Sidebar } from "../components/Sidebar";
-import { Tab } from "../components/Tab";
-import { PrimaryButton } from "../components/Buttons";
-import { BookingCard, OwnerCard } from "../components/Cards";
-import { TextArea } from "../components/Inputs";
+import { FullScreen } from "../components/minicomponents/Containers";
+import {
+  AppHeader,
+  BodyHeader,
+  ReviewHeader,
+} from "../components/minicomponents/Headers";
+import { Sidebar } from "../components/minicomponents/Sidebar";
+import { Tab } from "../components/minicomponents/Tab";
+import { PrimaryButton } from "../components/minicomponents/Buttons";
+import { BookingCard, OwnerCard } from "../components/minicomponents/Cards";
+import { TextArea } from "../components/minicomponents/Inputs";
 
 export default function Booking() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);

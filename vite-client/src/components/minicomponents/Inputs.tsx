@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { addressLine2, addressLine3 } from "../assets/geography";
+import { addressLine2, addressLine3 } from "../../assets/geography";
 
 type InputProps = {
   type?: string;
