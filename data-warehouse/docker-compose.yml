@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  python1:
+    image: "python:latest"
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+
+  python2:
+    image: "python:latest"
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
