@@ -20,14 +20,19 @@ export default function Settings() {
   };
 
   return (
-    <FullScreen>
-      <AppHeader title="Settings & Management" toggleSidebar={toggleSidebar} />
-      <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
-      <SettingsTab handleClick={handleClick} isSelected={isSelected} />
-      {isSelected === "bookings" && <SetBookings />}
-      {isSelected === "rooms" && <SetRooms />}
-      {isSelected === "general" && <SetGeneral />}
+    <>
+      <FullScreen>
+        <AppHeader
+          title="Settings & Management"
+          toggleSidebar={toggleSidebar}
+        />
+        <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
+        <SettingsTab handleClick={handleClick} isSelected={isSelected} />
+        {isSelected === "bookings" && <SetBookings />}
+        {isSelected === "rooms" && <SetRooms />}
+        {isSelected === "general" && <SetGeneral />}
+      </FullScreen>
       <Tab />
-    </FullScreen>
+    </>
   );
 }
