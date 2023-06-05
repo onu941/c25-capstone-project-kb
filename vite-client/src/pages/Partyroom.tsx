@@ -1,12 +1,16 @@
 import { useState } from "react";
-import { FullScreen } from "../components/Containers";
-import { AppHeader, BodyHeader, FormHeader } from "../components/Header";
-import { Sidebar } from "../components/Sidebar";
-import { Tab } from "../components/Tab";
-import { MiniInput, StandardInput, TextArea } from "../components/Inputs";
-import { FormCarousel } from "../components/Carousels";
-import { OwnerCard, ReviewCard } from "../components/Cards";
-import { BookingButton } from "../components/Buttons";
+import { FullScreen } from "../components/minicomponents/Containers";
+import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
+import { Sidebar } from "../components/minicomponents/Sidebar";
+import { Tab } from "../components/minicomponents/Tab";
+import {
+  MiniInput,
+  StandardInput,
+  TextArea,
+} from "../components/minicomponents/Inputs";
+import { FormCarousel } from "../components/minicomponents/Carousels";
+import { OwnerCard, ReviewCard } from "../components/minicomponents/Cards";
+import { BookingButton } from "../components/minicomponents/Buttons";
 
 type EquipmentField = {
   id: number;

@@ -2,10 +2,9 @@ import {
   ArrowLeftOnRectangleIcon,
   ChatBubbleLeftRightIcon,
   Cog6ToothIcon,
-  UserCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { ClockIcon } from "@heroicons/react/24/outline";
+// import { ClockIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 
 interface SidebarProps {

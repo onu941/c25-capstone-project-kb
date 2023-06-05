@@ -1,26 +1,20 @@
-import { FullScreen } from "../components/Containers";
-import { AppHeader, FormHeader } from "../components/Header";
+import { FullScreen } from "../components/minicomponents/Containers";
+import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { useCallback, useState } from "react";
-import { MiniInput, StandardInput, TextArea } from "../components/Inputs";
-import { PrimaryButton } from "../components/Buttons";
-import { NewRoomTab, Tab } from "../components/Tab";
-import { Sidebar } from "../components/Sidebar";
-import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
-import {
-  DropzoneInputProps,
-  DropzoneRootProps,
-  useDropzone,
-} from "react-dropzone";
-import { FormCarousel } from "../components/Carousels";
-import { Switch } from "@headlessui/react";
-import { PlusIcon } from "@heroicons/react/20/solid";
+import { PrimaryButton } from "../components/minicomponents/Buttons";
+import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
+import { Sidebar } from "../components/minicomponents/Sidebar";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDropzone } from "react-dropzone";
+import { Part1Form } from "../components/Part1Form";
+import { Part2Form } from "../components/Part2Form";
 
-type EquipmentField = {
+export type EquipmentField = {
   id: number;
   name: string;
 };
 
-type FormState = {
+export type NewRoomFormState = {
   name: string;
   area: number;
   capacity: number;
@@ -30,23 +24,6 @@ type FormState = {
   equipment: EquipmentField[];
   description: string;
 };
-
-interface Form1Props {
-  register: UseFormRegister<FormState>;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  equipmentFields: EquipmentField[];
-  handleDelete: (id: number) => void;
-  handleAddMore: () => void;
-}
-
-interface Form2Props {
-  isSelected?: string;
-  getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
-  getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
-  isDragActive?: boolean;
-  enabled?: boolean;
-  setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 export default function NewRoom() {
   const [isSelected, setIsSelected] = useState<string>("basics");
@@ -59,6 +36,10 @@ export default function NewRoom() {
     { id: 3, name: "Equipment 3" },
   ]);
 
+  const toggleSidebar = () => {
+    setSidebarIsOpen(!sidebarIsOpen);
+  };
+
   const handleClick = (string: string) => {
     return setIsSelected(string);
   };
@@ -68,7 +49,6 @@ export default function NewRoom() {
       ? setPartyroomName("Submit Your Partyroom")
       : setPartyroomName(e.target.value);
   };
-
   const handleAddMore = () => {
     const newId = equipmentFields.length + 1;
     setEquipmentFields((prev) => [
@@ -76,23 +56,16 @@ export default function NewRoom() {
       { id: newId, name: `Equipment ${newId}` },
     ]);
   };
-
   const handleDelete = (id: number) => {
     setEquipmentFields((prev) => prev.filter((field) => field.id !== id));
   };
 
   const onDrop = useCallback((_acceptedFiles: any) => {}, []);
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const { register, handleSubmit } = useForm<FormState>();
-
-  const onSubmit: SubmitHandler<FormState> = (data) => {
+  const { register, handleSubmit } = useForm<NewRoomFormState>();
+  const onSubmit: SubmitHandler<NewRoomFormState> = (data) => {
     console.log(data);
-  };
-
-  const toggleSidebar = () => {
-    setSidebarIsOpen(!sidebarIsOpen);
   };
 
   return (
@@ -118,6 +91,13 @@ export default function NewRoom() {
               enabled={enabled}
               isDragActive={isDragActive}
             />
+          </div>
+          <div
+            className={`${
+              enabled && isSelected === "photoconfirm" ? "" : "hidden"
+            } flex justify-start`}
+          >
+            <FormHeader title="Confirm your partyroom:" />
           </div>
           {/* part 1 form */}
           <div
@@ -162,127 +142,6 @@ export default function NewRoom() {
         </form>
       </FullScreen>
       <Tab />
-    </>
-  );
-}
-
-export function Part2Form(props: Form2Props) {
-  return (
-    <div className={`${props.isSelected === "basics" ? "hidden" : ""}`}>
-      <div
-        className="px-10 py-12 rounded-xl border-dashed border-2 border-slate-500 text-lg text-justify mb-8"
-        {...props.getRootProps()}
-      >
-        <input {...props.getInputProps()} />
-        {props.isDragActive ? (
-          <p>Drop the files here</p>
-        ) : (
-          <div className="flex flex-col place-content-center place-items-center text-slate-300">
-            <PlusIcon className="h-40 w-40 mb-3" />
-            Upload some photos
-          </div>
-        )}
-      </div>
-
-      <p className="text-center mb-8 text-xl">Image Preview here</p>
-      <FormCarousel />
-
-      <div className="columns-2 flex place-content-center place-items-center gap-5 mb-8">
-        <div>
-          <p className="text-slate-300 text-md">I'm done uploading!</p>
-        </div>
-        <div>
-          <Switch
-            checked={props.enabled}
-            onChange={props.setEnabled}
-            className={`${props.enabled ? "bg-pink-500" : "bg-pink-800"}
-      relative inline-flex h-[29px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors shadow-lg duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-          >
-            <span className="sr-only">Use setting</span>
-            <span
-              aria-hidden="true"
-              className={`${props.enabled ? "translate-x-6" : "translate-x-0"}
-        pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export function Part1Form(props: Form1Props) {
-  return (
-    <>
-      <StandardInput
-        type="text"
-        placeholder="name your partyroom"
-        register={props.register("name")}
-        onChange={props.handleInputChange}
-      />
-      <div className="flex flex-row w-full justify-between">
-        <MiniInput
-          type="text"
-          placeholder="area"
-          register={props.register("area")}
-        />
-        <MiniInput
-          type="text"
-          placeholder="capacity"
-          register={props.register("capacity")}
-        />
-      </div>
-      <FormHeader title="Address: " />
-      <StandardInput
-        placeholder="line 1"
-        type="text"
-        register={props.register("address_1")}
-      />
-      <StandardInput
-        placeholder="line 2"
-        type="text"
-        register={props.register("address_2")}
-      />
-      <StandardInput
-        placeholder="line 3"
-        type="text"
-        register={props.register("address_3")}
-      />
-      <div className="text-3xl flex justify-center my-6">Hashtags TBD</div>
-      <FormHeader title="Facilities (min. 3)" />
-      {props.equipmentFields.map((field) =>
-        field.id <= 3 ? (
-          <StandardInput
-            key={field.id}
-            placeholder={`equipment ${field.id}`}
-            type="text"
-            register={props.register(`equipment.${field.id - 1}.name` as const)}
-            name={`equipment.${field.id - 1}.name`}
-          />
-        ) : (
-          <StandardInput
-            key={field.id}
-            placeholder={`equipment ${field.id}`}
-            type="text"
-            register={props.register(`equipment.${field.id - 1}.name` as const)}
-            name={`equipment.${field.id - 1}.name`}
-            onDelete={() => props.handleDelete(field.id)}
-            canDelete
-          />
-        )
-      )}
-      <div className="w-full flex place-content-center mt-5">
-        <PrimaryButton
-          type="button"
-          onClick={props.handleAddMore}
-          label="Add More"
-        />
-      </div>
-      <FormHeader title="Tell us a little more about your partyroom:" />
-      <TextArea
-        placeholder="Max 150 characters"
-        register={props.register("description")}
-      />
     </>
   );
 }
