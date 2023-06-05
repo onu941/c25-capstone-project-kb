@@ -195,8 +195,8 @@ export function Part2Form(props: Form2Props) {
           <Switch
             checked={props.enabled}
             onChange={props.setEnabled}
-            className={`${props.enabled ? " bg-pink-500" : "bg-pink-800"}
-      relative inline-flex h-[29px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+            className={`${props.enabled ? "bg-pink-500" : "bg-pink-800"}
+      relative inline-flex h-[29px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors shadow-lg duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
           >
             <span className="sr-only">Use setting</span>
             <span
