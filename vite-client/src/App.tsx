@@ -11,6 +11,8 @@ import { Chats } from "./pages/Chats";
 import Example from "./components/ComboboxDemo";
 import NewRoom2 from "./pages/NewRoom2";
 import Settings from "./pages/Settings";
+import Booking from "./pages/Booking";
+import Partyroom from "./pages/Partyroom";
 
 // function isLoggedIn() {
 //   return true;
@@ -37,6 +39,8 @@ function App() {
           <Route path="/chats" element={<Chats />} />
           <Route path="/example" element={<Example />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/partyroom" element={<Partyroom />} />
           <Route path="/" element={<Navigate to="/landing" replace />} />
         </Routes>
       </FullScreen>
