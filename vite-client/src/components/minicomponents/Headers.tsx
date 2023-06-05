@@ -1,4 +1,5 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
+import { Link } from "react-router-dom";
 
 interface HeaderProps {
   title?: string;
@@ -9,9 +10,11 @@ interface HeaderProps {
 export function AppHeader(props: HeaderProps) {
   return (
     <div className="header px-4 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
-      <div>{props.title}</div>
+      <Link to="/">
+        <div>{props.title}</div>
+      </Link>
       <button onClick={props.toggleSidebar}>
-        <UserCircleIcon className="h-9 w-9 text-slate-300"></UserCircleIcon>
+        <UserCircleIcon className="h-9 w-9 text-slate-300 drop-shadow-lg"></UserCircleIcon>
       </button>
     </div>
   );

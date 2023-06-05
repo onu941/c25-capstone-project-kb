@@ -1,4 +1,4 @@
-import seulgi from "../assets/seulgi_shoulder.png";
+import seulgi from "../../assets/seulgi_shoulder.png";
 
 export function LandingCarousel() {
   return (
