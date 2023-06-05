@@ -10,6 +10,7 @@ import { Tab } from "../components/minicomponents/Tab";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { BookingCard, OwnerCard } from "../components/minicomponents/Cards";
 import { TextArea } from "../components/minicomponents/Inputs";
+import { Link } from "react-router-dom";
 
 export default function Booking() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -44,7 +45,9 @@ export default function Booking() {
         </div>
         <OwnerCard name="Partyroom Owner" />
         <div className="mt-8">
-          <PrimaryButton isCentered label="Go to Partyroom" />
+          <Link to="/partyroom">
+            <PrimaryButton isCentered label="Go to Partyroom" />
+          </Link>
         </div>
         <ReviewHeader />
         <div className="flex w-full place-content-center px-8 mb-10">
