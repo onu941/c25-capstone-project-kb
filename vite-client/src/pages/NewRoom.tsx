@@ -27,7 +27,7 @@ export type NewRoomFormState = {
 
 export default function NewRoom() {
   const [isSelected, setIsSelected] = useState<string>("basics");
-  const [enabled, setEnabled] = useState(false);
+  const [switchEnabled, setSwitchEnabled] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [partyroomName, setPartyroomName] = useState("Submit Your Partyroom");
   const [equipmentFields, setEquipmentFields] = useState<EquipmentField[]>([
@@ -49,6 +49,7 @@ export default function NewRoom() {
       ? setPartyroomName("Submit Your Partyroom")
       : setPartyroomName(e.target.value);
   };
+
   const handleAddMore = () => {
     const newId = equipmentFields.length + 1;
     setEquipmentFields((prev) => [
@@ -56,8 +57,13 @@ export default function NewRoom() {
       { id: newId, name: `Equipment ${newId}` },
     ]);
   };
+
   const handleDelete = (id: number) => {
     setEquipmentFields((prev) => prev.filter((field) => field.id !== id));
+  };
+
+  const handleReset = () => {
+    console.log("you clicked a reset button");
   };
 
   const onDrop = useCallback((_acceptedFiles: any) => {}, []);
@@ -87,14 +93,14 @@ export default function NewRoom() {
             <Part2Form
               getRootProps={getRootProps}
               getInputProps={getInputProps}
-              setEnabled={setEnabled}
-              enabled={enabled}
+              setSwitchEnabled={setSwitchEnabled}
+              switchEnabled={switchEnabled}
               isDragActive={isDragActive}
             />
           </div>
           <div
             className={`${
-              enabled && isSelected === "photoconfirm" ? "" : "hidden"
+              switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
             } flex justify-start`}
           >
             <FormHeader title="Confirm your partyroom:" />
@@ -103,7 +109,7 @@ export default function NewRoom() {
           <div
             className={`${
               isSelected === "basics" ||
-              (enabled && isSelected === "photoconfirm")
+              (switchEnabled && isSelected === "photoconfirm")
                 ? ""
                 : "hidden"
             }`}
@@ -131,13 +137,29 @@ export default function NewRoom() {
           {/* submit button */}
           <div
             className={`${
-              enabled && isSelected === "photoconfirm" ? "" : "hidden"
-            } my-12 flex justify-center`}
+              switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
+            } my-12 flex flex-wrap justify-center columns-3 gap-5`}
           >
-            <PrimaryButton
-              label="Submit Your Room!"
-              type="submit"
-            ></PrimaryButton>
+            <div>
+              <PrimaryButton
+                label="Back"
+                type="button"
+                onClick={() => setIsSelected("basics")}
+              />
+            </div>
+            <div>
+              <PrimaryButton
+                label="Reset Progress"
+                type="button"
+                onClick={() => handleReset()}
+              />
+            </div>
+            <div>
+              <PrimaryButton
+                label="Submit Your Room! (danger?)"
+                type="submit"
+              />
+            </div>
           </div>
         </form>
       </FullScreen>

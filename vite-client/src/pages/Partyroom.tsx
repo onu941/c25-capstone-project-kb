@@ -17,16 +17,47 @@ type EquipmentField = {
   name: string;
 };
 
+type Review = {
+  id: number;
+  score: number;
+  name: string;
+  content: string;
+};
+
 export default function Partyroom() {
+  const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const [partyroomName, setPartyroomName] = useState(
-    "name fetched from postgres via knex query"
-  );
-  const [equipmentFields, setEquipmentFields] = useState<EquipmentField[]>([
+  const partyroomName = "name fetched from postgres via knex query";
+  const equipment: EquipmentField[] = [
     { id: 1, name: "Equipment 1" },
     { id: 2, name: "Equipment 2" },
     { id: 3, name: "Equipment 3" },
-  ]);
+  ];
+
+  const reviews: Review[] = [
+    {
+      id: 1,
+      score: 9,
+      name: "Reviewer Name",
+      content: "Excellent thanks!",
+    },
+    {
+      id: 2,
+      score: 9,
+      name: "Reviewer Name",
+      content: "Excellent thanks!",
+    },
+    {
+      id: 3,
+      score: 9,
+      name: "Reviewer Name",
+      content: "Excellent thanks!",
+    },
+  ];
+
+  const toggleBookingModal = () => {
+    setBookingModalIsOpen(!bookingModalIsOpen);
+  };
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -62,46 +93,27 @@ export default function Partyroom() {
         <BodyHeader title="Facilities" />
         <div className="flex flex-col place-items-center place-content-center">
           <div className="w-11/12">
-            {equipmentFields.map((field) =>
-              field.id <= 3 ? (
-                <StandardInput
-                  key={field.id}
-                  value={`equipment ${field.id}`}
-                  type="text"
-                  name={`equipment.${field.id - 1}.name`}
-                  isDisabled
-                  isReadOnly
-                />
-              ) : (
-                <StandardInput
-                  key={field.id}
-                  value={`equipment ${field.id}`}
-                  type="text"
-                  name={`equipment.${field.id - 1}.name`}
-                  isDisabled
-                  isReadOnly
-                />
-              )
-            )}
+            {equipment.map((item) => (
+              <StandardInput
+                key={item.id}
+                value={`equipment ${item.id}`}
+                type="text"
+                name={`equipment.${item.id - 1}.name`}
+                isDisabled
+                isReadOnly
+              />
+            ))}
           </div>
         </div>
         <BodyHeader title="Reviews" />
         <div className="mb-24">
-          <ReviewCard
-            score={9}
-            name="Reviewer Name"
-            content="Excellent thanks!"
-          />
-          <ReviewCard
-            score={9}
-            name="Reviewer Name"
-            content="Excellent thanks!"
-          />
-          <ReviewCard
-            score={9}
-            name="Reviewer Name"
-            content="Excellent thanks!"
-          />
+          {reviews.map((review) => (
+            <ReviewCard
+              score={review.score}
+              name={review.name}
+              content={review.content}
+            />
+          ))}
         </div>
       </FullScreen>
       <Tab />
