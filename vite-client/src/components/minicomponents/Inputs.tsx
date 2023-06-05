@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { addressLine2, addressLine3 } from "../assets/geography";
+import { addressLine2, addressLine3 } from "../../assets/geography";
 
 type InputProps = {
   type?: string;
@@ -20,6 +20,8 @@ type InputProps = {
   canEdit?: boolean;
   canDelete?: boolean;
   className?: string;
+  isDisabled?: boolean;
+  isReadOnly?: boolean;
 };
 
 export function AddressLine2(props: InputProps) {
@@ -67,10 +69,14 @@ export function StandardInput(props: InputProps) {
         <input
           placeholder={props.placeholder}
           type={props.type}
-          className="dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg"
+          className={`${
+            props.isReadOnly ? "readonly" : ""
+          }dark:text-black text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg`}
           {...props.register}
           onChange={props.onChange}
           value={props.value}
+          disabled={props.isDisabled}
+          readOnly={props.isReadOnly}
         ></input>
       </div>
       {props.canEdit ? (
@@ -98,9 +104,14 @@ export function MiniInput(props: InputProps) {
     <input
       placeholder={props.placeholder}
       type={props.type}
-      className="dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-32"
+      className={`${
+        props.isReadOnly ? "readonly" : ""
+      } text-black dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-32`}
       {...props.register}
       onChange={props.onChange}
+      value={props.value}
+      readOnly={props.isReadOnly}
+      disabled={props.isDisabled}
     ></input>
   );
 }
@@ -108,10 +119,15 @@ export function MiniInput(props: InputProps) {
 export function TextArea(props: InputProps) {
   return (
     <textarea
-      className="dark:bg-slate-200 dark:text-black rounded-lg h-32 w-full"
+      className={`${
+        props.isReadOnly ? "readonly" : ""
+      }dark:bg-slate-200 dark:text-black rounded-lg h-32 w-full`}
       placeholder={props.placeholder}
       maxLength={150}
       value={props.value}
+      {...props.register}
+      disabled={props.isDisabled}
+      readOnly={props.isReadOnly}
     ></textarea>
   );
 }

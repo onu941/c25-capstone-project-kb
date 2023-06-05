@@ -1,18 +1,16 @@
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
-import { FormEvent, useState } from "react";
-import { FullScreenInitial } from "../components/Containers";
-import { PrimaryButton } from "../components/Buttons";
-import { Link } from "react-router-dom";
+import { FormEvent } from "react";
+import { PrimaryButton } from "./minicomponents/Buttons";
+import { FullScreenInitial } from "./minicomponents/Containers";
 
-export default function Login() {
-  const [phoneNo, setPhoneNo] = useState(NaN);
-  const [password, setPassword] = useState("");
+export interface LoginProps {
+  setPhoneNo: React.Dispatch<React.SetStateAction<number>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onLoginSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log({ phone: phoneNo, password: password });
-  };
-
+export function Login(props: LoginProps) {
   return (
     <FullScreenInitial>
       <button
@@ -22,7 +20,7 @@ export default function Login() {
         Existing User
       </button>
       <form
-        onSubmit={onSubmit}
+        onSubmit={props.onLoginSubmit}
         className="flex flex-col place-content-center place-items-center mb-20"
       >
         <input
@@ -30,22 +28,23 @@ export default function Login() {
           name="phone_no"
           type="tel"
           placeholder="enter phone #"
-          onChange={(e) => setPhoneNo(parseInt(e.target.value))}
+          onChange={(e) => props.setPhoneNo(parseInt(e.target.value))}
         ></input>
         <input
           className="text-black px-2 py-2 rounded-lg mb-8"
           name="password"
           type="password"
           placeholder="enter password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => props.setPassword(e.target.value)}
         ></input>
         <button type="submit">
           <ArrowRightCircleIcon className="h-14 w-14"></ArrowRightCircleIcon>
         </button>
       </form>
-      <Link to="/handle_user">
-        <PrimaryButton label="Back"></PrimaryButton>
-      </Link>
+      <PrimaryButton
+        label="Back"
+        onClick={() => props.setPage("initial")}
+      ></PrimaryButton>
     </FullScreenInitial>
   );
 }
