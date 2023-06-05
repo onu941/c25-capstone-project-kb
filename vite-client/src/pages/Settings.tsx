@@ -6,6 +6,7 @@ import { BookingCard, PartyroomCard } from "../components/Cards";
 import { Sidebar } from "../components/Sidebar";
 import { StandardInput } from "../components/Inputs";
 import { PrimaryButton } from "../components/Buttons";
+import { Link } from "react-router-dom";
 
 export default function Settings() {
   const [isSelected, setIsSelected] = useState<string>("bookings");
@@ -33,25 +34,30 @@ export default function Settings() {
 }
 
 export function SetBookings() {
+  // you will use a map fn later on, the current Array.from method is just a placeholder
   const numBookings = 5; // change as needed
   const bookings = Array.from({ length: numBookings }, (_, i) => (
-    <BookingCard
-      key={i}
-      date={25}
-      month={"May"}
-      year={2023}
-      name={`Greatest Partyroom ${i + 1}`}
-      time={"19:00"}
-      pax={10}
-      address={"18 Tung Chung Waterfront Rd"}
-    />
+    <Link to="/booking">
+      <BookingCard
+        key={i}
+        date={25}
+        month={"May"}
+        year={2023}
+        name={`Greatest Partyroom ${i + 1}`}
+        time={"19:00"}
+        pax={10}
+        address={"18 Tung Chung Waterfront Rd"}
+      />
+    </Link>
   ));
   return <FullScreen>{bookings}</FullScreen>;
 }
 export function SetRooms() {
   return (
     <FullScreen>
-      <PartyroomCard name="Partyroom Name" address="Address" />
+      <Link to="/partyroom">
+        <PartyroomCard name="Partyroom Name" address="Address" />
+      </Link>
     </FullScreen>
   );
 }

@@ -37,3 +37,16 @@ export function SettingsTabButton(props: SettingsTabButtonProps) {
     </button>
   );
 }
+
+export function BookingButton() {
+  return (
+    <div className="absolute bottom-36 right-4 z-50 drop-shadow-lg">
+      <button className="dark:bg-slate-400 w-28 h-28 rounded-full border-solid border-4 border-slate-300">
+        <div className="flex flex-col text-xl">
+          <div>BOOK</div>
+          <div> NOW</div>
+        </div>
+      </button>
+    </div>
+  );
+}
