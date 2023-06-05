@@ -19,6 +19,7 @@ type InputProps = {
   onDelete?: () => void;
   canEdit?: boolean;
   canDelete?: boolean;
+  className?: string;
 };
 
 export function AddressLine2(props: InputProps) {
@@ -110,6 +111,7 @@ export function TextArea(props: InputProps) {
       className="dark:bg-slate-200 dark:text-black rounded-lg h-32 w-full"
       placeholder={props.placeholder}
       maxLength={150}
+      value={props.value}
     ></textarea>
   );
 }
