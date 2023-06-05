@@ -1,6 +1,6 @@
 import { FullScreen } from "../components/minicomponents/Containers";
 import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef } from "react";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
@@ -36,6 +36,8 @@ export default function NewRoom() {
     { id: 3, name: "Equipment 3" },
   ]);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
@@ -62,8 +64,13 @@ export default function NewRoom() {
     setEquipmentFields((prev) => prev.filter((field) => field.id !== id));
   };
 
+  const handleBack = () => {
+    setIsSelected("basics");
+  };
+
   const handleReset = () => {
-    console.log("you clicked a reset button");
+    setIsSelected("basics");
+    formRef.current?.reset();
   };
 
   const onDrop = useCallback((_acceptedFiles: any) => {}, []);
@@ -87,6 +94,7 @@ export default function NewRoom() {
         <form
           className="flex mt-6 flex-col w-full px-8 mb-12"
           onSubmit={handleSubmit((v) => onSubmit(v))}
+          ref={formRef}
         >
           {/* part 2 form */}
           <div className={`${isSelected === "basics" ? "hidden" : ""}`}>
@@ -144,12 +152,12 @@ export default function NewRoom() {
               <PrimaryButton
                 label="Back"
                 type="button"
-                onClick={() => setIsSelected("basics")}
+                onClick={() => handleBack()}
               />
             </div>
             <div>
               <PrimaryButton
-                label="Reset Progress"
+                label="Reset"
                 type="button"
                 onClick={() => handleReset()}
               />
