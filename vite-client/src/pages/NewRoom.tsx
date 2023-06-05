@@ -1,29 +1,17 @@
 import { FullScreen } from "../components/Containers";
 import { AppHeader, FormHeader } from "../components/Header";
-import {
-  ChangeEvent,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { useCallback, useState } from "react";
 import { MiniInput, StandardInput, TextArea } from "../components/Inputs";
 import { PrimaryButton } from "../components/Buttons";
-import { NewRoomTab, SettingsTab, Tab } from "../components/Tab";
+import { NewRoomTab, Tab } from "../components/Tab";
 import { Sidebar } from "../components/Sidebar";
-import {
-  RegisterOptions,
-  SubmitHandler,
-  UseFormRegister,
-  UseFormRegisterReturn,
-  useForm,
-} from "react-hook-form";
+import { SubmitHandler, UseFormRegister, useForm } from "react-hook-form";
 import {
   DropzoneInputProps,
   DropzoneRootProps,
   useDropzone,
 } from "react-dropzone";
-import { FormCarousel, LandingCarousel } from "../components/Carousels";
+import { FormCarousel } from "../components/Carousels";
 import { Switch } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/20/solid";
 
@@ -121,14 +109,17 @@ export default function NewRoom() {
           className="flex mt-6 flex-col w-full px-8 mb-12"
           onSubmit={handleSubmit((v) => onSubmit(v))}
         >
+          {/* part 2 form */}
           <div className={`${isSelected === "basics" ? "hidden" : ""}`}>
             <Part2Form
               getRootProps={getRootProps}
               getInputProps={getInputProps}
               setEnabled={setEnabled}
               enabled={enabled}
+              isDragActive={isDragActive}
             />
           </div>
+          {/* part 1 form */}
           <div
             className={`${
               isSelected === "basics" ||
@@ -144,8 +135,30 @@ export default function NewRoom() {
               handleDelete={handleDelete}
               handleAddMore={handleAddMore}
             />
+            {/* next button */}
+            <div
+              className={`${
+                isSelected === "basics" ? "" : "hidden"
+              } flex justify-center my-12`}
+            >
+              <PrimaryButton
+                type="button"
+                label="Next"
+                onClick={() => setIsSelected("photoconfirm")}
+              />
+            </div>
           </div>
-          <PrimaryButton label="submit" type="submit"></PrimaryButton>
+          {/* submit button */}
+          <div
+            className={`${
+              enabled && isSelected === "photoconfirm" ? "" : "hidden"
+            } my-12 flex justify-center`}
+          >
+            <PrimaryButton
+              label="Submit Your Room!"
+              type="submit"
+            ></PrimaryButton>
+          </div>
         </form>
       </FullScreen>
       <Tab />
@@ -181,8 +194,7 @@ export function Part2Form(props: Form2Props) {
         <div>
           <Switch
             checked={props.enabled}
-            // onClick={() => props.setEnabled(!props.enabled)}
-            onChange={(value) => props.setEnabled(value)}
+            onChange={props.setEnabled}
             className={`${props.enabled ? " bg-pink-500" : "bg-pink-800"}
       relative inline-flex h-[29px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
           >
@@ -225,8 +237,6 @@ export function Part1Form(props: Form1Props) {
         placeholder="line 1"
         type="text"
         register={props.register("address_1")}
-        canEdit={false}
-        canDelete={false}
       />
       <StandardInput
         placeholder="line 2"

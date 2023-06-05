@@ -30,32 +30,35 @@ export default function Landing() {
         ></AppHeader>
         <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
         <BodyHeader title="Your next booking:"></BodyHeader>
-        <BookingCard
-          date={25}
-          month="MAY"
-          year={2023}
-          name="Partyroom Name"
-          time="19:00"
-          pax={8}
-          address="東涌海濱道18號"
-        ></BookingCard>
+        <Link to="/booking">
+          <BookingCard
+            date={25}
+            month="MAY"
+            year={2023}
+            name="Partyroom Name"
+            time="19:00"
+            pax={8}
+            address="東涌海濱道18號"
+          ></BookingCard>
+        </Link>
         <div className="w-full mb-12 flex px-12 justify-between">
           <CalendarIcon className="h-8 w-8 text-slate-300" />
           <ShareIcon className="h-8 w-8 text-slate-300" />
           <ChatBubbleLeftEllipsisIcon className="h-8 w-8 text-slate-300" />
         </div>
         <hr className="mx-8 mb-5 border-slate-500"></hr>
-
         <BodyHeader title="Your room is booked!"></BodyHeader>
-        <BookingCard
-          date={25}
-          month="MAY"
-          year={2023}
-          name="Partyroom Name"
-          time="19:00"
-          pax={8}
-          address="東涌海濱道18號"
-        ></BookingCard>
+        <Link to="/booking">
+          <BookingCard
+            date={25}
+            month="MAY"
+            year={2023}
+            name="Partyroom Name"
+            time="19:00"
+            pax={8}
+            address="東涌海濱道18號"
+          ></BookingCard>
+        </Link>
         <div className="w-full mb-12 flex px-12 justify-between">
           <CalendarIcon className="h-8 w-8 text-slate-300" />
           <ShareIcon className="h-8 w-8 text-slate-300" />
