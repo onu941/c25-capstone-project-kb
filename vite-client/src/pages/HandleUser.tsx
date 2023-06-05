@@ -24,23 +24,23 @@ export default function HandleUser() {
 
   return (
     <FullScreenInitial>
-      {page === "initial" ? <InitialLanding setPage={setPage} /> : null}
-      {page === "login" ? (
+      {page === "initial" && <InitialLanding setPage={setPage} />}
+      {page === "login" && (
         <Login
           setPassword={setPassword}
           setPhoneNo={setPhoneNo}
           onLoginSubmit={onLoginSubmit}
           setPage={setPage}
         />
-      ) : null}
-      {page === "signup" ? (
+      )}
+      {page === "signup" && (
         <Signup
           register={register}
           handleSubmit={handleSubmit}
           onSignupSubmit={onSignupSubmit}
           setPage={setPage}
         />
-      ) : null}
+      )}
     </FullScreenInitial>
   );
 }

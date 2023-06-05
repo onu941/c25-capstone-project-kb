@@ -11,6 +11,7 @@ import {
 import { FormCarousel } from "../components/minicomponents/Carousels";
 import { OwnerCard, ReviewCard } from "../components/minicomponents/Cards";
 import { BookingButton } from "../components/minicomponents/Buttons";
+import { BookingModal } from "../components/minicomponents/Modals";
 
 type EquipmentField = {
   id: number;
@@ -25,8 +26,8 @@ type Review = {
 };
 
 export default function Partyroom() {
-  const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
   const partyroomName = "name fetched from postgres via knex query";
   const equipment: EquipmentField[] = [
     { id: 1, name: "Equipment 1" },
@@ -55,16 +56,23 @@ export default function Partyroom() {
     },
   ];
 
-  const toggleBookingModal = () => {
-    setBookingModalIsOpen(!bookingModalIsOpen);
-  };
-
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
+
+  const toggleBookingModal = () => {
+    console.log("modal button clicked");
+    setBookingModalIsOpen(!bookingModalIsOpen);
+  };
+
   return (
     <>
-      <BookingButton />
+      <BookingButton
+        type="button"
+        label="BOOK NOW"
+        onClick={toggleBookingModal}
+      />
+      {bookingModalIsOpen && <BookingModal toggleModal={toggleBookingModal} />}
       <FullScreen>
         <AppHeader
           isOpen={sidebarIsOpen}

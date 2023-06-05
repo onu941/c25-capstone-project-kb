@@ -24,9 +24,9 @@ export default function Settings() {
       <AppHeader title="Settings & Management" toggleSidebar={toggleSidebar} />
       <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
       <SettingsTab handleClick={handleClick} isSelected={isSelected} />
-      {isSelected === "bookings" ? <SetBookings /> : null}
-      {isSelected === "rooms" ? <SetRooms /> : null}
-      {isSelected === "general" ? <SetGeneral /> : null}
+      {isSelected === "bookings" && <SetBookings />}
+      {isSelected === "rooms" && <SetRooms />}
+      {isSelected === "general" && <SetGeneral />}
       <Tab />
     </FullScreen>
   );
