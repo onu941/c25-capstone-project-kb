@@ -16,7 +16,35 @@ export function PrimaryButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 dark:bg-slate-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg"
+        className="py-2 px-4 dark:bg-slate-700 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400"
+        onClick={props.onClick}
+      >
+        {props.label}
+      </button>
+    </div>
+  );
+}
+
+export function DangerButton(props: ButtonProps) {
+  return (
+    <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
+      <button
+        type={props.type}
+        className="py-2 px-4 bg-pink-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400"
+        onClick={props.onClick}
+      >
+        {props.label}
+      </button>
+    </div>
+  );
+}
+
+export function SubmitButton(props: ButtonProps) {
+  return (
+    <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
+      <button
+        type={props.type}
+        className="py-2 px-4 bg-emerald-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400"
         onClick={props.onClick}
       >
         {props.label}

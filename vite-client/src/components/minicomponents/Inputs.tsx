@@ -24,40 +24,6 @@ type InputProps = {
   isReadOnly?: boolean;
 };
 
-export function AddressLine2(props: InputProps) {
-  return (
-    <>
-      <select
-        className="rounded-lg w-full dark:bg-slate-200 dark:text-gray-500 mb-6 text-center"
-        placeholder="Pick your district"
-      >
-        <option disabled selected>
-          line 2
-        </option>
-        {addressLine2.map((line) => {
-          return <option>{line}</option>;
-        })}
-      </select>
-    </>
-  );
-}
-
-export function AddressLine3() {
-  return (
-    <select
-      className="rounded-lg w-full dark:bg-slate-200 dark:text-gray-500 mb-6 flex text-center"
-      placeholder="Pick your district"
-    >
-      <option disabled selected>
-        line 3
-      </option>
-      {addressLine3.map((line) => {
-        return <option>{line}</option>;
-      })}
-    </select>
-  );
-}
-
 export function StandardInput(props: InputProps) {
   return (
     <div
@@ -71,7 +37,7 @@ export function StandardInput(props: InputProps) {
           type={props.type}
           className={`${
             props.isReadOnly ? "readonly" : ""
-          }dark:text-black text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg`}
+          }dark:text-black text-black dark:bg-slate-300 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg`}
           {...props.register}
           onChange={props.onChange}
           value={props.value}
@@ -106,7 +72,7 @@ export function MiniInput(props: InputProps) {
       type={props.type}
       className={`${
         props.isReadOnly ? "readonly" : ""
-      } text-black dark:text-black dark:bg-slate-200 p-2 rounded-lg mb-5 text-center w-32`}
+      } text-black dark:text-black dark:bg-slate-300 p-2 rounded-lg mb-5 text-center w-32`}
       {...props.register}
       onChange={props.onChange}
       value={props.value}
@@ -121,7 +87,7 @@ export function TextArea(props: InputProps) {
     <textarea
       className={`${
         props.isReadOnly ? "readonly" : ""
-      }dark:bg-slate-200 dark:text-black rounded-lg h-32 w-full`}
+      }dark:bg-slate-300 dark:text-black rounded-lg h-32 w-full`}
       placeholder={props.placeholder}
       maxLength={150}
       value={props.value}

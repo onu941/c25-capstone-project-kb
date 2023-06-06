@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { PrimaryButton } from "./minicomponents/Buttons";
+import { DangerButton, PrimaryButton } from "./minicomponents/Buttons";
 import { FullScreen } from "./minicomponents/Containers";
 import { StandardInput } from "./minicomponents/Inputs";
 
 export function SetGeneral() {
   return (
-    <FullScreen>
+    <>
       <div className="w-full flex flex-col place-content-center place-items-center">
         <div className="dark:bg-slate-500 p-8 rounded-lg w-11/12 flex flex-col place-content-center mb-16">
           <span className="text-xl mb-8 font-semibold">Edit Account Info</span>
@@ -18,16 +18,16 @@ export function SetGeneral() {
           <span className="text-xl mb-12 font-semibold">Account Help</span>
           <div className="px-32 flex flex-col place-items-center">
             <PrimaryButton label="User Support" />
-            <PrimaryButton label="Deactivate Account (Needs danger)" />
+            <DangerButton label="Deactivate Account" />
           </div>
         </div>
       </div>
       <div className="mb-24 flex justify-center">
         <Link to="/handle_user">
-          <PrimaryButton label="Logout (needs other colour)" />
+          <DangerButton label="Logout" />
         </Link>
       </div>
-    </FullScreen>
+    </>
   );
 }
 188;

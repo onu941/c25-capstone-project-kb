@@ -7,16 +7,18 @@ export function SetBookings() {
   const numBookings = 5; // change as needed
   const bookings = Array.from({ length: numBookings }, (_, i) => (
     <Link to="/booking">
-      <BookingCard
-        key={i}
-        date={25}
-        month={"May"}
-        year={2023}
-        name={`Greatest Partyroom ${i + 1}`}
-        time={"19:00"}
-        pax={10}
-        address={"18 Tung Chung Waterfront Rd"}
-      />
+      <div className="my-4">
+        <BookingCard
+          key={i}
+          date={25}
+          month={"May"}
+          year={2023}
+          name={`Greatest Partyroom ${i + 1}`}
+          time={"19:00"}
+          pax={10}
+          address={"18 Tung Chung Waterfront Rd"}
+        />
+      </div>
     </Link>
   ));
   return <FullScreen>{bookings}</FullScreen>;
