@@ -1,4 +1,3 @@
-ADDED
 users
 ----
 id integer PK
@@ -11,7 +10,6 @@ is_admin boolean
 created_at datetime
 updated_at datetime
 
-ADDED
 partyroom
 ---------
 id integer PK
@@ -26,52 +24,44 @@ is_hidden boolean
 created_at datetime
 updated_at datetime
 
-ADDED
 partyroom_image
 --------------
 id integer PK
 partyroom_id integer FK >0- partyroom.id
 image_id integer FK >0- image.id
 
-ADDED
 image
 -----
 id integer PK
 filename varchar(255)
 
-ADDED
 district
 ----
 id integer PK
 name varchar(32)
 
-ADDED
 partyroom_category
 --------
 id integer PK
 partyroom_id FK >0- partyroom.id
 category_id FK >0- category.id
 
-ADDED
 category
 --------
 id integer PK
 name varchar(32)
 
-ADDED
 partyroom_equipment
 ---------
 id integer PK
 partyroom_id FK >0- partyroom.id
 equipment_id FK >0- equipment.id
 
-ADDED
 equipment
 ---------
 id integer PK
 name varchar(32)
 
-ADDED
 partyroom_price_list
 ---------
 id integer PK
@@ -84,7 +74,6 @@ base_room_fee integer
 created_at datetime
 updated_at datetime
 
-ADDED
 booking_info
 -----------
 id integer PK
@@ -101,7 +90,6 @@ status varchar(255)
 created_at datetime
 updated_at datetime
 
-ADDED
 chat
 ----
 id integer PK
@@ -111,7 +99,6 @@ message varchar(500)
 filename varchar(255)
 created_at datetime
 
-ADDED
 review
 -------
 id integer PK
