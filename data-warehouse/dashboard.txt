@@ -1,79 +1,81 @@
-1. party room avg_rating ranking
+1. party room avg_rating ranking (page_2)
 - the avg_rating would be based on the rating from comments and take average.
-- the list would show top 10 ranking of party room, the more comments one would have higher ranking if same score of rating
+- the list would show top 3 ranking of party room, the more comments one would have higher ranking if same score of rating
 
-2. party room rating and booking quantity relationship
+2. party room avg_rating and booking quantity relationship (page 2)
 - x-axis: rating 1 to 5
 - y-axis: booking quantity
 - chart: column chart
 - the graph showed monthly review compare the relationship between rating and booking quantity
 
-3. user comment rating 
+3. party room avg_rating (page 2)
 - x-axis: rating 1 to 5
-- y-axis: total comments
-- chart: pie chart
-- investigate most of the users comment rating to discuss the deviation
+- y-axis: party room
+- chart: column chart
+- investigate the distribution of rating
 
-4. party room capacity and the capacity user usually book 
+4. party room capacity and the capacity user usually book  (page 1)
 - x-axis: party room capacity (1-3;4-6;7-10;11-20;above20)
 - y-axis: booking quantity
 - chart: stacked column chart
 - to investigate the popularity of different capacity size party room
 
-5. district comparison
+5. district comparison (page 1)
 - x-axis: district 
 - y-axis: booking quantity
-- chart: pie chart
-- to show the most popular district in all time and in month
+- z-axis: quantity of party room
+- chart: column chart
+- to show the demand and supply in month and quarter and year
 
-- x-axis: district 
-- y-axis: quantity of party room
-- chart: pie chart
-- to show the competitiveness in district
-
-6. equipment comparison
+6. equipment comparison (page 2)
 - x-axis: equipment
 - y-axis: booking quantity
-- chart: pie chart
-- to investigate the trendy equipments in month
+- z-axis: quantity of party room
+- chart: column chart
+- to show the demand and supply in month and quarter and year
 
-- x-axis: equipment
-- y-axis: quantity of party room
-- chart: pie chart
-- to show the common equipment
-
-7. price comparison per person and per room
-- x-axis: capacity
+7. price comparison per room (page 1)
+- x-axis: party room in district
 - y-axis: price
-- chart: scatter chart
-- the distribution of price range in weekday and holiday
+- chart: box plot chart
+- the distribution of price range in weekday and holiday in month
 
-8. categories comparison
-- x-axis: category
-- y-axis: quantity of booking
+8. categories comparison (page 2)
+- key: category
+- value: quantity of booking
 - chart: pie chart
 - show popular category in month
 
-9. popularity comparison
+9. popularity comparison (page 1)
 - x-axis: view count
-- y-axis: party room
+- y-axis: quantity of booking
 - chart: scatter chart
 - investigate the view count can reflect the popularity
 
-10. session and holiday and month analysis
-- x-axis: session 
-- y-axis: quantity of booking
+- x-axis: month
+- y-axis: view count
+- chart: line chart
+- show the growth of party room view count
+
+10. session and holiday and month analysis (page 2)
+- key: session 
+- value: quantity of booking
 - chart: pie chart
 - which session is more popular
 
-11. report the numbers
+- x-axis: month 
+- y-axis: quantity of booking
+- chart: histogram
+- which session is more popular
+
+11. report the numbers (page 2)
 - a. total party room numbers
 - b. total users
 - c. total total income in market
 - d. total booking in count
 - e. income and booking in count line chart show in month, in quarter and in year
 
-12. specific party room analysis
+12. specific party room analysis (page 1)
 - compare with the market
 - avg, sd
 - a. total booking in count in market and in district
@@ -82,7 +84,7 @@
 - d. view count in market
 - e. total income in market and in district
 - f. line chart in month, quarter and year for income, booking
-- g. rating percentage in each star 
+- g. rating percentage in each star in column chart
 
 
 
