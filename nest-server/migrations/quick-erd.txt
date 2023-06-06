@@ -1,82 +1,124 @@
-user
+ADDED
+users
 ----
 id integer PK
 name varchar(32)
 email varchar(255)
-phone integer
-password varchar(32)
+phone varchar(32)
+password varchar(168)
 image_id FK - image.id
-bio varchar(255)
 is_admin boolean
 created_at datetime
 updated_at datetime
 
-party_room
+ADDED
+partyroom
 ---------
 id integer PK
-name varchar(32)
-host_user_id integer FK >0- user.id
-avg_rating integer
-party_room_image_id integer FK >0- party_room_image.id
+name varchar(128)
+host_id integer FK >0- users.id
 district_id integer FK >0- district.id
 capacity integer
-party_room_category_id integer FK >0- party_room_category.id
-phone integer
+phone varchar(32)
 address varchar(255)
-party_room_equipment_id integer FK >0- party_room_equipment.id
-party_room_price_list_id integer FK >0- party_room_price_list.id
-detail varchar(5000)
+description varchar(5000)
 is_hidden boolean
 created_at datetime
 updated_at datetime
 
-party_room_image
+ADDED
+partyroom_image
 --------------
 id integer PK
-party_room_id integer FK >0- party_room.id
+partyroom_id integer FK >0- partyroom.id
 image_id integer FK >0- image.id
 
+ADDED
 image
 -----
 id integer PK
-file_name varchar(255)
+filename varchar(255)
 
+ADDED
 district
 ----
 id integer PK
 name varchar(32)
 
-party_room_category
+ADDED
+partyroom_category
 --------
 id integer PK
-party_room_id FK >0- party_room.id
+partyroom_id FK >0- partyroom.id
 category_id FK >0- category.id
 
+ADDED
 category
 --------
 id integer PK
 name varchar(32)
 
-party_room_equipment
+ADDED
+partyroom_equipment
 ---------
 id integer PK
-party_room_id FK >0- party_room.id
+partyroom_id FK >0- partyroom.id
 equipment_id FK >0- equipment.id
 
+ADDED
 equipment
 ---------
 id integer PK
 name varchar(32)
 
-party_room_price_list
+ADDED
+partyroom_price_list
 ---------
 id integer PK
-party_room_id FK >0- party_room.id
-price_id FK >0- price.id
-headcount integer
+partyroom_id FK >0- partyroom.id
+headcount_price integer
 is_holiday boolean
 start_time dateTime
 total_hour integer 
+base_room_fee integer
+created_at datetime
+updated_at datetime
+
+ADDED
+booking_info
+-----------
+id integer PK
+partyroom_price_list_id integer FK >0- partyroom_price_list.id
+booking_users_id integer FK >0- users.id
+headcount integer
+booking_date datetime
+start_time datetime
+total_hour integer
+total_fee integer
+special_request varchar(255)
+is_hidden boolean
+status varchar(255)
+created_at datetime
+updated_at datetime
+
+ADDED
+chat
+----
+id integer PK
+sender_id FK >0- users.id
+receiver_id FK >0- users.id
+message varchar(500)
+filename varchar(255)
+created_at datetime
+
+ADDED
+review
+-------
+id integer PK
+booking_info_id integer FK - booking_info.id
+rating integer
+detail varchar(255)
+is_hidden boolean
 created_at datetime
 updated_at datetime
 
@@ -85,41 +127,28 @@ price
 id integer PK
 price integer
 
-booking_info
------------
-id integer PK
-party_room_id integer FK >0- party_room.id
-booking_user_id integer FK >0- user.id
-visitor integer
-
-session
--------
-id integer PK
-booking_info_id integer FK >0- booking_info.id
-date datetime
-time_slot_id integer FK >0- time_slot.id
-total_amount_per_hour integer
-is_hidden boolean
-
 time_slot
 --------
 id integer PK
 start_time datetime
 
-comment
--------
-id integer PK
-party_room_id integer FK >0- party_room.id
-comment_user_id integer FK >0- user.id
-comment_image_id integer FK >0- comment_image.id
-rating integer
-detail varchar(255)
-is_hidden boolean
-created_at datetime
-updated_at datetime
-
-comment_image
-------------
-id integer PK
-comment_id integer FK >0- comment.id
-image_id integer FK >0- image.id
+# partyroom (326, 273)
+# partyroom_image (615, 549)
+# image (863, 499)
+# district (103, 528)
+# partyroom_category (42, 403)
+# category (48, 303)
+# partyroom_equipment (81, 142)
+# equipment (80, 48)
+# partyroom_price_list (306, 12)
+# price (64, 743)
+# booking_info (583, -103)
+# zoom: 0.778
+# view: (16, 119)
+# users (619, 233)
+# chat (907, 292)
+# time_slot (211, 762)
+# comment (932, 63)
+# text-bg: #3d3d3d
+# text-color: #ffffff
+# diagram-bg: #d4d4d4
