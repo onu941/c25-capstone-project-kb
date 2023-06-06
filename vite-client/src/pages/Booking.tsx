@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FullScreen } from "../components/minicomponents/Containers";
 import {
   AppHeader,
@@ -14,10 +14,30 @@ import { Link } from "react-router-dom";
 
 export default function Booking() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [showReviewSection, setShowReviewSection] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
+
+  const isPastDateTime = (targetDate: Date) => {
+    const currentDate = new Date();
+    return currentDate > targetDate;
+  };
+
+  useEffect(() => {
+    const targetDate = new Date(2023, 5, 18, 16, 0, 0); // replace with database data
+    const checkTime = () => {
+      if (isPastDateTime(targetDate)) setShowReviewSection(true);
+    };
+
+    const timer = setInterval(checkTime, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  });
+
   return (
     <>
       <FullScreen>
@@ -49,11 +69,24 @@ export default function Booking() {
             <PrimaryButton isCentered label="Go to Partyroom" />
           </Link>
         </div>
-        <ReviewHeader />
-        <div className="flex w-full place-content-center px-8 mb-10">
-          <TextArea placeholder="Max 150 characters" />
-        </div>
-        <PrimaryButton isCentered type="submit" label="Submit Your Review" />
+        {showReviewSection && (
+          <>
+            <ReviewHeader />
+            <div
+              id="review"
+              className="flex flex-wrap w-full place-content-center px-8 mb-10"
+            >
+              <div className="mb-6 w-full">
+                <TextArea placeholder="Max 150 characters (time/date checker fn added)" />
+              </div>
+              <PrimaryButton
+                isCentered
+                type="submit"
+                label="Submit Your Review"
+              />
+            </div>
+          </>
+        )}
       </FullScreen>
       <Tab />
     </>
