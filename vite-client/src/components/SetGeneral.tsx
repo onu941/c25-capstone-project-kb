@@ -30,3 +30,4 @@ export function SetGeneral() {
     </FullScreen>
   );
 }
+188;
