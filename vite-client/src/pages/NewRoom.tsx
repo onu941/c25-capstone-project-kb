@@ -1,7 +1,11 @@
 import { FullScreen } from "../components/minicomponents/Containers";
 import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { useCallback, useState, useRef } from "react";
-import { PrimaryButton } from "../components/minicomponents/Buttons";
+import {
+  DangerButton,
+  PrimaryButton,
+  SubmitButton,
+} from "../components/minicomponents/Buttons";
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -156,17 +160,14 @@ export default function NewRoom() {
               />
             </div>
             <div>
-              <PrimaryButton
+              <DangerButton
                 label="Reset"
                 type="button"
                 onClick={() => handleReset()}
               />
             </div>
             <div>
-              <PrimaryButton
-                label="Submit Your Room! (danger?)"
-                type="submit"
-              />
+              <SubmitButton label="Submit Your Room!" type="submit" />
             </div>
           </div>
         </form>
