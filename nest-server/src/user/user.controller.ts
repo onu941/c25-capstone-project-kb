@@ -15,7 +15,7 @@ import { CreateUserDto } from 'src/partyroom/dto/create-user.dto';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Post()
+  @Post('/signup')
   async createUser(@Body(new ValidationPipe()) CreateUserDto: CreateUserDto) {
     try {
       const { id } = await this.userService.createUser(CreateUserDto);
@@ -23,6 +23,19 @@ export class UserController {
     } catch (error) {
       throw new BadRequestException(error);
     }
+  }
+
+  @Post('/login')
+  async login(
+    @Body('email') email: string,
+    @Body('password') password: string,
+  ) {
+    const user = await this.authService.validateUser(email, password);
+    if (!user) {
+      throw new BadRequestException('Invalid credentials');
+    }
+    const token = await this.authService.generateToken(user);
+    return { token };
   }
 
   @Get('/all')
