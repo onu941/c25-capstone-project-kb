@@ -18,9 +18,7 @@ export class UserController {
   @Post()
   async createUser(@Body(new ValidationPipe()) CreateUserDto: CreateUserDto) {
     try {
-      console.log('userController CreateUserDto:', CreateUserDto);
       const { id } = await this.userService.createUser(CreateUserDto);
-      console.log('userId:', id);
       return { id };
     } catch (error) {
       throw new BadRequestException(error);

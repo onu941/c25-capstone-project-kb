@@ -16,7 +16,6 @@ export class UserService {
 
   async createUser(CreateUserDto: CreateUserDto) {
     try {
-      console.log('userService CreateUserDto:', CreateUserDto);
       const { name, email, phone, password, image_id, is_admin } =
         CreateUserDto;
       const hashedPassword = await hashPassword(password);
