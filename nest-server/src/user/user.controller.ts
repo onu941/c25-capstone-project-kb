@@ -1,10 +1,31 @@
-import { BadRequestException, Controller, Get, Param } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { InjectKnex, Knex } from 'nestjs-knex';
+import { CreateUserDto } from 'src/partyroom/dto/create-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+
+  @Post()
+  async createUser(@Body(new ValidationPipe()) CreateUserDto: CreateUserDto) {
+    try {
+      console.log('userController CreateUserDto:', CreateUserDto);
+      const { id } = await this.userService.createUser(CreateUserDto);
+      console.log('userId:', id);
+      return { id };
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
 
   @Get('/all')
   async getUserList() {
