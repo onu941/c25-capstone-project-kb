@@ -4,7 +4,7 @@ import { AppHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
 
-export function Chats() {
+export function Dashboard() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -16,7 +16,7 @@ export function Chats() {
         <AppHeader
           isOpen={sidebarIsOpen}
           toggleSidebar={toggleSidebar}
-          title="Chat History"
+          title="Performance Analysis"
         ></AppHeader>
         <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
       </FullScreen>
