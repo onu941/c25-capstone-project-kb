@@ -26,16 +26,27 @@ export class AuthService {
       throw new NotFoundException('Invalid credentials');
     }
     const { password: _, ...result } = user;
+    // console.log('user:', user);
+    // console.log('result:', result);
     return result;
   }
 
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
     const user = await this.validateUser(email, password);
+    // console.log('login fn user:', user);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    const payload = { sub: user.id };
-    return this.jwtService.sign(payload);
+    const payload = {
+      id: user.id,
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+      is_admin: user.is_admin,
+      image_id: user.image_id,
+    };
+    // console.log(payload);
+    return this.jwtService.signAsync(payload);
   }
 }
