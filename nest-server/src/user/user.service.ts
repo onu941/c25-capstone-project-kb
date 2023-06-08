@@ -39,7 +39,15 @@ export class UserService {
     const user = await this.knex
       .table('users')
       .where({ email })
-      .first(['id', 'name', 'email', 'password']);
+      .first([
+        'id',
+        'name',
+        'email',
+        'phone',
+        'password',
+        'image_id',
+        'is_admin',
+      ]);
     if (!user) {
       return null;
     }
@@ -54,7 +62,15 @@ export class UserService {
   async getUserList() {
     const users = await this.knex
       .table('users')
-      .select('id', 'name', 'email', 'phone', 'password');
+      .select(
+        'id',
+        'name',
+        'email',
+        'phone',
+        'password',
+        'image_id',
+        'is_admin',
+      );
     if (!users) {
       throw new NotFoundException();
     }
@@ -65,7 +81,15 @@ export class UserService {
     const user = await this.knex
       .table('users')
       .where({ id })
-      .first(['id', 'name', 'email', 'phone', 'password']);
+      .first([
+        'id',
+        'name',
+        'email',
+        'phone',
+        'password',
+        'image_id',
+        'is_admin',
+      ]);
     if (!user) {
       throw new NotFoundException();
     }
@@ -76,7 +100,15 @@ export class UserService {
     const user = await this.knex
       .table('users')
       .where({ email })
-      .first(['id', 'name', 'email', 'phone', 'password']);
+      .first([
+        'id',
+        'name',
+        'email',
+        'phone',
+        'password',
+        'image_id',
+        'is_admin',
+      ]);
     if (!user) {
       throw new NotFoundException();
     }

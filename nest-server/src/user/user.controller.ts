@@ -33,6 +33,7 @@ export class UserController {
   @Post('/login')
   async login(@Body() loginDto: LoginDto) {
     const token = await this.authService.login(loginDto);
+    // console.log('user controller token:', token);
     return { token };
   }
 
