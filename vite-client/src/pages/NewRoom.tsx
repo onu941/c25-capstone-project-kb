@@ -137,13 +137,22 @@ export default function NewRoom() {
             <div
               className={`${
                 isSelected === "basics" ? "" : "hidden"
-              } flex justify-center my-12`}
+              } flex flex-wrap justify-center my-12 columns-2 gap-6`}
             >
-              <PrimaryButton
-                type="button"
-                label="Next"
-                onClick={() => setIsSelected("photoconfirm")}
-              />
+              <div>
+                <PrimaryButton
+                  type="button"
+                  label="Next"
+                  onClick={() => setIsSelected("photoconfirm")}
+                />
+              </div>
+              <div>
+                <DangerButton
+                  label="Reset"
+                  type="button"
+                  onClick={() => handleReset()}
+                />
+              </div>
             </div>
           </div>
           {/* submit button */}
