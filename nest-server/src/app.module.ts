@@ -8,30 +8,12 @@ import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { JwtStrategy } from './auth/jwt.strategy';
+import { UserService } from './user/user.service';
 dotenv.config();
 
 @Module({
-  imports: [
-    KnexModule.forRootAsync({
-      useFactory: async () => ({
-        config: {
-          client: 'pg',
-          connection: {
-            host: 'localhost',
-            port: 5432,
-            user: process.env.DB_USERNAME,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-          },
-        },
-      }),
-    }),
-    ,
-    UserModule,
-    PartyroomModule,
-    AuthModule,
-  ],
+  imports: [UserModule, PartyroomModule, AuthModule],
   controllers: [AppController],
-  providers: [AppService, JwtStrategy],
+  providers: [AppService, JwtStrategy, UserService],
 })
 export class AppModule {}

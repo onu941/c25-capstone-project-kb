@@ -71,4 +71,15 @@ export class UserService {
     }
     return user;
   }
+
+  async getUserByEmail(email: string) {
+    const user = await this.knex
+      .table('users')
+      .where({ email })
+      .first(['id', 'name', 'email', 'phone', 'password']);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return user;
+  }
 }
