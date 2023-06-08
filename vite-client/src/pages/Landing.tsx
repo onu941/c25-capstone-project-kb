@@ -66,7 +66,7 @@ export default function Landing() {
         <hr className="mx-8 mb-5 border-slate-500"></hr>
         <BodyHeader title="Hot new partyrooms:"></BodyHeader>
         <LandingCarousel></LandingCarousel>
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-16">
           <Link to="/search">
             <PrimaryButton label="Find A Partyroom"></PrimaryButton>
           </Link>
