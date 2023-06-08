@@ -1,4 +1,26 @@
-import { Controller } from '@nestjs/common';
+import {
+  Controller,
+  HttpException,
+  HttpStatus,
+  UseGuards,
+  Post,
+  Request,
+} from '@nestjs/common';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
-export class AuthController {}
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('auth/login')
+  async login(@Request() req): Promise<any> {
+    try {
+      return this.authService.login(req.user);
+    } catch (error) {
+      throw new HttpException(
+        'imvalid email or password',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+  }
+}
