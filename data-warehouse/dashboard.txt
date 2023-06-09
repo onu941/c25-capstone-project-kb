@@ -46,25 +46,10 @@
 - chart: pie chart
 - show popular category in month
 
-9. popularity comparison (page 1)
-- x-axis: view count
-- y-axis: quantity of booking
-- chart: scatter chart
-- investigate the view count can reflect the popularity
-
-- x-axis: month
-- y-axis: view count
-- chart: line chart
-- show the growth of party room view count
-
 10. session and holiday and month analysis (page 2)
-- key: session 
-- value: quantity of booking
-- chart: pie chart
-- which session is more popular
-
 - x-axis: month 
-- y-axis: quantity of booking
+- y-axis: session
+- z-axis: quantity of booking
 - chart: histogram
 - which session is more popular
 
@@ -86,11 +71,17 @@
 - f. line chart in month, quarter and year for income, booking
 - g. rating percentage in each star in column chart
 
-
-
-
-
-
 graph, xy axis, analysis sight
 y axis - fact
 x axis - dimension
+
+9. popularity comparison (page 1)
+- x-axis: view count
+- y-axis: quantity of booking
+- chart: scatter chart
+- investigate the view count can reflect the popularity
+
+- x-axis: month
+- y-axis: view count
+- chart: line chart
+- show the growth of party room view count
