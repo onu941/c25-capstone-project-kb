@@ -1,0 +1,29 @@
+staging_booking
+---------------
+id
+year integer                            | booking_info.booking_date
+month integer                           | booking_info.booking_date
+day_of_month integer                    | booking_info.booking_date
+day_of_year integer                     | booking_info.booking_date
+date string                             | booking_info.booking_date
+quarter integer                         | booking_info.booking_date
+is_holiday boolean                      | partyroom_price_list.is_holiday
+day_of_week integer                     | booking_info.booking_date
+time time                               | booking_info.start_time
+hour integer                            | booking_info.start_time
+minute integer                          | booking_info.start_time
+AMPM string                             | booking_info.start_time
+booking_user_source string              | booking_info.booking_users_id
+booking_user_promotion string           | NaN
+host_users_id integer                   | partyroom.host_id
+partyroom_district varchar(255)         | partyroom.district
+partyroom_capacity integer              | partyroom.capacity
+partyroom_source string                 | partyroom.id
+partyroom_start_date datetime           | partyroom.created_at
+partyroom_end_date datetime             | partyroom.is_hidden && partyroom.updated_at
+partyroom_category_name                 | partyroom_category.name
+partyroom_category_start_date datetime  | partyroom_category.created_at
+partyroom_category_end_date datetime    | partyroom_category.created_at where id, then sorting 
+partyroom_equipment_name                | partyroom_equipment.name
+partyroom_equipment_start_date datetime | partyroom_equipment.created_at
+partyroom_equipment_end_date datetime   | partyroom_equipment.created_at where id, then sorting
