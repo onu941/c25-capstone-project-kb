@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FullScreen } from "../components/minicomponents/Containers";
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { LandingCarousel } from "../components/minicomponents/Carousels";
@@ -12,20 +12,41 @@ import {
   ChatBubbleLeftEllipsisIcon,
   ShareIcon,
 } from "@heroicons/react/20/solid";
+import jwt_decode from "jwt-decode";
+
+export interface JWT {
+  name: string;
+  phone: string;
+  email: string;
+  is_admin: boolean;
+  image_id: number;
+  iat: number;
+  exp: number;
+}
 
 export default function Landing() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [userName, setUserName] = useState("user");
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded: JWT = jwt_decode(token);
+      setUserName(decoded.name);
+    }
+  });
+
   return (
     <>
       <FullScreen>
         <AppHeader
           isOpen={sidebarIsOpen}
           toggleSidebar={toggleSidebar}
-          title="Welcome, user"
+          title={"Welcome, " + userName}
         ></AppHeader>
         <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
         <BodyHeader title="Your next booking:"></BodyHeader>
