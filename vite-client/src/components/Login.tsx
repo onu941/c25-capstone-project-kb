@@ -4,10 +4,12 @@ import { PrimaryButton } from "./minicomponents/Buttons";
 import { FullScreenInitial } from "./minicomponents/Containers";
 
 export interface LoginProps {
-  setPhoneNo: React.Dispatch<React.SetStateAction<number>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   onLoginSubmit: (event: FormEvent<HTMLFormElement>) => void;
   setPage: React.Dispatch<React.SetStateAction<string>>;
+  initialEmail: string;
+  initialPassword: string;
 }
 
 export function Login(props: LoginProps) {
@@ -25,16 +27,18 @@ export function Login(props: LoginProps) {
       >
         <input
           className="text-black px-2 py-2 rounded-lg mb-5"
-          name="phone_no"
-          type="tel"
-          placeholder="enter phone #"
-          onChange={(e) => props.setPhoneNo(parseInt(e.target.value))}
+          name="email"
+          type="text"
+          placeholder="enter email"
+          value={props.initialEmail}
+          onChange={(e) => props.setEmail(e.target.value)}
         ></input>
         <input
           className="text-black px-2 py-2 rounded-lg mb-8"
           name="password"
           type="password"
           placeholder="enter password"
+          value={props.initialPassword}
           onChange={(e) => props.setPassword(e.target.value)}
         ></input>
         <button type="submit">
