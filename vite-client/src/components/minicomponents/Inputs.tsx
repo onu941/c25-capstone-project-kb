@@ -1,13 +1,10 @@
-import { Combobox } from "@headlessui/react";
 import {
-  ChevronUpDownIcon,
-  PencilIcon,
+  CheckIcon,
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { FormEvent } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { addressLine2, addressLine3 } from "../../assets/geography";
 
 type InputProps = {
   type?: string;
@@ -22,14 +19,21 @@ type InputProps = {
   className?: string;
   isDisabled?: boolean;
   isReadOnly?: boolean;
+  isEditing?: boolean;
+  handleEditClick?: () => void;
+  handleSaveClick?: () => void;
 };
 
 export function StandardInput(props: InputProps) {
   return (
     <div
-      className={`flex ${props.canEdit || props.canDelete ? "columns-2" : ""} ${
+      className={`flex ${
+        (props.canEdit || props.canDelete) && !props.isEditing
+          ? "columns-2"
+          : ""
+      } ${
         props.canEdit && props.canDelete ? "columns-3" : ""
-      }columns-3 gap-5 place-content-center`}
+      } gap-5 place-content-center`}
     >
       <div className="w-full">
         <input
@@ -39,17 +43,25 @@ export function StandardInput(props: InputProps) {
             props.isReadOnly ? "readonly" : ""
           }dark:text-black text-black dark:bg-slate-300 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg`}
           {...props.register}
-          onChange={props.onChange}
           value={props.value}
-          disabled={props.isDisabled}
-          readOnly={props.isReadOnly}
-        ></input>
+          disabled={!props.isEditing || props.isDisabled}
+          readOnly={!props.isEditing || props.isReadOnly}
+          onChange={props.onChange}
+          name={props.name}
+        />
       </div>
       {props.canEdit ? (
         <div className="w-fit">
-          {props.canEdit ? (
-            <PencilSquareIcon className="h-9 w-9 pt-1 text-slate-300" />
-          ) : null}
+          {props.isEditing ? (
+            <button onClick={props.handleSaveClick} type="submit">
+              {" "}
+              <CheckIcon className="h-9 w-9 pt-1 text-slate-300" />
+            </button>
+          ) : (
+            <button onClick={props.handleEditClick} type="button">
+              <PencilSquareIcon className="h-9 w-9 pt-1 text-slate-300" />
+            </button>
+          )}
         </div>
       ) : null}
       {props.canDelete ? (
@@ -64,7 +76,6 @@ export function StandardInput(props: InputProps) {
     </div>
   );
 }
-
 export function MiniInput(props: InputProps) {
   return (
     <input

@@ -1,4 +1,4 @@
-import { PrimaryButton } from "./Buttons";
+import { PrimaryButton, SubmitButton } from "./Buttons";
 import { StandardInput, TextArea } from "./Inputs";
 
 interface BookingModalProps {
@@ -15,12 +15,12 @@ export function BookingModal(props: BookingModalProps) {
       <div className="px-12 py-8 bg-gray-800 text-white rounded-lg z-50 border-solid border-4 border-slate-400">
         <p className="text-5xl mb-8">Book Your Stay!</p>
         <p className="text-lg">User Details</p>
-        <StandardInput type="text" placeholder="name (autofilled)" />
-        <StandardInput type="text" placeholder="phone (autofilled)" />
+        <StandardInput isEditing type="text" placeholder="name (autofilled)" />
+        <StandardInput isEditing type="text" placeholder="phone (autofilled)" />
         <p className="text-lg mt-3">Booking Details</p>
-        <StandardInput type="text" placeholder="how many people?" />
-        <StandardInput type="text" placeholder="what date??" />
-        <StandardInput type="text" placeholder="what time?" />
+        <StandardInput isEditing type="text" placeholder="how many people?" />
+        <StandardInput isEditing type="text" placeholder="what date??" />
+        <StandardInput isEditing type="text" placeholder="what time?" />
         <TextArea placeholder="any special requests?" />
         <div className="mt-8 w-full flex columns-2 gap-6 place-content-center">
           <div>
@@ -31,7 +31,7 @@ export function BookingModal(props: BookingModalProps) {
             />
           </div>
           <div>
-            <PrimaryButton
+            <SubmitButton
               type="submit"
               onClick={props.toggleModal}
               label="Submit"

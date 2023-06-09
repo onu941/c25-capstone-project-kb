@@ -7,6 +7,7 @@ import {
   EquipmentField,
   NewRoomFormState,
 } from "../pages/NewRoom";
+import { useState } from "react";
 
 export interface Form1Props {
   register: UseFormRegister<NewRoomFormState>;
@@ -20,6 +21,8 @@ export interface Form1Props {
 }
 
 export function Part1Form(props: Form1Props) {
+  const [isEditing, setIsEditing] = useState(true);
+
   return (
     <>
       <StandardInput
@@ -27,6 +30,7 @@ export function Part1Form(props: Form1Props) {
         placeholder="name your partyroom"
         register={props.register("name")}
         onChange={props.handleInputChange}
+        isEditing
       />
       <div className="flex flex-row w-full justify-between">
         <MiniInput
@@ -45,16 +49,19 @@ export function Part1Form(props: Form1Props) {
         placeholder="line 1"
         type="text"
         register={props.register("address_1")}
+        isEditing
       />
       <StandardInput
         placeholder="line 2"
         type="text"
         register={props.register("address_2")}
+        isEditing
       />
       <StandardInput
         placeholder="line 3"
         type="text"
         register={props.register("address_3")}
+        isEditing
       />
       <FormHeader title="What is your partyroom best used for?" />
       {props.categoryFields.map((field) =>
@@ -65,6 +72,7 @@ export function Part1Form(props: Form1Props) {
             type="text"
             register={props.register(`category.${field.id - 1}.name` as const)}
             name={`category.${field.id - 1}.name`}
+            isEditing
           />
         ) : (
           <StandardInput
@@ -75,6 +83,7 @@ export function Part1Form(props: Form1Props) {
             name={`category.${field.id - 1}.name`}
             canDelete
             onDelete={() => props.handleDeleteCategories(field.id)}
+            isEditing
           />
         )
       )}
@@ -94,6 +103,7 @@ export function Part1Form(props: Form1Props) {
             type="text"
             register={props.register(`equipment.${field.id - 1}.name` as const)}
             name={`equipment.${field.id - 1}.name`}
+            isEditing
           />
         ) : (
           <StandardInput
@@ -104,6 +114,7 @@ export function Part1Form(props: Form1Props) {
             name={`equipment.${field.id - 1}.name`}
             onDelete={() => props.handleDelete(field.id)}
             canDelete
+            isEditing
           />
         )
       )}
