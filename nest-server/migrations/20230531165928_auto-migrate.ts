@@ -14,12 +14,12 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable("party_room"))) {
-    await knex.schema.createTable("party_room", (table) => {
+  if (!(await knex.schema.hasTable("partyroom"))) {
+    await knex.schema.createTable("partyroom", (table) => {
       table.increments("id");
       table.string("name", 32);
       table.integer("host_id").unsigned().references("users.id");
-      table.integer("party_room_image_id").unsigned().references("party_room_image.id");
+      table.integer("partyroom_image_id").unsigned().references("partyroom_image.id");
       table.integer("district_id").unsigned().references("district.id");
       table.integer("capacity");
       table.string("phone", 32);
@@ -30,10 +30,10 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable("party_room_image"))) {
-    await knex.schema.createTable("party_room_image", (table) => {
+  if (!(await knex.schema.hasTable("partyroom_image"))) {
+    await knex.schema.createTable("partyroom_image", (table) => {
       table.increments("id");
-      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("partyroom_id").unsigned().references("partyroom.id");
       table.integer("image_id").unsigned().references("image.id");
     });
   }
@@ -52,11 +52,12 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable("party_room_category"))) {
-    await knex.schema.createTable("party_room_category", (table) => {
+  if (!(await knex.schema.hasTable("partyroom_category"))) {
+    await knex.schema.createTable("partyroom_category", (table) => {
       table.increments("id");
-      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("partyroom_id").unsigned().references("partyroom.id");
       table.integer("category_id").unsigned().references("category.id");
+      table.timestamps(false, true);
     });
   }
 
@@ -67,11 +68,12 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable("party_room_equipment"))) {
-    await knex.schema.createTable("party_room_equipment", (table) => {
+  if (!(await knex.schema.hasTable("partyroom_equipment"))) {
+    await knex.schema.createTable("partyroom_equipment", (table) => {
       table.increments("id");
-      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("partyroom_id").unsigned().references("partyroom.id");
       table.integer("equipment_id").unsigned().references("equipment.id");
+      table.timestamps(false, true);
     });
   }
 
@@ -82,10 +84,10 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
-  if (!(await knex.schema.hasTable("party_room_price_list"))) {
-    await knex.schema.createTable("party_room_price_list", (table) => {
+  if (!(await knex.schema.hasTable("partyroom_price_list"))) {
+    await knex.schema.createTable("partyroom_price_list", (table) => {
       table.increments("id");
-      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("partyroom_id").unsigned().references("partyroom.id");
       table.integer("headcount");
       table.boolean("is_holiday");
       table.datetime("start_time");
@@ -98,7 +100,7 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable("booking_info"))) {
     await knex.schema.createTable("booking_info", (table) => {
       table.increments("id");
-      table.integer("party_room_id").unsigned().references("party_room.id");
+      table.integer("partyroom_id").unsigned().references("partyroom.id");
       table.integer("booking_users_id").unsigned().references("users.id");
       table.integer("headcount");
       table.date("booking_date");
