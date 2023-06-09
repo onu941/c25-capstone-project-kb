@@ -28,6 +28,7 @@ export default function HandleUser() {
     if (success) {
       dispatch(login(email));
       navigate("/landing");
+      toast.success("You have logged in");
     } else {
       toast.error("Login failed");
     }

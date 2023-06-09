@@ -31,7 +31,6 @@ export function Part2Form(props: Form2Props) {
       </div>
       <p className="text-center mb-8 text-xl">Image Preview here</p>
       <FormCarousel />
-
       <div className="columns-2 flex place-content-center place-items-center gap-5 mb-8">
         <div>
           <p className="text-slate-300 text-md">I'm done uploading!</p>

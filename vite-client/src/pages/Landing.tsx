@@ -61,13 +61,8 @@ export default function Landing() {
             address="東涌海濱道18號"
           ></BookingCard>
         </Link>
-        <div className="w-full mb-12 flex px-12 justify-between">
-          <CalendarIcon className="h-8 w-8 text-slate-300" />
-          <ShareIcon className="h-8 w-8 text-slate-300" />
-          <ChatBubbleLeftEllipsisIcon className="h-8 w-8 text-slate-300" />
-        </div>
-        <hr className="mx-8 mb-5 border-slate-500"></hr>
-        <BodyHeader title="Your room is booked!"></BodyHeader>
+        <hr className="mx-8 mt-10 mb-8 border-slate-500"></hr>
+        <BodyHeader title="Your room has been booked!"></BodyHeader>
         <Link to="/booking">
           <BookingCard
             date={25}
@@ -79,12 +74,7 @@ export default function Landing() {
             address="東涌海濱道18號"
           ></BookingCard>
         </Link>
-        <div className="w-full mb-12 flex px-12 justify-between">
-          <CalendarIcon className="h-8 w-8 text-slate-300" />
-          <ShareIcon className="h-8 w-8 text-slate-300" />
-          <ChatBubbleLeftEllipsisIcon className="h-8 w-8 text-slate-300" />
-        </div>
-        <hr className="mx-8 mb-5 border-slate-500"></hr>
+        <hr className="mx-8 mt-10 mb-8 border-slate-500"></hr>
         <BodyHeader title="Hot new partyrooms:"></BodyHeader>
         <LandingCarousel></LandingCarousel>
         <div className="flex justify-center mb-16">

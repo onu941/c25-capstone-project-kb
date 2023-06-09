@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -7,7 +8,8 @@ import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/user/user.interface';
 import { checkPassword } from 'src/user/hash';
-import { LoginDto } from 'src/user/dto/login.dto';
+import { LoginDto } from 'src/user/dto/login-user.dto';
+import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -47,6 +49,25 @@ export class AuthService {
       image_id: user.image_id,
     };
     // console.log(payload);
+    return this.jwtService.signAsync(payload);
+  }
+
+  async updateUser(id: number, updateUserDto: UpdateUserDto) {
+    const user = await this.userService.updateUser(id, updateUserDto);
+
+    if (!user) {
+      throw new BadRequestException('no user details');
+    }
+
+    const payload = {
+      id: user.id,
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+      is_admin: user.is_admin,
+      image_id: user.image_id,
+    };
+
     return this.jwtService.signAsync(payload);
   }
 }
