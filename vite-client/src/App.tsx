@@ -3,7 +3,7 @@ import { FullScreen } from "./components/minicomponents/Containers";
 import HandleUser from "./pages/HandleUser";
 import { Search } from "./pages/Search";
 import NewRoom from "./pages/NewRoom";
-import { Chats } from "./pages/Chats";
+import { Dashboard } from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Booking from "./pages/Booking";
 import Partyroom from "./pages/Partyroom";
@@ -17,7 +17,7 @@ function App() {
         <Route path="/landing" element={<Landing />} />
         <Route path="/search" element={<Search />} />
         <Route path="/new_room" element={<NewRoom />} />
-        <Route path="/chats" element={<Chats />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/partyroom" element={<Partyroom />} />

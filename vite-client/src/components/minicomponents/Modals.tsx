@@ -1,3 +1,6 @@
+import { PrimaryButton } from "./Buttons";
+import { StandardInput, TextArea } from "./Inputs";
+
 interface BookingModalProps {
   toggleModal: () => void;
 }
@@ -9,14 +12,32 @@ export function BookingModal(props: BookingModalProps) {
         className="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"
         onClick={props.toggleModal}
       ></div>
-      <div className="p-3 bg-gray-800 text-white rounded-lg z-50">
-        <p className="text-2xl">I am a modal</p>
-        <button
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4"
-          onClick={props.toggleModal}
-        >
-          Close
-        </button>
+      <div className="px-12 py-8 bg-gray-800 text-white rounded-lg z-50 border-solid border-4 border-slate-400">
+        <p className="text-5xl mb-8">Book Your Stay!</p>
+        <p className="text-lg">User Details</p>
+        <StandardInput type="text" placeholder="name (autofilled)" />
+        <StandardInput type="text" placeholder="phone (autofilled)" />
+        <p className="text-lg mt-3">Booking Details</p>
+        <StandardInput type="text" placeholder="how many people?" />
+        <StandardInput type="text" placeholder="what date??" />
+        <StandardInput type="text" placeholder="what time?" />
+        <TextArea placeholder="any special requests?" />
+        <div className="mt-8 w-full flex columns-2 gap-6 place-content-center">
+          <div>
+            <PrimaryButton
+              type="button"
+              onClick={props.toggleModal}
+              label="Go back"
+            />
+          </div>
+          <div>
+            <PrimaryButton
+              type="submit"
+              onClick={props.toggleModal}
+              label="Submit"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
