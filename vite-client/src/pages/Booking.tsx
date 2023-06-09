@@ -50,22 +50,26 @@ export default function Booking() {
           title="Booking Details"
         ></AppHeader>
         <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
-        <div className="mt-10">
-          <Link to="/partyroom">
-            <BookingCard
-              date={25}
-              month="MAY"
-              year={2023}
-              name="Partyroom Name"
-              time="19:00"
-              pax={8}
-              address="東涌海濱道18號"
-            />
-          </Link>
+        <BodyHeader title="Press details to edit:" />
+        <div className="mt-2">
+          <BookingCard
+            date={25}
+            month="MAY"
+            year={2023}
+            name="Partyroom Name"
+            time="19:00"
+            pax={8}
+            address="東涌海濱道18號"
+          />
+          <div className="mt-6 flex w-full justify-center">
+            <Link to="/partyroom">
+              <PrimaryButton label="Partyroom Page" />
+            </Link>
+          </div>
         </div>
         <BodyHeader title="Special Requests" />
         <div className="flex w-full place-content-center px-8 mb-12">
-          <TextArea value="Special Request" />
+          <TextArea isReadOnly isDisabled value="Special Request" />
         </div>
         <OwnerCard name="Partyroom Owner" />
         {showReviewSection && (

@@ -18,6 +18,11 @@ export type EquipmentField = {
   name: string;
 };
 
+export type CategoryField = {
+  id: number;
+  name: string;
+};
+
 export type NewRoomFormState = {
   name: string;
   area: number;
@@ -26,6 +31,7 @@ export type NewRoomFormState = {
   address_2: string;
   address_3: string;
   equipment: EquipmentField[];
+  category: CategoryField[];
   description: string;
 };
 
@@ -38,6 +44,9 @@ export default function NewRoom() {
     { id: 1, name: "Equipment 1" },
     { id: 2, name: "Equipment 2" },
     { id: 3, name: "Equipment 3" },
+  ]);
+  const [categoryFields, setCategoryFields] = useState<CategoryField[]>([
+    { id: 1, name: "Category 1" },
   ]);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -56,7 +65,7 @@ export default function NewRoom() {
       : setPartyroomName(e.target.value);
   };
 
-  const handleAddMore = () => {
+  const handleAddMoreEquipment = () => {
     const newId = equipmentFields.length + 1;
     setEquipmentFields((prev) => [
       ...prev,
@@ -66,6 +75,18 @@ export default function NewRoom() {
 
   const handleDelete = (id: number) => {
     setEquipmentFields((prev) => prev.filter((field) => field.id !== id));
+  };
+
+  const handleAddMoreCategories = () => {
+    const newId = categoryFields.length + 1;
+    setCategoryFields((prev) => [
+      ...prev,
+      { id: newId, name: `Category ${newId}` },
+    ]);
+  };
+
+  const handleDeleteCategories = (id: number) => {
+    setCategoryFields((prev) => prev.filter((field) => field.id !== id));
   };
 
   const handleBack = () => {
@@ -131,19 +152,31 @@ export default function NewRoom() {
               handleInputChange={handleInputChange}
               equipmentFields={equipmentFields}
               handleDelete={handleDelete}
-              handleAddMore={handleAddMore}
+              handleAddMoreEquipment={handleAddMoreEquipment}
+              categoryFields={categoryFields}
+              handleAddMoreCategories={handleAddMoreCategories}
+              handleDeleteCategories={handleDeleteCategories}
             />
             {/* next button */}
             <div
               className={`${
                 isSelected === "basics" ? "" : "hidden"
-              } flex justify-center my-12`}
+              } flex flex-wrap justify-center my-12 columns-2 gap-6`}
             >
-              <PrimaryButton
-                type="button"
-                label="Next"
-                onClick={() => setIsSelected("photoconfirm")}
-              />
+              <div>
+                <PrimaryButton
+                  type="button"
+                  label="Next"
+                  onClick={() => setIsSelected("photoconfirm")}
+                />
+              </div>
+              <div>
+                <DangerButton
+                  label="Reset"
+                  type="button"
+                  onClick={() => handleReset()}
+                />
+              </div>
             </div>
           </div>
           {/* submit button */}

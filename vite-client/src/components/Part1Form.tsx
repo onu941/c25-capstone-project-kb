@@ -2,14 +2,21 @@ import { UseFormRegister } from "react-hook-form";
 import { PrimaryButton } from "./minicomponents/Buttons";
 import { FormHeader } from "./minicomponents/Headers";
 import { MiniInput, StandardInput, TextArea } from "./minicomponents/Inputs";
-import { EquipmentField, NewRoomFormState } from "../pages/NewRoom";
+import {
+  CategoryField,
+  EquipmentField,
+  NewRoomFormState,
+} from "../pages/NewRoom";
 
 export interface Form1Props {
   register: UseFormRegister<NewRoomFormState>;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   equipmentFields: EquipmentField[];
+  categoryFields: CategoryField[];
   handleDelete: (id: number) => void;
-  handleAddMore: () => void;
+  handleAddMoreEquipment: () => void;
+  handleAddMoreCategories: () => void;
+  handleDeleteCategories: (id: number) => void;
 }
 
 export function Part1Form(props: Form1Props) {
@@ -49,7 +56,35 @@ export function Part1Form(props: Form1Props) {
         type="text"
         register={props.register("address_3")}
       />
-      <div className="text-3xl flex justify-center my-6">Hashtags TBD</div>
+      <FormHeader title="What is your partyroom best used for?" />
+      {props.categoryFields.map((field) =>
+        field.id <= 1 ? (
+          <StandardInput
+            key={field.id}
+            placeholder={`category ${field.id} (e.g. birthday parties)`}
+            type="text"
+            register={props.register(`category.${field.id - 1}.name` as const)}
+            name={`category.${field.id - 1}.name`}
+          />
+        ) : (
+          <StandardInput
+            key={field.id}
+            placeholder={`category ${field.id}`}
+            type="text"
+            register={props.register(`category.${field.id - 1}.name` as const)}
+            name={`category.${field.id - 1}.name`}
+            canDelete
+            onDelete={() => props.handleDeleteCategories(field.id)}
+          />
+        )
+      )}
+      <div className="w-full flex place-content-center mt-5">
+        <PrimaryButton
+          type="button"
+          onClick={props.handleAddMoreCategories}
+          label="Add More"
+        />
+      </div>
       <FormHeader title="Facilities (min. 3)" />
       {props.equipmentFields.map((field) =>
         field.id <= 3 ? (
@@ -75,7 +110,7 @@ export function Part1Form(props: Form1Props) {
       <div className="w-full flex place-content-center mt-5">
         <PrimaryButton
           type="button"
-          onClick={props.handleAddMore}
+          onClick={props.handleAddMoreEquipment}
           label="Add More"
         />
       </div>
