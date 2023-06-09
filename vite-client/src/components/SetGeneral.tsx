@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { DangerButton, PrimaryButton } from "./minicomponents/Buttons";
 import { FullScreen } from "./minicomponents/Containers";
 import { StandardInput } from "./minicomponents/Inputs";
+import { useAppDispatch } from "../app/hook";
+import { logout } from "../redux/authSlice";
 
 export function SetGeneral() {
+  const dispatch = useAppDispatch();
   return (
     <>
       <div className="w-full flex flex-col place-content-center place-items-center">
@@ -23,9 +26,7 @@ export function SetGeneral() {
         </div>
       </div>
       <div className="mb-24 flex justify-center">
-        <Link to="/handle_user">
-          <DangerButton label="Logout" />
-        </Link>
+        <DangerButton label="Logout" onClick={() => dispatch(logout())} />
       </div>
     </>
   );

@@ -7,6 +7,8 @@ import {
 } from "@heroicons/react/20/solid";
 // import { ClockIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../app/hook";
+import { logout } from "../../redux/authSlice";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -14,6 +16,8 @@ interface SidebarProps {
 }
 
 export function Sidebar(props: SidebarProps) {
+  const dispatch = useAppDispatch();
+
   return (
     <>
       {props.isOpen && (
@@ -36,9 +40,10 @@ export function Sidebar(props: SidebarProps) {
         <Link to="/settings">
           <Cog6ToothIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></Cog6ToothIcon>
         </Link>
-        <Link to="/logout">
+
+        <button onClick={() => dispatch(logout())}>
           <ArrowLeftOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></ArrowLeftOnRectangleIcon>
-        </Link>
+        </button>
       </div>
     </>
   );
