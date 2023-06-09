@@ -13,7 +13,6 @@ export async function localLogin(email: string, password: string) {
 
   const result = await res.json();
   if (res.status === 201 || res.status === 200) {
-    // why 201 and not 200
     localStorage.setItem("token", result.token);
     return true;
   } else {
