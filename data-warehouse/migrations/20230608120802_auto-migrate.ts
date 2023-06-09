@@ -145,3 +145,18 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 }
+
+export async function down(knex: Knex): Promise<void> {
+  await knex.schema.dropTable('fact_booking');
+  await knex.schema.dropTable('dim_date');
+  await knex.schema.dropTable('dim_time');
+  await knex.schema.dropTable('dim_users');
+  await knex.schema.dropTable('dim_partyroom');
+  await knex.schema.dropTable('dim_partyroom_equipment');
+  await knex.schema.dropTable('dim_equipment');
+  await knex.schema.dropTable('dim_partyroom_category');
+  await knex.schema.dropTable('dim_category');
+  await knex.schema.dropTable('fact_partyroom_register');
+  await knex.schema.dropTable('fact_users_register');
+  await knex.schema.dropTable('staging_booking');
+}
