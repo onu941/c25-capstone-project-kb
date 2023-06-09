@@ -45,6 +45,7 @@ partyroom_category
 id integer PK
 partyroom_id FK >0- partyroom.id
 category_id FK >0- category.id
+created_at datetime
 
 category
 --------
@@ -56,6 +57,7 @@ partyroom_equipment
 id integer PK
 partyroom_id FK >0- partyroom.id
 equipment_id FK >0- equipment.id
+created_at datetime
 
 equipment
 ---------
