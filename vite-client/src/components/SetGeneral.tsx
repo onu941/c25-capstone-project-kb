@@ -67,9 +67,9 @@ export function SetGeneral() {
     // const name = form.username.value;
     // const phone = form.phone.value;
     // const email = form.email.value;
-    // const success = await someAPIFunction(name);
+    // const success = await someAPIFunction(???);
     // if (success) {
-    //   dispatch(someSliceFunction(name));
+    //   dispatch(someSliceFunction(???));
     //   toast.success("Updated");
     // } else {
     //   toast.error("Update failed");
