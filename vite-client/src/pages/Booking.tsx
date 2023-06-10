@@ -90,7 +90,7 @@ export default function Booking() {
             </div>
           </>
         )}
-        <div className="mt-8">
+        <div className="mt-8 mb-16">
           <DangerButton isCentered label="Cancel Booking" />
         </div>
       </FullScreen>

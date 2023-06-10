@@ -74,6 +74,11 @@ export default function Landing() {
             address="東涌海濱道18號"
           ></BookingCard>
         </Link>
+        <div className="w-full flex place-content-center pt-6">
+          <Link to="/new_room">
+            <PrimaryButton label="Submit a New Room" />
+          </Link>
+        </div>
         <hr className="mx-8 mt-10 mb-8 border-slate-500"></hr>
         <BodyHeader title="Hot new partyrooms:"></BodyHeader>
         <LandingCarousel></LandingCarousel>
