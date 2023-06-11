@@ -71,33 +71,35 @@ export function Part1Form(props: Form1Props) {
         isEditing
       />
       <FormHeader title="What is your partyroom best used for?" />
-      <div className="w-full grid grid-row-2 grid-flow-row gap-4 justify-center">
-        <div className="w-full flex columns-3 gap-12">
-          <button>
+      <div className="w-full sm:px-8 md:px-36 columns-3 mb-6">
+        <div className="w-full flex flex-col justify-center">
+          <button className="flex flex-col place-items-center mb-4">
             <GeneralPartyIcon className="w-16 h-16" />
-            For All Parties
+            General
           </button>
-          <button>
-            <FamilyIcon className="w-16 h-16" />
-            For Families
-          </button>
-          <button>
-            <CakeIcon className="text-slate-300 w-16 h-16" />
-            For Birthdays
+          <button className="flex flex-col place-items-center">
+            <HeartIcon className="text-slate-300 w-16 h-16" />
+            Dates
           </button>
         </div>
-        <div className="w-full flex flex-row columns-3 gap-12">
-          <button>
-            <HeartIcon className="text-slate-300 w-16 h-16" />
-            For Dates
+        <div className="w-full flex flex-col justify-center">
+          <button className="flex flex-col place-items-center mb-4">
+            <FamilyIcon className="w-16 h-16" />
+            Families
           </button>
-          <button>
+          <button className="flex flex-col place-items-center">
             <BriefcaseIcon className="text-slate-300 w-16 h-16" />
-            For Businesses
+            Businesses
           </button>
-          <button>
+        </div>
+        <div className="w-full flex flex-col justify-center">
+          <button className="flex flex-col place-items-center mb-4">
+            <CakeIcon className="text-slate-300 w-16 h-16" />
+            Birthdays
+          </button>
+          <button className="flex flex-col place-items-center">
             <WeddingIcon className="w-16 h-16" />
-            For Weddings
+            Weddings
           </button>
         </div>
       </div>
@@ -138,29 +140,31 @@ export function Part1Form(props: Form1Props) {
         </div>
       </div>
       <FormHeader title="What are your room's key items?" />
-      <div className="w-full grid grid-row-2 grid-flow-row gap-4 justify-center">
-        <div className="w-full flex columns-3 gap-12 justify-around">
-          <button className="flex flex-col place-items-center">
+      <div className="w-full sm:px-8 md:px-36 columns-3 mb-6">
+        <div className="w-full flex flex-col justify-center">
+          <button className="flex flex-col place-items-center mb-4">
             <GeneralPartyIcon className="w-16 h-16" />
             Mahjong
           </button>
           <button className="flex flex-col place-items-center">
+            <HeartIcon className="text-slate-300 w-16 h-16" />
+            Video Games
+          </button>
+        </div>
+        <div className="w-full flex flex-col justify-center">
+          <button className="flex flex-col place-items-center mb-4">
             <FamilyIcon className="w-16 h-16" />
             BBQ
           </button>
           <button className="flex flex-col place-items-center">
-            <CakeIcon className="text-slate-300 w-16 h-16" />
-            Karaoke
-          </button>
-        </div>
-        <div className="w-full flex flex-row columns-3 gap-12 justify-around">
-          <button className="flex flex-col place-items-center">
-            <HeartIcon className="text-slate-300 w-16 h-16" />
-            Video Games
-          </button>
-          <button className="flex flex-col place-items-center">
             <BriefcaseIcon className="text-slate-300 w-16 h-16" />
             Board Games
+          </button>
+        </div>
+        <div className="w-full flex flex-col justify-center">
+          <button className="flex flex-col place-items-center mb-4">
+            <CakeIcon className="text-slate-300 w-16 h-16" />
+            Karaoke
           </button>
           <button className="flex flex-col place-items-center">
             <WeddingIcon className="w-16 h-16" />
