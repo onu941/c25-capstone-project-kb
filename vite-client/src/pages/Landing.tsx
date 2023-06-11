@@ -13,6 +13,17 @@ import {
   ShareIcon,
 } from "@heroicons/react/20/solid";
 import jwt_decode from "jwt-decode";
+import toast, { Toaster } from "react-hot-toast";
+import { useAppDispatch } from "../app/hook";
+import {
+  setName,
+  setPhone,
+  setEmail,
+  setIsAdmin,
+  setImageId,
+  UserState,
+} from "../redux/userSlice";
+import { useSelector } from "react-redux";
 
 export interface JWT {
   name: string;
@@ -26,7 +37,9 @@ export interface JWT {
 
 export default function Landing() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const [userName, setUserName] = useState("user");
+  const [username, setUsername] = useState("");
+
+  const dispatch = useAppDispatch();
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -36,17 +49,26 @@ export default function Landing() {
     const token = localStorage.getItem("token");
     if (token) {
       const decoded: JWT = jwt_decode(token);
-      setUserName(decoded.name);
+      console.log("decoded name: ", decoded.name);
+      dispatch(setName(decoded.name));
+      setUsername(decoded.name);
     }
-  });
+
+    const successMessage = localStorage.getItem("successMessage");
+    if (successMessage) toast.success(successMessage);
+    localStorage.removeItem("successMessage");
+  }, []);
 
   return (
     <>
       <FullScreen>
+        <div>
+          <Toaster />
+        </div>
         <AppHeader
           isOpen={sidebarIsOpen}
           toggleSidebar={toggleSidebar}
-          title={"Welcome, " + userName}
+          title={"Welcome, " + username}
         ></AppHeader>
         <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
         <BodyHeader title="Your next booking:"></BodyHeader>

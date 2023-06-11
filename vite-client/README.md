@@ -1,13 +1,3 @@
-# categories
-
-- general
-- friends
-- birthday
-- dating
-- corporate
-- wedding
-- family
-
 # equipment
 
 - mahjong

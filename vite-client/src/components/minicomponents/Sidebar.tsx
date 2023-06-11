@@ -1,5 +1,6 @@
 import {
   ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
   ChatBubbleLeftRightIcon,
   Cog6ToothIcon,
   PresentationChartBarIcon,
@@ -42,7 +43,7 @@ export function Sidebar(props: SidebarProps) {
         </Link>
 
         <button onClick={() => dispatch(logout())}>
-          <ArrowLeftOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></ArrowLeftOnRectangleIcon>
+          <ArrowRightOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></ArrowRightOnRectangleIcon>
         </button>
       </div>
     </>

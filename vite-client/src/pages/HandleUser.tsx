@@ -24,11 +24,10 @@ export default function HandleUser() {
     const email = form.email.value;
     const password = form.password.value;
     const success = await localLogin(email, password);
-    console.log(success);
     if (success) {
       dispatch(login(email));
+      localStorage.setItem("successMessage", "Welcome back");
       navigate("/landing");
-      toast.success("You have logged in");
     } else {
       toast.error("Login failed");
     }

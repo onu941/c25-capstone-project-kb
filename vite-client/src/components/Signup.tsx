@@ -48,7 +48,7 @@ export function Signup(props: SignupProps) {
           {...props.register("password")}
         ></input>
         <button type="submit">
-          <ArrowRightCircleIcon className="h-14 w-14"></ArrowRightCircleIcon>
+          <ArrowRightCircleIcon className="text-slate-300 h-14 w-14"></ArrowRightCircleIcon>
         </button>
       </form>
       <PrimaryButton
