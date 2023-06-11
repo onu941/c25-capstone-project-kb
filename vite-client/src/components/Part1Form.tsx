@@ -9,12 +9,15 @@ import {
 } from "../pages/NewRoom";
 import { useState } from "react";
 import {
+  BBQIcon,
   FamilyIcon,
-  FriendsIcon,
   GeneralPartyIcon,
+  KaraokeIcon,
+  MahjongIcon,
   WeddingIcon,
 } from "../assets/MaterialIcons";
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
+import { TvIcon } from "@heroicons/react/24/outline";
 
 export interface Form1Props {
   register: UseFormRegister<NewRoomFormState>;
@@ -25,11 +28,11 @@ export interface Form1Props {
   handleAddMoreEquipment: () => void;
   handleAddMoreCategories: () => void;
   handleDeleteCategories: (id: number) => void;
+  handleFormIconButton: () => void;
+  color: string;
 }
 
 export function Part1Form(props: Form1Props) {
-  const [isEditing, setIsEditing] = useState(true);
-
   return (
     <>
       <StandardInput
@@ -70,21 +73,27 @@ export function Part1Form(props: Form1Props) {
         register={props.register("address_3")}
         isEditing
       />
-      <FormHeader title="What is your partyroom best used for?" />
+      <FormHeader title="What is your partyroom designed for?" />
       <div className="w-full sm:px-8 md:px-36 columns-3 mb-6">
         <div className="w-full flex flex-col justify-center">
-          <button className="flex flex-col place-items-center mb-4">
-            <GeneralPartyIcon className="w-16 h-16" />
-            General
+          <button
+            className="flex flex-col place-items-center mb-4"
+            onClick={props.handleFormIconButton}
+          >
+            <GeneralPartyIcon color={props.color} className="w-16 h-16" />
+            <span className={props.color}>General</span>
           </button>
-          <button className="flex flex-col place-items-center">
-            <HeartIcon className="text-slate-300 w-16 h-16" />
+          <button
+            className="flex flex-col place-items-center"
+            onClick={props.handleFormIconButton}
+          >
+            <HeartIcon className={`${props.color} w-16 h-16`} />
             Dates
           </button>
         </div>
         <div className="w-full flex flex-col justify-center">
           <button className="flex flex-col place-items-center mb-4">
-            <FamilyIcon className="w-16 h-16" />
+            <FamilyIcon color="text-slate-300" className="w-16 h-16" />
             Families
           </button>
           <button className="flex flex-col place-items-center">
@@ -98,7 +107,7 @@ export function Part1Form(props: Form1Props) {
             Birthdays
           </button>
           <button className="flex flex-col place-items-center">
-            <WeddingIcon className="w-16 h-16" />
+            <WeddingIcon color="text-slate-300" className="w-16 h-16" />
             Weddings
           </button>
         </div>
@@ -139,11 +148,11 @@ export function Part1Form(props: Form1Props) {
           />
         </div>
       </div>
-      <FormHeader title="What are your room's key items?" />
+      <FormHeader title="What are your partyroom's key items?" />
       <div className="w-full sm:px-8 md:px-36 columns-3 mb-6">
         <div className="w-full flex flex-col justify-center">
           <button className="flex flex-col place-items-center mb-4">
-            <GeneralPartyIcon className="w-16 h-16" />
+            <MahjongIcon color="text-slate-300" className="w-16 h-16" />
             Mahjong
           </button>
           <button className="flex flex-col place-items-center">
@@ -153,7 +162,7 @@ export function Part1Form(props: Form1Props) {
         </div>
         <div className="w-full flex flex-col justify-center">
           <button className="flex flex-col place-items-center mb-4">
-            <FamilyIcon className="w-16 h-16" />
+            <BBQIcon color="text-slate-300" className="w-16 h-16" />
             BBQ
           </button>
           <button className="flex flex-col place-items-center">
@@ -163,11 +172,14 @@ export function Part1Form(props: Form1Props) {
         </div>
         <div className="w-full flex flex-col justify-center">
           <button className="flex flex-col place-items-center mb-4">
-            <CakeIcon className="text-slate-300 w-16 h-16" />
+            <KaraokeIcon
+              color="text-slate-300"
+              className="text-slate-300 w-16 h-16"
+            />
             Karaoke
           </button>
           <button className="flex flex-col place-items-center">
-            <WeddingIcon className="w-16 h-16" />
+            <TvIcon className="text-slate-300 w-16 h-16" />
             TV / Streaming
           </button>
         </div>
