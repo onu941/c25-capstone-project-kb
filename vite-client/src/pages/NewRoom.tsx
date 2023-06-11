@@ -48,6 +48,8 @@ export default function NewRoom() {
   const [categoryFields, setCategoryFields] = useState<CategoryField[]>([
     { id: 1, name: "Category 1" },
   ]);
+  const [formIconButtonIsSelected, setFormIconButtonIsSelected] =
+    useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -96,6 +98,10 @@ export default function NewRoom() {
   const handleReset = () => {
     setIsSelected("basics");
     formRef.current?.reset();
+  };
+
+  const handleFormIconButton = () => {
+    setFormIconButtonIsSelected(!formIconButtonIsSelected);
   };
 
   const onDrop = useCallback((_acceptedFiles: any) => {}, []);
@@ -156,6 +162,12 @@ export default function NewRoom() {
               categoryFields={categoryFields}
               handleAddMoreCategories={handleAddMoreCategories}
               handleDeleteCategories={handleDeleteCategories}
+              handleFormIconButton={handleFormIconButton}
+              color={
+                formIconButtonIsSelected
+                  ? "text-slate-300"
+                  : "text-slate-100 opacity-30"
+              }
             />
             {/* next button */}
             <div
