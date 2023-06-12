@@ -5,9 +5,11 @@ import { UserService } from 'src/user/user.service';
 import { JwtStrategy } from './jwt.strategy';
 import { UserModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
+    PassportModule,
     forwardRef(() => UserModule),
     JwtModule.register({
       secret: 'very_secret_123',

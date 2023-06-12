@@ -93,7 +93,9 @@ export class UserService {
     if (!user) {
       throw new NotFoundException();
     }
-    return user;
+
+    const { password: _, ...result } = user;
+    return result;
   }
 
   async getUserByEmail(email: string) {
