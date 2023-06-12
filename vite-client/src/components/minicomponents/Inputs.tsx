@@ -10,6 +10,7 @@ type InputProps = {
   type?: string;
   placeholder?: string;
   value?: string;
+  defaultValue?: string;
   register?: UseFormRegisterReturn;
   onChange?: (arg: any) => void;
   name?: string;
@@ -48,6 +49,7 @@ export function StandardInput(props: InputProps) {
           readOnly={!props.isEditing || props.isReadOnly}
           onChange={props.onChange}
           name={props.name}
+          defaultValue={props.defaultValue}
         />
       </div>
       {props.canEdit ? (
