@@ -33,17 +33,17 @@ export function Sidebar(props: SidebarProps) {
         }`}
       >
         <button onClick={props.toggleSidebar} className="mb-48">
-          <XMarkIcon className="h-9 w-9 text-slate-200 drop-shadow-lg"></XMarkIcon>
+          <XMarkIcon className="h-9 w-9 text-slate-200 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></XMarkIcon>
         </button>
         <Link to="/dashboard">
-          <PresentationChartBarIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></PresentationChartBarIcon>
+          <PresentationChartBarIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></PresentationChartBarIcon>
         </Link>
         <Link to="/settings">
-          <Cog6ToothIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></Cog6ToothIcon>
+          <Cog6ToothIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></Cog6ToothIcon>
         </Link>
 
         <button onClick={() => dispatch(logout())}>
-          <ArrowRightOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg"></ArrowRightOnRectangleIcon>
+          <ArrowRightOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></ArrowRightOnRectangleIcon>
         </button>
       </div>
     </>

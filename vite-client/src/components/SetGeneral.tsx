@@ -81,9 +81,11 @@ export function SetGeneral() {
       <div>
         <Toaster />
       </div>
-      <div className="w-full flex flex-col place-content-center place-items-center">
-        <div className="dark:bg-slate-500 p-8 rounded-lg w-11/12 flex flex-col place-content-center mb-16">
-          <span className="text-xl mb-8 font-semibold">Edit Account Info</span>
+      <div className="w-full flex flex-col place-content-center place-items-center px-8 md:px-8 md:mt-12 mt-12">
+        <div className="dark:bg-slate-500 md:py-8 md:px-14 py-4 px-6 rounded-lg w-full flex flex-col place-content-center mb-16">
+          <span className="text-xl md:mb-8 mb-4 mt-1 font-semibold">
+            Edit Account Info
+          </span>
           <form onSubmit={handleUpdateUserInfo}>
             <input type="hidden" name="id" defaultValue={"user_id"} />
             <StandardInput
@@ -115,13 +117,6 @@ export function SetGeneral() {
             />
           </form>
           <StandardInput value="*****" canEdit />
-        </div>
-        <div className="dark:bg-slate-500 px-8 py-8 rounded-lg w-11/12 flex flex-col place-content-center mb-16">
-          <span className="text-xl mb-12 font-semibold">Account Help</span>
-          <div className="px-8 flex flex-col place-items-center">
-            <PrimaryButton label="User Support" />
-            <DangerButton label="Deactivate Account" />
-          </div>
         </div>
       </div>
       <div className="mb-24 flex justify-center">

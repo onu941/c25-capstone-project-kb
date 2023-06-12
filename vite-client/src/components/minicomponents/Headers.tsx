@@ -9,12 +9,14 @@ interface HeaderProps {
 
 export function AppHeader(props: HeaderProps) {
   return (
-    <div className="header px-4 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
+    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
       <Link to="/">
-        <div>{props.title}</div>
+        <div className="transform transition duration-200 ease-in-out hover:scale-110">
+          {props.title}
+        </div>
       </Link>
       <button onClick={props.toggleSidebar}>
-        <UserCircleIcon className="h-9 w-9 text-slate-300 drop-shadow-lg"></UserCircleIcon>
+        <UserCircleIcon className="h-9 w-9 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></UserCircleIcon>
       </button>
     </div>
   );
@@ -22,7 +24,7 @@ export function AppHeader(props: HeaderProps) {
 
 export function BodyHeader(props: HeaderProps) {
   return (
-    <div className="px-6 md:px-32 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
+    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
       {props.title}
     </div>
   );

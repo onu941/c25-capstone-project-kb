@@ -16,7 +16,7 @@ export function PrimaryButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 dark:bg-slate-700 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 active:translate-y-0"
+        className="py-2 px-4 dark:bg-slate-700 hover:bg-slate-500 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
         onClick={props.onClick}
       >
         {props.label}
@@ -30,7 +30,7 @@ export function DangerButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 bg-pink-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 active:translate-y-0"
+        className="py-2 px-4 bg-pink-600 hover:bg-fuchsia-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
         onClick={props.onClick}
       >
         {props.label}
@@ -44,7 +44,7 @@ export function SubmitButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 bg-emerald-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 active:translate-y-0"
+        className="py-2 px-4 bg-emerald-600 hover:bg-lime-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
         onClick={props.onClick}
       >
         {props.label}
@@ -57,7 +57,7 @@ export function SettingsTabButton(props: SettingsTabButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className={`tab tab-bordered dark:text-slate-300 tab-lg text-xl ${
+      className={`tab tab-bordered dark:text-slate-300 tab-lg md:text-xl text-base ${
         props.isSelected ? "tab-active" : ""
       }`}
     >
