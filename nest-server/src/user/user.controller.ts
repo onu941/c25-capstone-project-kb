@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -15,6 +16,7 @@ import { LoginDto } from './dto/login-user.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('user')
 export class UserController {
@@ -35,8 +37,7 @@ export class UserController {
 
   @Post('/login')
   async login(@Body() loginDto: LoginDto) {
-    const token = await this.authService.login(loginDto);
-    return { token };
+    return await this.authService.login(loginDto);
   }
 
   @Get('/all')
@@ -46,6 +47,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   async getUserById(@Param('id') id: number) {
     if (!id) {
       throw new BadRequestException('invalid id in params, expect integer');

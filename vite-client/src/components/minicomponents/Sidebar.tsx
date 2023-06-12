@@ -7,7 +7,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/20/solid";
 // import { ClockIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hook";
 import { logout } from "../../redux/authSlice";
 
@@ -18,6 +18,20 @@ interface SidebarProps {
 
 export function Sidebar(props: SidebarProps) {
   const dispatch = useAppDispatch();
+
+  const navigate = useNavigate();
+
+  const navigateToDashboard = () => {
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("user_id");
+    navigate(`/dashboard?user_id=${userId}`);
+  };
+
+  const navigateToSettings = () => {
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("user_id");
+    navigate(`/settings?user_id=${userId}`);
+  };
 
   return (
     <>
@@ -35,13 +49,12 @@ export function Sidebar(props: SidebarProps) {
         <button onClick={props.toggleSidebar} className="mb-48">
           <XMarkIcon className="h-9 w-9 text-slate-200 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></XMarkIcon>
         </button>
-        <Link to="/dashboard">
+        <button onClick={navigateToDashboard}>
           <PresentationChartBarIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></PresentationChartBarIcon>
-        </Link>
-        <Link to="/settings">
+        </button>
+        <button onClick={navigateToSettings}>
           <Cog6ToothIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></Cog6ToothIcon>
-        </Link>
-
+        </button>
         <button onClick={() => dispatch(logout())}>
           <ArrowRightOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></ArrowRightOnRectangleIcon>
         </button>

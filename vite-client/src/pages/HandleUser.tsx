@@ -9,6 +9,11 @@ import { login } from "../redux/authSlice";
 import { useAppDispatch } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import jwtDecode from "jwt-decode";
+
+export interface JWT {
+  id: number;
+}
 
 export default function HandleUser() {
   const [page, setPage] = useState("initial");
@@ -27,7 +32,12 @@ export default function HandleUser() {
     if (success) {
       dispatch(login(email));
       localStorage.setItem("successMessage", "Welcome back");
-      navigate("/landing");
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decoded: JWT = jwtDecode(token);
+        const userId = decoded.id;
+        navigate(`/landing?user_id=${userId}`);
+      }
     } else {
       toast.error("Login failed");
     }

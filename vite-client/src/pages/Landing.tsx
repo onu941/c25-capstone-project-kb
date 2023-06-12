@@ -27,6 +27,7 @@ import {
   UserState,
 } from "../redux/userSlice";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 export interface JWT {
   name: string;
@@ -39,6 +40,10 @@ export interface JWT {
 }
 
 export default function Landing() {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const userId = searchParams.get("user_id");
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
 
@@ -49,13 +54,23 @@ export default function Landing() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded: JWT = jwt_decode(token);
-      console.log("decoded name: ", decoded.name);
-      dispatch(setName(decoded.name));
-      setUsername(decoded.name);
-    }
+    const fetchUserDetails = async () => {
+      const token = localStorage.getItem("token");
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("user_id");
+      const response = await fetch(`http://localhost:3000/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const userDetails = await response.json();
+      const name = userDetails.user.name;
+      setUsername(name);
+    };
+
+    fetchUserDetails();
 
     const successMessage = localStorage.getItem("successMessage");
     if (successMessage) toast.success(successMessage);

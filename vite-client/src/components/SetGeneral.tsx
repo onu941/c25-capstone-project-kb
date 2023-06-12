@@ -34,18 +34,28 @@ export function SetGeneral() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded: JWT = jwt_decode(token);
+    const fetchUserDetails = async () => {
+      const token = localStorage.getItem("token");
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("user_id");
+      const response = await fetch(`http://localhost:3000/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
+      const userDetails = await response.json();
       setUserInputs({
-        id: decoded.id,
-        username: decoded.name,
-        phone: decoded.phone,
-        email: decoded.email,
+        id: NaN,
+        username: userDetails.user.name,
+        phone: userDetails.user.phone,
+        email: userDetails.user.email,
         password: "******",
       });
-    }
+    };
+
+    fetchUserDetails();
   }, []);
 
   const handleEditClick = (field: string) => {
