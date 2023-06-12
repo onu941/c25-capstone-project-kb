@@ -316,8 +316,8 @@ export function Part1Form(props: Form1Props) {
               isEditing
             />
           )
-        )} */}
-        {/* <div className="w-full flex place-content-center mt-5">
+        )}
+        <div className="w-full flex place-content-center mt-5">
           <PrimaryButton
             type="button"
             onClick={props.handleAddMoreCategories}
