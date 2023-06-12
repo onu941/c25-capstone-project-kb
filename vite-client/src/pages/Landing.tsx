@@ -10,23 +10,8 @@ import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { Link } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
-import {
-  CalendarIcon,
-  ChatBubbleLeftEllipsisIcon,
-  ShareIcon,
-} from "@heroicons/react/20/solid";
-import jwt_decode from "jwt-decode";
 import toast, { Toaster } from "react-hot-toast";
 import { useAppDispatch } from "../app/hook";
-import {
-  setName,
-  setPhone,
-  setEmail,
-  setIsAdmin,
-  setImageId,
-  UserState,
-} from "../redux/userSlice";
-import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 export interface JWT {

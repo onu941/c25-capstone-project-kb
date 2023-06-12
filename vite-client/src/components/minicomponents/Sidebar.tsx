@@ -18,18 +18,15 @@ interface SidebarProps {
 
 export function Sidebar(props: SidebarProps) {
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate();
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("user_id");
 
   const navigateToDashboard = () => {
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get("user_id");
     navigate(`/dashboard?user_id=${userId}`);
   };
 
   const navigateToSettings = () => {
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get("user_id");
     navigate(`/settings?user_id=${userId}`);
   };
 
