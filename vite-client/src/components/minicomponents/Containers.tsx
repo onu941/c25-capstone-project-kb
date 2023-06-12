@@ -13,3 +13,7 @@ export function FullScreen(props: React.PropsWithChildren<{}>) {
     </div>
   );
 }
+
+export function ResponsiveContainer(props: React.PropsWithChildren<{}>) {
+  return <div className=" sm:mx-4 md:mx-12">{props.children}</div>;
+}

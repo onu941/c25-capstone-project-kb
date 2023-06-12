@@ -1,4 +1,7 @@
-import { FullScreen } from "../components/minicomponents/Containers";
+import {
+  FullScreen,
+  ResponsiveContainer,
+} from "../components/minicomponents/Containers";
 import { AppHeader } from "../components/minicomponents/Headers";
 import { useState } from "react";
 import { SettingsTab, Tab } from "../components/minicomponents/Tab";
@@ -22,15 +25,20 @@ export default function Settings() {
   return (
     <>
       <FullScreen>
-        <AppHeader
-          title="Settings & Management"
-          toggleSidebar={toggleSidebar}
-        />
-        <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
-        <SettingsTab handleClick={handleClick} isSelected={isSelected} />
-        {isSelected === "bookings" && <SetBookings />}
-        {isSelected === "rooms" && <SetRooms />}
-        {isSelected === "general" && <SetGeneral />}
+        <ResponsiveContainer>
+          <AppHeader
+            title="Settings & Management"
+            toggleSidebar={toggleSidebar}
+          />
+          <Sidebar
+            isOpen={sidebarIsOpen}
+            toggleSidebar={toggleSidebar}
+          ></Sidebar>
+          <SettingsTab handleClick={handleClick} isSelected={isSelected} />
+          {isSelected === "bookings" && <SetBookings />}
+          {isSelected === "rooms" && <SetRooms />}
+          {isSelected === "general" && <SetGeneral />}
+        </ResponsiveContainer>
       </FullScreen>
       <Tab />
     </>

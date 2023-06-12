@@ -42,7 +42,7 @@ export function StandardInput(props: InputProps) {
           type={props.type}
           className={`${
             props.isReadOnly ? "readonly" : ""
-          }dark:text-black text-black dark:bg-slate-300 p-2 rounded-lg mb-5 text-center w-full drop-shadow-lg`}
+          } text-slate-300 dark:bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent`}
           {...props.register}
           value={props.value}
           disabled={!props.isEditing || props.isDisabled}
@@ -85,7 +85,7 @@ export function MiniInput(props: InputProps) {
       type={props.type}
       className={`${
         props.isReadOnly ? "readonly" : ""
-      } text-black dark:text-black dark:bg-slate-300 p-2 rounded-lg mb-5 text-center w-32`}
+      } text-slate-300 dark:text-slate-300 dark:bg-transparent p-2 mb-5 text-center w-32 border-solid border-b-slate-300 border-opacity-50 border-transparent`}
       {...props.register}
       onChange={props.onChange}
       value={props.value}
@@ -100,7 +100,7 @@ export function TextArea(props: InputProps) {
     <textarea
       className={`${
         props.isReadOnly ? "readonly" : ""
-      }dark:bg-slate-300 dark:text-black rounded-lg h-32 w-full`}
+      }dark:bg-transparent dark:text-slate-300 rounded-lg h-32 w-full`}
       placeholder={props.placeholder}
       maxLength={150}
       value={props.value}

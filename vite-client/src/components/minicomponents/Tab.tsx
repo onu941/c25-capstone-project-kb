@@ -16,17 +16,17 @@ export function Tab() {
     <div className="z-20 fixed bottom-0 columns-3 flex justify-around w-full py-4 dark:bg-slate-700">
       <div>
         <Link to="/new_room">
-          <PlusCircleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg"></PlusCircleIcon>
+          <PlusCircleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></PlusCircleIcon>
         </Link>
       </div>
       <div>
         <Link to="/landing">
-          <HomeIcon className="h-8 w-8 text-slate-300 drop-shadow-lg"></HomeIcon>
+          <HomeIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></HomeIcon>
         </Link>
       </div>
       <div>
         <Link to="/search">
-          <MagnifyingGlassIcon className="h-8 w-8 text-slate-300 drop-shadow-lg"></MagnifyingGlassIcon>
+          <MagnifyingGlassIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></MagnifyingGlassIcon>
         </Link>
       </div>
     </div>
