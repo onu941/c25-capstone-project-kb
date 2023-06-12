@@ -19,9 +19,9 @@ interface CardProps {
 export function BookingCard(props: CardProps) {
   return (
     <div className="flex place-content-center">
-      <div className="bg-slate-500 w-11/12 place-content-center place-items-center px-4 py-7 mb-6 rounded-md columns-2 flex drop-shadow-lg outline outline-offset-2 outline-slate-400">
+      <div className="bg-slate-500 md:w-96 md:px-4 px-6 md:py-7 py-5 mb-6 rounded-md columns-2 flex drop-shadow-lg outline outline-offset-2 outline-slate-400 gap-4">
         <div className="w-full flex place-content-center columns-2">
-          <div className="w-fit flex place-content-end place-items-center pr-2 text-7xl">
+          <div className="w-fit flex place-content-end place-items-center pr-2 md:text-7xl text-6xl">
             {props.date}
           </div>
           <div className="w-fit flex flex-col text-2xl place-content-center">
@@ -30,11 +30,15 @@ export function BookingCard(props: CardProps) {
           </div>
         </div>
         <div className="w-full flex flex-col place-content-center place-items-center">
-          <div className="font-semibold text-lg mb-2">{props.name}</div>
-          <div className="text-md mb-1">
+          <div className="font-semibold md:text-lg text-base mb-2 text-center">
+            {props.name}
+          </div>
+          <div className="md:text-base text-base mb-1">
             {props.time} | {props.pax} pax
           </div>
-          <div>{props.address}</div>
+          <div className="md:text-base text-base text-center">
+            {props.address}
+          </div>
         </div>
       </div>
     </div>
