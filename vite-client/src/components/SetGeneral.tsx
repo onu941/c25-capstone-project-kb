@@ -1,8 +1,12 @@
-import { DangerButton, PrimaryButton } from "./minicomponents/Buttons";
-import { StandardInput } from "./minicomponents/Inputs";
+import {
+  DangerButton,
+  PrimaryButton,
+  SubmitButton,
+} from "./minicomponents/Buttons";
+import { SettingsInput, StandardInput } from "./minicomponents/Inputs";
 import { useAppDispatch } from "../app/hook";
 import { logout } from "../redux/authSlice";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import jwt_decode from "jwt-decode";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -23,7 +27,7 @@ export function SetGeneral() {
     username: "",
     phone: "",
     email: "",
-    password: "",
+    // password: "",
   });
   const [isEditing, setIsEditing] = useState({
     username: false,
@@ -51,7 +55,7 @@ export function SetGeneral() {
         username: userDetails.user.name,
         phone: userDetails.user.phone,
         email: userDetails.user.email,
-        password: "******",
+        // password: "******",
       });
     };
 
@@ -70,20 +74,39 @@ export function SetGeneral() {
     setUserInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
-  const handleUpdateUserInfo = async (event: FormEvent<HTMLFormElement>) => {
+  const onUpdateUserInfo = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const form = event.target as HTMLFormElement;
-    // const id = form.id.value;
-    // const name = form.username.value;
-    // const phone = form.phone.value;
-    // const email = form.email.value;
-    // const success = await someAPIFunction(???);
-    // if (success) {
-    //   dispatch(someSliceFunction(???));
-    //   toast.success("Updated");
-    // } else {
-    //   toast.error("Update failed");
-    // }
+    const form = event.target as HTMLFormElement;
+    const name = form.username.value;
+    const phone = form.phone.value;
+    const email = form.email.value;
+
+    const token = localStorage.getItem("token");
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("user_id");
+
+    const response = await fetch(`http://localhost:3000/user/${userId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, phone, email }),
+    });
+
+    if (response.ok) {
+      const userDetails = await response.json();
+      console.log(userDetails);
+      setUserInputs({
+        ...inputs,
+        username: userDetails.name,
+        phone: userDetails.phone,
+        email: userDetails.email,
+      });
+      toast.success("Updated");
+    } else {
+      toast.error("Update failed");
+    }
   };
 
   return (
@@ -96,37 +119,37 @@ export function SetGeneral() {
           <span className="text-xl md:mb-8 mb-4 mt-1 font-semibold">
             Edit Account Info
           </span>
-          <form onSubmit={handleUpdateUserInfo}>
+          <form onSubmit={onUpdateUserInfo}>
             <input type="hidden" name="id" defaultValue={"user_id"} />
-            <StandardInput
+            <SettingsInput
               value={inputs["username"]}
-              name={"username"}
+              name="username"
               canEdit
               handleEditClick={() => handleEditClick("username")}
               handleSaveClick={() => handleSaveClick("username")}
               isEditing={isEditing["username"]}
               onChange={handleInputChange}
             />
-            <StandardInput
+            <SettingsInput
               value={inputs["phone"]}
-              name={"phone"}
+              name="phone"
               canEdit
               handleEditClick={() => handleEditClick("phone")}
               handleSaveClick={() => handleSaveClick("phone")}
               isEditing={isEditing["phone"]}
               onChange={handleInputChange}
             />
-            <StandardInput
+            <SettingsInput
               value={inputs["email"]}
-              name={"email"}
+              name="email"
               canEdit
               handleEditClick={() => handleEditClick("email")}
               handleSaveClick={() => handleSaveClick("email")}
               isEditing={isEditing["email"]}
               onChange={handleInputChange}
             />
+            {/* <SettingsInput value="*****" name="password" canEdit /> */}
           </form>
-          <StandardInput value="*****" canEdit />
         </div>
       </div>
       <div className="mb-24 flex justify-center">
