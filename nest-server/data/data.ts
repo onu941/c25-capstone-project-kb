@@ -69,7 +69,7 @@ export const partyroomSeed = () => {
 
   for (let i = 0; i < 10; i++) {
     const partyroom: partyroom = {
-      name: faker.music.songName(),
+      name: faker.company.name(),
       host_id: faker.number.int({ min: 1, max: 2 }),
       district_id: faker.number.int({ min: 1, max: 93 }),
       capacity: faker.number.int({ min: 1, max: 50 }),
@@ -108,9 +108,9 @@ export const categorySeed: category[] = [
 export const partyroomCategorySeed = () => {
   const partyroomCategoryData: partyroomCategory[] = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     const partyroomCategory: partyroomCategory = {
-      partyroom_id: i + 1,
+      partyroom_id: faker.number.int({ min: 1, max: 10 }),
       category_id: faker.number.int({ min: 1, max: 6 }),
     };
     partyroomCategoryData.push(partyroomCategory);
@@ -130,9 +130,9 @@ export const equipmentSeed: equipment[] = [
 export const partyroomEquipmentSeed = () => {
   const partyroomEquipmentData: partyroomEquipment[] = [];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 30; i++) {
     const partyroomEquipment: partyroomEquipment = {
-      partyroom_id: i + 1,
+      partyroom_id: faker.number.int({ min: 1, max: 10 }),
       equipment_id: faker.number.int({ min: 1, max: 6 }),
     };
     partyroomEquipmentData.push(partyroomEquipment);
