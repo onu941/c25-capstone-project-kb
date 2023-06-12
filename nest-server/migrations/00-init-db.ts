@@ -57,6 +57,7 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign('partyroom_id').references('partyroom.id');
     table.integer('category_id');
     table.foreign('category_id').references('category.id');
+    table.timestamp('created_at').defaultTo(knex.fn.now());
   });
 
   await knex.schema.createTable('equipment', (table) => {
@@ -70,6 +71,7 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign('partyroom_id').references('partyroom.id');
     table.integer('equipment_id');
     table.foreign('equipment_id').references('equipment.id');
+    table.timestamp('created_at').defaultTo(knex.fn.now());
   });
 
   await knex.schema.createTable('partyroom_price_list', (table) => {
@@ -78,7 +80,7 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign('partyroom_id').references('partyroom.id');
     table.integer('headcount_price');
     table.boolean('is_holiday');
-    table.datetime('start_time');
+    table.time('start_time');
     table.integer('total_hour');
     table.integer('base_room_fee');
     table.timestamps(false, true);
@@ -93,8 +95,8 @@ export async function up(knex: Knex): Promise<void> {
     table.integer('booking_users_id');
     table.foreign('booking_users_id').references('users.id');
     table.integer('headcount');
-    table.datetime('booking_date');
-    table.datetime('start_time');
+    table.date('booking_date');
+    table.time('start_time');
     table.integer('total_hour');
     table.integer('total_fee');
     table.string('special_request', 255);
@@ -103,16 +105,16 @@ export async function up(knex: Knex): Promise<void> {
     table.timestamps(false, true);
   });
 
-  await knex.schema.createTable('chat', (table) => {
-    table.increments();
-    table.integer('sender_id');
-    table.foreign('sender_id').references('users.id');
-    table.integer('receiver_id');
-    table.foreign('receiver_id').references('users.id');
-    table.string('message', 500);
-    table.string('filename', 255);
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-  });
+  // await knex.schema.createTable('chat', (table) => {
+  //   table.increments();
+  //   table.integer('sender_id');
+  //   table.foreign('sender_id').references('users.id');
+  //   table.integer('receiver_id');
+  //   table.foreign('receiver_id').references('users.id');
+  //   table.string('message', 500);
+  //   table.string('filename', 255);
+  //   table.timestamp('created_at').defaultTo(knex.fn.now());
+  // });
 
   await knex.schema.createTable('review', (table) => {
     table.increments();
@@ -127,7 +129,7 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTable('review');
-  await knex.schema.dropTable('chat');
+  // await knex.schema.dropTable('chat');
   await knex.schema.dropTable('booking_info');
   await knex.schema.dropTable('partyroom_price_list');
   await knex.schema.dropTable('partyroom_equipment');

@@ -3,7 +3,6 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { User } from './user.interface';
 import { InjectKnex } from 'nestjs-knex';
 import { Knex } from 'knex';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';

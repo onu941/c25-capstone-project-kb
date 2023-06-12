@@ -59,21 +59,15 @@ export function Part1Form(props: Form1Props) {
       </div>
       <FormHeader title="Address: " />
       <StandardInput
-        placeholder="line 1"
+        placeholder="line 1 (room, building, street)"
         type="text"
-        register={props.register("address_1")}
+        register={props.register("address")}
         isEditing
       />
       <StandardInput
-        placeholder="line 2"
+        placeholder="line 2 (district)"
         type="text"
-        register={props.register("address_2")}
-        isEditing
-      />
-      <StandardInput
-        placeholder="line 3"
-        type="text"
-        register={props.register("address_3")}
+        register={props.register("district")}
         isEditing
       />
       <FormHeader title="What is your partyroom designed for?" />

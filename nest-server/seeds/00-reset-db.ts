@@ -3,7 +3,6 @@ import { Knex } from 'knex';
 export async function seed(knex: Knex): Promise<void> {
   const tables = [
     'review',
-    'chat',
     'booking_info',
     'partyroom_price_list',
     'partyroom_equipment',

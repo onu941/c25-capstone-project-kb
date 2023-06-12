@@ -34,9 +34,8 @@ export type NewRoomFormState = {
   name: string;
   area: number;
   capacity: number;
-  address_1: string;
-  address_2: string;
-  address_3: string;
+  address: string;
+  district: string;
   equipment: EquipmentField[];
   category: CategoryField[];
   description: string;
