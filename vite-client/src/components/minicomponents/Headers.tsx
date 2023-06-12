@@ -22,7 +22,7 @@ export function AppHeader(props: HeaderProps) {
 
 export function BodyHeader(props: HeaderProps) {
   return (
-    <div className="header px-4 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
+    <div className="px-6 md:px-32 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
       {props.title}
     </div>
   );
