@@ -43,7 +43,7 @@ export function SubmitButton(props: ButtonProps) {
   return (
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
-        type={props.type}
+        type="submit"
         className="py-2 px-4 bg-emerald-600 hover:bg-lime-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
         onClick={props.onClick}
       >

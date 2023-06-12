@@ -33,10 +33,6 @@ export class AuthService {
     return result;
   }
 
-  async getUserById(userId: number) {
-    return this.userService.getUserById(userId);
-  }
-
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
     const user = await this.validateUser(email, password);
@@ -50,24 +46,5 @@ export class AuthService {
 
     const token = await this.jwtService.signAsync(payload);
     return { token };
-  }
-
-  async updateUser(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userService.updateUser(id, updateUserDto);
-
-    if (!user) {
-      throw new BadRequestException('no user details');
-    }
-
-    const payload = {
-      id: user.id,
-      name: user.name,
-      phone: user.phone,
-      email: user.email,
-      is_admin: user.is_admin,
-      image_id: user.image_id,
-    };
-
-    return this.jwtService.signAsync(payload);
   }
 }

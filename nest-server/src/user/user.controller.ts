@@ -57,14 +57,18 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
   async updateUser(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    const token = await this.authService.updateUser(id, updateUserDto);
-    if (!token) {
-      throw new BadRequestException('No token found');
+    const updatedUserInfo = await this.userService.updateUser(
+      id,
+      updateUserDto,
+    );
+    if (!updatedUserInfo) {
+      throw new BadRequestException('No updated user info retrieved');
     }
-    return { token };
+    return updatedUserInfo;
   }
 }
