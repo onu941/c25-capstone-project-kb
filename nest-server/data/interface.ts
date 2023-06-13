@@ -19,6 +19,7 @@ export interface partyroom {
   name: string;
   host_id: number;
   district_id: number;
+  room_size: number;
   capacity: number;
   phone: string;
   address: string;
@@ -63,8 +64,6 @@ export interface bookingInfo {
   booking_users_id: number;
   headcount: number;
   booking_date: string;
-  start_time: string;
-  total_hour: number;
   total_fee: number;
   special_request: string;
   is_hidden: boolean;

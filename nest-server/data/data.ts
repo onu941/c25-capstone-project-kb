@@ -86,10 +86,11 @@ export const partyroomSeed = () => {
       name: faker.company.name(),
       host_id: faker.number.int({ min: 1, max: 2 }),
       district_id: faker.number.int({ min: 1, max: 93 }),
+      room_size: faker.number.int({ min: 100, max: 5000 }),
       capacity: faker.number.int({ min: 1, max: 50 }),
-      phone: faker.phone.number('########'),
+      phone: faker.phone.number('9#######'),
       address: faker.location.streetAddress(true),
-      description: faker.lorem.sentence(15),
+      description: faker.lorem.paragraph(6),
       is_hidden: false,
     };
     partyroomData.push(partyroom);
@@ -119,18 +120,27 @@ export const categorySeed: category[] = [
   { name: 'weddings' },
 ];
 
-export const partyroomCategorySeed = () => {
-  const partyroomCategoryData: partyroomCategory[] = [];
-
-  for (let i = 0; i < 20; i++) {
-    const partyroomCategory: partyroomCategory = {
-      partyroom_id: faker.number.int({ min: 1, max: 10 }),
-      category_id: faker.number.int({ min: 1, max: 6 }),
-    };
-    partyroomCategoryData.push(partyroomCategory);
-  }
-  return partyroomCategoryData;
-};
+export const partyroomCategorySeed: partyroomCategory[] = [
+  { partyroom_id: 1, category_id: 1 },
+  { partyroom_id: 1, category_id: 2 },
+  { partyroom_id: 1, category_id: 3 },
+  { partyroom_id: 2, category_id: 4 },
+  { partyroom_id: 2, category_id: 3 },
+  { partyroom_id: 3, category_id: 1 },
+  { partyroom_id: 3, category_id: 2 },
+  { partyroom_id: 3, category_id: 5 },
+  { partyroom_id: 4, category_id: 1 },
+  { partyroom_id: 5, category_id: 1 },
+  { partyroom_id: 6, category_id: 1 },
+  { partyroom_id: 6, category_id: 5 },
+  { partyroom_id: 7, category_id: 1 },
+  { partyroom_id: 7, category_id: 4 },
+  { partyroom_id: 7, category_id: 6 },
+  { partyroom_id: 8, category_id: 4 },
+  { partyroom_id: 9, category_id: 3 },
+  { partyroom_id: 9, category_id: 4 },
+  { partyroom_id: 10, category_id: 1 },
+];
 
 export const equipmentSeed: equipment[] = [
   { name: 'mahjong' },
@@ -141,55 +151,396 @@ export const equipmentSeed: equipment[] = [
   { name: 'tv' },
 ];
 
-export const partyroomEquipmentSeed = () => {
-  const partyroomEquipmentData: partyroomEquipment[] = [];
+export const partyroomEquipmentSeed: partyroomEquipment[] = [
+  { partyroom_id: 1, equipment_id: 1 },
+  { partyroom_id: 1, equipment_id: 2 },
+  { partyroom_id: 1, equipment_id: 4 },
+  { partyroom_id: 1, equipment_id: 5 },
+  { partyroom_id: 1, equipment_id: 6 },
+  { partyroom_id: 2, equipment_id: 1 },
+  { partyroom_id: 2, equipment_id: 2 },
+  { partyroom_id: 2, equipment_id: 4 },
+  { partyroom_id: 2, equipment_id: 5 },
+  { partyroom_id: 3, equipment_id: 1 },
+  { partyroom_id: 3, equipment_id: 3 },
+  { partyroom_id: 3, equipment_id: 4 },
+  { partyroom_id: 3, equipment_id: 5 },
+  { partyroom_id: 3, equipment_id: 6 },
+  { partyroom_id: 4, equipment_id: 2 },
+  { partyroom_id: 4, equipment_id: 3 },
+  { partyroom_id: 4, equipment_id: 5 },
+  { partyroom_id: 4, equipment_id: 6 },
+  { partyroom_id: 5, equipment_id: 1 },
+  { partyroom_id: 5, equipment_id: 2 },
+  { partyroom_id: 5, equipment_id: 4 },
+  { partyroom_id: 5, equipment_id: 5 },
+  { partyroom_id: 6, equipment_id: 1 },
+  { partyroom_id: 6, equipment_id: 3 },
+  { partyroom_id: 6, equipment_id: 4 },
+  { partyroom_id: 6, equipment_id: 5 },
+  { partyroom_id: 6, equipment_id: 6 },
+  { partyroom_id: 7, equipment_id: 2 },
+  { partyroom_id: 7, equipment_id: 3 },
+  { partyroom_id: 7, equipment_id: 5 },
+  { partyroom_id: 7, equipment_id: 6 },
+  { partyroom_id: 8, equipment_id: 1 },
+  { partyroom_id: 8, equipment_id: 2 },
+  { partyroom_id: 8, equipment_id: 5 },
+  { partyroom_id: 8, equipment_id: 6 },
+  { partyroom_id: 9, equipment_id: 1 },
+  { partyroom_id: 9, equipment_id: 2 },
+  { partyroom_id: 9, equipment_id: 3 },
+  { partyroom_id: 9, equipment_id: 4 },
+  { partyroom_id: 9, equipment_id: 6 },
+  { partyroom_id: 10, equipment_id: 1 },
+  { partyroom_id: 10, equipment_id: 4 },
+  { partyroom_id: 10, equipment_id: 5 },
+  { partyroom_id: 10, equipment_id: 6 },
+];
 
-  for (let i = 0; i < 30; i++) {
-    const partyroomEquipment: partyroomEquipment = {
-      partyroom_id: faker.number.int({ min: 1, max: 10 }),
-      equipment_id: faker.number.int({ min: 1, max: 6 }),
-    };
-    partyroomEquipmentData.push(partyroomEquipment);
-  }
-  return partyroomEquipmentData;
-};
-
-// ************** //
-// fix partyroomPriceListSeed later //
-// ************** //
+// ***************************** //
+// partyroomPriceListSeed readme //
+// ***************************** //
 // users may only book fixed intervals of time
 // these fixed intervals of time are defined by a partyroom's "price lists"
 // the price lists are defined by the partyroom owner and have two variables
 // 1) starting time of the interval; 2) total hours that make up the interval
 // during that interval, using the partyroom will have a set price
 // the partyroom owner may make as many price lists as they please
-export const partyroomPriceListSeed = () => {
-  const partyroomPriceListData: partyroomPriceList[] = [];
 
-  for (let i = 0; i < 10; i++) {
-    const partyroomPriceList: partyroomPriceList = {
-      partyroom_id: i + 1,
-      headcount_price: faker.number.int({ min: 50, max: 100 }),
-      is_holiday: false,
-      start_time: format(faker.date.recent(), 'HH:mm'),
-      total_hour: faker.number.int({ min: 1, max: 10 }),
-      base_room_fee: faker.number.int({ min: 500, max: 5000 }),
-    };
-    partyroomPriceListData.push(partyroomPriceList);
-  }
-  return partyroomPriceListData;
-};
+export const partyroomPriceListSeed: partyroomPriceList[] = [
+  {
+    partyroom_id: 1,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 1,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 1,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 1,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 2,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 2,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 2,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 2,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 3,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 3,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 3,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 3,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 4,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 4,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 4,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 4,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 5,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 5,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 5,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 5,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 6,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 6,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 6,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 6,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 7,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 7,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 7,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 7,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 8,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 8,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 8,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 8,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 9,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 9,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 9,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 10,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 10,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 10,
+    headcount_price: 50,
+    is_holiday: false,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 10,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '10:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+  {
+    partyroom_id: 10,
+    headcount_price: 100,
+    is_holiday: true,
+    start_time: '18:00',
+    total_hour: 8,
+    base_room_fee: 1000,
+  },
+];
 
 export const bookingInfoSeed = () => {
   const bookingInfoData: bookingInfo[] = [];
-  const status: string[] = ['pending', 'confirmed', 'void'];
+  const status: string[] = ['confirmed', 'confirmed', 'confirmed'];
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 16; i++) {
     const randomStatus: string =
       status[Math.floor(Math.random() * status.length)];
 
     const bookingInfo: bookingInfo = {
-      partyroom_price_list_id: i + 1,
+      partyroom_price_list_id: faker.number.int({ min: 1, max: 40 }),
       booking_users_id: faker.number.int({ min: 1, max: 2 }),
       headcount: faker.number.int({ min: 2, max: 15 }),
       booking_date: format(
@@ -199,16 +550,6 @@ export const bookingInfoSeed = () => {
         }),
         'yyyy-MM-dd',
       ),
-      // may not be necessary
-      start_time: format(
-        faker.date.soon({
-          days: 40,
-          refDate: '2023-06-01T00:00:00.000+08:00',
-        }),
-        'HH:mm',
-      ),
-      // may not be necessary
-      total_hour: faker.number.int({ min: 2, max: 10 }),
       total_fee: faker.number.int({ min: 1000, max: 5000 }),
       special_request: faker.lorem.sentence(5),
       is_hidden: false,
