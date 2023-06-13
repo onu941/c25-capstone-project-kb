@@ -16,7 +16,7 @@ import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
 import { useAppDispatch } from "../app/hook";
 import { useLocation } from "react-router-dom";
-import seulgi from "../assets/seulgi2.jpg";
+import sample from "../assets/sample_partyroom.jpg";
 
 export interface JWT {
   name: string;
@@ -84,33 +84,41 @@ export default function Landing() {
             toggleSidebar={toggleSidebar}
           ></Sidebar>
           <BodyHeader title="Your next booking:"></BodyHeader>
-          <BookingCardLarge
-            image={seulgi}
-            name="Partyroom Name"
-            address="18 Tung Chung Waterfront Rd"
-          />
+          <div className="w-full px-6 md:px-96 mb-16">
+            <BookingCardLarge
+              image={sample}
+              alt="sample"
+              name="Partyroom Name"
+              address="18 Tung Chung Waterfront Rd"
+              date={25}
+              month="May"
+              pax={8}
+            />
+          </div>
           <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
           <BodyHeader title="Your room has been booked!"></BodyHeader>
-          <Link to="/booking">
-            <BookingCard
-              date={25}
-              month="MAY"
-              year={2023}
+          <div className="w-full px-6 md:px-96 mb-8">
+            <BookingCardLarge
+              image={sample}
+              alt="sample"
               name="Partyroom Name"
-              time="19:00"
+              address="18 Tung Chung Waterfront Rd"
+              date={25}
+              month="May"
               pax={8}
-              address="東涌海濱道18號"
-            ></BookingCard>
-          </Link>
+            />
+          </div>
           <div className="w-full flex place-content-center pt-6">
             <Link to="/new_room">
               <PrimaryButton label="Submit a New Room" />
             </Link>
           </div>
           <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
-          <BodyHeader title="Hot new partyrooms:"></BodyHeader>
-          <LandingCarousel></LandingCarousel>
-          <div className="flex justify-center mb-16">
+          <BodyHeader title="Explore new partyrooms:"></BodyHeader>
+          <div className=" w-full md:px-0 px-4 mb-12">
+            <LandingCarousel image={sample}></LandingCarousel>
+          </div>
+          <div className="flex justify-center mb-24">
             <Link to="/search">
               <PrimaryButton label="Find A Partyroom"></PrimaryButton>
             </Link>

@@ -3,6 +3,7 @@ import {
   ChatBubbleLeftEllipsisIcon,
   UserCircleIcon,
 } from "@heroicons/react/20/solid";
+import { PrimaryButton } from "./Buttons";
 
 interface CardProps {
   id?: number;
@@ -17,6 +18,7 @@ interface CardProps {
   score?: number;
   onClick?: () => void;
   image?: string;
+  alt?: string;
 }
 
 export function BookingCard(props: CardProps) {
@@ -50,26 +52,39 @@ export function BookingCard(props: CardProps) {
 
 export function BookingCardLarge(props: CardProps) {
   return (
-    <div className="card lg:card-side bg-base-100 shadow-xl">
-      <figure>
-        <img src={props.image} alt="Album" />
-      </figure>
-      <div className="card-body">
-        <h2 className="card-title">{props.name}</h2>
-        <p>{props.address}</p>
-        <div className="card-actions justify-end">
-          <button className="btn btn-primary">See more</button>
+    <a
+      href=""
+      className=" hover:brightness-125 transform transition-all duration-200 ease-in-out"
+    >
+      <div className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2">
+        <figure>
+          <img src={props.image} alt={props.alt} />
+        </figure>
+        <div className="card-body mb-1">
+          <h2 className="card-title text-slate-200 text-3xl mb-1">
+            {props.name}
+          </h2>
+          <div className="text-slate-300 text-sm md:mb-12 mb-6">
+            {props.address}
+          </div>
+          <div className="text-slate-200 text-lg mb-3">
+            {`${props.date} ${props.month} | ${props.pax} pax`}
+          </div>
         </div>
       </div>
-    </div>
+    </a>
   );
 }
 
 export function PartyroomCard(props: CardProps) {
   return (
     <div className="flex place-content-center mb-8" data-id={props.id}>
-      <a href="" onClick={props.onClick} className="w-full flex justify-center">
-        <div className="bg-slate-800 md:w-96 md:px-4 px-6 md:py-7 py-5 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 gap-4">
+      <a
+        href=""
+        onClick={props.onClick}
+        className="w-full flex justify-center hover:brightness-125 transform transition-all duration-200 ease-in-out"
+      >
+        <div className="bg-slate-800 md:w-96 md:px-4 px-6 md:py-7 py-5 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 gap-4 ">
           <div className="w-full h-full">
             <div className="w-full flex flex-col place-content-center place-items-center">
               <div className="font-semibold md:text-2xl text-base mb-7 text-center">
