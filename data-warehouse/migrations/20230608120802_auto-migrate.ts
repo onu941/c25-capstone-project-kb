@@ -127,8 +127,17 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("hour");
       table.integer("minute");
       table.string("AMPM", 255);
-      table.string("booking_user_source", 255);
       table.string("booking_user_promotion", 255);
+      table.integer("host_users_id");
+      table.string("partyroom_district", 255);
+      table.integer("partyroom_capacity");
+      table.timestamps(false, true);    
+    });
+  }
+
+  if (!(await knex.schema.hasTable("staging_partyroom_register"))) {
+    await knex.schema.createTable("staging_partyroom_register", (table) => {
+      table.increments("id");
       table.integer("host_users_id");
       table.string("partyroom_district", 255);
       table.integer("partyroom_capacity");
@@ -144,19 +153,13 @@ export async function up(knex: Knex): Promise<void> {
       table.timestamps(false, true);    
     });
   }
-}
 
-export async function down(knex: Knex): Promise<void> {
-  await knex.schema.dropTable('fact_booking');
-  await knex.schema.dropTable('dim_date');
-  await knex.schema.dropTable('dim_time');
-  await knex.schema.dropTable('dim_users');
-  await knex.schema.dropTable('dim_partyroom');
-  await knex.schema.dropTable('dim_partyroom_equipment');
-  await knex.schema.dropTable('dim_equipment');
-  await knex.schema.dropTable('dim_partyroom_category');
-  await knex.schema.dropTable('dim_category');
-  await knex.schema.dropTable('fact_partyroom_register');
-  await knex.schema.dropTable('fact_users_register');
-  await knex.schema.dropTable('staging_booking');
+  if (!(await knex.schema.hasTable("staging_users_register"))) {
+    await knex.schema.createTable("staging_users_register", (table) => {
+      table.increments("id");
+      table.string("booking_user_source", 255);
+      table.string("booking_user_promotion", 255);
+      table.timestamps(false, true);    
+    });
+  }
 }
