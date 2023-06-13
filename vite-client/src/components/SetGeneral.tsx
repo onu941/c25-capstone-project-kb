@@ -115,7 +115,7 @@ export function SetGeneral() {
         <Toaster />
       </div>
       <div className="w-full flex flex-col place-content-center place-items-center px-8 md:px-8 md:mt-12 mt-12">
-        <div className="dark:bg-slate-500 md:py-8 md:px-14 py-4 px-6 rounded-lg w-full flex flex-col place-content-center mb-16">
+        <div className="dark:bg-slate-800 md:py-8 md:px-14 py-4 px-6 drop-shadow-lg rounded-lg w-full flex flex-col place-content-center mb-16 border-solid border-2 border-slate-400 border-opacity-50">
           <span className="text-xl md:mb-8 mb-4 mt-1 font-semibold">
             Edit Account Info
           </span>
