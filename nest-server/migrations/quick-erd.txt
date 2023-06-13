@@ -16,6 +16,7 @@ id integer PK
 name varchar(128)
 host_id integer FK >0- users.id
 district_id integer FK >0- district.id
+area integer
 capacity integer
 phone varchar(32)
 address varchar(255)

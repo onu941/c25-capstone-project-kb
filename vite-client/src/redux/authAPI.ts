@@ -1,5 +1,5 @@
 export async function localLogin(email: string, password: string) {
-  const res = await fetch(`http://localhost:3000/user/login`, {
+  const res = await fetch(`${import.meta.env.VITE_API_SERVER}/user/login`, {
     // need help setting process.env
     method: "POST",
     headers: {

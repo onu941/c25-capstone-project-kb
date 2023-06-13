@@ -78,16 +78,16 @@ export function BookingCardLarge(props: CardProps) {
 
 export function PartyroomCard(props: CardProps) {
   return (
-    <div className="flex place-content-center mb-8" data-id={props.id}>
+    <div className="flex place-content-center mb-8 w-full" data-id={props.id}>
       <a
         href=""
         onClick={props.onClick}
         className="w-full flex justify-center hover:brightness-125 transform transition-all duration-200 ease-in-out"
       >
-        <div className="bg-slate-800 md:w-96 md:px-4 px-6 md:py-7 py-5 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 gap-4 ">
+        <div className="bg-slate-800 md:w-96 w-full md:px-4 px-6 md:py-7 py-5 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 gap-4 ">
           <div className="w-full h-full">
             <div className="w-full flex flex-col place-content-center place-items-center">
-              <div className="font-semibold md:text-2xl text-base mb-7 text-center">
+              <div className="font-semibold md:text-2xl text-xl md:mb-7 mb-5 text-center">
                 {props.name}
               </div>
               <div className="md:text-lg text-base text-center text-slate-300">

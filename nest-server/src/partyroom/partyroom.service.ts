@@ -29,13 +29,13 @@ export class PartyroomService {
   //   return this.partyrooms.filter((partyroom) => partyroom);
   // }
 
-  // async findOne(id: number) {
-  //   let partyroom = this.partyrooms[id];
-  //   if (!partyroom) {
-  //     throw new NotFoundException('partyroom not found');
-  //   }
-  //   return partyroom;
-  // }
+  async findOne(id: number) {
+    const partyroom = await this.knex('partyroom').where({ id });
+    if (!partyroom) {
+      throw new NotFoundException('partyroom not found');
+    }
+    return partyroom;
+  }
 
   async findByUserIdforSettings(id: number) {
     if (!id) {
