@@ -21,35 +21,6 @@ interface CardProps {
   alt?: string;
 }
 
-export function BookingCard(props: CardProps) {
-  return (
-    <div className="flex place-content-center">
-      <div className="bg-slate-800 md:w-96 md:px-4 px-6 md:py-7 py-5 mb-6 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 gap-4">
-        <div className="w-full flex place-content-center columns-2 text-slate-100">
-          <div className="w-fit flex place-content-end place-items-center pr-2 md:text-7xl text-6xl">
-            {props.date}
-          </div>
-          <div className="w-fit flex flex-col text-2xl place-content-center">
-            <div>{props.month}</div>
-            <div>{props.year}</div>
-          </div>
-        </div>
-        <div className="w-full flex flex-col place-content-center place-items-center">
-          <div className="font-semibold md:text-lg text-base mb-2 text-center text-slate-100">
-            {props.name}
-          </div>
-          <div className="md:text-base text-base mb-1 text-slate-300">
-            {props.time} | {props.pax} pax
-          </div>
-          <div className="md:text-base text-base text-center text-slate-300">
-            {props.address}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function BookingCardLarge(props: CardProps) {
   return (
     <a
@@ -73,6 +44,37 @@ export function BookingCardLarge(props: CardProps) {
         </div>
       </div>
     </a>
+  );
+}
+
+export function BookingCard(props: CardProps) {
+  return (
+    <div className="flex place-content-center mx-4">
+      <div className="bg-slate-800 md:w-96 w-full md:px-4 px-2 md:py-7 py-5 mb-6 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 md:gap-2">
+        <a href="" className="w-full flex place-content-center px-1">
+          <div className="w-full flex place-content-center columns-2 text-slate-100">
+            <div className="w-fit flex place-content-end place-items-center pr-2 md:text-7xl text-5xl">
+              {props.date}
+            </div>
+            <div className="w-fit flex flex-col md:text-2xl text-lg place-content-center">
+              <div>{props.month}</div>
+              <div>{props.year}</div>
+            </div>
+          </div>
+          <div className="w-full flex flex-col place-content-center place-items-center">
+            <div className="font-semibold md:text-lg text-base mb-2 text-center text-slate-100">
+              {props.name}
+            </div>
+            <div className="md:text-base text-sm mb-1 text-slate-300">
+              {props.time} | {props.pax} pax
+            </div>
+            <div className="md:text-base text-sm text-center text-slate-300">
+              {props.address}
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
   );
 }
 
