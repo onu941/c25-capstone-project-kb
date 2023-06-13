@@ -3,7 +3,7 @@ import {
   MagnifyingGlassIcon,
   PlusCircleIcon,
 } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SettingsTabButton } from "./Buttons";
 
 interface SettingTabProps {
@@ -12,22 +12,38 @@ interface SettingTabProps {
 }
 
 export function Tab() {
+  const navigate = useNavigate();
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("user_id");
+
+  const navigateToNewRoom = () => {
+    navigate(`/new_room?user_id=${userId}`);
+  };
+
+  const navigateToLanding = () => {
+    navigate(`/landing?user_id=${userId}`);
+  };
+
+  const navigateToSearch = () => {
+    navigate(`/search?user_id=${userId}`);
+  };
+
   return (
     <div className="z-20 fixed bottom-0 columns-3 flex justify-around w-full py-4 dark:bg-slate-700">
       <div>
-        <Link to="/new_room">
-          <PlusCircleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg"></PlusCircleIcon>
-        </Link>
+        <button onClick={navigateToNewRoom}>
+          <PlusCircleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></PlusCircleIcon>
+        </button>
       </div>
       <div>
-        <Link to="/landing">
-          <HomeIcon className="h-8 w-8 text-slate-300 drop-shadow-lg"></HomeIcon>
-        </Link>
+        <button onClick={navigateToLanding}>
+          <HomeIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></HomeIcon>
+        </button>
       </div>
       <div>
-        <Link to="/search">
-          <MagnifyingGlassIcon className="h-8 w-8 text-slate-300 drop-shadow-lg"></MagnifyingGlassIcon>
-        </Link>
+        <button onClick={navigateToSearch}>
+          <MagnifyingGlassIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></MagnifyingGlassIcon>
+        </button>
       </div>
     </div>
   );

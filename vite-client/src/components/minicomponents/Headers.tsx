@@ -1,5 +1,5 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface HeaderProps {
   title?: string;
@@ -8,13 +8,23 @@ interface HeaderProps {
 }
 
 export function AppHeader(props: HeaderProps) {
+  const navigate = useNavigate();
+
+  const navigateToLanding = () => {
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("user_id");
+    navigate(`/landing?user_id=${userId}`);
+  };
+
   return (
-    <div className="header px-4 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
-      <Link to="/">
-        <div>{props.title}</div>
-      </Link>
+    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
+      <button onClick={navigateToLanding}>
+        <div className="transform transition duration-200 ease-in-out hover:scale-110">
+          {props.title}
+        </div>
+      </button>
       <button onClick={props.toggleSidebar}>
-        <UserCircleIcon className="h-9 w-9 text-slate-300 drop-shadow-lg"></UserCircleIcon>
+        <UserCircleIcon className="h-9 w-9 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></UserCircleIcon>
       </button>
     </div>
   );
@@ -22,7 +32,7 @@ export function AppHeader(props: HeaderProps) {
 
 export function BodyHeader(props: HeaderProps) {
   return (
-    <div className="header px-4 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
+    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
       {props.title}
     </div>
   );

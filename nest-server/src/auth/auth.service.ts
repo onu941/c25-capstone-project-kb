@@ -42,32 +42,9 @@ export class AuthService {
     }
     const payload = {
       id: user.id,
-      name: user.name,
-      phone: user.phone,
-      email: user.email,
-      is_admin: user.is_admin,
-      image_id: user.image_id,
-    };
-    // console.log(payload);
-    return this.jwtService.signAsync(payload);
-  }
-
-  async updateUser(id: number, updateUserDto: UpdateUserDto) {
-    const user = await this.userService.updateUser(id, updateUserDto);
-
-    if (!user) {
-      throw new BadRequestException('no user details');
-    }
-
-    const payload = {
-      id: user.id,
-      name: user.name,
-      phone: user.phone,
-      email: user.email,
-      is_admin: user.is_admin,
-      image_id: user.image_id,
     };
 
-    return this.jwtService.signAsync(payload);
+    const token = await this.jwtService.signAsync(payload);
+    return { token };
   }
 }

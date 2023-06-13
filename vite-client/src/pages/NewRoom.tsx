@@ -1,4 +1,7 @@
-import { FullScreen } from "../components/minicomponents/Containers";
+import {
+  FullScreen,
+  ResponsiveContainer,
+} from "../components/minicomponents/Containers";
 import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { useCallback, useState, useRef } from "react";
 import {
@@ -23,13 +26,16 @@ export type CategoryField = {
   name: string;
 };
 
+interface ActiveIconButtons {
+  [key: string]: boolean;
+}
+
 export type NewRoomFormState = {
   name: string;
   area: number;
   capacity: number;
-  address_1: string;
-  address_2: string;
-  address_3: string;
+  address: string;
+  district: string;
   equipment: EquipmentField[];
   category: CategoryField[];
   description: string;
@@ -48,6 +54,13 @@ export default function NewRoom() {
   const [categoryFields, setCategoryFields] = useState<CategoryField[]>([
     { id: 1, name: "Category 1" },
   ]);
+
+  const [activeIconButtons, setActiveIconButtons] = useState<ActiveIconButtons>(
+    {}
+  );
+
+  // const [formIconButtonIsSelected, setFormIconButtonIsSelected] =
+  //   useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -98,6 +111,13 @@ export default function NewRoom() {
     formRef.current?.reset();
   };
 
+  function handleFormIconButton(iconType: string) {
+    setActiveIconButtons((prev) => ({
+      ...prev,
+      [iconType]: !prev[iconType],
+    }));
+  }
+
   const onDrop = useCallback((_acceptedFiles: any) => {}, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
@@ -109,65 +129,93 @@ export default function NewRoom() {
   return (
     <>
       <FullScreen>
-        <AppHeader
-          title={partyroomName}
-          toggleSidebar={toggleSidebar}
-          isOpen={sidebarIsOpen}
-        ></AppHeader>
-        <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
-        <NewRoomTab handleClick={handleClick} isSelected={isSelected} />
-        <form
-          className="flex mt-6 flex-col w-full px-8 mb-12"
-          onSubmit={handleSubmit((v) => onSubmit(v))}
-          ref={formRef}
-        >
-          {/* part 2 form */}
-          <div className={`${isSelected === "basics" ? "hidden" : ""}`}>
-            <Part2Form
-              getRootProps={getRootProps}
-              getInputProps={getInputProps}
-              setSwitchEnabled={setSwitchEnabled}
-              switchEnabled={switchEnabled}
-              isDragActive={isDragActive}
-            />
-          </div>
-          <div
-            className={`${
-              switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
-            } flex justify-start`}
+        <ResponsiveContainer>
+          <AppHeader
+            title={partyroomName}
+            toggleSidebar={toggleSidebar}
+            isOpen={sidebarIsOpen}
+          ></AppHeader>
+          <Sidebar
+            isOpen={sidebarIsOpen}
+            toggleSidebar={toggleSidebar}
+          ></Sidebar>
+          <NewRoomTab handleClick={handleClick} isSelected={isSelected} />
+          <form
+            className="flex mt-6 flex-col w-full md:px-16 md:mt-12 mb-12"
+            onSubmit={handleSubmit((v) => onSubmit(v))}
+            ref={formRef}
           >
-            <FormHeader title="Confirm your partyroom:" />
-          </div>
-          {/* part 1 form */}
-          <div
-            className={`${
-              isSelected === "basics" ||
-              (switchEnabled && isSelected === "photoconfirm")
-                ? ""
-                : "hidden"
-            }`}
-          >
-            <Part1Form
-              register={register}
-              handleInputChange={handleInputChange}
-              equipmentFields={equipmentFields}
-              handleDelete={handleDelete}
-              handleAddMoreEquipment={handleAddMoreEquipment}
-              categoryFields={categoryFields}
-              handleAddMoreCategories={handleAddMoreCategories}
-              handleDeleteCategories={handleDeleteCategories}
-            />
-            {/* next button */}
+            {/* part 2 form */}
+            <div className={`${isSelected === "basics" ? "hidden" : ""}`}>
+              <Part2Form
+                getRootProps={getRootProps}
+                getInputProps={getInputProps}
+                setSwitchEnabled={setSwitchEnabled}
+                switchEnabled={switchEnabled}
+                isDragActive={isDragActive}
+              />
+            </div>
             <div
               className={`${
-                isSelected === "basics" ? "" : "hidden"
-              } flex flex-wrap justify-center my-12 columns-2 gap-6`}
+                switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
+              } flex justify-start`}
+            >
+              <FormHeader title="Confirm your partyroom:" />
+            </div>
+            {/* part 1 form */}
+            <div
+              className={`${
+                isSelected === "basics" ||
+                (switchEnabled && isSelected === "photoconfirm")
+                  ? ""
+                  : "hidden"
+              }`}
+            >
+              <Part1Form
+                register={register}
+                handleInputChange={handleInputChange}
+                equipmentFields={equipmentFields}
+                handleDelete={handleDelete}
+                handleAddMoreEquipment={handleAddMoreEquipment}
+                categoryFields={categoryFields}
+                handleAddMoreCategories={handleAddMoreCategories}
+                handleDeleteCategories={handleDeleteCategories}
+                activeIconButtons={activeIconButtons}
+                handleFormIconButton={handleFormIconButton}
+              />
+              {/* next button */}
+              <div
+                className={`${
+                  isSelected === "basics" ? "" : "hidden"
+                } flex flex-wrap justify-center my-12 columns-2 gap-6`}
+              >
+                <div>
+                  <PrimaryButton
+                    type="button"
+                    label="Next"
+                    onClick={() => setIsSelected("photoconfirm")}
+                  />
+                </div>
+                <div>
+                  <DangerButton
+                    label="Reset"
+                    type="button"
+                    onClick={() => handleReset()}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* submit button */}
+            <div
+              className={`${
+                switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
+              } my-12 flex flex-wrap justify-center columns-3 gap-5`}
             >
               <div>
                 <PrimaryButton
+                  label="Back"
                   type="button"
-                  label="Next"
-                  onClick={() => setIsSelected("photoconfirm")}
+                  onClick={() => handleBack()}
                 />
               </div>
               <div>
@@ -177,33 +225,12 @@ export default function NewRoom() {
                   onClick={() => handleReset()}
                 />
               </div>
+              <div>
+                <SubmitButton label="Submit Your Room!" type="submit" />
+              </div>
             </div>
-          </div>
-          {/* submit button */}
-          <div
-            className={`${
-              switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
-            } my-12 flex flex-wrap justify-center columns-3 gap-5`}
-          >
-            <div>
-              <PrimaryButton
-                label="Back"
-                type="button"
-                onClick={() => handleBack()}
-              />
-            </div>
-            <div>
-              <DangerButton
-                label="Reset"
-                type="button"
-                onClick={() => handleReset()}
-              />
-            </div>
-            <div>
-              <SubmitButton label="Submit Your Room!" type="submit" />
-            </div>
-          </div>
-        </form>
+          </form>
+        </ResponsiveContainer>
       </FullScreen>
       <Tab />
     </>
