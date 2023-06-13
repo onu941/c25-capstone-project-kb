@@ -6,7 +6,7 @@ export function SetBookings() {
   // you will use a map fn later on, the current Array.from method is just a placeholder
   const numBookings = 5; // change as needed
   const bookings = Array.from({ length: numBookings }, (_, i) => (
-    <div className="m-4">
+    <div className="mb-4">
       <Link to="/booking">
         <BookingCard
           key={i}

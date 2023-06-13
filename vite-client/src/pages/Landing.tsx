@@ -5,7 +5,10 @@ import {
 } from "../components/minicomponents/Containers";
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { LandingCarousel } from "../components/minicomponents/Carousels";
-import { BookingCard } from "../components/minicomponents/Cards";
+import {
+  BookingCard,
+  BookingCardLarge,
+} from "../components/minicomponents/Cards";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { Link } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
@@ -13,6 +16,7 @@ import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
 import { useAppDispatch } from "../app/hook";
 import { useLocation } from "react-router-dom";
+import seulgi from "../assets/seulgi2.jpg";
 
 export interface JWT {
   name: string;
@@ -80,18 +84,12 @@ export default function Landing() {
             toggleSidebar={toggleSidebar}
           ></Sidebar>
           <BodyHeader title="Your next booking:"></BodyHeader>
-          <Link to="/booking">
-            <BookingCard
-              date={25}
-              month="MAY"
-              year={2023}
-              name="Partyroom Name"
-              time="19:00"
-              pax={8}
-              address="東涌海濱道18號"
-            ></BookingCard>
-          </Link>
-          <hr className="mt-10 mb-8 border-slate-500"></hr>
+          <BookingCardLarge
+            image={seulgi}
+            name="Partyroom Name"
+            address="18 Tung Chung Waterfront Rd"
+          />
+          <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
           <BodyHeader title="Your room has been booked!"></BodyHeader>
           <Link to="/booking">
             <BookingCard
@@ -109,7 +107,7 @@ export default function Landing() {
               <PrimaryButton label="Submit a New Room" />
             </Link>
           </div>
-          <hr className="mt-10 mb-8 border-slate-500"></hr>
+          <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
           <BodyHeader title="Hot new partyrooms:"></BodyHeader>
           <LandingCarousel></LandingCarousel>
           <div className="flex justify-center mb-16">
