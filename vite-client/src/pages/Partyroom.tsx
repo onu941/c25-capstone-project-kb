@@ -102,6 +102,12 @@ export default function Partyroom() {
     setBookingModalIsOpen(!bookingModalIsOpen);
   };
 
+  const openGoogleMaps = () => {
+    const addressQuery = encodeURIComponent(partyroom.address);
+    const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
+    window.open(googleMapsURL, "_blank");
+  };
+
   useEffect(() => {
     const fetchPartyroomDetails = async () => {
       const token = localStorage.getItem("token");
@@ -127,7 +133,8 @@ export default function Partyroom() {
         address: partyroomDetails.address,
         host_id: partyroomDetails.host_id,
         capacity: partyroomDetails.capacity,
-        area: partyroomDetails.area,
+        // area: partyroomDetails.area,
+        description: partyroomDetails.description,
       });
 
       if (Number(userId) === partyroomDetails.host_id) setIsOwner(!isOwner);
@@ -168,11 +175,20 @@ export default function Partyroom() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="text-slate-300">{partyroom.address} | district</div>
           <div className="text-slate-300">
-            {partyroom.address} | {partyroom.capacity} pax
+            {partyroom.address} | district |{" "}
+            <a
+              href=""
+              className=" underline text-slate-400"
+              onClick={() => openGoogleMaps()}
+            >
+              locate on google maps
+            </a>
           </div>
-          <div className="mt-12 w-full flex md:px-0 justify-between columns-2 mb-4">
+          <div className="text-slate-300">
+            partyroom area | {partyroom.capacity} pax
+          </div>
+          <div className="mt-12 w-full flex md:px-0 justify-between columns-2 mb-12">
             <div className="flex columns-2 gap-2">
               <img
                 src={sample}
@@ -266,7 +282,10 @@ export default function Partyroom() {
             </div>
           </div>
           <div className="mb-48">
-            <BodyHeader title="Description: "></BodyHeader>
+            <div className="border-solid border-2 p-6 rounded-lg border-slate-700 text-center text-slate-300">
+              <p>{partyroom.description}</p>
+              <br></br>- Owner name, WhatsApp number
+            </div>
           </div>
         </ResponsiveContainer>
       </FullScreen>
