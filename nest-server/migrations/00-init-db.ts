@@ -30,10 +30,11 @@ export async function up(knex: Knex): Promise<void> {
     table.foreign('host_id').references('users.id');
     table.integer('district_id');
     table.foreign('district_id').references('district.id');
+    table.integer('room_size');
     table.integer('capacity');
     table.string('phone', 32);
     table.string('address', 255);
-    table.string('description', 5000);
+    table.text('description');
     table.boolean('is_hidden');
     table.timestamps(false, true);
   });
