@@ -15,21 +15,6 @@ import {
 import { faker } from '@faker-js/faker';
 import { format } from 'date-fns';
 
-// export const imageSeedOld: image[] = [
-//   { filename: 'example.jpg' },
-//   { filename: 'image2.jpg' },
-//   { filename: 'testing3.jpg' },
-//   { filename: 'partyroom.jpg' },
-//   { filename: 'awesome_party.jpg' },
-//   { filename: 'partyrown.jpg' },
-//   { filename: 'a_cool_room.jpg' },
-//   { filename: 'incredible_room.jpg' },
-// { filename: 'party_here.jpg' },
-// { filename: 'party_hard.jpg' },
-// { filename: '24hr_party_people.jpg' },
-// { filename: 'great_time.jpg' },
-// ];
-
 export const imageSeed = () => {
   const imageData: image[] = [
     { filename: 'example.jpg' },
