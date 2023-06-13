@@ -9,7 +9,7 @@ source string
 total_hour numberic(4,2)
 headcount integer
 booking_fee numeric(7,2)
-rating decimal
+rating decimal(3,1)
 
 dim_date
 --------
@@ -75,6 +75,7 @@ name varchar(255)
 fact_partyroom_register
 -----------------------
 id integer PK
+avg_rating decimal(3,1)
 source string
 start_date datetime
 end_date datetime
@@ -99,6 +100,10 @@ time time
 hour integer
 minute integer
 AMPM string
+total_hour number(4,2)
+headcount integer
+booking_fee numberic(7,2)
+booking_rating decimal(3,1)
 booking_user_promotion string
 host_users_id integer
 partyroom_district varchar(255)
@@ -108,6 +113,7 @@ created_at datetime
 staging_partyroom_register
 --------------------------
 id integer PK
+avg_rating decimal(3,1)
 host_users_id integer
 district varchar(255)
 capacity integer
