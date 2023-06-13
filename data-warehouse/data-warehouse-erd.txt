@@ -86,7 +86,7 @@ source string
 
 staging_booking
 ---------------
-id
+id integer PK
 year integer
 month integer
 day_of_month integer
@@ -99,18 +99,32 @@ time time
 hour integer
 minute integer
 AMPM string
-booking_user_source string
 booking_user_promotion string
 host_users_id integer
 partyroom_district varchar(255)
 partyroom_capacity integer
+created_at datetime
+
+staging_partyroom_register
+--------------------------
+id integer PK
+host_users_id integer
+district varchar(255)
+capacity integer
 partyroom_source string
 partyroom_start_date datetime
 partyroom_end_date datetime
-partyroom_category_name
-partyroom_category_start_date datetime
-partyroom_category_end_date datetime
-partyroom_equipment_name
-partyroom_equipment_start_date datetime
-partyroom_equipment_end_date datetime
+category_name
+category_start_date datetime
+category_end_date datetime
+equipment_name
+equipment_start_date datetime
+equipment_end_date datetime
+created_at datetime
+
+staging_users_register
+--------------------------
+id integer PK
+booking_user_source string
+booking_user_promotion string
 created_at datetime
