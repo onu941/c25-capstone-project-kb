@@ -1,8 +1,12 @@
-import { DangerButton, PrimaryButton } from "./minicomponents/Buttons";
-import { StandardInput } from "./minicomponents/Inputs";
+import {
+  DangerButton,
+  PrimaryButton,
+  SubmitButton,
+} from "./minicomponents/Buttons";
+import { SettingsInput, StandardInput } from "./minicomponents/Inputs";
 import { useAppDispatch } from "../app/hook";
 import { logout } from "../redux/authSlice";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import jwt_decode from "jwt-decode";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -23,7 +27,7 @@ export function SetGeneral() {
     username: "",
     phone: "",
     email: "",
-    password: "",
+    // password: "",
   });
   const [isEditing, setIsEditing] = useState({
     username: false,
@@ -34,18 +38,28 @@ export function SetGeneral() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decoded: JWT = jwt_decode(token);
-
-      setUserInputs({
-        id: decoded.id,
-        username: decoded.name,
-        phone: decoded.phone,
-        email: decoded.email,
-        password: "******",
+    const fetchUserDetails = async () => {
+      const token = localStorage.getItem("token");
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("user_id");
+      const response = await fetch(`http://localhost:3000/user/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
-    }
+
+      const userDetails = await response.json();
+      setUserInputs({
+        id: NaN,
+        username: userDetails.user.name,
+        phone: userDetails.user.phone,
+        email: userDetails.user.email,
+        // password: "******",
+      });
+    };
+
+    fetchUserDetails();
   }, []);
 
   const handleEditClick = (field: string) => {
@@ -60,20 +74,39 @@ export function SetGeneral() {
     setUserInputs({ ...inputs, [event.target.name]: event.target.value });
   };
 
-  const handleUpdateUserInfo = async (event: FormEvent<HTMLFormElement>) => {
+  const onUpdateUserInfo = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // const form = event.target as HTMLFormElement;
-    // const id = form.id.value;
-    // const name = form.username.value;
-    // const phone = form.phone.value;
-    // const email = form.email.value;
-    // const success = await someAPIFunction(???);
-    // if (success) {
-    //   dispatch(someSliceFunction(???));
-    //   toast.success("Updated");
-    // } else {
-    //   toast.error("Update failed");
-    // }
+    const form = event.target as HTMLFormElement;
+    const name = form.username.value;
+    const phone = form.phone.value;
+    const email = form.email.value;
+
+    const token = localStorage.getItem("token");
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("user_id");
+
+    const response = await fetch(`http://localhost:3000/user/${userId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, phone, email }),
+    });
+
+    if (response.ok) {
+      const userDetails = await response.json();
+      console.log(userDetails);
+      setUserInputs({
+        ...inputs,
+        username: userDetails.name,
+        phone: userDetails.phone,
+        email: userDetails.email,
+      });
+      toast.success("Updated");
+    } else {
+      toast.error("Update failed");
+    }
   };
 
   return (
@@ -81,47 +114,42 @@ export function SetGeneral() {
       <div>
         <Toaster />
       </div>
-      <div className="w-full flex flex-col place-content-center place-items-center">
-        <div className="dark:bg-slate-500 p-8 rounded-lg w-11/12 flex flex-col place-content-center mb-16">
-          <span className="text-xl mb-8 font-semibold">Edit Account Info</span>
-          <form onSubmit={handleUpdateUserInfo}>
+      <div className="w-full flex flex-col place-content-center place-items-center px-8 md:px-8 md:mt-12 mt-12">
+        <div className="dark:bg-slate-500 md:py-8 md:px-14 py-4 px-6 rounded-lg w-full flex flex-col place-content-center mb-16">
+          <span className="text-xl md:mb-8 mb-4 mt-1 font-semibold">
+            Edit Account Info
+          </span>
+          <form onSubmit={onUpdateUserInfo}>
             <input type="hidden" name="id" defaultValue={"user_id"} />
-            <StandardInput
+            <SettingsInput
               value={inputs["username"]}
-              name={"username"}
+              name="username"
               canEdit
               handleEditClick={() => handleEditClick("username")}
               handleSaveClick={() => handleSaveClick("username")}
               isEditing={isEditing["username"]}
               onChange={handleInputChange}
             />
-            <StandardInput
+            <SettingsInput
               value={inputs["phone"]}
-              name={"phone"}
+              name="phone"
               canEdit
               handleEditClick={() => handleEditClick("phone")}
               handleSaveClick={() => handleSaveClick("phone")}
               isEditing={isEditing["phone"]}
               onChange={handleInputChange}
             />
-            <StandardInput
+            <SettingsInput
               value={inputs["email"]}
-              name={"email"}
+              name="email"
               canEdit
               handleEditClick={() => handleEditClick("email")}
               handleSaveClick={() => handleSaveClick("email")}
               isEditing={isEditing["email"]}
               onChange={handleInputChange}
             />
+            {/* <SettingsInput value="*****" name="password" canEdit /> */}
           </form>
-          <StandardInput value="*****" canEdit />
-        </div>
-        <div className="dark:bg-slate-500 px-8 py-8 rounded-lg w-11/12 flex flex-col place-content-center mb-16">
-          <span className="text-xl mb-12 font-semibold">Account Help</span>
-          <div className="px-8 flex flex-col place-items-center">
-            <PrimaryButton label="User Support" />
-            <DangerButton label="Deactivate Account" />
-          </div>
         </div>
       </div>
       <div className="mb-24 flex justify-center">
