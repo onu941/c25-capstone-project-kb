@@ -13,7 +13,11 @@ import {
 } from "../components/minicomponents/Inputs";
 import { FormCarousel } from "../components/minicomponents/Carousels";
 import { OwnerCard, ReviewCard } from "../components/minicomponents/Cards";
-import { BookingButton } from "../components/minicomponents/Buttons";
+import {
+  BookingButton,
+  DangerButton,
+  PrimaryButton,
+} from "../components/minicomponents/Buttons";
 import { BookingModal } from "../components/minicomponents/Modals";
 import { toast, Toaster } from "react-hot-toast";
 import sample from "../assets/sample_partyroom.jpg";
@@ -175,20 +179,28 @@ export default function Partyroom() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="text-slate-300">
-            {partyroom.address} | district |{" "}
-            <a
-              href=""
-              className=" underline text-slate-400"
-              onClick={() => openGoogleMaps()}
-            >
-              locate on google maps
-            </a>
+          <div className="mb-12">
+            <div className="text-slate-300">
+              {partyroom.address} | district |{" "}
+              <a
+                href=""
+                className=" underline text-slate-400"
+                onClick={() => openGoogleMaps()}
+              >
+                locate on google maps
+              </a>
+            </div>
+            <div className="text-slate-300">
+              partyroom area | {partyroom.capacity} pax
+            </div>
           </div>
-          <div className="text-slate-300">
-            partyroom area | {partyroom.capacity} pax
-          </div>
-          <div className="mt-12 w-full flex md:px-0 justify-between columns-2 mb-12">
+          {isOwner && (
+            <div className="mb-4 w-full columns-2 flex justify-center gap-12">
+              <PrimaryButton label="Edit Partyroom" />
+              <DangerButton label="Delete Partyroom" />
+            </div>
+          )}
+          <div className="w-full flex md:px-0 justify-between columns-2 mb-12">
             <div className="flex columns-2 gap-2">
               <img
                 src={sample}
@@ -281,10 +293,17 @@ export default function Partyroom() {
               </div>
             </div>
           </div>
-          <div className="mb-48">
+          <div className="mb-8">
             <div className="border-solid border-2 p-6 rounded-lg border-slate-700 text-center text-slate-300">
               <p>{partyroom.description}</p>
               <br></br>- Owner name, WhatsApp number
+            </div>
+          </div>
+          <div className="mb-48">
+            <BodyHeader title="Reviews"></BodyHeader>
+            <div className="border-solid border-2 p-6 rounded-lg border-slate-700 text-center text-slate-300">
+              <p>{partyroom.description}</p>
+              <br></br>- Reviewer, WhatsApp number
             </div>
           </div>
         </ResponsiveContainer>
