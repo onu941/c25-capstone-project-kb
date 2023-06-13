@@ -42,7 +42,7 @@ export function StandardInput(props: InputProps) {
           type={props.type}
           className={`${
             props.isEditing ? "read-only" : ""
-          } text-slate-300 dark:bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent`}
+          } text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent`}
           {...props.register}
           value={props.value}
           disabled={!props.isEditing}
@@ -89,7 +89,7 @@ export function MiniInput(props: InputProps) {
       type={props.type}
       className={`${
         props.isReadOnly ? "readonly" : ""
-      } text-slate-300 dark:text-slate-300 dark:bg-transparent p-2 mb-5 text-center w-32 border-solid border-b-slate-300 border-opacity-50 border-transparent`}
+      } text-slate-300 bg-transparent p-2 mb-5 text-center w-32 border-solid border-b-slate-300 border-opacity-50 border-transparent`}
       {...props.register}
       onChange={props.onChange}
       value={props.value}
@@ -130,9 +130,7 @@ export function SettingsInput(props: InputProps) {
         <input
           placeholder={props.placeholder}
           type={props.type}
-          className={`${
-            props.isEditing ? "read-only bg-slate-200" : "bg-slate-400"
-          } text-slate-700 rounded-lg px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent`}
+          className={`text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full border-solid border-2 border-transparent border-b-slate-400 border-opacity-40`}
           {...props.register}
           value={props.value}
           disabled={!props.isEditing}
@@ -147,7 +145,7 @@ export function SettingsInput(props: InputProps) {
             <button
               onClick={props.handleSaveClick}
               type="button"
-              className="transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
+              className="transform transition duration-200 ease-in-out translate-y-2 hover:translate-y-1 hover:scale-110 active:translate-y-0"
             >
               {" "}
               <CheckIcon className="h-9 w-9 pt-1 text-slate-300" />
@@ -156,7 +154,7 @@ export function SettingsInput(props: InputProps) {
             <button
               onClick={props.handleEditClick}
               type="submit"
-              className="transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
+              className="transform transition duration-200 ease-in-out translate-y-2 hover:translate-y-1 hover:scale-110 active:translate-y-0"
             >
               <PencilSquareIcon className="h-9 w-9 pt-1 text-slate-300" />
             </button>

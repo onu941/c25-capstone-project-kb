@@ -154,6 +154,15 @@ export const partyroomEquipmentSeed = () => {
   return partyroomEquipmentData;
 };
 
+// ************** //
+// fix partyroomPriceListSeed later //
+// ************** //
+// users may only book fixed intervals of time
+// these fixed intervals of time are defined by a partyroom's "price lists"
+// the price lists are defined by the partyroom owner and have two variables
+// 1) starting time of the interval; 2) total hours that make up the interval
+// during that interval, using the partyroom will have a set price
+// the partyroom owner may make as many price lists as they please
 export const partyroomPriceListSeed = () => {
   const partyroomPriceListData: partyroomPriceList[] = [];
 
@@ -162,7 +171,7 @@ export const partyroomPriceListSeed = () => {
       partyroom_id: i + 1,
       headcount_price: faker.number.int({ min: 50, max: 100 }),
       is_holiday: false,
-      start_time: format(faker.date.recent(), 'HH:mm'), // what is this actually
+      start_time: format(faker.date.recent(), 'HH:mm'),
       total_hour: faker.number.int({ min: 1, max: 10 }),
       base_room_fee: faker.number.int({ min: 500, max: 5000 }),
     };
@@ -190,6 +199,7 @@ export const bookingInfoSeed = () => {
         }),
         'yyyy-MM-dd',
       ),
+      // may not be necessary
       start_time: format(
         faker.date.soon({
           days: 40,
@@ -197,6 +207,7 @@ export const bookingInfoSeed = () => {
         }),
         'HH:mm',
       ),
+      // may not be necessary
       total_hour: faker.number.int({ min: 2, max: 10 }),
       total_fee: faker.number.int({ min: 1000, max: 5000 }),
       special_request: faker.lorem.sentence(5),

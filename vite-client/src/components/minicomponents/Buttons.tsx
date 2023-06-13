@@ -16,7 +16,7 @@ export function PrimaryButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 dark:bg-slate-700 hover:bg-slate-500 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
+        className="py-2 px-4 bg-slate-800 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-offset-1 outline-slate-700 transition duration-200 ease-in-out hover:scale-110 hover:-translate-y-1 hover:brightness-125 "
         onClick={props.onClick}
       >
         {props.label}

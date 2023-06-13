@@ -38,38 +38,41 @@ export interface Form1Props {
 export function Part1Form(props: Form1Props) {
   return (
     <>
-      <StandardInput
-        type="text"
-        placeholder="name your partyroom"
-        register={props.register("name")}
-        onChange={props.handleInputChange}
-        isEditing
-      />
-      <div className="flex flex-row w-full justify-between">
-        <MiniInput
+      <div className="mb-8">
+        <StandardInput
           type="text"
-          placeholder="area"
-          register={props.register("area")}
+          placeholder="name your partyroom"
+          register={props.register("name")}
+          onChange={props.handleInputChange}
+          isEditing
         />
-        <MiniInput
+        <div className="flex flex-row w-full justify-between">
+          <MiniInput
+            type="text"
+            placeholder="area"
+            register={props.register("area")}
+          />
+          <MiniInput
+            type="text"
+            placeholder="capacity"
+            register={props.register("capacity")}
+          />
+        </div>
+      </div>
+      <div className="mb-12">
+        <StandardInput
+          placeholder="address line 1 (room, building, street)"
           type="text"
-          placeholder="capacity"
-          register={props.register("capacity")}
+          register={props.register("address")}
+          isEditing
+        />
+        <StandardInput
+          placeholder="address line 2 (district)"
+          type="text"
+          register={props.register("district")}
+          isEditing
         />
       </div>
-      <FormHeader title="Address: " />
-      <StandardInput
-        placeholder="line 1 (room, building, street)"
-        type="text"
-        register={props.register("address")}
-        isEditing
-      />
-      <StandardInput
-        placeholder="line 2 (district)"
-        type="text"
-        register={props.register("district")}
-        isEditing
-      />
       <FormHeader title="What is your partyroom designed for?" />
       <div
         id="category-icon-buttons"
