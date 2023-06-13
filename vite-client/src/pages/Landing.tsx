@@ -47,12 +47,15 @@ export default function Landing() {
       const token = localStorage.getItem("token");
       const params = new URLSearchParams(window.location.search);
       const userId = params.get("user_id");
-      const response = await fetch(`http://localhost:3000/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const userDetails = await response.json();
       const name = userDetails.user.name;

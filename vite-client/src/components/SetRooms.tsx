@@ -1,6 +1,5 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { BookingCard, PartyroomCard } from "./minicomponents/Cards";
-import { FullScreen } from "./minicomponents/Containers";
+import { useNavigate } from "react-router-dom";
+import { PartyroomCard } from "./minicomponents/Cards";
 import { useEffect, useState } from "react";
 
 export interface PartyroomInSettings {
@@ -26,7 +25,7 @@ export function SetRooms() {
       const params = new URLSearchParams(window.location.search);
       const userId = params.get("user_id");
       const response = await fetch(
-        `http://localhost:3000/partyroom/user/${userId}`,
+        `${import.meta.env.VITE_API_SERVER}/partyroom/user/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -43,8 +42,8 @@ export function SetRooms() {
   }, []);
 
   return (
-    <div className="flex flex-row w-full pt-10 place-content-center">
-      <div className="grid grid-cols-3 gap-8 w-fit">
+    <div className="flex flex-row w-full md:pt-10 pt-6 place-content-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 w-fit mb-24 md:mb-0">
         {userPartyrooms.map((partyroom) => (
           <div className="mx-4">
             <PartyroomCard

@@ -1,5 +1,8 @@
-import { useState } from "react";
-import { FullScreen } from "../components/minicomponents/Containers";
+import { useEffect, useState } from "react";
+import {
+  FullScreen,
+  ResponsiveContainer,
+} from "../components/minicomponents/Containers";
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
@@ -12,10 +15,37 @@ import { FormCarousel } from "../components/minicomponents/Carousels";
 import { OwnerCard, ReviewCard } from "../components/minicomponents/Cards";
 import { BookingButton } from "../components/minicomponents/Buttons";
 import { BookingModal } from "../components/minicomponents/Modals";
+import { toast, Toaster } from "react-hot-toast";
+import sample from "../assets/sample_partyroom.jpg";
+import {
+  BBQIcon,
+  BoardGamesIcon,
+  FamilyIcon,
+  GeneralPartyIcon,
+  KaraokeIcon,
+  MahjongIcon,
+  VideoGamesIcon,
+  WeddingIcon,
+} from "../assets/MaterialIcons";
+import {
+  BriefcaseIcon,
+  CakeIcon,
+  ChartBarIcon,
+  HeartIcon,
+} from "@heroicons/react/20/solid";
+import { TvIcon } from "@heroicons/react/24/outline";
 
-type EquipmentField = {
+type Partyroom = {
   id: number;
   name: string;
+  host_id: number;
+  district: string;
+  capacity: number;
+  phone: string;
+  address: string;
+  description: string;
+  category: string[];
+  equipment: string[];
 };
 
 type Review = {
@@ -28,12 +58,19 @@ type Review = {
 export default function Partyroom() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
-  const partyroomName = "name fetched from postgres via knex query";
-  const equipment: EquipmentField[] = [
-    { id: 1, name: "Equipment 1" },
-    { id: 2, name: "Equipment 2" },
-    { id: 3, name: "Equipment 3" },
-  ];
+  const [partyroom, setPartyroom] = useState<Partyroom>({
+    id: NaN,
+    name: "",
+    host_id: NaN,
+    district: "",
+    capacity: NaN,
+    phone: "",
+    address: "",
+    description: "",
+    category: [],
+    equipment: [],
+  });
+  const [isOwner, setIsOwner] = useState<boolean>(false);
 
   const reviews: Review[] = [
     {
@@ -65,64 +102,173 @@ export default function Partyroom() {
     setBookingModalIsOpen(!bookingModalIsOpen);
   };
 
+  useEffect(() => {
+    const fetchPartyroomDetails = async () => {
+      const token = localStorage.getItem("token");
+      const params = new URLSearchParams(window.location.search);
+      const userId = params.get("user_id");
+      const partyroomId = params.get("partyroom_id");
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/partyroom/${partyroomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const partyroomDetails = await response.json();
+      console.log("partyroom details: ", partyroomDetails);
+
+      setPartyroom({
+        ...partyroom,
+        name: partyroomDetails.name,
+        address: partyroomDetails.address,
+        host_id: partyroomDetails.host_id,
+        capacity: partyroomDetails.capacity,
+        area: partyroomDetails.area,
+      });
+
+      if (Number(userId) === partyroomDetails.host_id) setIsOwner(!isOwner);
+    };
+
+    fetchPartyroomDetails();
+  }, []);
+
   return (
     <>
-      <BookingButton
-        type="button"
-        label="BOOK NOW"
-        onClick={toggleBookingModal}
-      />
-      {bookingModalIsOpen && <BookingModal toggleModal={toggleBookingModal} />}
-      <FullScreen>
-        <AppHeader
-          isOpen={sidebarIsOpen}
-          toggleSidebar={toggleSidebar}
-          title={partyroomName}
-        ></AppHeader>
-        <Sidebar isOpen={sidebarIsOpen} toggleSidebar={toggleSidebar}></Sidebar>
-        <div className="flex flex-col place-items-center place-content-center mt-6">
-          <div className="w-11/12">
-            <StandardInput type="text" isReadOnly isDisabled value="Name" />
-          </div>
-          <div className="w-11/12 flex flex-row justify-between">
-            <MiniInput isReadOnly type="text" value="area" isDisabled />
-            <MiniInput isReadOnly type="text" value="capacity" isDisabled />
-          </div>
-          <p className="text-center mb-8 text-xl">Image Preview here</p>
-          <FormCarousel />
-        </div>
-        <OwnerCard name="Owner Name" />
-        <BodyHeader title="Description" />
-        <div className="flex flex-col place-items-center place-content-center mb-6">
-          <div className="flex w-11/12">
-            <TextArea value="Max 150 characters" isDisabled />
-          </div>
-        </div>
-        <BodyHeader title="Facilities" />
-        <div className="flex flex-col place-items-center place-content-center">
-          <div className="w-11/12">
-            {equipment.map((item) => (
-              <StandardInput
-                key={item.id}
-                value={`equipment ${item.id}`}
-                type="text"
-                name={`equipment.${item.id - 1}.name`}
-                isDisabled
-                isReadOnly
-              />
-            ))}
-          </div>
-        </div>
-        <BodyHeader title="Reviews" />
-        <div className="mb-24">
-          {reviews.map((review) => (
-            <ReviewCard
-              score={review.score}
-              name={review.name}
-              content={review.content}
+      <div>
+        <Toaster />
+      </div>
+      <div>
+        {!isOwner ? (
+          <>
+            <BookingButton
+              type="button"
+              label="BOOK NOW"
+              onClick={toggleBookingModal}
             />
-          ))}
-        </div>
+            {bookingModalIsOpen && (
+              <BookingModal toggleModal={toggleBookingModal} />
+            )}
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+      <FullScreen>
+        <ResponsiveContainer>
+          <AppHeader
+            isOpen={sidebarIsOpen}
+            toggleSidebar={toggleSidebar}
+            title={partyroom.name}
+          ></AppHeader>
+          <Sidebar
+            isOpen={sidebarIsOpen}
+            toggleSidebar={toggleSidebar}
+          ></Sidebar>
+          <div className="text-slate-300">{partyroom.address} | district</div>
+          <div className="text-slate-300">
+            {partyroom.address} | {partyroom.capacity} pax
+          </div>
+          <div className="mt-12 w-full flex md:px-0 justify-between columns-2 mb-4">
+            <div className="flex columns-2 gap-2">
+              <img
+                src={sample}
+                className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl"
+              ></img>
+              <div className="border-solid border-2 border-slate-700 px-4">
+                image carousel
+              </div>
+            </div>
+            <div className="bg-slate-800 px-8 py-12 rounded-lg border-slate-700 border-solid border-2 text-2xl flex flex-col place-items-center">
+              <div className="grid grid-cols-3 grid-flow-row gap-8 mb-16">
+                <div className="text-base flex flex-col place-items-center">
+                  <GeneralPartyIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300">General</span>
+                </div>
+                <div className="text-base flex flex-col place-items-center">
+                  <FamilyIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300">Families</span>
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <CakeIcon className={"w-16 h-16 mb-1"} />
+                  Birthdays
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <HeartIcon className={"w-16 h-16 mb-1"} />
+                  Dates
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <BriefcaseIcon className={"w-16 h-16 mb-1"} />
+                  Businesses
+                </div>
+                <div className="text-base flex flex-col place-items-center">
+                  <WeddingIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300">Weddings</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 grid-flow-row gap-8">
+                <div className="text-base flex flex-col place-items-center">
+                  <MahjongIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300">Mahjong</span>
+                </div>
+                <div className="text-base flex flex-col place-items-center">
+                  <BBQIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300">BBQ</span>
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <KaraokeIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300">Karaoke</span>
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <VideoGamesIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300 text-sm translate-y-1">
+                    Video Games
+                  </span>
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <BoardGamesIcon
+                    className={"w-16 h-16 mb-1"}
+                    color={"text-slate-300"}
+                  />
+                  <span className="text-slate-300 text-sm translate-y-1">
+                    Board Games
+                  </span>
+                </div>
+                <div className="text-base flex flex-col place-items-center text-slate-300">
+                  <TvIcon className={"w-16 h-16 mb-1"} />
+                  Streaming
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mb-48">
+            <BodyHeader title="Description: "></BodyHeader>
+          </div>
+        </ResponsiveContainer>
       </FullScreen>
       <Tab />
     </>

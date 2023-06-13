@@ -37,10 +37,15 @@ export class PartyroomController {
   //   return { partyrooms: await this.partyroomService.findAll() };
   // }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: string) {
-  //   return { partyroom: await this.partyroomService.findOne(+id) };
-  // }
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    if (!id) {
+      throw new BadRequestException('invalid id in params');
+    }
+
+    const partyroom = await this.partyroomService.findOne(id);
+    return partyroom[0];
+  }
 
   @Get('/user/:id')
   @UseGuards(AuthGuard('jwt'))

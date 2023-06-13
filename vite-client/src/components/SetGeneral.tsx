@@ -1,13 +1,8 @@
-import {
-  DangerButton,
-  PrimaryButton,
-  SubmitButton,
-} from "./minicomponents/Buttons";
-import { SettingsInput, StandardInput } from "./minicomponents/Inputs";
+import { DangerButton } from "./minicomponents/Buttons";
+import { SettingsInput } from "./minicomponents/Inputs";
 import { useAppDispatch } from "../app/hook";
 import { logout } from "../redux/authSlice";
-import { FormEvent, useEffect, useRef, useState } from "react";
-import jwt_decode from "jwt-decode";
+import { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 export interface JWT {
@@ -42,14 +37,18 @@ export function SetGeneral() {
       const token = localStorage.getItem("token");
       const params = new URLSearchParams(window.location.search);
       const userId = params.get("user_id");
-      const response = await fetch(`http://localhost:3000/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const userDetails = await response.json();
+
       setUserInputs({
         id: NaN,
         username: userDetails.user.name,
@@ -85,14 +84,17 @@ export function SetGeneral() {
     const params = new URLSearchParams(window.location.search);
     const userId = params.get("user_id");
 
-    const response = await fetch(`http://localhost:3000/user/${userId}`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, phone, email }),
-    });
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, phone, email }),
+      }
+    );
 
     if (response.ok) {
       const userDetails = await response.json();
