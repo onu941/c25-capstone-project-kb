@@ -13,7 +13,7 @@ import {
   PrimaryButton,
 } from "../components/minicomponents/Buttons";
 import { BookingModal } from "../components/minicomponents/Modals";
-import { toast, Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import sample from "../assets/sample_partyroom.jpg";
 import {
   BBQIcon,
