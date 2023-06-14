@@ -64,7 +64,9 @@ export default function Partyroom() {
   };
 
   const openGoogleMaps = () => {
-    const addressQuery = encodeURIComponent(partyroom.address);
+    const addressQuery = encodeURIComponent(
+      `${partyroom.address}, ${partyroom.district}`
+    );
     const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
     window.open(googleMapsURL, "_blank");
   };

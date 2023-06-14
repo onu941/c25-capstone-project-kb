@@ -1,11 +1,16 @@
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { ButtonProps, SettingsTabButtonProps } from "../../app/interface";
 import {
+  BBQIcon,
+  BoardGamesIcon,
   FamilyIcon,
   GeneralPartyIcon,
+  KaraokeIcon,
   MahjongIcon,
+  VideoGamesIcon,
   WeddingIcon,
 } from "../../assets/MaterialIcons";
+import { TvIcon } from "@heroicons/react/24/outline";
 
 export function PrimaryButton(props: ButtonProps) {
   return (
@@ -125,6 +130,36 @@ export function FormIconButton(props: ButtonProps) {
         <>
           <MahjongIcon color={props.color!} className="w-16 h-16" />
           <span className={props.spanClassName}>Mahjong</span>
+        </>
+      )}
+      {props.icon === "video_games" && (
+        <>
+          <VideoGamesIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Video Games</span>
+        </>
+      )}
+      {props.icon === "bbq" && (
+        <>
+          <BBQIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>BBQ</span>
+        </>
+      )}
+      {props.icon === "board_games" && (
+        <>
+          <BoardGamesIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Board Games</span>
+        </>
+      )}
+      {props.icon === "karaoke" && (
+        <>
+          <KaraokeIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Karaoke</span>
+        </>
+      )}
+      {props.icon === "tv" && (
+        <>
+          <TvIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>TV / Streaming</span>
         </>
       )}
     </button>
