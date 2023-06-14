@@ -5,7 +5,7 @@ import { Form2Props } from "../app/interface";
 
 export function Part2Form(props: Form2Props) {
   return (
-    <div className={`${props.isSelected === "basics" ? "hidden" : ""}`}>
+    <div className={`${props.isSelected === "part_1" ? "hidden" : ""}`}>
       <div
         className="px-10 py-12 rounded-xl border-dashed border-2 border-slate-500 text-lg text-justify mb-8"
         {...props.getRootProps()}

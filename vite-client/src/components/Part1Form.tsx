@@ -4,16 +4,14 @@ import { Form1Props } from "../app/interface";
 import {
   BBQIcon,
   BoardGamesIcon,
-  FamilyIcon,
-  GeneralPartyIcon,
   KaraokeIcon,
   MahjongIcon,
   VideoGamesIcon,
   WeddingIcon,
 } from "../assets/MaterialIcons";
-import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
 import DistrictInput from "./minicomponents/Inputs";
+import { FormIconButton } from "./minicomponents/Buttons";
 
 export function Part1Form(props: Form1Props) {
   return (
@@ -63,139 +61,94 @@ export function Part1Form(props: Form1Props) {
         className="w-full sm:px-8 md:px-36 columns-3 mb-6"
       >
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="general"
             onClick={() => props.handleFormIconButton("General")}
-          >
-            <GeneralPartyIcon
-              color={
-                props.activeIconButtons.General
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.General
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              General
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.General
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.General
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="dates"
             onClick={() => props.handleFormIconButton("Dates")}
-          >
-            <HeartIcon
-              className={`${
-                props.activeIconButtons.Dates
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.Dates
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Dates
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Dates
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Dates
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="families"
             onClick={() => props.handleFormIconButton("Families")}
-          >
-            <FamilyIcon
-              color={
-                props.activeIconButtons.Families
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Families
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Families
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Families
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Families
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="businesses"
             onClick={() => props.handleFormIconButton("Businesses")}
-          >
-            <BriefcaseIcon
-              className={`${
-                props.activeIconButtons.Businesses
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.Businesses
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Businesses
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Businesses
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Businesses
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="birthdays"
             onClick={() => props.handleFormIconButton("Birthdays")}
-          >
-            <CakeIcon
-              className={`${
-                props.activeIconButtons.Birthdays
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.Birthdays
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Birthdays
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Birthdays
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Birthdays
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="weddings"
             onClick={() => props.handleFormIconButton("Weddings")}
-          >
-            <WeddingIcon
-              color={
-                props.activeIconButtons.Weddings
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Weddings
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Weddings
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Weddings
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Weddings
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
       </div>
       <div id="hidden-category-inputs" hidden>
@@ -312,28 +265,20 @@ export function Part1Form(props: Form1Props) {
         className="w-full sm:px-8 md:px-36 columns-3 mb-6"
       >
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="mahjong"
             onClick={() => props.handleFormIconButton("Mahjong")}
-          >
-            <MahjongIcon
-              color={
-                props.activeIconButtons.Mahjong
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Mahjong
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Mahjong
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Mahjong
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Mahjong
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
           <button
             className="flex flex-col place-items-center"
             onClick={() => props.handleFormIconButton("VideoGames")}

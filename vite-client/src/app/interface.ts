@@ -11,10 +11,13 @@ import {
 // ************************ //
 
 export interface ButtonProps {
-  label: string;
+  label?: string;
   type?: "button" | "submit";
   onClick?: (arg: any) => void;
   isCentered?: boolean;
+  color?: string;
+  spanClassName?: string;
+  icon?: string;
 }
 
 export interface SettingsTabButtonProps {
