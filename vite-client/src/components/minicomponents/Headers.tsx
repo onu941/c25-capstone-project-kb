@@ -44,10 +44,10 @@ export function FormHeader(props: HeaderProps) {
 export function ReviewHeader() {
   return (
     <div className="flex mb-6">
-      <div className=" w-3/5 header px-4 flex flex-row text-lg font-extralight place-items-center">
+      <div className=" w-3/5 header flex flex-row text-lg font-extralight place-items-center">
         Leave A Review
       </div>
-      <div className="flex w-2/5 place-items-center justify-end pr-8">
+      <div className="flex w-2/5 place-items-center justify-end">
         <input
           type="text"
           name="score"
