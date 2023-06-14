@@ -3,13 +3,9 @@ import {
   MagnifyingGlassIcon,
   PlusCircleIcon,
 } from "@heroicons/react/20/solid";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SettingsTabButton } from "./Buttons";
-
-interface SettingTabProps {
-  handleClick: (string: string) => void;
-  isSelected?: string;
-}
+import { SettingTabProps } from "../../app/interface";
 
 export function Tab() {
   const navigate = useNavigate();

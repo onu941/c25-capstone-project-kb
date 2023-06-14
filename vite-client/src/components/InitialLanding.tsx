@@ -1,8 +1,5 @@
+import { InitialLandingProps } from "../app/interface";
 import { PrimaryButton } from "./minicomponents/Buttons";
-
-export interface InitialLandingProps {
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
 
 export function InitialLanding(props: InitialLandingProps) {
   return (

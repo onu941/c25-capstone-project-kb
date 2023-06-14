@@ -1,15 +1,4 @@
-interface ButtonProps {
-  label: string;
-  type?: "button" | "submit";
-  onClick?: (arg: any) => void;
-  isCentered?: boolean;
-}
-
-interface SettingsTabButtonProps {
-  name?: string;
-  onClick?: () => void;
-  isSelected?: boolean;
-}
+import { ButtonProps, SettingsTabButtonProps } from "../../app/interface";
 
 export function PrimaryButton(props: ButtonProps) {
   return (

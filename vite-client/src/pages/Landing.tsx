@@ -5,10 +5,7 @@ import {
 } from "../components/minicomponents/Containers";
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { LandingCarousel } from "../components/minicomponents/Carousels";
-import {
-  BookingCard,
-  BookingCardLarge,
-} from "../components/minicomponents/Cards";
+import { BookingCardLarge } from "../components/minicomponents/Cards";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { Link } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
@@ -93,7 +90,7 @@ export default function Landing() {
               alt="sample"
               name="Partyroom Name"
               address="18 Tung Chung Waterfront Rd"
-              date={25}
+              date="25"
               month="May"
               pax={8}
             />
@@ -106,7 +103,7 @@ export default function Landing() {
               alt="sample"
               name="Partyroom Name"
               address="18 Tung Chung Waterfront Rd"
-              date={25}
+              date="25"
               month="May"
               pax={8}
             />

@@ -1,16 +1,7 @@
-import { DropzoneInputProps, DropzoneRootProps } from "react-dropzone";
 import { FormCarousel } from "./minicomponents/Carousels";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { Switch } from "@headlessui/react";
-
-export interface Form2Props {
-  isSelected?: string;
-  getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
-  getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
-  isDragActive?: boolean;
-  switchEnabled?: boolean;
-  setSwitchEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { Form2Props } from "../app/interface";
 
 export function Part2Form(props: Form2Props) {
   return (

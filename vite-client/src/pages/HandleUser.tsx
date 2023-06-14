@@ -3,13 +3,14 @@ import { useForm } from "react-hook-form";
 import { FullScreenInitial } from "../components/minicomponents/Containers";
 import { InitialLanding } from "../components/InitialLanding";
 import { Login } from "../components/Login";
-import { HandleUserFormState, Signup } from "../components/Signup";
+import { Signup } from "../components/Signup";
 import { localLogin } from "../redux/authAPI";
 import { login } from "../redux/authSlice";
 import { useAppDispatch } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import jwtDecode from "jwt-decode";
+import { HandleUserFormState } from "../app/interface";
 
 export interface JWT {
   id: number;

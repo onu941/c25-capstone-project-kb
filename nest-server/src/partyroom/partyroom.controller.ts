@@ -37,6 +37,12 @@ export class PartyroomController {
   //   return { partyrooms: await this.partyroomService.findAll() };
   // }
 
+  @Get('/district')
+  @UseGuards(AuthGuard('jwt'))
+  async findAllDistricts() {
+    return this.partyroomService.findAllDistricts();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: number) {
     if (!id) {
@@ -45,6 +51,18 @@ export class PartyroomController {
 
     const partyroom = await this.partyroomService.findOne(id);
     return partyroom[0];
+  }
+
+  @Get('/reviews/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async findAllReviewsForOne(@Param('id') id: number) {
+    if (!id) {
+      throw new BadRequestException('invalid id in params');
+    }
+
+    const reviews = await this.partyroomService.findAllReviewsForOne(id);
+
+    return reviews;
   }
 
   @Get('/user/:id')

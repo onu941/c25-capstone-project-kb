@@ -1,25 +1,8 @@
 import {
-  ChatBubbleBottomCenterIcon,
   ChatBubbleLeftEllipsisIcon,
   UserCircleIcon,
 } from "@heroicons/react/20/solid";
-import { PrimaryButton } from "./Buttons";
-
-interface CardProps {
-  id?: number;
-  date?: number;
-  month?: string;
-  year?: number;
-  name?: string;
-  time?: string;
-  pax?: number;
-  address?: string;
-  content?: string;
-  score?: number;
-  onClick?: () => void;
-  image?: string;
-  alt?: string;
-}
+import { CardProps } from "../../app/interface";
 
 export function BookingCardLarge(props: CardProps) {
   return (
@@ -105,32 +88,47 @@ export function PartyroomCard(props: CardProps) {
 
 export function OwnerCard(props: CardProps) {
   return (
-    <div className="flex place-content-center">
-      <div className="bg-slate-500 w-11/12 place-content-center place-items-center px-4 py-7 mb-6 rounded-md columns-2 flex drop-shadow-lg outline outline-offset-2 outline-slate-400">
-        <div className="w-full flex place-content-center">
-          <UserCircleIcon className="h-28 w-28 text-slate-200" />
-        </div>
-        <div className="w-full flex flex-col place-content-center place-items-center">
-          <div className="font-semibold text-lg mb-2">{props.name}</div>
-          <div className="text-md mb-1">
-            <ChatBubbleLeftEllipsisIcon className="h-12 w-12 text-slate-200" />
+    <>
+      <div className="flex place-content-center">
+        <div className="bg-slate-800 md:w-96 w-full md:px-4 px-2 md:py-7 py-5 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 md:gap-2">
+          <div className="w-full flex place-content-center">
+            <UserCircleIcon className="h-28 w-28 text-slate-300" />
+          </div>
+          <div className="w-full flex flex-col place-content-center place-items-center">
+            <div className="font-semibold md:text-2xl text-base mb-6 text-center text-slate-100">
+              {props.name}
+            </div>
+            <div className="md:text-lg text-sm mb-1 text-slate-300">
+              <a
+                href={props.whatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-slate-400"
+              >
+                <ChatBubbleLeftEllipsisIcon className="h-9 w-9 text-slate-300" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
 export function ReviewCard(props: CardProps) {
   return (
-    <div className="flex place-content-center">
-      <div className="columns-2 bg-slate-500 w-11/12 place-content-center place-items-center px-4 py-7 mb-6 rounded-md flex drop-shadow-lg outline outline-offset-2 outline-slate-400">
-        <div className="w-full flex place-content-center text-5xl">
-          {props.score}/10
+    <div className="card lg:card-side bg-transparent drop-shadow-xl border-solid border-slate-700 border-2 columns-2">
+      <div className="p-2 px-8 place-items-center place-content-center flex italic text-slate-200 text-lg leading-relaxed border-r-2 border-solid border-slate-700">
+        {`"${props.review_text}"`}
+      </div>
+      <div className="card-body w-3/5 flex flex-col bg-slate-800">
+        <div className="card-title text-slate-200 text-5xl mb-3 font-light tracking-wider">
+          {props.score}
         </div>
-        <div className="w-full flex flex-col place-content-center place-items-center">
-          <div className="font-semibold text-lg mb-2">{props.name}</div>
-          <div className="text-md mb-1">{props.content}</div>
+        <div className="text-slate-300 text-base mb-3">
+          {props.name}
+          <br></br>
+          {props.date}
         </div>
       </div>
     </div>

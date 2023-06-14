@@ -1,13 +1,6 @@
-import { UseFormRegister } from "react-hook-form";
-import { PrimaryButton } from "./minicomponents/Buttons";
 import { FormHeader } from "./minicomponents/Headers";
 import { MiniInput, StandardInput, TextArea } from "./minicomponents/Inputs";
-import {
-  CategoryField,
-  EquipmentField,
-  NewRoomFormState,
-} from "../pages/NewRoom";
-import { useState } from "react";
+import { Form1Props } from "../app/interface";
 import {
   BBQIcon,
   BoardGamesIcon,
@@ -20,26 +13,14 @@ import {
 } from "../assets/MaterialIcons";
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
-
-export interface Form1Props {
-  register: UseFormRegister<NewRoomFormState>;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  equipmentFields: EquipmentField[];
-  categoryFields: CategoryField[];
-  handleDelete: (id: number) => void;
-  handleAddMoreEquipment: () => void;
-  handleAddMoreCategories: () => void;
-  handleDeleteCategories: (id: number) => void;
-  activeIconButtons: { [key: string]: boolean };
-  handleFormIconButton: (iconType: string) => void;
-  color?: string;
-}
+import DistrictInput from "./minicomponents/Inputs";
 
 export function Part1Form(props: Form1Props) {
   return (
     <>
-      <div className="mb-8">
+      <div id="basics" className="mb-8">
         <StandardInput
+          name="name"
           type="text"
           placeholder="name your partyroom"
           register={props.register("name")}
@@ -48,11 +29,13 @@ export function Part1Form(props: Form1Props) {
         />
         <div className="flex flex-row w-full justify-between">
           <MiniInput
+            name="room_size"
             type="text"
-            placeholder="area"
-            register={props.register("area")}
+            placeholder="area (ft²)"
+            register={props.register("room_size")}
           />
           <MiniInput
+            name="capacity"
             type="text"
             placeholder="capacity"
             register={props.register("capacity")}
@@ -61,16 +44,17 @@ export function Part1Form(props: Form1Props) {
       </div>
       <div className="mb-12">
         <StandardInput
+          name="address"
           placeholder="address line 1 (room, building, street)"
           type="text"
           register={props.register("address")}
           isEditing
         />
-        <StandardInput
-          placeholder="address line 2 (district)"
+        <DistrictInput
+          name="district"
           type="text"
+          placeholder="address line 2 (district)"
           register={props.register("district")}
-          isEditing
         />
       </div>
       <FormHeader title="What is your partyroom designed for?" />
@@ -569,6 +553,7 @@ export function Part1Form(props: Form1Props) {
           />
         </div> */}
       </div>
+      <FormHeader title="Add your partyroom's pricing plans:" />
       <FormHeader title="Add any other features that weren't previously mentioned:" />
       <TextArea
         placeholder="Max 150 characters"
