@@ -12,7 +12,6 @@ import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
 import { useAppDispatch } from "../app/hook";
-import { useLocation } from "react-router-dom";
 import sample from "../assets/sample_partyroom.jpg";
 
 export interface JWT {
@@ -26,14 +25,12 @@ export interface JWT {
 }
 
 export default function Landing() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const userId = searchParams.get("user_id");
+  const token = localStorage.getItem("token");
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("user_id");
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
-
-  const dispatch = useAppDispatch();
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -41,9 +38,6 @@ export default function Landing() {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const token = localStorage.getItem("token");
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("user_id");
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
         {

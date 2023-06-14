@@ -1,4 +1,11 @@
+import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { ButtonProps, SettingsTabButtonProps } from "../../app/interface";
+import {
+  FamilyIcon,
+  GeneralPartyIcon,
+  MahjongIcon,
+  WeddingIcon,
+} from "../../assets/MaterialIcons";
 
 export function PrimaryButton(props: ButtonProps) {
   return (
@@ -68,5 +75,58 @@ export function BookingButton(props: ButtonProps) {
         </div>
       </button>
     </div>
+  );
+}
+
+export function FormIconButton(props: ButtonProps) {
+  return (
+    <button
+      type="button"
+      className="flex flex-col place-items-center mb-4"
+      onClick={props.onClick}
+    >
+      {props.icon === "general" && (
+        <>
+          <GeneralPartyIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>General</span>
+        </>
+      )}
+      {props.icon === "dates" && (
+        <>
+          <HeartIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>Dates</span>
+        </>
+      )}
+      {props.icon === "families" && (
+        <>
+          <FamilyIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Families</span>
+        </>
+      )}
+      {props.icon === "businesses" && (
+        <>
+          <BriefcaseIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>Businesses</span>
+        </>
+      )}
+      {props.icon === "birthdays" && (
+        <>
+          <CakeIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>Birthdays</span>
+        </>
+      )}
+      {props.icon === "weddings" && (
+        <>
+          <WeddingIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Weddings</span>
+        </>
+      )}
+      {props.icon === "mahjong" && (
+        <>
+          <MahjongIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Mahjong</span>
+        </>
+      )}
+    </button>
   );
 }

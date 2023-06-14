@@ -71,14 +71,14 @@ export function NewRoomTab(props: SettingTabProps) {
   return (
     <div className="tabs mt-5 mb-6 w-full flex place-content-around">
       <SettingsTabButton
-        onClick={() => props.handleClick("basics")}
+        onClick={() => props.handleClick("part_1")}
         name="Part 1"
-        isSelected={props.isSelected === "basics"}
+        isSelected={props.isSelected === "part_1"}
       />
       <SettingsTabButton
-        onClick={() => props.handleClick("photoconfirm")}
+        onClick={() => props.handleClick("part_2")}
         name="Part 2"
-        isSelected={props.isSelected === "photoconfirm"}
+        isSelected={props.isSelected === "part_2"}
       />
     </div>
   );
