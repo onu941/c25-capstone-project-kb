@@ -1,5 +1,4 @@
 import { FormEvent } from "react";
-import { DropzoneRootProps, DropzoneInputProps } from "react-dropzone";
 import {
   UseFormHandleSubmit,
   UseFormRegister,
@@ -126,8 +125,6 @@ export interface Form1Props {
 
 export interface Form2Props {
   isSelected?: string;
-  getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
-  getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
   isDragActive?: boolean;
   switchEnabled?: boolean;
   setSwitchEnabled: React.Dispatch<React.SetStateAction<boolean>>;

@@ -1,15 +1,6 @@
 import { FormHeader } from "./minicomponents/Headers";
 import { MiniInput, StandardInput, TextArea } from "./minicomponents/Inputs";
 import { Form1Props } from "../app/interface";
-import {
-  BBQIcon,
-  BoardGamesIcon,
-  KaraokeIcon,
-  MahjongIcon,
-  VideoGamesIcon,
-  WeddingIcon,
-} from "../assets/MaterialIcons";
-import { TvIcon } from "@heroicons/react/24/outline";
 import DistrictInput from "./minicomponents/Inputs";
 import { FormIconButton } from "./minicomponents/Buttons";
 
@@ -279,115 +270,72 @@ export function Part1Form(props: Form1Props) {
                 : "text-slate-500"
             }
           />
-          <button
-            className="flex flex-col place-items-center"
+          <FormIconButton
+            icon="video_games"
             onClick={() => props.handleFormIconButton("VideoGames")}
-          >
-            <VideoGamesIcon
-              color={
-                props.activeIconButtons.VideoGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.VideoGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Video Games
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.VideoGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.VideoGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="bbq"
             onClick={() => props.handleFormIconButton("BBQ")}
-          >
-            <BBQIcon
-              color={
-                props.activeIconButtons.BBQ
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.BBQ
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              BBQ
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="board_games"
             onClick={() => props.handleFormIconButton("BoardGames")}
-          >
-            <BoardGamesIcon
-              color={
-                props.activeIconButtons.BoardGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.BoardGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Board Games
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.BoardGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.BoardGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="karaoke"
             onClick={() => props.handleFormIconButton("Karaoke")}
-          >
-            <KaraokeIcon
-              color={
-                props.activeIconButtons.Karaoke
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Karaoke
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Karaoke
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Karaoke
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Karaoke
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="tv"
             onClick={() => props.handleFormIconButton("TV")}
-          >
-            <TvIcon
-              className={`${
-                props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
-              }
-            >
-              TV / Streaming
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
+            }
+          />
         </div>
       </div>
       <div id="hidden-equipment-inputs" hidden>
