@@ -1,11 +1,6 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
-
-interface HeaderProps {
-  title?: string;
-  isOpen?: boolean;
-  toggleSidebar?: () => void;
-}
+import { HeaderProps } from "../../app/interface";
 
 export function AppHeader(props: HeaderProps) {
   const navigate = useNavigate();
@@ -32,7 +27,7 @@ export function AppHeader(props: HeaderProps) {
 
 export function BodyHeader(props: HeaderProps) {
   return (
-    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
+    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-xl font-light mb-6">
       {props.title}
     </div>
   );

@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { BookingCard } from "./minicomponents/Cards";
-import { FullScreen } from "./minicomponents/Containers";
 
 export function SetBookings() {
   // you will use a map fn later on, the current Array.from method is just a placeholder

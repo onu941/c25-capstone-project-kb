@@ -1,20 +1,13 @@
 import {
-  ArrowLeftOnRectangleIcon,
   ArrowRightOnRectangleIcon,
-  ChatBubbleLeftRightIcon,
   Cog6ToothIcon,
   PresentationChartBarIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-// import { ClockIcon } from "@heroicons/react/24/outline";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hook";
 import { logout } from "../../redux/authSlice";
-
-interface SidebarProps {
-  isOpen: boolean;
-  toggleSidebar: () => void;
-}
+import { SidebarProps } from "../../app/interface";
 
 export function Sidebar(props: SidebarProps) {
   const dispatch = useAppDispatch();

@@ -6,12 +6,6 @@ import {
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
-import {
-  MiniInput,
-  StandardInput,
-  TextArea,
-} from "../components/minicomponents/Inputs";
-import { FormCarousel } from "../components/minicomponents/Carousels";
 import { OwnerCard, ReviewCard } from "../components/minicomponents/Cards";
 import {
   BookingButton,
@@ -31,42 +25,25 @@ import {
   VideoGamesIcon,
   WeddingIcon,
 } from "../assets/MaterialIcons";
-import {
-  BriefcaseIcon,
-  CakeIcon,
-  ChartBarIcon,
-  HeartIcon,
-} from "@heroicons/react/20/solid";
+import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
-
-type Partyroom = {
-  id: number;
-  name: string;
-  host_id: number;
-  district: string;
-  capacity: number;
-  phone: string;
-  address: string;
-  description: string;
-  category: string[];
-  equipment: string[];
-};
-
-type Review = {
-  id: number;
-  score: number;
-  name: string;
-  content: string;
-};
+import { Partyroom as PartyroomType, Review } from "../app/interface";
 
 export default function Partyroom() {
+  const token = localStorage.getItem("token");
+  const params = new URLSearchParams(window.location.search);
+  const userId = params.get("user_id");
+  const partyroomId = params.get("partyroom_id");
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
-  const [partyroom, setPartyroom] = useState<Partyroom>({
-    id: NaN,
+  const [partyroom, setPartyroom] = useState<PartyroomType>({
+    id: Number(partyroomId),
     name: "",
-    host_id: NaN,
+    host_id: Number(userId),
+    host_name: "",
     district: "",
+    room_size: NaN,
     capacity: NaN,
     phone: "",
     address: "",
@@ -75,27 +52,7 @@ export default function Partyroom() {
     equipment: [],
   });
   const [isOwner, setIsOwner] = useState<boolean>(false);
-
-  const reviews: Review[] = [
-    {
-      id: 1,
-      score: 9,
-      name: "Reviewer Name",
-      content: "Excellent thanks!",
-    },
-    {
-      id: 2,
-      score: 9,
-      name: "Reviewer Name",
-      content: "Excellent thanks!",
-    },
-    {
-      id: 3,
-      score: 9,
-      name: "Reviewer Name",
-      content: "Excellent thanks!",
-    },
-  ];
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -114,10 +71,6 @@ export default function Partyroom() {
 
   useEffect(() => {
     const fetchPartyroomDetails = async () => {
-      const token = localStorage.getItem("token");
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("user_id");
-      const partyroomId = params.get("partyroom_id");
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/partyroom/${partyroomId}`,
         {
@@ -134,17 +87,39 @@ export default function Partyroom() {
       setPartyroom({
         ...partyroom,
         name: partyroomDetails.name,
+        host_name: partyroomDetails.host_name,
         address: partyroomDetails.address,
-        host_id: partyroomDetails.host_id,
+        district: partyroomDetails.district,
+        room_size: partyroomDetails.room_size,
         capacity: partyroomDetails.capacity,
-        // area: partyroomDetails.area,
+        phone: partyroomDetails.phone,
         description: partyroomDetails.description,
+        category: [],
+        equipment: [],
       });
 
       if (Number(userId) === partyroomDetails.host_id) setIsOwner(!isOwner);
     };
 
+    const fetchPartyroomReviews = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/partyroom/reviews/${partyroomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const reviewsData = await response.json();
+      console.log(reviewsData);
+      setReviews(reviewsData);
+      console.log("useState reviews: ", reviews);
+    };
+
     fetchPartyroomDetails();
+    fetchPartyroomReviews();
   }, []);
 
   return (
@@ -181,26 +156,28 @@ export default function Partyroom() {
           ></Sidebar>
           <div className="mb-12">
             <div className="text-slate-300">
-              {partyroom.address} | district |{" "}
+              {partyroom.address} | {partyroom.district} |{" "}
               <a
                 href=""
-                className=" underline text-slate-400"
+                className="underline text-slate-400"
                 onClick={() => openGoogleMaps()}
               >
                 locate on google maps
               </a>
             </div>
             <div className="text-slate-300">
-              partyroom area | {partyroom.capacity} pax
+              {partyroom.room_size} ft² | {partyroom.capacity} pax
             </div>
           </div>
-          {isOwner && (
-            <div className="mb-4 w-full columns-2 flex justify-center gap-12">
-              <PrimaryButton label="Edit Partyroom" />
-              <DangerButton label="Delete Partyroom" />
-            </div>
-          )}
-          <div className="w-full flex md:px-0 justify-between columns-2 mb-12">
+          <div className="mb-4 w-full columns-2 flex justify-center gap-12">
+            {isOwner && (
+              <>
+                <PrimaryButton label="Edit Partyroom" />
+                <DangerButton label="Delete Partyroom" />
+              </>
+            )}
+          </div>
+          <div className="w-full flex md:px-0 justify-between columns-2 mb-6 gap-8">
             <div className="flex columns-2 gap-2">
               <img
                 src={sample}
@@ -293,17 +270,30 @@ export default function Partyroom() {
               </div>
             </div>
           </div>
-          <div className="mb-8">
-            <div className="border-solid border-2 p-6 rounded-lg border-slate-700 text-center text-slate-300">
-              <p>{partyroom.description}</p>
-              <br></br>- Owner name, WhatsApp number
+          <div className="mb-8 flex flex-row">
+            <div>
+              <OwnerCard
+                name={partyroom.host_name}
+                phone={partyroom.phone}
+                whatsAppUrl={`https://wa.me/${partyroom.phone}`}
+              />
+            </div>
+            <div className="border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center flex text-slate-300 h-fill ms-8 text-lg leading-relaxed italic">
+              <p>{`"${partyroom.description}"`}</p>
             </div>
           </div>
           <div className="mb-48">
             <BodyHeader title="Reviews"></BodyHeader>
-            <div className="border-solid border-2 p-6 rounded-lg border-slate-700 text-center text-slate-300">
-              <p>{partyroom.description}</p>
-              <br></br>- Reviewer, WhatsApp number
+            <div className="grid grid-cols-3 gap-8">
+              {reviews.map((review) => (
+                <ReviewCard
+                  key={review.id}
+                  review_text={review.detail}
+                  score={`${review.rating}/10`}
+                  name={review.name}
+                  date="18 June 23"
+                />
+              ))}
             </div>
           </div>
         </ResponsiveContainer>

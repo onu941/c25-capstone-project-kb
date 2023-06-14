@@ -5,17 +5,6 @@ import { logout } from "../redux/authSlice";
 import { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
-export interface JWT {
-  id: number;
-  name: string;
-  phone: string;
-  email: string;
-  is_admin: boolean;
-  image_id: number;
-  iat: number;
-  exp: number;
-}
-
 export function SetGeneral() {
   const [inputs, setUserInputs] = useState({
     id: NaN,

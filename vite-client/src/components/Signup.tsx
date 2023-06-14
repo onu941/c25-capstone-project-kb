@@ -1,20 +1,7 @@
-import { UseFormRegister, UseFormHandleSubmit } from "react-hook-form";
 import { FullScreenInitial } from "./minicomponents/Containers";
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
 import { PrimaryButton } from "./minicomponents/Buttons";
-
-export type HandleUserFormState = {
-  name: string;
-  phoneNo: any;
-  password: string;
-};
-
-export interface SignupProps {
-  register: UseFormRegister<HandleUserFormState>;
-  handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
-  onSignupSubmit: (data: HandleUserFormState) => void;
-  setPage: React.Dispatch<React.SetStateAction<string>>;
-}
+import { SignupProps } from "../app/interface";
 
 export function Signup(props: SignupProps) {
   return (
