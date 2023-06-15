@@ -58,12 +58,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.General
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.General
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
           <FormIconButton
@@ -72,12 +72,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Dates
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Dates
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
         </div>
@@ -88,12 +88,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Families
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Families
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
           <FormIconButton
@@ -102,12 +102,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Businesses
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Businesses
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
         </div>
@@ -118,12 +118,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Birthdays
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Birthdays
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
           <FormIconButton
@@ -132,12 +132,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Weddings
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Weddings
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
         </div>
@@ -262,12 +262,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Mahjong
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Mahjong
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
           <FormIconButton
@@ -276,12 +276,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.VideoGames
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.VideoGames
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
         </div>
@@ -290,10 +290,10 @@ export function Part1Form(props: Form1Props) {
             icon="bbq"
             onClick={() => props.handleFormIconButton("BBQ")}
             color={
-              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-500"
+              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-600"
             }
             spanClassName={
-              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-500"
+              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-600"
             }
           />
           <FormIconButton
@@ -302,12 +302,12 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.BoardGames
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.BoardGames
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
         </div>
@@ -318,22 +318,22 @@ export function Part1Form(props: Form1Props) {
             color={
               props.activeIconButtons.Karaoke
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
             spanClassName={
               props.activeIconButtons.Karaoke
                 ? "text-slate-300"
-                : "text-slate-500"
+                : "text-slate-600"
             }
           />
           <FormIconButton
             icon="tv"
             onClick={() => props.handleFormIconButton("TV")}
             color={
-              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
+              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-600"
             }
             spanClassName={
-              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
+              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-600"
             }
           />
         </div>

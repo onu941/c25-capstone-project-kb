@@ -53,6 +53,16 @@ export class PartyroomController {
     return partyroom[0];
   }
 
+  @Get('/categories/:id')
+  async findCategoriesForOne(@Param('id') id: number) {
+    return this.partyroomService.findCategoriesForOne(id);
+  }
+
+  @Get('/equipment/:id')
+  async findEquipmentForOne(@Param('id') id: number) {
+    return this.partyroomService.findEquipmentForOne(id);
+  }
+
   @Get('/reviews/:id')
   @UseGuards(AuthGuard('jwt'))
   async findAllReviewsForOne(@Param('id') id: number) {
