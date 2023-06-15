@@ -25,10 +25,6 @@ export class PartyroomService {
   //   return id;
   // }
 
-  // async findAll() {
-  //   return this.partyrooms.filter((partyroom) => partyroom);
-  // }
-
   async findAllDistricts() {
     return await this.knex.select('*').from('district');
   }
