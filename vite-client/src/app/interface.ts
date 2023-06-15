@@ -138,6 +138,17 @@ export interface PartyroomInSettings {
   is_hidden: boolean;
 }
 
+export interface BookingInSettings {
+  id: number; // have
+  name: string; // need to join table (partyroom_price_list, partyroom)
+  date: number; // have
+  month: number; // have
+  year: number; // have
+  start_time: string; // join table (partyroom_price_list)
+  headcount: number; // have
+  address: string; // join table (partyroom_price_list, partyroom)
+}
+
 export interface HandleUserFormState {
   name: string;
   phoneNo: any;
@@ -195,8 +206,16 @@ export interface Partyroom {
   phone: string;
   address: string;
   description: string;
-  category: string[];
-  equipment: string[];
+  category: Category[];
+  equipment: Equipment[];
+}
+
+export interface Category {
+  name: string;
+}
+
+export interface Equipment {
+  name: string;
 }
 
 export interface Review {

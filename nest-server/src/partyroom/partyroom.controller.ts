@@ -32,11 +32,6 @@ export class PartyroomController {
   //   };
   // }
 
-  // @Get()
-  // async findAll() {
-  //   return { partyrooms: await this.partyroomService.findAll() };
-  // }
-
   @Get('/district')
   @UseGuards(AuthGuard('jwt'))
   async findAllDistricts() {
@@ -51,6 +46,16 @@ export class PartyroomController {
 
     const partyroom = await this.partyroomService.findOne(id);
     return partyroom[0];
+  }
+
+  @Get('/categories/:id')
+  async findCategoriesForOne(@Param('id') id: number) {
+    return this.partyroomService.findCategoriesForOne(id);
+  }
+
+  @Get('/equipment/:id')
+  async findEquipmentForOne(@Param('id') id: number) {
+    return this.partyroomService.findEquipmentForOne(id);
   }
 
   @Get('/reviews/:id')
@@ -76,6 +81,12 @@ export class PartyroomController {
     return partyrooms;
   }
 
+  //   @Delete(':id')
+  //   async remove(@Param('id') id: string) {
+  //     await this.partyroomService.remove(+id);
+  //     return { message: `Partyroom with ID ${id} removed` };
+  //   }
+
   //   @Patch(':id')
   //   async update(
   //     @Param('id') id: string,
@@ -83,11 +94,5 @@ export class PartyroomController {
   //   ) {
   //     await this.partyroomService.update(+id, updatePartyroomDto);
   //     return { message: `Partyroom with ID ${id} updated` };
-  //   }
-
-  //   @Delete(':id')
-  //   async remove(@Param('id') id: string) {
-  //     await this.partyroomService.remove(+id);
-  //     return { message: `Partyroom with ID ${id} removed` };
   //   }
 }
