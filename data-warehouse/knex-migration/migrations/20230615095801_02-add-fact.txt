@@ -1,0 +1,154 @@
+fact_booking
+--------------
+id integer PK
+start_date_id FK - dim_date.id
+start_time_id FK - dim_time.id
+users_id FK - dim_users.id
+partyroom_id FK >0- dim_partyroom.id
+source string
+total_hour numberic(4,2)
+headcount integer
+booking_fee numeric(7,2)
+review_rating integer FK - dim_review.id
+
+dim_date
+--------
+id integer PK
+year integer
+month integer
+day_of_month integer
+day_of_year integer
+date string
+quarter integer
+is_holiday boolean
+day_of_week integer
+
+dim_time
+-----------
+id integer PK
+time time
+hour integer
+minute integer
+AMPM string
+
+dim_users
+---------
+id integer PK
+promotion string
+user_register_id FK - fact_users_register.id
+
+dim_partyroom
+--------------
+id integer PK
+host_users_id integer
+partyroom_register_id FK - fact_partyroom_register.id
+district varchar(255)
+capacity integer
+
+
+dim_partyroom_equipment
+-----------------------
+id integer PK
+partyroom_id FK >0- dim_partyroom.id
+equipment_id FK >0- dim_equipment.id
+start_date datetime
+end_date datetime
+
+dim_equipment
+-------
+id integer PK
+name varchar(255)
+
+dim_partyroom_category
+-----------------------
+id integer PK
+partyroom_id FK >0- dim_partyroom.id
+category_id FK >0- dim_category.id
+start_date datetime
+end_date datetime
+
+dim_category
+-------
+id integer PK
+name varchar(255)
+
+fact_partyroom_register
+-----------------------
+id integer PK
+avg_rating decimal(3,1)
+source string
+start_date datetime
+end_date datetime
+
+fact_users_register
+----------
+id integer PK
+source string
+
+dim_review
+----------
+id integer PK
+review_id FK - fact_review.id
+rating decimal(3,1)
+
+fact_review
+-----------
+id integer PK
+source string
+
+staging_booking
+---------------
+id integer PK
+year integer
+month integer
+day_of_month integer
+day_of_year integer
+date string
+quarter integer
+is_holiday boolean
+day_of_week integer
+time time
+hour integer
+minute integer
+AMPM string
+total_hour number(4,2)
+headcount integer
+booking_fee numberic(7,2)
+booking_rating decimal(3,1)
+booking_user_promotion string
+host_users_id integer
+partyroom_district varchar(255)
+partyroom_capacity integer
+created_at datetime
+
+staging_partyroom_register
+--------------------------
+id integer PK
+avg_rating decimal(3,1)
+host_users_id integer
+district varchar(255)
+capacity integer
+partyroom_source string
+partyroom_start_date datetime
+partyroom_end_date datetime
+category_name
+category_start_date datetime
+category_end_date datetime
+equipment_name
+equipment_start_date datetime
+equipment_end_date datetime
+created_at datetime
+
+staging_users_register
+--------------------------
+id integer PK
+booking_user_source string
+booking_user_promotion string
+created_at datetime
+
+staging_review
+--------------
+id integer PK
+booking_review_source string
+booking_rating decimal(3,1)
+created_at datetime
