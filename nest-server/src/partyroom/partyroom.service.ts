@@ -25,10 +25,6 @@ export class PartyroomService {
   //   return id;
   // }
 
-  // async findAll() {
-  //   return this.partyrooms.filter((partyroom) => partyroom);
-  // }
-
   async findAllDistricts() {
     return await this.knex.select('*').from('district');
   }
@@ -50,6 +46,51 @@ export class PartyroomService {
       throw new NotFoundException('partyroom not found');
     }
     return query;
+  }
+
+  async findCategoriesForOne(id: number) {
+    try {
+      const query = await this.knex
+        .select('category.name')
+        .from('partyroom')
+        .join(
+          'partyroom_category',
+          'partyroom.id',
+          '=',
+          'partyroom_category.partyroom_id',
+        )
+        .join('category', 'partyroom_category.category_id', '=', 'category.id')
+        .where('partyroom.id', id);
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findEquipmentForOne(id: number) {
+    try {
+      const query = await this.knex
+        .select('equipment.name')
+        .from('partyroom')
+        .join(
+          'partyroom_equipment',
+          'partyroom.id',
+          '=',
+          'partyroom_equipment.partyroom_id',
+        )
+        .join(
+          'equipment',
+          'partyroom_equipment.equipment_id',
+          '=',
+          'equipment.id',
+        )
+        .where('partyroom.id', id);
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findByUserIdforSettings(id: number) {

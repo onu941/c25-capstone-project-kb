@@ -9,10 +9,11 @@ import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { UserService } from './user/user.service';
+import { BookingModule } from './booking/booking.module';
 dotenv.config();
 
 @Module({
-  imports: [UserModule, PartyroomModule, AuthModule],
+  imports: [UserModule, PartyroomModule, AuthModule, BookingModule],
   controllers: [AppController],
   providers: [AppService, JwtStrategy, UserService],
 })

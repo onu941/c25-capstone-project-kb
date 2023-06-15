@@ -43,9 +43,7 @@ export function SetRooms() {
               name={partyroom.name}
               address={partyroom.address}
               onClick={() => {
-                navigate(
-                  `/partyroom?user_id=${reduxUserId}&room_id=${partyroom.id}`
-                );
+                navigate(`/partyroom?room_id=${partyroom.id}`);
               }}
             />
           </div>
