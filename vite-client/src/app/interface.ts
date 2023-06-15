@@ -195,8 +195,16 @@ export interface Partyroom {
   phone: string;
   address: string;
   description: string;
-  category: string[];
-  equipment: string[];
+  category: Category[];
+  equipment: Equipment[];
+}
+
+export interface Category {
+  name: string;
+}
+
+export interface Equipment {
+  name: string;
 }
 
 export interface Review {
