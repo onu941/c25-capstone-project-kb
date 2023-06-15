@@ -26,8 +26,7 @@ chance.integer({ min: 1, max: 20 }),
 // booking_fee numeric(7,2)
 // rating decimal(3,1)
 
-const rating = [1,2,3,4,5,6,7,8,9,10];
-const ratingChance = [0.15,0.01,0.03,0.02,0.1,0.04,0.12,0.27,0.08,0.18];
+
 
 console.log(
 "fact_booking",
@@ -35,7 +34,27 @@ console.log(
 "total_hour:",chance.integer({ min: 4, max: 8 }),
 "headcount:",chance.integer({ min: 1, max: 20 }),
 "booking_fee: headcount*total hour*",chance.integer({ min: 38, max: 140 }),
-"rating:",chance.weighted(rating, ratingChance),
+)
+
+// dim_review
+// ----------
+// id integer PK
+// review_id FK - fact_review.id
+// rating decimal(3,1)
+
+const rating = [1,2,3,4,5,6,7,8,9,10];
+const ratingChance = [0.15,0.01,0.03,0.02,0.1,0.04,0.12,0.27,0.08,0.18];
+console.log(
+"rating:",chance.weighted(rating, ratingChance)
+)
+
+// fact_review
+// -----------
+// id integer PK
+// source string
+
+console.log(
+"source:",chance.integer({min:100000, max:200000})
 )
 
 // dim_date
@@ -111,7 +130,7 @@ console.log(
 // end_date datetime
 
 console.log(
-"start_date:",chance.date()
+"start_date:",chance.date({year: 2023})
 )
 
 // dim_equipment
@@ -119,7 +138,7 @@ console.log(
 // id integer PK
 // name varchar(255)
 const equipment = ["mahjong","bbq","karaoke","video games","board games","tv"]
-const equipmentChance = []
+const equipmentChance = [0.15,0.05,0.25,0.1,0.3,0.15]
 console.log(
 "equipment:",chance.weighted(equipment,equipmentChance)
 )
@@ -133,13 +152,18 @@ console.log(
 // end_date datetime
 
 console.log(
-"start_date:",chance.date()
+"start_date:",chance.date({year: 2023})
 )
 
 // dim_category
 // -------
 // id integer PK
 // name varchar(255)
+const category = ["general","families","birthdays","dates","business","weddings"]
+const categoryChance = [0.2,0.2,0.2,0.2,0.05,0.15]
+console.log(
+"category:",chance.weighted(category,categoryChance)
+)
 
 // fact_partyroom_register
 // -----------------------
@@ -149,13 +173,17 @@ console.log(
 // start_date datetime
 // end_date datetime
 
+console.log(
+"source:",chance.integer({min: 100000, max: 100220}),
+"start_date:",chance.date({year: 2023})
+)
+
 // fact_users_register
 // ----------
 // id integer PK
 // source string
 
-category
-general;families;birthdays;dates;business;weddings
+console.log(
+"source:",chance.integer({ min: 10000, max: 10192 })
+)
 
-equipment
-mahjong;bbq;karaoke;video games; board games; tv
