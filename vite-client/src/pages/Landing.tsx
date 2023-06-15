@@ -5,18 +5,15 @@ import {
 } from "../components/minicomponents/Containers";
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { LandingCarousel } from "../components/minicomponents/Carousels";
-import {
-  BookingCard,
-  BookingCardLarge,
-} from "../components/minicomponents/Cards";
+import { BookingCardLarge } from "../components/minicomponents/Cards";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { Link } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import { useAppDispatch } from "../app/hook";
-import { useLocation } from "react-router-dom";
-import sample from "../assets/sample_partyroom.jpg";
+import sample from "../assets/img/sample_partyroom.jpg";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export interface JWT {
   name: string;
@@ -29,30 +26,28 @@ export interface JWT {
 }
 
 export default function Landing() {
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const userId = searchParams.get("user_id");
-
+  const token = localStorage.getItem("token");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
-
-  const dispatch = useAppDispatch();
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+  console.log("user id from redux:", reduxUserId);
+
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const token = localStorage.getItem("token");
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("user_id");
-      const response = await fetch(`http://localhost:3000/user/${userId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const userDetails = await response.json();
       const name = userDetails.user.name;
@@ -72,7 +67,6 @@ export default function Landing() {
         <div>
           <Toaster />
         </div>
-
         <ResponsiveContainer>
           <AppHeader
             isOpen={sidebarIsOpen}
@@ -90,7 +84,7 @@ export default function Landing() {
               alt="sample"
               name="Partyroom Name"
               address="18 Tung Chung Waterfront Rd"
-              date={25}
+              date="25"
               month="May"
               pax={8}
             />
@@ -103,7 +97,7 @@ export default function Landing() {
               alt="sample"
               name="Partyroom Name"
               address="18 Tung Chung Waterfront Rd"
-              date={25}
+              date="25"
               month="May"
               pax={8}
             />

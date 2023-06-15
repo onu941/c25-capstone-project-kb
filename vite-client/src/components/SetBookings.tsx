@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
 import { BookingCard } from "./minicomponents/Cards";
-import { FullScreen } from "./minicomponents/Containers";
 
 export function SetBookings() {
   // you will use a map fn later on, the current Array.from method is just a placeholder
   const numBookings = 5; // change as needed
   const bookings = Array.from({ length: numBookings }, (_, i) => (
-    <div className="mb-4">
+    <div>
       <Link to="/booking">
         <BookingCard
           key={i}
@@ -21,5 +20,11 @@ export function SetBookings() {
       </Link>
     </div>
   ));
-  return <FullScreen>{bookings}</FullScreen>;
+  return (
+    <div className="flex flex-row w-full md:pt-10 pt-6 place-content-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 w-fit mb-24 md:mb-0">
+        {bookings}
+      </div>
+    </div>
+  );
 }

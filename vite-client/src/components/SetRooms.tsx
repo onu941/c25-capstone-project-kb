@@ -1,21 +1,13 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { BookingCard, PartyroomCard } from "./minicomponents/Cards";
-import { FullScreen } from "./minicomponents/Containers";
+import { useNavigate } from "react-router-dom";
+import { PartyroomCard } from "./minicomponents/Cards";
 import { useEffect, useState } from "react";
-
-export interface PartyroomInSettings {
-  id: number;
-  name: string;
-  host_id: number;
-  address: string;
-  is_hidden: boolean;
-}
+import { PartyroomInSettings } from "../app/interface";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export function SetRooms() {
-  const searchParams = new URLSearchParams(location.search);
-  const userId = searchParams.get("user_id");
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const navigate = useNavigate();
-
   const [userPartyrooms, setUserPartyrooms] = useState<PartyroomInSettings[]>(
     []
   );
@@ -23,10 +15,9 @@ export function SetRooms() {
   useEffect(() => {
     const fetchUserPartyrooms = async () => {
       const token = localStorage.getItem("token");
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("user_id");
+
       const response = await fetch(
-        `http://localhost:3000/partyroom/user/${userId}`,
+        `${import.meta.env.VITE_API_SERVER}/partyroom/user/${reduxUserId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -43,8 +34,8 @@ export function SetRooms() {
   }, []);
 
   return (
-    <div className="flex flex-row w-full pt-10 place-content-center">
-      <div className="grid grid-cols-3 gap-8 w-fit">
+    <div className="flex flex-row w-full md:pt-10 pt-6 place-content-center">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 w-fit mb-24 md:mb-0">
         {userPartyrooms.map((partyroom) => (
           <div className="mx-4">
             <PartyroomCard
@@ -53,7 +44,7 @@ export function SetRooms() {
               address={partyroom.address}
               onClick={() => {
                 navigate(
-                  `/partyroom?user_id=${userId}&partyroom_id=${partyroom.id}`
+                  `/partyroom?user_id=${reduxUserId}&room_id=${partyroom.id}`
                 );
               }}
             />

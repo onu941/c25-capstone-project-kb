@@ -3,7 +3,7 @@ import {
   ResponsiveContainer,
 } from "../components/minicomponents/Containers";
 import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
-import { useCallback, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   DangerButton,
   PrimaryButton,
@@ -12,37 +12,17 @@ import {
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDropzone } from "react-dropzone";
 import { Part1Form } from "../components/Part1Form";
 import { Part2Form } from "../components/Part2Form";
-
-export type EquipmentField = {
-  id: number;
-  name: string;
-};
-
-export type CategoryField = {
-  id: number;
-  name: string;
-};
-
-interface ActiveIconButtons {
-  [key: string]: boolean;
-}
-
-export type NewRoomFormState = {
-  name: string;
-  area: number;
-  capacity: number;
-  address: string;
-  district: string;
-  equipment: EquipmentField[];
-  category: CategoryField[];
-  description: string;
-};
+import {
+  EquipmentField,
+  CategoryField,
+  NewRoomFormState,
+  ActiveIconButtons,
+} from "../app/interface";
 
 export default function NewRoom() {
-  const [isSelected, setIsSelected] = useState<string>("basics");
+  const [isSelected, setIsSelected] = useState<string>("part_1");
   const [switchEnabled, setSwitchEnabled] = useState(false);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [partyroomName, setPartyroomName] = useState("Submit Your Partyroom");
@@ -58,9 +38,6 @@ export default function NewRoom() {
   const [activeIconButtons, setActiveIconButtons] = useState<ActiveIconButtons>(
     {}
   );
-
-  // const [formIconButtonIsSelected, setFormIconButtonIsSelected] =
-  //   useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -103,11 +80,11 @@ export default function NewRoom() {
   };
 
   const handleBack = () => {
-    setIsSelected("basics");
+    setIsSelected("part_1");
   };
 
   const handleReset = () => {
-    setIsSelected("basics");
+    setIsSelected("part_1");
     formRef.current?.reset();
   };
 
@@ -117,9 +94,6 @@ export default function NewRoom() {
       [iconType]: !prev[iconType],
     }));
   }
-
-  const onDrop = useCallback((_acceptedFiles: any) => {}, []);
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const { register, handleSubmit } = useForm<NewRoomFormState>();
   const onSubmit: SubmitHandler<NewRoomFormState> = (data) => {
@@ -146,18 +120,15 @@ export default function NewRoom() {
             ref={formRef}
           >
             {/* part 2 form */}
-            <div className={`${isSelected === "basics" ? "hidden" : ""}`}>
+            <div className={`${isSelected === "part_1" ? "hidden" : ""}`}>
               <Part2Form
-                getRootProps={getRootProps}
-                getInputProps={getInputProps}
                 setSwitchEnabled={setSwitchEnabled}
                 switchEnabled={switchEnabled}
-                isDragActive={isDragActive}
               />
             </div>
             <div
               className={`${
-                switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
+                switchEnabled && isSelected === "part_2" ? "" : "hidden"
               } flex justify-start`}
             >
               <FormHeader title="Confirm your partyroom:" />
@@ -165,8 +136,8 @@ export default function NewRoom() {
             {/* part 1 form */}
             <div
               className={`${
-                isSelected === "basics" ||
-                (switchEnabled && isSelected === "photoconfirm")
+                isSelected === "part_1" ||
+                (switchEnabled && isSelected === "part_2")
                   ? ""
                   : "hidden"
               }`}
@@ -186,14 +157,14 @@ export default function NewRoom() {
               {/* next button */}
               <div
                 className={`${
-                  isSelected === "basics" ? "" : "hidden"
+                  isSelected === "part_1" ? "" : "hidden"
                 } flex flex-wrap justify-center my-12 columns-2 gap-6`}
               >
                 <div>
                   <PrimaryButton
                     type="button"
                     label="Next"
-                    onClick={() => setIsSelected("photoconfirm")}
+                    onClick={() => setIsSelected("part_2")}
                   />
                 </div>
                 <div>
@@ -208,7 +179,7 @@ export default function NewRoom() {
             {/* submit button */}
             <div
               className={`${
-                switchEnabled && isSelected === "photoconfirm" ? "" : "hidden"
+                switchEnabled && isSelected === "part_2" ? "" : "hidden"
               } my-12 flex flex-wrap justify-center columns-3 gap-5`}
             >
               <div>

@@ -37,10 +37,33 @@ export class PartyroomController {
   //   return { partyrooms: await this.partyroomService.findAll() };
   // }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: string) {
-  //   return { partyroom: await this.partyroomService.findOne(+id) };
-  // }
+  @Get('/district')
+  @UseGuards(AuthGuard('jwt'))
+  async findAllDistricts() {
+    return this.partyroomService.findAllDistricts();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    if (!id) {
+      throw new BadRequestException('invalid id in params');
+    }
+
+    const partyroom = await this.partyroomService.findOne(id);
+    return partyroom[0];
+  }
+
+  @Get('/reviews/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async findAllReviewsForOne(@Param('id') id: number) {
+    if (!id) {
+      throw new BadRequestException('invalid id in params');
+    }
+
+    const reviews = await this.partyroomService.findAllReviewsForOne(id);
+
+    return reviews;
+  }
 
   @Get('/user/:id')
   @UseGuards(AuthGuard('jwt'))

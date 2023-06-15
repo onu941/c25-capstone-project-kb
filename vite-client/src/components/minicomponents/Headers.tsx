@@ -1,24 +1,13 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { Link, useNavigate } from "react-router-dom";
-
-interface HeaderProps {
-  title?: string;
-  isOpen?: boolean;
-  toggleSidebar?: () => void;
-}
+import { HeaderProps } from "../../app/interface";
 
 export function AppHeader(props: HeaderProps) {
   const navigate = useNavigate();
 
-  const navigateToLanding = () => {
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get("user_id");
-    navigate(`/landing?user_id=${userId}`);
-  };
-
   return (
     <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
-      <button onClick={navigateToLanding}>
+      <button onClick={() => navigate(`/landing`)}>
         <div className="transform transition duration-200 ease-in-out hover:scale-110">
           {props.title}
         </div>
@@ -32,7 +21,7 @@ export function AppHeader(props: HeaderProps) {
 
 export function BodyHeader(props: HeaderProps) {
   return (
-    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-lg font-extralight mb-6">
+    <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-xl font-light mb-6">
       {props.title}
     </div>
   );
@@ -49,10 +38,10 @@ export function FormHeader(props: HeaderProps) {
 export function ReviewHeader() {
   return (
     <div className="flex mb-6">
-      <div className=" w-3/5 header px-4 flex flex-row text-lg font-extralight place-items-center">
+      <div className=" w-3/5 header flex flex-row text-lg font-extralight place-items-center">
         Leave A Review
       </div>
-      <div className="flex w-2/5 place-items-center justify-end pr-8">
+      <div className="flex w-2/5 place-items-center justify-end">
         <input
           type="text"
           name="score"
