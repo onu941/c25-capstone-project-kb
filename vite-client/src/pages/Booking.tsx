@@ -3,27 +3,20 @@ import {
   FullScreen,
   ResponsiveContainer,
 } from "../components/minicomponents/Containers";
-import {
-  AppHeader,
-  BodyHeader,
-  ReviewHeader,
-} from "../components/minicomponents/Headers";
+import { AppHeader, ReviewHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
 import {
   DangerButton,
-  PrimaryButton,
   SubmitButton,
 } from "../components/minicomponents/Buttons";
 import {
-  BookingCard,
   BookingCardLarge,
   OwnerCard,
 } from "../components/minicomponents/Cards";
 import { TextArea } from "../components/minicomponents/Inputs";
-import { Link } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import sample from "../assets/sample_partyroom.jpg";
+import sample from "../assets/img/sample_partyroom.jpg";
 
 export default function Booking() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -68,7 +61,12 @@ export default function Booking() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="my-12 columns-2 gap-8">
+          {showTimeSensitiveSection && (
+            <div className="my-8">
+              <DangerButton isCentered label="Cancel Booking" />
+            </div>
+          )}
+          <div className="mb-12 mt-2 columns-2 gap-8">
             <BookingCardLarge
               image={sample}
               name="Partyroom Name"
@@ -77,13 +75,11 @@ export default function Booking() {
               month="June"
               pax={12}
             />
-            <div className="py-6">
+            <div className="flex flex-col place-content-between">
               <OwnerCard name="Partyroom Owner" />
-              {showTimeSensitiveSection && (
-                <div className="mt-16">
-                  <DangerButton isCentered label="Cancel Booking" />
-                </div>
-              )}
+              <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center">
+                Special Request: $ special request
+              </div>
             </div>
           </div>
           {showTimeSensitiveSection && (

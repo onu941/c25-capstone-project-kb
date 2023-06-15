@@ -12,16 +12,6 @@ import { SidebarProps } from "../../app/interface";
 export function Sidebar(props: SidebarProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const params = new URLSearchParams(window.location.search);
-  const userId = params.get("user_id");
-
-  const navigateToDashboard = () => {
-    navigate(`/dashboard?user_id=${userId}`);
-  };
-
-  const navigateToSettings = () => {
-    navigate(`/settings?user_id=${userId}`);
-  };
 
   return (
     <>
@@ -39,10 +29,10 @@ export function Sidebar(props: SidebarProps) {
         <button onClick={props.toggleSidebar} className="mb-48">
           <XMarkIcon className="h-9 w-9 text-slate-200 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></XMarkIcon>
         </button>
-        <button onClick={navigateToDashboard}>
+        <button onClick={() => navigate(`/dashboard`)}>
           <PresentationChartBarIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></PresentationChartBarIcon>
         </button>
-        <button onClick={navigateToSettings}>
+        <button onClick={() => navigate(`/settings`)}>
           <Cog6ToothIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></Cog6ToothIcon>
         </button>
         <button onClick={() => dispatch(logout())}>

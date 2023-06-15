@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import { PartyroomCard } from "./minicomponents/Cards";
 import { useEffect, useState } from "react";
 import { PartyroomInSettings } from "../app/interface";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export function SetRooms() {
-  const searchParams = new URLSearchParams(location.search);
-  const userId = searchParams.get("user_id");
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const navigate = useNavigate();
-
   const [userPartyrooms, setUserPartyrooms] = useState<PartyroomInSettings[]>(
     []
   );
@@ -15,10 +15,9 @@ export function SetRooms() {
   useEffect(() => {
     const fetchUserPartyrooms = async () => {
       const token = localStorage.getItem("token");
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("user_id");
+
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/partyroom/user/${userId}`,
+        `${import.meta.env.VITE_API_SERVER}/partyroom/user/${reduxUserId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -45,7 +44,7 @@ export function SetRooms() {
               address={partyroom.address}
               onClick={() => {
                 navigate(
-                  `/partyroom?user_id=${userId}&partyroom_id=${partyroom.id}`
+                  `/partyroom?user_id=${reduxUserId}&room_id=${partyroom.id}`
                 );
               }}
             />

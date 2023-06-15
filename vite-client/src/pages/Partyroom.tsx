@@ -14,7 +14,7 @@ import {
 } from "../components/minicomponents/Buttons";
 import { BookingModal } from "../components/minicomponents/Modals";
 import { Toaster } from "react-hot-toast";
-import sample from "../assets/sample_partyroom.jpg";
+import sample from "../assets/img/sample_partyroom.jpg";
 import {
   BBQIcon,
   BoardGamesIcon,
@@ -33,7 +33,7 @@ export default function Partyroom() {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const userId = params.get("user_id");
-  const partyroomId = params.get("partyroom_id");
+  const partyroomId = params.get("room_id");
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
