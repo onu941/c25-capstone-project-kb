@@ -9,7 +9,7 @@ source string
 total_hour numberic(4,2)
 headcount integer
 booking_fee numeric(7,2)
-rating decimal(3,1)
+review_rating integer FK - dim_review.id
 
 dim_date
 --------
@@ -85,6 +85,17 @@ fact_users_register
 id integer PK
 source string
 
+dim_review
+----------
+id integer PK
+review_id FK - fact_review.id
+rating decimal(3,1)
+
+fact_review
+-----------
+id integer PK
+source string
+
 staging_booking
 ---------------
 id integer PK
@@ -133,4 +144,11 @@ staging_users_register
 id integer PK
 booking_user_source string
 booking_user_promotion string
+created_at datetime
+
+staging_review
+--------------
+id integer PK
+booking_review_source string
+booking_rating decimal(3,1)
 created_at datetime
