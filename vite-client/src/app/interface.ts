@@ -138,6 +138,17 @@ export interface PartyroomInSettings {
   is_hidden: boolean;
 }
 
+export interface BookingInSettings {
+  id: number;
+  name: string;
+  date: number;
+  month: number;
+  year: number;
+  start_time: string;
+  headcount: number;
+  address: string;
+}
+
 export interface HandleUserFormState {
   name: string;
   phoneNo: any;
