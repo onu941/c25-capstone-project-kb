@@ -14,14 +14,15 @@ export function BookingCardLarge(props: CardProps) {
         <figure>
           <img src={props.image} alt={props.alt} />
         </figure>
-        <div className="card-body mb-1">
+        <div className="card-body mb-1 flex flex-col place-content-between">
           <h2 className="card-title text-slate-200 text-3xl mb-1">
             {props.name}
           </h2>
-          <div className="text-slate-300 text-sm md:mb-12 mb-6">
+          <div className="text-slate-300 text-sm md:mb-12 mb-8">
             {props.address}
           </div>
-          <div className="text-slate-200 text-lg mb-3">
+          <div className="text-slate-200 text-xl font-semibold">{`${props.time}`}</div>
+          <div className="text-slate-200 text-base mb-3">
             {`${props.date} ${props.month} | ${props.pax} pax`}
           </div>
         </div>
@@ -33,9 +34,13 @@ export function BookingCardLarge(props: CardProps) {
 export function BookingCard(props: CardProps) {
   return (
     <div className="flex place-content-center mx-4">
-      <div className="bg-slate-800 md:w-96 w-full md:px-4 px-2 md:py-7 py-5 mb-6 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 md:gap-2">
-        <a href="" className="w-full flex place-content-center px-1">
-          <div className="w-full flex place-content-center columns-2 text-slate-100">
+      <a
+        href=""
+        onClick={props.onClick}
+        className="w-full flex place-content-center hover:brightness-125 transform transition-all duration-200 ease-in-out"
+      >
+        <div className="bg-slate-800 md:w-96 w-full md:px-4 px-2 md:py-7 py-5 mb-6 rounded-xl columns-2 flex drop-shadow-lg border-solid border-2 border-slate-400 md:gap-2">
+          <div className="w-full flex place-content-center columns-2 text-slate-300">
             <div className="w-fit flex place-content-end place-items-center pr-2 md:text-7xl text-5xl">
               {props.date}
             </div>
@@ -45,18 +50,18 @@ export function BookingCard(props: CardProps) {
             </div>
           </div>
           <div className="w-full flex flex-col place-content-center place-items-center">
-            <div className="font-semibold md:text-lg text-base mb-2 text-center text-slate-100">
+            <div className="font-semibold md:text-lg text-base mb-2 text-center text-slate-200">
               {props.name}
             </div>
             <div className="md:text-base text-sm mb-1 text-slate-300">
               {props.time} | {props.pax} pax
             </div>
-            <div className="md:text-base text-sm text-center text-slate-300">
+            <div className="md:text-sm text-sm text-center text-slate-300">
               {props.address}
             </div>
           </div>
-        </a>
-      </div>
+        </div>
+      </a>
     </div>
   );
 }

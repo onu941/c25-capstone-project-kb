@@ -1,7 +1,8 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { AuthService } from 'src/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateReviewDto } from './dto/create-review.dto';
 
 @Controller('booking')
 export class BookingController {
@@ -14,5 +15,20 @@ export class BookingController {
   @UseGuards(AuthGuard('jwt'))
   async findByUserIdForSettings(@Param('id') id: number) {
     return this.bookingService.findByUserIdForSettings(id);
+  }
+
+  @Get(`/partygoer/:id`)
+  @UseGuards(AuthGuard('jwt'))
+  async findOneAsPartygoer(@Param('id') id: number) {
+    return this.bookingService.findOneAsPartygoer(id);
+  }
+
+  @Post(`/review/`)
+  @UseGuards(AuthGuard('jwt'))
+  async createReview(
+    @Body() createReviewDto: CreateReviewDto,
+  ): Promise<{ message: string }> {
+    await this.bookingService.createReview(createReviewDto);
+    return { message: 'Review submitted!' };
   }
 }

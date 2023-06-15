@@ -34,7 +34,7 @@ export interface CardProps {
   id?: number;
   date?: string | number;
   month?: string;
-  year?: number;
+  year?: string | number;
   name?: string;
   time?: string;
   pax?: number;
@@ -70,12 +70,17 @@ export interface InputProps {
   isEditing?: boolean;
   handleEditClick?: () => void;
   handleSaveClick?: () => void;
+  handleReviewDetailInputChange: (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
 }
 
 export interface HeaderProps {
   title?: string;
   isOpen?: boolean;
   toggleSidebar?: () => void;
+  handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  rating?: string;
 }
 
 export interface BookingModalProps {
@@ -141,9 +146,7 @@ export interface PartyroomInSettings {
 export interface BookingInSettings {
   id: number; // have
   name: string; // need to join table (partyroom_price_list, partyroom)
-  date: number; // have
-  month: number; // have
-  year: number; // have
+  booking_date: string;
   start_time: string; // join table (partyroom_price_list)
   headcount: number; // have
   address: string; // join table (partyroom_price_list, partyroom)
@@ -191,6 +194,11 @@ export interface NewRoomFormState {
   description: string;
 }
 
+export interface ReviewFormData {
+  detail: string;
+  rating: string;
+}
+
 // **************** //
 // other interfaces //
 // **************** //
@@ -208,6 +216,20 @@ export interface Partyroom {
   description: string;
   category: Category[];
   equipment: Equipment[];
+}
+
+export interface Booking {
+  id: number;
+  name: string;
+  host_id: number;
+  host_name: string;
+  phone: string;
+  address: string;
+  headcount: number;
+  start_time: string;
+  booking_date: string;
+  status: string;
+  special_request: string;
 }
 
 export interface Category {
