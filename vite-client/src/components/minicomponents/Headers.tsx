@@ -35,7 +35,7 @@ export function FormHeader(props: HeaderProps) {
   );
 }
 
-export function ReviewHeader() {
+export function ReviewHeader(props: HeaderProps) {
   return (
     <div className="flex mb-6">
       <div className=" w-3/5 header flex flex-row text-lg font-extralight place-items-center">
@@ -44,8 +44,10 @@ export function ReviewHeader() {
       <div className="flex w-2/5 place-items-center justify-end">
         <input
           type="text"
-          name="score"
+          name="rating"
           className="dark:bg-transparent w-1/4 text-white h-2/3 border-b-slate-300 border-transparent text-center"
+          value={props.rating}
+          onChange={props.handleInputChange}
         ></input>
         <div className=" pl-3">/ 10</div>
       </div>
