@@ -28,19 +28,22 @@ import {
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
 import { Partyroom as PartyroomType, Review } from "../app/interface";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export default function Partyroom() {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
-  const userId = params.get("user_id");
   const partyroomId = params.get("room_id");
+
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
   const [partyroom, setPartyroom] = useState<PartyroomType>({
     id: Number(partyroomId),
     name: "",
-    host_id: Number(userId),
+    host_id: Number(reduxUserId),
     host_name: "",
     district: "",
     room_size: NaN,
@@ -96,7 +99,7 @@ export default function Partyroom() {
         description: partyroomDetails.description,
       });
 
-      if (Number(userId) === partyroomDetails.host_id) setIsOwner(!isOwner);
+      if (reduxUserId === partyroomDetails.host_id) setIsOwner(!isOwner);
     };
 
     const fetchCategories = async () => {
@@ -345,7 +348,7 @@ export default function Partyroom() {
                   />
                   <span
                     className={`${
-                      partyroom.category.some(
+                      partyroom.equipment.some(
                         (equipment) => equipment.name === "mahjong"
                       )
                         ? "text-slate-300"
