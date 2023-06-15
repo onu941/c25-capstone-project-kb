@@ -4,8 +4,12 @@ import { useAppDispatch } from "../app/hook";
 import { logout } from "../redux/authSlice";
 import { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export function SetGeneral() {
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+
   const [inputs, setUserInputs] = useState({
     id: NaN,
     username: "",
@@ -27,7 +31,7 @@ export function SetGeneral() {
       const params = new URLSearchParams(window.location.search);
       const userId = params.get("user_id");
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
+        `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -74,7 +78,7 @@ export function SetGeneral() {
     const userId = params.get("user_id");
 
     const response = await fetch(
-      `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
+      `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
       {
         method: "PATCH",
         headers: {

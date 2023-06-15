@@ -5,15 +5,9 @@ import { HeaderProps } from "../../app/interface";
 export function AppHeader(props: HeaderProps) {
   const navigate = useNavigate();
 
-  const navigateToLanding = () => {
-    const params = new URLSearchParams(window.location.search);
-    const userId = params.get("user_id");
-    navigate(`/landing?user_id=${userId}`);
-  };
-
   return (
     <div className="px-4 md:px-0 pt-6 justify-between flex flex-row text-2xl mb-3 font-semibold">
-      <button onClick={navigateToLanding}>
+      <button onClick={() => navigate(`/landing`)}>
         <div className="transform transition duration-200 ease-in-out hover:scale-110">
           {props.title}
         </div>

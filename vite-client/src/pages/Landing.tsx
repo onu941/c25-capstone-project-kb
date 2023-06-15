@@ -11,8 +11,9 @@ import { Link } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import { useAppDispatch } from "../app/hook";
-import sample from "../assets/sample_partyroom.jpg";
+import sample from "../assets/img/sample_partyroom.jpg";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export interface JWT {
   name: string;
@@ -26,9 +27,6 @@ export interface JWT {
 
 export default function Landing() {
   const token = localStorage.getItem("token");
-  const params = new URLSearchParams(window.location.search);
-  const userId = params.get("user_id");
-
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
 
@@ -36,10 +34,13 @@ export default function Landing() {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+  console.log("user id from redux:", reduxUserId);
+
   useEffect(() => {
     const fetchUserDetails = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/user/${userId}`,
+        `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -66,7 +67,6 @@ export default function Landing() {
         <div>
           <Toaster />
         </div>
-
         <ResponsiveContainer>
           <AppHeader
             isOpen={sidebarIsOpen}

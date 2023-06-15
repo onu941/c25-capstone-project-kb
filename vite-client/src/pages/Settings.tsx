@@ -9,13 +9,20 @@ import { Sidebar } from "../components/minicomponents/Sidebar";
 import { SetBookings } from "../components/SetBookings";
 import { SetGeneral } from "../components/SetGeneral";
 import { SetRooms } from "../components/SetRooms";
+import { useAppDispatch } from "../app/hook";
+import { settings } from "../redux/userSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export default function Settings() {
-  const [isSelected, setIsSelected] = useState<string>("bookings");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
+  const settingsTab = useSelector((state: RootState) => state.user.settings);
+
+  const dispatch = useAppDispatch();
+
   const handleClick = (string: string) => {
-    return setIsSelected(string);
+    dispatch(settings(string));
   };
 
   const toggleSidebar = () => {
@@ -34,10 +41,10 @@ export default function Settings() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <SettingsTab handleClick={handleClick} isSelected={isSelected} />
-          {isSelected === "bookings" && <SetBookings />}
-          {isSelected === "rooms" && <SetRooms />}
-          {isSelected === "general" && <SetGeneral />}
+          <SettingsTab handleClick={handleClick} isSelected={settingsTab} />
+          {settingsTab === "bookings" && <SetBookings />}
+          {settingsTab === "rooms" && <SetRooms />}
+          {settingsTab === "general" && <SetGeneral />}
         </ResponsiveContainer>
       </FullScreen>
       <Tab />

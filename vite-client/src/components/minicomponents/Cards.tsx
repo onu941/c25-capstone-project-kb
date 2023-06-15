@@ -121,7 +121,7 @@ export function ReviewCard(props: CardProps) {
       <div className="p-2 px-8 place-items-center place-content-center flex italic text-slate-200 text-lg leading-relaxed border-r-2 border-solid border-slate-700">
         {`"${props.review_text}"`}
       </div>
-      <div className="card-body w-3/5 flex flex-col bg-slate-800">
+      <div className="card-body w-3/5 flex flex-col bg-slate-800 bg-opacity-50">
         <div className="card-title text-slate-200 text-5xl mb-3 font-light tracking-wider">
           {props.score}
         </div>

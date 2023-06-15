@@ -25,10 +25,10 @@ export interface SettingsTabButtonProps {
   isSelected?: boolean;
 }
 
-export type District = {
+export interface District {
   id: number;
   name: string;
-};
+}
 
 export interface CardProps {
   id?: number;
@@ -53,7 +53,7 @@ export interface CarouselProps {
   image: string;
 }
 
-export type InputProps = {
+export interface InputProps {
   type?: string;
   placeholder?: string;
   value?: string;
@@ -70,7 +70,7 @@ export type InputProps = {
   isEditing?: boolean;
   handleEditClick?: () => void;
   handleSaveClick?: () => void;
-};
+}
 
 export interface HeaderProps {
   title?: string;
@@ -130,30 +130,19 @@ export interface Form2Props {
   setSwitchEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-// export type JWT = {
-//   id: number;
-//   name: string;
-//   phone: string;
-//   email: string;
-//   is_admin: boolean;
-//   image_id: number;
-//   iat: number;
-//   exp: number;
-// };
-
-export type PartyroomInSettings = {
+export interface PartyroomInSettings {
   id: number;
   name: string;
   host_id: number;
   address: string;
   is_hidden: boolean;
-};
+}
 
-export type HandleUserFormState = {
+export interface HandleUserFormState {
   name: string;
   phoneNo: any;
   password: string;
-};
+}
 
 export interface SignupProps {
   register: UseFormRegister<HandleUserFormState>;
@@ -166,21 +155,21 @@ export interface SignupProps {
 // form interface //
 // ************** //
 
-export type EquipmentField = {
+export interface EquipmentField {
   id: number;
   name: string;
-};
+}
 
-export type CategoryField = {
+export interface CategoryField {
   id: number;
   name: string;
-};
+}
 
 export interface ActiveIconButtons {
   [key: string]: boolean;
 }
 
-export type NewRoomFormState = {
+export interface NewRoomFormState {
   name: string;
   room_size: number;
   capacity: number;
@@ -189,13 +178,13 @@ export type NewRoomFormState = {
   equipment: EquipmentField[];
   category: CategoryField[];
   description: string;
-};
+}
 
 // **************** //
 // other interfaces //
 // **************** //
 
-export type Partyroom = {
+export interface Partyroom {
   id: number;
   name: string;
   host_id: number;
@@ -208,11 +197,15 @@ export type Partyroom = {
   description: string;
   category: string[];
   equipment: string[];
-};
+}
 
-export type Review = {
+export interface Review {
   id: number;
   rating: number;
   name: string;
   detail: string;
-};
+}
+
+export interface JWT {
+  id: number;
+}

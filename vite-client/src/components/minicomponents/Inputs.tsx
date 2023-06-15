@@ -199,7 +199,7 @@ export function TextArea(props: InputProps) {
   return (
     <textarea
       className={`${
-        props.isReadOnly ? "readonly" : ""
+        props.isReadOnly ? "read-only" : ""
       }dark:bg-transparent dark:text-slate-300 rounded-lg h-32 w-full`}
       placeholder={props.placeholder}
       maxLength={150}
