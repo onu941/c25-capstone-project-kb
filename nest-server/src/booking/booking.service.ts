@@ -13,7 +13,27 @@ export class BookingService {
 
     // fix this knex query
     const userBookings = await this.knex
-      .table('booking_info')
+      .select(
+        'booking_info.id',
+        'booking_info.headcount',
+        'booking_info.booking_date',
+        'partyroom.name',
+        'partyroom.address',
+        'partyroom_price_list.start_time',
+      )
+      .from('booking_info')
+      .join(
+        'partyroom_price_list',
+        'booking_info.partyroom_price_list_id',
+        '=',
+        'partyroom_price_list.id',
+      )
+      .join(
+        'partyroom',
+        'partyroom_price_list.partyroom_id',
+        '=',
+        'partyroom.id',
+      )
       .where('booking_users_id', id);
 
     return userBookings;

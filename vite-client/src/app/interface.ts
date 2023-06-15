@@ -139,14 +139,14 @@ export interface PartyroomInSettings {
 }
 
 export interface BookingInSettings {
-  id: number;
-  name: string;
-  date: number;
-  month: number;
-  year: number;
-  start_time: string;
-  headcount: number;
-  address: string;
+  id: number; // have
+  name: string; // need to join table (partyroom_price_list, partyroom)
+  date: number; // have
+  month: number; // have
+  year: number; // have
+  start_time: string; // join table (partyroom_price_list)
+  headcount: number; // have
+  address: string; // join table (partyroom_price_list, partyroom)
 }
 
 export interface HandleUserFormState {
