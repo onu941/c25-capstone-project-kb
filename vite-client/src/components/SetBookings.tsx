@@ -15,7 +15,7 @@ export function SetBookings() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/bookings/user/${reduxUserId}`,
+        `${import.meta.env.VITE_API_SERVER}/booking/user/${reduxUserId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
