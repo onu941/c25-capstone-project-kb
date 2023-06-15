@@ -1,15 +1,16 @@
-interface ButtonProps {
-  label: string;
-  type?: "button" | "submit";
-  onClick?: (arg: any) => void;
-  isCentered?: boolean;
-}
-
-interface SettingsTabButtonProps {
-  name?: string;
-  onClick?: () => void;
-  isSelected?: boolean;
-}
+import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
+import { ButtonProps, SettingsTabButtonProps } from "../../app/interface";
+import {
+  BBQIcon,
+  BoardGamesIcon,
+  FamilyIcon,
+  GeneralPartyIcon,
+  KaraokeIcon,
+  MahjongIcon,
+  VideoGamesIcon,
+  WeddingIcon,
+} from "../../assets/MaterialIcons";
+import { TvIcon } from "@heroicons/react/24/outline";
 
 export function PrimaryButton(props: ButtonProps) {
   return (
@@ -68,14 +69,99 @@ export function SettingsTabButton(props: SettingsTabButtonProps) {
 
 export function BookingButton(props: ButtonProps) {
   return (
-    <div className="absolute bottom-36 right-4 z-30 drop-shadow-lg">
+    <div className="absolute md:bottom-32 md:right-12 z-30 drop-shadow-lg">
       <button
         type={props.type}
-        className="dark:bg-slate-400 w-28 h-28 rounded-full border-solid border-4 border-slate-300"
+        className="bg-slate-400 bg-opacity-80 md:w-32 md:h-32 rounded-full border-solid border-4 border-slate-300"
         onClick={props.onClick}
       >
-        <div className="flex flex-wrap flex-col text-xl">{props.label}</div>
+        <div className="flex flex-wrap flex-col text-2xl font-bold">
+          {props.label}
+        </div>
       </button>
     </div>
+  );
+}
+
+export function FormIconButton(props: ButtonProps) {
+  return (
+    <button
+      type="button"
+      className="flex flex-col place-items-center mb-4"
+      onClick={props.onClick}
+    >
+      {props.icon === "general" && (
+        <>
+          <GeneralPartyIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>General</span>
+        </>
+      )}
+      {props.icon === "dates" && (
+        <>
+          <HeartIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>Dates</span>
+        </>
+      )}
+      {props.icon === "families" && (
+        <>
+          <FamilyIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Families</span>
+        </>
+      )}
+      {props.icon === "businesses" && (
+        <>
+          <BriefcaseIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>Businesses</span>
+        </>
+      )}
+      {props.icon === "birthdays" && (
+        <>
+          <CakeIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>Birthdays</span>
+        </>
+      )}
+      {props.icon === "weddings" && (
+        <>
+          <WeddingIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Weddings</span>
+        </>
+      )}
+      {props.icon === "mahjong" && (
+        <>
+          <MahjongIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Mahjong</span>
+        </>
+      )}
+      {props.icon === "video_games" && (
+        <>
+          <VideoGamesIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Video Games</span>
+        </>
+      )}
+      {props.icon === "bbq" && (
+        <>
+          <BBQIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>BBQ</span>
+        </>
+      )}
+      {props.icon === "board_games" && (
+        <>
+          <BoardGamesIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Board Games</span>
+        </>
+      )}
+      {props.icon === "karaoke" && (
+        <>
+          <KaraokeIcon color={props.color!} className="w-16 h-16" />
+          <span className={props.spanClassName}>Karaoke</span>
+        </>
+      )}
+      {props.icon === "tv" && (
+        <>
+          <TvIcon className={`${props.color} w-16 h-16`} />
+          <span className={props.spanClassName}>TV / Streaming</span>
+        </>
+      )}
+    </button>
   );
 }

@@ -1,9 +1,6 @@
+import { BookingModalProps } from "../../app/interface";
 import { PrimaryButton, SubmitButton } from "./Buttons";
 import { StandardInput, TextArea } from "./Inputs";
-
-interface BookingModalProps {
-  toggleModal: () => void;
-}
 
 export function BookingModal(props: BookingModalProps) {
   return (

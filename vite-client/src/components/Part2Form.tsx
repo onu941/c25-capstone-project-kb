@@ -1,36 +1,14 @@
-import { DropzoneInputProps, DropzoneRootProps } from "react-dropzone";
 import { FormCarousel } from "./minicomponents/Carousels";
-import { PlusIcon } from "@heroicons/react/20/solid";
 import { Switch } from "@headlessui/react";
-
-export interface Form2Props {
-  isSelected?: string;
-  getRootProps: <T extends DropzoneRootProps>(props?: T | undefined) => T;
-  getInputProps: <T extends DropzoneInputProps>(props?: T | undefined) => T;
-  isDragActive?: boolean;
-  switchEnabled?: boolean;
-  setSwitchEnabled: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { Form2Props } from "../app/interface";
 
 export function Part2Form(props: Form2Props) {
   return (
-    <div className={`${props.isSelected === "basics" ? "hidden" : ""}`}>
-      <div
-        className="px-10 py-12 rounded-xl border-dashed border-2 border-slate-500 text-lg text-justify mb-8"
-        {...props.getRootProps()}
-      >
-        <input {...props.getInputProps()} />
-        {props.isDragActive ? (
-          <p>Drop the files here</p>
-        ) : (
-          <div className="flex flex-col place-content-center place-items-center text-slate-300">
-            <PlusIcon className="h-40 w-40 mb-3" />
-            Upload some photos
-          </div>
-        )}
+    <div className={`${props.isSelected === "part_1" ? "hidden" : ""}`}>
+      <div className="px-10 py-12 rounded-xl border-dashed border-2 border-slate-500 text-lg text-justify mb-8">
+        <input type="file"></input>
       </div>
       <p className="text-center mb-8 text-xl">Image Preview here</p>
-      <FormCarousel />
       <div className="columns-2 flex place-content-center place-items-center gap-5 mb-8">
         <div>
           <p className="text-slate-300 text-md">I'm done uploading!</p>

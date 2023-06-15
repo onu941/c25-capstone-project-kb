@@ -3,17 +3,13 @@ import { useForm } from "react-hook-form";
 import { FullScreenInitial } from "../components/minicomponents/Containers";
 import { InitialLanding } from "../components/InitialLanding";
 import { Login } from "../components/Login";
-import { HandleUserFormState, Signup } from "../components/Signup";
+import { Signup } from "../components/Signup";
 import { localLogin } from "../redux/authAPI";
 import { login } from "../redux/authSlice";
 import { useAppDispatch } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import jwtDecode from "jwt-decode";
-
-export interface JWT {
-  id: number;
-}
+import { HandleUserFormState } from "../app/interface";
 
 export default function HandleUser() {
   const [page, setPage] = useState("initial");
@@ -29,14 +25,12 @@ export default function HandleUser() {
     const email = form.email.value;
     const password = form.password.value;
     const success = await localLogin(email, password);
-    if (success) {
-      dispatch(login(email));
+    if (success.status) {
+      dispatch(login(success.token));
       localStorage.setItem("successMessage", "Welcome back");
       const token = localStorage.getItem("token");
       if (token) {
-        const decoded: JWT = jwtDecode(token);
-        const userId = decoded.id;
-        navigate(`/landing?user_id=${userId}`);
+        navigate(`/landing`);
       }
     } else {
       toast.error("Login failed");

@@ -29,13 +29,28 @@ export class PartyroomService {
   //   return this.partyrooms.filter((partyroom) => partyroom);
   // }
 
-  // async findOne(id: number) {
-  //   let partyroom = this.partyrooms[id];
-  //   if (!partyroom) {
-  //     throw new NotFoundException('partyroom not found');
-  //   }
-  //   return partyroom;
-  // }
+  async findAllDistricts() {
+    return await this.knex.select('*').from('district');
+  }
+
+  async findOne(id: number) {
+    const query = await this.knex
+      .select(
+        'partyroom.*',
+        'users.id',
+        'users.name AS host_name',
+        'district.name AS district',
+      )
+      .from('partyroom')
+      .join('users', 'partyroom.host_id', '=', 'users.id')
+      .join('district', 'partyroom.district_id', '=', 'district.id')
+      .where('partyroom.id', id);
+
+    if (!query) {
+      throw new NotFoundException('partyroom not found');
+    }
+    return query;
+  }
 
   async findByUserIdforSettings(id: number) {
     if (!id) {
@@ -48,6 +63,44 @@ export class PartyroomService {
       .where('host_id', id)
       .orderBy('id', 'asc');
     return userPartyrooms;
+  }
+
+  async findAllReviewsForOne(partyroom_id: number) {
+    if (!partyroom_id) {
+      throw new NotFoundException('check your partyroom id');
+    }
+
+    try {
+      const query = await this.knex
+        .select(
+          'review.id',
+          'review.booking_info_id',
+          'review.rating',
+          'review.detail',
+          'booking_info.id AS booking_info_id',
+          'booking_info.booking_users_id',
+          'booking_info.partyroom_price_list_id',
+          'partyroom_price_list.id AS partyroom_price_list_id',
+          'partyroom_price_list.partyroom_id',
+          'users.id AS users_id',
+          'users.name',
+        )
+        .from('review')
+        .join('booking_info', 'review.booking_info_id', '=', 'booking_info.id')
+        .join(
+          'partyroom_price_list',
+          'booking_info.partyroom_price_list_id',
+          '=',
+          'partyroom_price_list.id',
+        )
+        .join('users', 'booking_info.booking_users_id', '=', 'users.id')
+        .where('partyroom_price_list.partyroom_id', partyroom_id)
+        .where('review.is_hidden', false);
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // async update(id: number, updatePartyroomDto: UpdatePartyroomDto) {

@@ -1,8 +1,5 @@
-import seulgi from "../../assets/seulgi_shoulder.png";
-
-interface CarouselProps {
-  image: string;
-}
+import { CarouselProps } from "../../app/interface";
+import sample from "../../assets/img/sample_partyroom.jpg";
 
 export function LandingCarousel(props: CarouselProps) {
   return (
@@ -38,18 +35,18 @@ export function FormCarousel() {
       <div className="carousel mb-8">
         <div className="carousel-item md:w-96 w-72">
           <img
-            src={seulgi}
-            alt="seulgi"
+            src={sample}
+            alt="sample"
             className="rounded-md mx-1 drop-shadow-lg"
           ></img>
           <img
-            src={seulgi}
-            alt="seulgi"
+            src={sample}
+            alt="sample"
             className="rounded-md mx-1 drop-shadow-lg"
           ></img>
           <img
-            src={seulgi}
-            alt="seulgi"
+            src={sample}
+            alt="sample"
             className="rounded-md mx-1 drop-shadow-lg"
           ></img>
         </div>

@@ -3,45 +3,27 @@ import {
   MagnifyingGlassIcon,
   PlusCircleIcon,
 } from "@heroicons/react/20/solid";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SettingsTabButton } from "./Buttons";
-
-interface SettingTabProps {
-  handleClick: (string: string) => void;
-  isSelected?: string;
-}
+import { SettingTabProps } from "../../app/interface";
 
 export function Tab() {
   const navigate = useNavigate();
-  const params = new URLSearchParams(window.location.search);
-  const userId = params.get("user_id");
-
-  const navigateToNewRoom = () => {
-    navigate(`/new_room?user_id=${userId}`);
-  };
-
-  const navigateToLanding = () => {
-    navigate(`/landing?user_id=${userId}`);
-  };
-
-  const navigateToSearch = () => {
-    navigate(`/search?user_id=${userId}`);
-  };
 
   return (
     <div className="z-20 fixed bottom-0 columns-3 flex justify-around w-full py-4 bg-slate-800 border-solid border-t-slate-600 border-opacity-60 border-2 border-transparent">
       <div>
-        <button onClick={navigateToNewRoom}>
+        <button onClick={() => navigate(`/new_room`)}>
           <PlusCircleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></PlusCircleIcon>
         </button>
       </div>
       <div>
-        <button onClick={navigateToLanding}>
+        <button onClick={() => navigate(`/landing`)}>
           <HomeIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></HomeIcon>
         </button>
       </div>
       <div>
-        <button onClick={navigateToSearch}>
+        <button onClick={() => navigate(`/search`)}>
           <MagnifyingGlassIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></MagnifyingGlassIcon>
         </button>
       </div>
@@ -75,14 +57,14 @@ export function NewRoomTab(props: SettingTabProps) {
   return (
     <div className="tabs mt-5 mb-6 w-full flex place-content-around">
       <SettingsTabButton
-        onClick={() => props.handleClick("basics")}
+        onClick={() => props.handleClick("part_1")}
         name="Part 1"
-        isSelected={props.isSelected === "basics"}
+        isSelected={props.isSelected === "part_1"}
       />
       <SettingsTabButton
-        onClick={() => props.handleClick("photoconfirm")}
+        onClick={() => props.handleClick("part_2")}
         name="Part 2"
-        isSelected={props.isSelected === "photoconfirm"}
+        isSelected={props.isSelected === "part_2"}
       />
     </div>
   );

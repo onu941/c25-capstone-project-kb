@@ -1,45 +1,15 @@
-import { UseFormRegister } from "react-hook-form";
-import { PrimaryButton } from "./minicomponents/Buttons";
 import { FormHeader } from "./minicomponents/Headers";
 import { MiniInput, StandardInput, TextArea } from "./minicomponents/Inputs";
-import {
-  CategoryField,
-  EquipmentField,
-  NewRoomFormState,
-} from "../pages/NewRoom";
-import { useState } from "react";
-import {
-  BBQIcon,
-  BoardGamesIcon,
-  FamilyIcon,
-  GeneralPartyIcon,
-  KaraokeIcon,
-  MahjongIcon,
-  VideoGamesIcon,
-  WeddingIcon,
-} from "../assets/MaterialIcons";
-import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
-import { TvIcon } from "@heroicons/react/24/outline";
-
-export interface Form1Props {
-  register: UseFormRegister<NewRoomFormState>;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  equipmentFields: EquipmentField[];
-  categoryFields: CategoryField[];
-  handleDelete: (id: number) => void;
-  handleAddMoreEquipment: () => void;
-  handleAddMoreCategories: () => void;
-  handleDeleteCategories: (id: number) => void;
-  activeIconButtons: { [key: string]: boolean };
-  handleFormIconButton: (iconType: string) => void;
-  color?: string;
-}
+import { Form1Props } from "../app/interface";
+import DistrictInput from "./minicomponents/Inputs";
+import { FormIconButton } from "./minicomponents/Buttons";
 
 export function Part1Form(props: Form1Props) {
   return (
     <>
-      <div className="mb-8">
+      <div id="basics" className="mb-8">
         <StandardInput
+          name="name"
           type="text"
           placeholder="name your partyroom"
           register={props.register("name")}
@@ -48,11 +18,13 @@ export function Part1Form(props: Form1Props) {
         />
         <div className="flex flex-row w-full justify-between">
           <MiniInput
+            name="room_size"
             type="text"
-            placeholder="area"
-            register={props.register("area")}
+            placeholder="area (ft²)"
+            register={props.register("room_size")}
           />
           <MiniInput
+            name="capacity"
             type="text"
             placeholder="capacity"
             register={props.register("capacity")}
@@ -61,16 +33,17 @@ export function Part1Form(props: Form1Props) {
       </div>
       <div className="mb-12">
         <StandardInput
+          name="address"
           placeholder="address line 1 (room, building, street)"
           type="text"
           register={props.register("address")}
           isEditing
         />
-        <StandardInput
-          placeholder="address line 2 (district)"
+        <DistrictInput
+          name="district"
           type="text"
+          placeholder="address line 2 (district)"
           register={props.register("district")}
-          isEditing
         />
       </div>
       <FormHeader title="What is your partyroom designed for?" />
@@ -79,139 +52,94 @@ export function Part1Form(props: Form1Props) {
         className="w-full sm:px-8 md:px-36 columns-3 mb-6"
       >
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="general"
             onClick={() => props.handleFormIconButton("General")}
-          >
-            <GeneralPartyIcon
-              color={
-                props.activeIconButtons.General
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.General
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              General
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.General
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.General
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="dates"
             onClick={() => props.handleFormIconButton("Dates")}
-          >
-            <HeartIcon
-              className={`${
-                props.activeIconButtons.Dates
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.Dates
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Dates
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Dates
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Dates
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="families"
             onClick={() => props.handleFormIconButton("Families")}
-          >
-            <FamilyIcon
-              color={
-                props.activeIconButtons.Families
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Families
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Families
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Families
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Families
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="businesses"
             onClick={() => props.handleFormIconButton("Businesses")}
-          >
-            <BriefcaseIcon
-              className={`${
-                props.activeIconButtons.Businesses
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.Businesses
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Businesses
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Businesses
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Businesses
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="birthdays"
             onClick={() => props.handleFormIconButton("Birthdays")}
-          >
-            <CakeIcon
-              className={`${
-                props.activeIconButtons.Birthdays
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.Birthdays
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Birthdays
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Birthdays
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Birthdays
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="weddings"
             onClick={() => props.handleFormIconButton("Weddings")}
-          >
-            <WeddingIcon
-              color={
-                props.activeIconButtons.Weddings
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Weddings
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Weddings
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.Weddings
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Weddings
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
       </div>
       <div id="hidden-category-inputs" hidden>
@@ -328,137 +256,86 @@ export function Part1Form(props: Form1Props) {
         className="w-full sm:px-8 md:px-36 columns-3 mb-6"
       >
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="mahjong"
             onClick={() => props.handleFormIconButton("Mahjong")}
-          >
-            <MahjongIcon
-              color={
-                props.activeIconButtons.Mahjong
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Mahjong
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Mahjong
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Mahjong
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Mahjong
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="video_games"
             onClick={() => props.handleFormIconButton("VideoGames")}
-          >
-            <VideoGamesIcon
-              color={
-                props.activeIconButtons.VideoGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.VideoGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Video Games
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.VideoGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.VideoGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="bbq"
             onClick={() => props.handleFormIconButton("BBQ")}
-          >
-            <BBQIcon
-              color={
-                props.activeIconButtons.BBQ
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.BBQ
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              BBQ
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="board_games"
             onClick={() => props.handleFormIconButton("BoardGames")}
-          >
-            <BoardGamesIcon
-              color={
-                props.activeIconButtons.BoardGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.BoardGames
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Board Games
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.BoardGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.BoardGames
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
         </div>
         <div className="w-full flex flex-col justify-center">
-          <button
-            className="flex flex-col place-items-center mb-4"
+          <FormIconButton
+            icon="karaoke"
             onClick={() => props.handleFormIconButton("Karaoke")}
-          >
-            <KaraokeIcon
-              color={
-                props.activeIconButtons.Karaoke
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-              className="w-16 h-16"
-            />
-            <span
-              className={
-                props.activeIconButtons.Karaoke
-                  ? "text-slate-300"
-                  : "text-slate-500"
-              }
-            >
-              Karaoke
-            </span>
-          </button>
-          <button
-            className="flex flex-col place-items-center"
+            color={
+              props.activeIconButtons.Karaoke
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.Karaoke
+                ? "text-slate-300"
+                : "text-slate-500"
+            }
+          />
+          <FormIconButton
+            icon="tv"
             onClick={() => props.handleFormIconButton("TV")}
-          >
-            <TvIcon
-              className={`${
-                props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
-              } w-16 h-16`}
-            />
-            <span
-              className={
-                props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
-              }
-            >
-              TV / Streaming
-            </span>
-          </button>
+            color={
+              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
+            }
+            spanClassName={
+              props.activeIconButtons.TV ? "text-slate-300" : "text-slate-500"
+            }
+          />
         </div>
       </div>
       <div id="hidden-equipment-inputs" hidden>
@@ -569,6 +446,7 @@ export function Part1Form(props: Form1Props) {
           />
         </div> */}
       </div>
+      <FormHeader title="Add your partyroom's pricing plans:" />
       <FormHeader title="Add any other features that weren't previously mentioned:" />
       <TextArea
         placeholder="Max 150 characters"
