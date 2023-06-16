@@ -8,22 +8,23 @@ class Config_env:
     POSTGRES_USER=os.getenv("POSTGRES_USER")
     POSTGRES_PASSWORD=os.getenv("POSTGRES_PASSWORD")
     POSTGRES_HOST=os.getenv("POSTGRES_HOST")
-    SPARK_MASTER=os.getenv('SPARK_MASTER')
-    WAREHOUSE_HOST=os.getenv("WAREHOUSE_HOST")
     WAREHOUSE_DB=os.getenv("WAREHOUSE_DB")
     WAREHOUSE_USER=os.getenv("WAREHOUSE_USER")
     WAREHOUSE_PASSWORD=os.getenv("WAREHOUSE_PASSWORD")
+    WAREHOUSE_HOST=os.getenv("WAREHOUSE_HOST")
 
 # Prepare environment
-def prepare_env(cfg: Config_env):
+def prepare_env():
     global spark
     packages = [
         "org.postgresql:postgresql:42.2.18"
     ]
 
     spark = SparkSession.builder.appName("Transform Recent change stream")\
-            .master(f'spark://{cfg.SPARK_MASTER}:7077')\
+            .master('spark://spark:7077')\
             .config("spark.jars.packages",",".join(packages))\
+            .config("spark.hadoop.fs.s3a.impl","org.apache.hadoop.fs.s3a.S3AFileSystem")\
+            .config("spark.hadoop.fs.s3a.multipart.size",104857600)\
             .getOrCreate()
 
 # Read Dataframes
@@ -112,7 +113,7 @@ def write_to_data_warehouse(df: DataFrame, cfg: Config_env) -> None:
 def main():
     # Step 1: Prepare environment
     cfg = Config_env()
-    prepare_env(cfg)
+    prepare_env()
     # Step 2: Extract
     df = extract_partyroom(cfg)
     df.show()

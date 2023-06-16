@@ -96,6 +96,22 @@ export async function up(knex: Knex): Promise<void> {
     });
   }
 
+  if (!(await knex.schema.hasTable("fact_review"))) {
+  await knex.schema.createTable("fact_review", (table) => {
+    table.increments("id");
+    table.string("source");
+    });
+  }
+
+  if (!(await knex.schema.hasTable("dim_review"))) {
+  await knex.schema.createTable("dim_review", (table) => {
+    table.increments("id");
+    table.integer("review_id").unsigned().references("fact_review.id");
+    table.decimal("rating",3,1)
+    });
+  }
+
+
   if (!(await knex.schema.hasTable("fact_booking"))) {
     await knex.schema.createTable("fact_booking", (table) => {
       table.increments("id");
@@ -107,7 +123,7 @@ export async function up(knex: Knex): Promise<void> {
       table.decimal("total_hour", 4, 2);
       table.integer("headcount");
       table.decimal("booking_fee", 7, 2);
-      table.decimal("rating", 3, 1);
+      table.integer("rating").unsigned().references("dim_review.id")
       table.timestamps(false, true);
     });
   }
@@ -165,6 +181,15 @@ export async function up(knex: Knex): Promise<void> {
       table.increments("id");
       table.string("booking_user_source", 255);
       table.string("booking_user_promotion", 255);
+      table.timestamps(false, true);    
+    });
+  }
+
+  if (!(await knex.schema.hasTable("staging_review"))) {
+    await knex.schema.createTable("staging_review", (table) => {
+      table.increments("id");
+      table.string("booking_review_source", 255);
+      table.decimal("booking_rating", 3,1);
       table.timestamps(false, true);    
     });
   }
@@ -244,7 +269,7 @@ export async function up(knex: Knex): Promise<void> {
   `)
 
   knex.schema.raw(`
-    CREATE TRIGGER booking_users_register AFTER INSERT ON staging_users_register
+    CREATE TRIGGER booking_users_register_trigger AFTER INSERT ON staging_users_register
     OR EACH ROW EXECUTE PROCEDURE insert_users_register();
   `)
 
@@ -268,15 +293,40 @@ export async function up(knex: Knex): Promise<void> {
   `)
 
   knex.schema.raw(`
-    CREATE TRIGGER booking_partyroom_register AFTER INSERT ON staging_partyroom_register
+    CREATE TRIGGER booking_partyroom_register_trigger AFTER INSERT ON staging_partyroom_register
     FOR EACH ROW EXECUTE PROCEDURE insert_partyroom_register();
   `)
+
+  knex.schema.raw(`
+    CREATE OR REPLACE FUNCTION insert_review() RETURNS trigger AS $$
+    DECLARE
+        review_id integer;
+    BEGIN
+        INSERT INTO dim_review (review_id, rating) VALUES 
+            (NEW.review_id, NEW.rating) 
+            RETURNING id into review_id;
+       
+        INSERT INTO fact_review (source) VALUES
+            (NEW.source);
+    
+        return NEW;
+    END
+    $$ LANGUAGE plpgsql;
+  `)
+
+  knex.schema.raw(`
+    CREATE TRIGGER review_trigger AFTER INSERT ON staging_review
+    FOR EACH ROW EXECUTE PROCEDURE insert_review();
+  `)
+
 }
 
 export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTable('staging_users_register');
   await knex.schema.dropTable('staging_partyroom_register');
   await knex.schema.dropTable('staging_booking');
+  await knex.schema.dropTable('dim_review');
+  await knex.schema.dropTable('fact_review');
   await knex.schema.dropTable('fact_booking');
   await knex.schema.dropTable('dim_users');
   await knex.schema.dropTable('dim_partyroom_category');
@@ -290,10 +340,12 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTable('dim_date');
   await knex.schema.raw('DROP TRIGGER booking_trigger ON staging_booking')
   await knex.schema.raw('DROP FUNCTION insert_booking')
-  await knex.schema.raw('DROP TRIGGER booking_trigger ON staging_users_register')
+  await knex.schema.raw('DROP TRIGGER booking_users_register_trigger ON staging_users_register')
   await knex.schema.raw('DROP FUNCTION insert_users_register')
-  await knex.schema.raw('DROP TRIGGER booking_trigger ON staging_partyroom_register')
+  await knex.schema.raw('DROP TRIGGER booking_partyroom_register_trigger ON staging_partyroom_register')
   await knex.schema.raw('DROP FUNCTION insert_partyroom_register')
+  await knex.schema.raw('DROP TRIGGER review_trigger ON staging_partyroom_register')
+  await knex.schema.raw('DROP FUNCTION insert_review')
 }
 
 
