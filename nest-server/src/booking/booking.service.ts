@@ -38,7 +38,8 @@ export class BookingService {
         '=',
         'partyroom.id',
       )
-      .where('booking_users_id', id);
+      .where('booking_users_id', id)
+      .orderBy('booking_info.id', 'asc');
 
     return userBookings;
   }

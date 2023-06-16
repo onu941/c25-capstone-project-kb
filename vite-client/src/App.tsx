@@ -10,6 +10,7 @@ import Partyroom from "./pages/Partyroom";
 import Landing from "./pages/Landing";
 import { AuthGuard } from "./AuthGuard";
 import Test from "./pages/Test";
+import NotFound404 from "./pages/NotFound404";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/booking" element={<Booking />} />
           <Route path="/" element={<Navigate to="/landing" replace />} />
+          <Route path="*" element={<NotFound404 />} />{" "}
         </Route>
       </Routes>
     </FullScreen>

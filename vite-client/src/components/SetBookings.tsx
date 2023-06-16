@@ -44,7 +44,7 @@ export function SetBookings() {
           start_time: booking.start_time.slice(0, -3),
         })
       );
-
+      console.log("bookingsTreated:", bookingsTreated);
       setUserBookings(bookingsTreated);
     };
 
@@ -90,7 +90,7 @@ export function SetBookings() {
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 w-fit md:mb-0">
           {bookingsTab === "partygoer" &&
             userBookings.map((booking) => (
-              <div className="mx-4">
+              <div className="mx-4" key={booking.id}>
                 <BookingCard
                   id={booking.id}
                   name={booking.name}
@@ -111,7 +111,7 @@ export function SetBookings() {
             ))}
           {bookingsTab === "host" &&
             hostBookings.map((booking) => (
-              <div className="mx-4">
+              <div className="mx-4" key={booking.id}>
                 <BookingCard
                   id={booking.id}
                   name={booking.name}
