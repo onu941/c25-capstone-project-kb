@@ -53,6 +53,7 @@ export class BookingService {
           'booking_info.special_request',
           'booking_info.status',
           'partyroom_price_list.start_time',
+          'partyroom.id AS partyroom_id',
           'partyroom.name',
           'partyroom.host_id',
           'partyroom.phone',

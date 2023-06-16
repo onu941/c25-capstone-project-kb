@@ -53,6 +53,23 @@ export function SettingsTab(props: SettingTabProps) {
   );
 }
 
+export function BookingsTab(props: SettingTabProps) {
+  return (
+    <div className="tabs mt-5 mb-6 w-full flex place-content-around">
+      <SettingsTabButton
+        onClick={() => props.handleClick("partygoer")}
+        name="As Partygoer"
+        isSelected={props.bookingsTabIsSelected === "partygoer"}
+      />
+      <SettingsTabButton
+        onClick={() => props.handleClick("host")}
+        name="As Host"
+        isSelected={props.bookingsTabIsSelected === "host"}
+      />
+    </div>
+  );
+}
+
 export function NewRoomTab(props: SettingTabProps) {
   return (
     <div className="tabs mt-5 mb-6 w-full flex place-content-around">

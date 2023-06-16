@@ -20,8 +20,10 @@ import sample from "../assets/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { Booking as BookingType, ReviewFormData } from "../app/interface";
+import { useNavigate } from "react-router-dom";
 
 export default function Booking() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const bookingId = params.get("booking_id");
@@ -42,6 +44,7 @@ export default function Booking() {
     booking_date: "",
     status: "",
     special_request: "",
+    partyroom_id: NaN,
   });
 
   const initialReviewFormData: ReviewFormData = {
@@ -147,6 +150,7 @@ export default function Booking() {
 
   console.log("booking details", bookingDetails);
   console.log(bookingDetails.booking_date);
+  console.log(bookingDetails.partyroom_id);
 
   return (
     <>
@@ -180,6 +184,9 @@ export default function Booking() {
           >
             <BookingCardLarge
               image={sample}
+              onClick={() =>
+                navigate(`/partyroom?room_id=${bookingDetails.partyroom_id}`)
+              }
               name={bookingDetails.name}
               address={bookingDetails.address}
               date={bookingDetails.booking_date.split(/[\/\s,:]+/)[1]}
@@ -194,7 +201,10 @@ export default function Booking() {
               time={bookingDetails.start_time}
             />
             <div className="flex flex-col place-content-between">
-              <OwnerCard name={bookingDetails.host_name} />
+              <OwnerCard
+                name={bookingDetails.host_name}
+                whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
+              />
               <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
                 <span className="italic">
                   {bookingDetails.special_request}&nbsp;

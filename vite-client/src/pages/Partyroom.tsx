@@ -477,7 +477,6 @@ export default function Partyroom() {
             <div>
               <OwnerCard
                 name={partyroom.host_name}
-                phone={partyroom.phone}
                 whatsAppUrl={`https://wa.me/${partyroom.phone}`}
               />
             </div>
