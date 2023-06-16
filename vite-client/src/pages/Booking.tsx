@@ -16,7 +16,7 @@ import {
 } from "../components/minicomponents/Cards";
 import { TextArea } from "../components/minicomponents/Inputs";
 import { Toaster, toast } from "react-hot-toast";
-import sample from "../assets/img/sample_partyroom.jpg";
+import sample from "../../public/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { Booking as BookingType, ReviewFormData } from "../app/interface";
@@ -47,6 +47,7 @@ export default function Booking() {
     status: "",
     special_request: "",
     partyroom_id: NaN,
+    image_filename: "",
   });
 
   const initialReviewFormData: ReviewFormData = {

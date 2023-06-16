@@ -14,7 +14,7 @@ import {
 } from "../components/minicomponents/Buttons";
 import { BookingModal } from "../components/minicomponents/Modals";
 import { Toaster } from "react-hot-toast";
-import sample from "../assets/img/sample_partyroom.jpg";
+import sample from "../../public/img/sample_partyroom.jpg";
 import {
   BBQIcon,
   BoardGamesIcon,
@@ -53,6 +53,7 @@ export default function Partyroom() {
     description: "",
     category: [],
     equipment: [],
+    image_filename: "",
   });
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [reviews, setReviews] = useState<Review[]>([]);
