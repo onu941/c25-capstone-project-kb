@@ -13,22 +13,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  async createUser(CreateUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto) {
     try {
-      const { name, email, phone, password, image_id, is_admin } =
-        CreateUserDto;
+      const { name, email, phone, password } = createUserDto;
+      const is_admin = false;
       const hashedPassword = await hashPassword(password);
-      const [id] = await this.knex('users')
-        .insert({
-          name,
-          email,
-          phone,
-          password: hashedPassword,
-          image_id,
-          is_admin,
-        })
-        .returning(['id', 'name']);
-      return { id };
+      await this.knex('users').insert({
+        name,
+        email,
+        phone,
+        password: hashedPassword,
+        is_admin,
+      });
+      return { message: 'Signup successful, please login' };
     } catch (error) {
       throw new BadRequestException(error);
     }

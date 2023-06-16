@@ -6,6 +6,7 @@ import {
 import { Knex } from 'knex';
 import { InjectKnex } from 'nestjs-knex';
 import { CreateReviewDto } from 'src/booking/dto/create-review.dto';
+import { UpdateBookingStatusDto } from './dto/update-booking.dto';
 
 @Injectable()
 export class BookingService {
@@ -151,6 +152,121 @@ export class BookingService {
         .where('booking_info.id', id);
 
       return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findNextBookingAsPartygoer(id: number) {
+    try {
+      const query = await this.knex
+        .select(
+          'booking_info.id',
+          'booking_info.booking_users_id AS person_id',
+          'booking_info.headcount',
+          'booking_info.booking_date',
+          'partyroom_price_list.start_time',
+          'partyroom.name',
+          'partyroom.address',
+          'image.filename AS image_filename',
+        )
+        .from('booking_info')
+        .join(
+          'partyroom_price_list',
+          'booking_info.partyroom_price_list_id',
+          '=',
+          'partyroom_price_list.id',
+        )
+        .join(
+          'partyroom',
+          'partyroom_price_list.partyroom_id',
+          '=',
+          'partyroom.id',
+        )
+        .join(
+          'partyroom_image',
+          'partyroom.id',
+          '=',
+          'partyroom_image.partyroom_id',
+        )
+        .join('image', 'partyroom_image.image_id', '=', 'image.id')
+        .where(
+          'booking_info.booking_date',
+          '>=',
+          this.knex.raw('CAST(? as DATE)', [this.knex.fn.now()]),
+        )
+        .andWhere('booking_info.booking_users_id', '=', id)
+        .orderBy('booking_date')
+        .first();
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findNextBookingAsHost(id: number) {
+    try {
+      const query = await this.knex
+        .select(
+          'booking_info.id',
+          'booking_info.headcount',
+          'booking_info.booking_date',
+          'partyroom_price_list.start_time',
+          'partyroom.name',
+          'partyroom.address',
+          'partyroom.host_id AS person_id',
+          'image.filename AS image_filename',
+        )
+        .from('booking_info')
+        .join(
+          'partyroom_price_list',
+          'booking_info.partyroom_price_list_id',
+          '=',
+          'partyroom_price_list.id',
+        )
+        .join(
+          'partyroom',
+          'partyroom_price_list.partyroom_id',
+          '=',
+          'partyroom.id',
+        )
+        .join(
+          'partyroom_image',
+          'partyroom.id',
+          '=',
+          'partyroom_image.partyroom_id',
+        )
+        .join('image', 'partyroom_image.image_id', '=', 'image.id')
+        .where(
+          'booking_info.booking_date',
+          '>=',
+          this.knex.raw('CAST(? as DATE)', [this.knex.fn.now()]),
+        )
+        .andWhere('partyroom.host_id', id)
+        .orderBy('booking_date')
+        .first();
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async updateBookingStatus(
+    id: number,
+    updateBookingStatusDto: UpdateBookingStatusDto,
+  ) {
+    try {
+      const updatedStatus = await this.knex('booking_info')
+        .where('booking_info.id', id)
+        .update({ status: updateBookingStatusDto.status });
+
+      if (!updatedStatus) {
+        return null;
+      }
+
+      return { message: 'Booking status updated' };
     } catch (error) {
       console.log(error);
     }
