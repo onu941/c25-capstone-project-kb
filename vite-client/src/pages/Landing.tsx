@@ -17,6 +17,7 @@ import { RootState } from "../redux/store";
 import { BookingCard } from "../app/interface";
 
 export default function Landing() {
+  const imageDirectory = "../../public/img/room/";
   const token = localStorage.getItem("token");
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -136,6 +137,8 @@ export default function Landing() {
     fetchNextBookingAsHost();
   }, [username]);
 
+  console.log(imageDirectory + partygoerDetails.image_filename);
+
   return (
     <>
       <FullScreen>
@@ -155,7 +158,7 @@ export default function Landing() {
           <BodyHeader title="Your next booking:"></BodyHeader>
           <div className="w-full px-6 md:px-96 mb-16">
             <BookingCardLarge
-              image={sample}
+              image={imageDirectory + partygoerDetails.image_filename}
               alt="sample"
               name={partygoerDetails.name}
               address={partygoerDetails.address}
@@ -175,7 +178,7 @@ export default function Landing() {
           <BodyHeader title="Your room has been booked!"></BodyHeader>
           <div className="w-full px-6 md:px-96 mb-8">
             <BookingCardLarge
-              image={sample}
+              image={imageDirectory + hostDetails.image_filename}
               alt="sample"
               name={hostDetails.name}
               address={hostDetails.address}
