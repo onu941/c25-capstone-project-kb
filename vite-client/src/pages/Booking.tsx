@@ -211,6 +211,38 @@ export default function Booking() {
     }
   };
 
+  const handleConfirmBooking = async () => {
+    await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/confirm/${bookingId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "confirmed" }),
+      }
+    );
+
+    getBookingDetailsAsHost();
+  };
+
+  const handleCancelBooking = async () => {
+    await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/cancel/${bookingId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: "cancelled" }),
+      }
+    );
+
+    getBookingDetailsAsHost();
+  };
+
   return (
     <>
       <div>
@@ -267,11 +299,11 @@ export default function Booking() {
               <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
                 <span className="italic">
                   {bookingDetails.special_request &&
-                    `${bookingDetails.special_request}&nbsp;`}
+                    `${bookingDetails.special_request}`}
                 </span>
                 <span className="text-slate-500">
                   {bookingDetails.special_request
-                    ? ` - ${
+                    ? `\u00A0-\u00A0${
                         viewMode === "host" ? "Their" : "Your"
                       } special request`
                     : "No special requests"}
@@ -283,11 +315,19 @@ export default function Booking() {
             <div className="w-full flex justify-center mt-20">
               <div className="w-5/12 flex flex-wrap justify-between">
                 <DangerButton
-                  disabled={bookingDetails.status === "Confirmed"}
+                  disabled={
+                    bookingDetails.status === "Confirmed" ||
+                    bookingDetails.status === "Cancelled"
+                  }
+                  onClick={() => handleCancelBooking()}
                   label="Cancel Booking"
                 />
                 <SubmitButton
-                  disabled={bookingDetails.status === "Confirmed"}
+                  disabled={
+                    bookingDetails.status === "Confirmed" ||
+                    bookingDetails.status === "Cancelled"
+                  }
+                  onClick={() => handleConfirmBooking()}
                   label="Confirm Booking"
                 />
               </div>
