@@ -11,7 +11,10 @@ export function BookingCardLarge(props: CardProps) {
       onClick={props.onClick}
       className=" hover:brightness-125 transform transition-all duration-200 ease-in-out"
     >
-      <div className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2">
+      <div
+        key={props.id}
+        className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2"
+      >
         <figure>
           <img src={props.image} alt={props.alt} />
         </figure>
@@ -69,7 +72,7 @@ export function BookingCard(props: CardProps) {
 
 export function PartyroomCard(props: CardProps) {
   return (
-    <div className="flex place-content-center mb-8 w-full" data-id={props.id}>
+    <div className="flex place-content-center mb-8 w-full" key={props.id}>
       <a
         href=""
         onClick={props.onClick}
