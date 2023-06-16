@@ -1,10 +1,21 @@
 import { FormHeader } from "./minicomponents/Headers";
-import { MiniInput, StandardInput, TextArea } from "./minicomponents/Inputs";
+import {
+  DropdownInput,
+  MiniInput,
+  StandardInput,
+  TextArea,
+} from "./minicomponents/Inputs";
 import { Form1Props } from "../app/interface";
-import DistrictInput from "./minicomponents/Inputs";
 import { FormIconButton } from "./minicomponents/Buttons";
 
 export function Part1Form(props: Form1Props) {
+  const districts = [
+    { value: "Kwai Tsing", label: "Kwai Tsing" },
+    { value: "Yau Tsim Mong", label: "Yau Tsim Mong" },
+    { value: "Wan Chai", label: "Wan Chai" },
+    { value: "Kwun Tong", label: "Kwun Tong" },
+  ];
+
   return (
     <>
       <div id="basics" className="mb-8">
@@ -39,11 +50,11 @@ export function Part1Form(props: Form1Props) {
           register={props.register("address")}
           isEditing
         />
-        <DistrictInput
+        <DropdownInput
           name="district"
-          type="text"
-          placeholder="address line 2 (district)"
+          options={districts}
           register={props.register("district")}
+          placeholder="your district"
         />
       </div>
       <FormHeader title="What is your partyroom designed for?" />

@@ -53,6 +53,11 @@ export interface CarouselProps {
   image: string;
 }
 
+export interface Option {
+  value: string;
+  label: string;
+}
+
 export interface InputProps {
   type?: string;
   placeholder?: string;
@@ -70,9 +75,10 @@ export interface InputProps {
   isEditing?: boolean;
   handleEditClick?: () => void;
   handleSaveClick?: () => void;
-  handleReviewDetailInputChange: (
+  handleReviewDetailInputChange?: (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
+  options?: Option[];
 }
 
 export interface HeaderProps {
@@ -95,6 +101,7 @@ export interface SidebarProps {
 export interface SettingTabProps {
   handleClick: (string: string) => void;
   isSelected?: string;
+  bookingsTabIsSelected?: string;
 }
 
 // ******************** //
@@ -230,6 +237,7 @@ export interface Booking {
   booking_date: string;
   status: string;
   special_request: string;
+  partyroom_id: number;
 }
 
 export interface Category {

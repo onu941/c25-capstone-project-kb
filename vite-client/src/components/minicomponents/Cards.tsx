@@ -8,6 +8,7 @@ export function BookingCardLarge(props: CardProps) {
   return (
     <a
       href=""
+      onClick={props.onClick}
       className=" hover:brightness-125 transform transition-all duration-200 ease-in-out"
     >
       <div className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2">
