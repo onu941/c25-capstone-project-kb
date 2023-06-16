@@ -31,7 +31,6 @@ export default function Booking() {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const bookingId = params.get("booking_id");
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
 
   const viewMode = useSelector((state: RootState) => state.user.bookingsTab);
   console.log("view mode:", viewMode);
@@ -66,117 +65,111 @@ export default function Booking() {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
+  const getTargetDate = () => {
+    console.log(bookingDetails.booking_date);
+    const bookingDate = bookingDetails.booking_date.split(",")[0].trim();
+    const bookingTime = bookingDetails.start_time;
+
+    const [month, day, year] = bookingDate.split("/");
+    const [hours, minutes] = bookingTime.split(":");
+
+    const monthIndex = parseInt(month) - 1;
+
+    const targetDate = new Date(
+      parseInt(year),
+      monthIndex,
+      parseInt(day),
+      parseInt(hours),
+      parseInt(minutes)
+    );
+
+    return targetDate;
+  };
+
   const isPastDateTime = (targetDate: Date) => {
     const currentDate = new Date();
+    console.log("currentDate:", currentDate);
+    console.log("targetDate", targetDate);
     const result: boolean = currentDate > targetDate;
-    console.log("checking isPastDateTime:", result);
-    return currentDate > targetDate;
+    return result;
+  };
+
+  const checkTime = async () => {
+    const targetDate = getTargetDate();
+    if (isPastDateTime(targetDate)) setShowTimeSensitiveSection(true);
+  };
+
+  const getBookingDetails = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/partygoer/${bookingId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const bookingDetails = await response.json();
+    const bookingDetailsTreated = bookingDetails.map(
+      (booking: BookingType) => ({
+        ...booking,
+        booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
+          timeZone: "Asia/Hong_Kong",
+        }),
+        start_time: booking.start_time.slice(0, -3),
+        status: booking.status
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      })
+    );
+
+    setBookingDetails(bookingDetailsTreated[0]);
+  };
+
+  const getBookingDetailsAsHost = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/host/${bookingId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const bookingDetails = await response.json();
+    const bookingDetailsTreated = bookingDetails.map(
+      (booking: BookingForHost) => ({
+        ...booking,
+        booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
+          timeZone: "Asia/Hong_Kong",
+        }),
+        start_time: booking.start_time.slice(0, -3),
+        status: booking.status
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      })
+    );
+
+    setBookingDetails(bookingDetailsTreated[0]);
   };
 
   useEffect(() => {
     if (viewMode === "partygoer") {
-      const getBookingDetails = async () => {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_SERVER}/booking/partygoer/${bookingId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const bookingDetails = await response.json();
-        const bookingDetailsTreated = bookingDetails.map(
-          (booking: BookingType) => ({
-            ...booking,
-            booking_date: new Date(booking.booking_date).toLocaleString(
-              "en-US",
-              {
-                timeZone: "Asia/Hong_Kong",
-              }
-            ),
-            start_time: booking.start_time.slice(0, -3),
-            status: booking.status
-              .split(" ")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" "),
-          })
-        );
-
-        setBookingDetails(bookingDetailsTreated[0]);
-      };
-
       getBookingDetails();
     }
 
     if (viewMode === "host") {
-      const getBookingDetailsAsHost = async () => {
-        const response = await fetch(
-          `${import.meta.env.VITE_API_SERVER}/booking/host/${bookingId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        const bookingDetails = await response.json();
-        const bookingDetailsTreated = bookingDetails.map(
-          (booking: BookingForHost) => ({
-            ...booking,
-            booking_date: new Date(booking.booking_date).toLocaleString(
-              "en-US",
-              {
-                timeZone: "Asia/Hong_Kong",
-              }
-            ),
-            start_time: booking.start_time.slice(0, -3),
-            status: booking.status
-              .split(" ")
-              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-              .join(" "),
-          })
-        );
-
-        setBookingDetails(bookingDetailsTreated[0]);
-        console.log("checking function", bookingDetailsTreated[0]);
-      };
-
       getBookingDetailsAsHost();
     }
+  }, [viewMode]);
 
-    const getTargetDate = async () => {
-      console.log(bookingDetails.booking_date);
-      const bookingDate = bookingDetails.booking_date.split(",")[0].trim();
-      const bookingTime = bookingDetails.start_time;
-
-      const [month, day, year] = bookingDate.split("/");
-      const [hours, minutes] = bookingTime.split(":");
-
-      const monthIndex = parseInt(month) - 1;
-
-      const targetDate = new Date(
-        parseInt(year),
-        monthIndex,
-        parseInt(day),
-        parseInt(hours),
-        parseInt(minutes)
-      );
-      return targetDate;
-    };
-
-    const checkTime = async () => {
-      const targetDate = await getTargetDate();
-      if (isPastDateTime(targetDate)) setShowTimeSensitiveSection(true);
-    };
-    const timer = setInterval(checkTime, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  useEffect(() => {
+    checkTime();
+  }, [bookingDetails]);
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -273,11 +266,15 @@ export default function Booking() {
               />
               <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
                 <span className="italic">
-                  "{bookingDetails.special_request}"&nbsp;
+                  {bookingDetails.special_request &&
+                    `${bookingDetails.special_request}&nbsp;`}
                 </span>
                 <span className="text-slate-500">
-                  - {viewMode === "host" && "Their"}
-                  {viewMode === "partygoer" && "Your"} special request
+                  {bookingDetails.special_request
+                    ? ` - ${
+                        viewMode === "host" ? "Their" : "Your"
+                      } special request`
+                    : "No special requests"}
                 </span>
               </div>
             </div>

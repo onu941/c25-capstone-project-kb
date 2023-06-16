@@ -111,7 +111,7 @@ export function OwnerCard(props: CardProps) {
                 rel="noopener noreferrer"
                 className="underline text-slate-400"
               >
-                <ChatBubbleLeftEllipsisIcon className="h-9 w-9 text-slate-300" />
+                <ChatBubbleLeftEllipsisIcon className="h-9 w-9 text-slate-300 hover:brightness-110 hover:-translate-y-1 transform transition-all duration-200 ease-in-out" />
               </a>
             </div>
           </div>
