@@ -17,6 +17,7 @@ export interface ButtonProps {
   color?: string;
   spanClassName?: string;
   icon?: string;
+  disabled?: boolean;
 }
 
 export interface SettingsTabButtonProps {
@@ -228,8 +229,23 @@ export interface Partyroom {
 export interface Booking {
   id: number;
   name: string;
-  host_id: number;
-  host_name: string;
+  person_id: number;
+  person_name: string;
+  phone: string;
+  address: string;
+  headcount: number;
+  start_time: string;
+  booking_date: string;
+  status: string;
+  special_request: string;
+  partyroom_id: number;
+}
+
+export interface BookingForHost {
+  id: number;
+  name: string;
+  partygoer_id: number;
+  partygoer_name: string;
   phone: string;
   address: string;
   headcount: number;

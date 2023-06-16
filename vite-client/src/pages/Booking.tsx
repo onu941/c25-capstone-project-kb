@@ -19,7 +19,11 @@ import { Toaster, toast } from "react-hot-toast";
 import sample from "../assets/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
-import { Booking as BookingType, ReviewFormData } from "../app/interface";
+import {
+  BookingForHost,
+  Booking as BookingType,
+  ReviewFormData,
+} from "../app/interface";
 import { useNavigate } from "react-router-dom";
 
 export default function Booking() {
@@ -29,14 +33,17 @@ export default function Booking() {
   const bookingId = params.get("booking_id");
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
 
+  const viewMode = useSelector((state: RootState) => state.user.bookingsTab);
+  console.log("view mode:", viewMode);
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [showTimeSensitiveSection, setShowTimeSensitiveSection] =
     useState(false);
   const [bookingDetails, setBookingDetails] = useState<BookingType>({
     id: Number(bookingId),
     name: "",
-    host_id: NaN,
-    host_name: "",
+    person_id: NaN,
+    person_name: "",
     phone: "",
     address: "",
     headcount: NaN,
@@ -61,46 +68,109 @@ export default function Booking() {
 
   const isPastDateTime = (targetDate: Date) => {
     const currentDate = new Date();
+    const result: boolean = currentDate > targetDate;
+    console.log("checking isPastDateTime:", result);
     return currentDate > targetDate;
   };
 
   useEffect(() => {
-    const getBookingDetails = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/booking/partygoer/${bookingId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    if (viewMode === "partygoer") {
+      const getBookingDetails = async () => {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_SERVER}/booking/partygoer/${bookingId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      const bookingDetails = await response.json();
-      const bookingDetailsTreated = bookingDetails.map(
-        (booking: BookingType) => ({
-          ...booking,
-          booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
-            timeZone: "Asia/Hong_Kong",
-          }),
-          start_time: booking.start_time.slice(0, -3),
-          status: booking.status
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" "),
-        })
-      );
+        const bookingDetails = await response.json();
+        const bookingDetailsTreated = bookingDetails.map(
+          (booking: BookingType) => ({
+            ...booking,
+            booking_date: new Date(booking.booking_date).toLocaleString(
+              "en-US",
+              {
+                timeZone: "Asia/Hong_Kong",
+              }
+            ),
+            start_time: booking.start_time.slice(0, -3),
+            status: booking.status
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" "),
+          })
+        );
 
-      setBookingDetails(bookingDetailsTreated[0]);
+        setBookingDetails(bookingDetailsTreated[0]);
+      };
+
+      getBookingDetails();
+    }
+
+    if (viewMode === "host") {
+      const getBookingDetailsAsHost = async () => {
+        const response = await fetch(
+          `${import.meta.env.VITE_API_SERVER}/booking/host/${bookingId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const bookingDetails = await response.json();
+        const bookingDetailsTreated = bookingDetails.map(
+          (booking: BookingForHost) => ({
+            ...booking,
+            booking_date: new Date(booking.booking_date).toLocaleString(
+              "en-US",
+              {
+                timeZone: "Asia/Hong_Kong",
+              }
+            ),
+            start_time: booking.start_time.slice(0, -3),
+            status: booking.status
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" "),
+          })
+        );
+
+        setBookingDetails(bookingDetailsTreated[0]);
+        console.log("checking function", bookingDetailsTreated[0]);
+      };
+
+      getBookingDetailsAsHost();
+    }
+
+    const getTargetDate = async () => {
+      console.log(bookingDetails.booking_date);
+      const bookingDate = bookingDetails.booking_date.split(",")[0].trim();
+      const bookingTime = bookingDetails.start_time;
+
+      const [month, day, year] = bookingDate.split("/");
+      const [hours, minutes] = bookingTime.split(":");
+
+      const monthIndex = parseInt(month) - 1;
+
+      const targetDate = new Date(
+        parseInt(year),
+        monthIndex,
+        parseInt(day),
+        parseInt(hours),
+        parseInt(minutes)
+      );
+      return targetDate;
     };
 
-    getBookingDetails();
-
-    const targetDate = new Date(2023, 2, 18, 16, 0, 0); // replace with database data
-    const checkTime = () => {
+    const checkTime = async () => {
+      const targetDate = await getTargetDate();
       if (isPastDateTime(targetDate)) setShowTimeSensitiveSection(true);
     };
-
     const timer = setInterval(checkTime, 1000);
 
     return () => {
@@ -148,10 +218,8 @@ export default function Booking() {
     }
   };
 
-  console.log("booking details", bookingDetails);
-  console.log(bookingDetails.booking_date);
-  console.log(bookingDetails.partyroom_id);
-
+  console.log("booking date:", bookingDetails.booking_date);
+  console.log("start time", bookingDetails.start_time);
   return (
     <>
       <div>
@@ -202,18 +270,35 @@ export default function Booking() {
             />
             <div className="flex flex-col place-content-between">
               <OwnerCard
-                name={bookingDetails.host_name}
+                name={bookingDetails.person_name}
                 whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
               />
               <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
                 <span className="italic">
                   {bookingDetails.special_request}&nbsp;
                 </span>
-                <span className="text-slate-500">Your special request</span>
+                <span className="text-slate-500">
+                  {viewMode === "host" && "Their"}
+                  {viewMode === "partygoer" && "Your"} special request
+                </span>
               </div>
             </div>
           </div>
-          {showTimeSensitiveSection && (
+          {viewMode === "host" && (
+            <div className="w-full flex justify-center mt-20">
+              <div className="w-5/12 flex flex-wrap justify-between">
+                <DangerButton
+                  disabled={bookingDetails.status === "Confirmed"}
+                  label="Cancel Booking"
+                />
+                <SubmitButton
+                  disabled={bookingDetails.status === "Confirmed"}
+                  label="Confirm Booking"
+                />
+              </div>
+            </div>
+          )}
+          {viewMode === "partygoer" && showTimeSensitiveSection && (
             <>
               <form className="w-full" onSubmit={handleSubmitReview}>
                 <ReviewHeader
