@@ -43,6 +43,40 @@ export class BookingService {
     return userBookings;
   }
 
+  async findByHostIdForSettings(id: number) {
+    if (!id) {
+      throw new NotFoundException(
+        'Check ID. No bookings as host found for the given user ID',
+      );
+    }
+
+    const hostBookings = await this.knex
+      .select(
+        'booking_info.id',
+        'booking_info.headcount',
+        'booking_info.booking_date',
+        'partyroom.name',
+        'partyroom.address',
+        'partyroom_price_list.start_time',
+      )
+      .from('booking_info')
+      .join(
+        'partyroom_price_list',
+        'booking_info.partyroom_price_list_id',
+        '=',
+        'partyroom_price_list.id',
+      )
+      .join(
+        'partyroom',
+        'partyroom_price_list.partyroom_id',
+        '=',
+        'partyroom.id',
+      )
+      .where('partyroom.host_id', id);
+
+    return hostBookings;
+  }
+
   async findOneAsPartygoer(id: number) {
     try {
       const query = await this.knex

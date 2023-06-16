@@ -17,6 +17,12 @@ export class BookingController {
     return this.bookingService.findByUserIdForSettings(id);
   }
 
+  @Get('/settings_host/:id')
+  @UseGuards(AuthGuard('jwt'))
+  async findByHostIdForSettings(@Param('id') id: number) {
+    return this.bookingService.findByHostIdForSettings(id);
+  }
+
   @Get(`/partygoer/:id`)
   @UseGuards(AuthGuard('jwt'))
   async findOneAsPartygoer(@Param('id') id: number) {
