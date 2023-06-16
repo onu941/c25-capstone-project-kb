@@ -14,52 +14,127 @@ import toast, { Toaster } from "react-hot-toast";
 import sample from "../assets/img/sample_partyroom.jpg";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-
-export interface JWT {
-  name: string;
-  phone: string;
-  email: string;
-  is_admin: boolean;
-  image_id: number;
-  iat: number;
-  exp: number;
-}
+import { BookingCard } from "../app/interface";
 
 export default function Landing() {
   const token = localStorage.getItem("token");
+  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
+  const [partygoerDetails, setPartygoerDetails] = useState<BookingCard>({
+    id: NaN,
+    person_id: Number(reduxUserId),
+    headcount: NaN,
+    booking_date: "",
+    start_time: "",
+    name: "",
+    address: "",
+    image_filename: "",
+  });
+  const [hostDetails, setHostDetails] = useState<BookingCard>({
+    id: NaN,
+    person_id: Number(reduxUserId),
+    headcount: NaN,
+    booking_date: "",
+    start_time: "",
+    name: "",
+    address: "",
+    image_filename: "",
+  });
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
-  console.log("user id from redux:", reduxUserId);
+  const fetchUserDetails = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const userDetails = await response.json();
+    const name = userDetails.user.name;
+    setUsername(name);
+  };
+
+  const fetchNextBookingAsPartygoer = async () => {
+    const response = await fetch(
+      `${
+        import.meta.env.VITE_API_SERVER
+      }/booking/next/partygoer/${reduxUserId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const bookingDetails = await response.json();
+    const bookingDetailsTreated = {
+      ...bookingDetails,
+      booking_date: new Date(bookingDetails.booking_date).toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Hong_Kong",
+        }
+      ),
+      start_time: bookingDetails.start_time.slice(0, -3),
+    };
+    console.log(
+      "partygoer room img filename:",
+      bookingDetailsTreated.image_filename
+    );
+    setPartygoerDetails(bookingDetailsTreated);
+  };
+
+  const fetchNextBookingAsHost = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/next/host/${reduxUserId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const bookingDetails = await response.json();
+    console.log("host bookingDetails", bookingDetails);
+    const bookingDetailsTreated = {
+      ...bookingDetails,
+      booking_date: new Date(bookingDetails.booking_date).toLocaleString(
+        "en-US",
+        {
+          timeZone: "Asia/Hong_Kong",
+        }
+      ),
+      start_time: bookingDetails.start_time.slice(0, -3),
+    };
+    console.log(
+      "host room img filename:",
+      bookingDetailsTreated.image_filename
+    );
+    setHostDetails(bookingDetailsTreated);
+  };
 
   useEffect(() => {
-    const fetchUserDetails = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const userDetails = await response.json();
-      const name = userDetails.user.name;
-      setUsername(name);
-    };
-
     fetchUserDetails();
 
     const successMessage = localStorage.getItem("successMessage");
     if (successMessage) toast.success(successMessage);
     localStorage.removeItem("successMessage");
   }, []);
+
+  useEffect(() => {
+    fetchNextBookingAsPartygoer();
+    fetchNextBookingAsHost();
+  }, [username]);
 
   return (
     <>
@@ -82,11 +157,18 @@ export default function Landing() {
             <BookingCardLarge
               image={sample}
               alt="sample"
-              name="Partyroom Name"
-              address="18 Tung Chung Waterfront Rd"
-              date="25"
-              month="May"
-              pax={8}
+              name={partygoerDetails.name}
+              address={partygoerDetails.address}
+              time={partygoerDetails.start_time}
+              date={partygoerDetails.booking_date.split(/[\/\s,:]+/)[1]}
+              month={new Date(
+                2000,
+                parseInt(
+                  partygoerDetails.booking_date.split(/[\/\s,:]+/)[0],
+                  10
+                ) - 1
+              ).toLocaleString("default", { month: "short" })}
+              pax={partygoerDetails.headcount}
             />
           </div>
           <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
@@ -95,11 +177,15 @@ export default function Landing() {
             <BookingCardLarge
               image={sample}
               alt="sample"
-              name="Partyroom Name"
-              address="18 Tung Chung Waterfront Rd"
-              date="25"
-              month="May"
-              pax={8}
+              name={hostDetails.name}
+              address={hostDetails.address}
+              time={hostDetails.start_time}
+              date={hostDetails.booking_date.split(/[\/\s,:]+/)[1]}
+              month={new Date(
+                2000,
+                parseInt(hostDetails.booking_date.split(/[\/\s,:]+/)[0], 10) - 1
+              ).toLocaleString("default", { month: "short" })}
+              pax={hostDetails.headcount}
             />
           </div>
           <div className="w-full flex place-content-center pt-6">

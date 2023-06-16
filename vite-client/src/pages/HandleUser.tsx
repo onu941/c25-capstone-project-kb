@@ -1,19 +1,22 @@
 import { FormEvent, useState } from "react";
-import { useForm } from "react-hook-form";
 import { FullScreenInitial } from "../components/minicomponents/Containers";
 import { InitialLanding } from "../components/InitialLanding";
 import { Login } from "../components/Login";
 import { Signup } from "../components/Signup";
-import { localLogin } from "../redux/authAPI";
+import { localLogin, localSignup } from "../redux/authAPI";
 import { login } from "../redux/authSlice";
 import { useAppDispatch } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { HandleUserFormState } from "../app/interface";
+
+// import { useForm } from "react-hook-form";
+// import { HandleUserFormState } from "../app/interface";
 
 export default function HandleUser() {
   const [page, setPage] = useState("initial");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const dispatch = useAppDispatch();
@@ -37,12 +40,29 @@ export default function HandleUser() {
     }
   };
 
-  const { register, handleSubmit } = useForm<HandleUserFormState>({});
+  const onSignupSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const name = form.username.value;
+    const email = form.email.value;
+    const phone = form.phone.value.toString();
+    const password = form.password.value;
 
-  const onSignupSubmit = (data: HandleUserFormState) => {
-    data.phoneNo = parseInt(data.phoneNo, 10);
-    console.log("submitted form data:", data);
+    const success = await localSignup(name, email, phone, password);
+    if (success) {
+      toast.success(success.message);
+      setPage("login");
+      setEmail("");
+      setPassword("");
+    }
   };
+
+  // using react-hook-form
+  // const { register, handleSubmit } = useForm<HandleUserFormState>({});
+  // const onSignupSubmit = (data: HandleUserFormState) => {
+  //   data.phoneNo = parseInt(data.phoneNo, 10);
+  //   console.log("submitted form data:", data);
+  // };
 
   return (
     <FullScreenInitial>
@@ -62,10 +82,16 @@ export default function HandleUser() {
       )}
       {page === "signup" && (
         <Signup
-          register={register}
-          handleSubmit={handleSubmit}
+          initialName={name}
+          initialEmail={email}
+          initialPhone={phone}
+          initialPassword={password}
           onSignupSubmit={onSignupSubmit}
           setPage={setPage}
+          setName={setName}
+          setEmail={setEmail}
+          setPhone={setPhone}
+          setPassword={setPassword}
         />
       )}
     </FullScreenInitial>

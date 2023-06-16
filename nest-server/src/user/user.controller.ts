@@ -26,10 +26,11 @@ export class UserController {
   ) {}
 
   @Post('/signup')
-  async createUser(@Body(new ValidationPipe()) CreateUserDto: CreateUserDto) {
+  async createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     try {
-      const { id } = await this.userService.createUser(CreateUserDto);
-      return { id };
+      return await this.userService.createUser(createUserDto);
+      // const { id } = await this.userService.createUser(CreateUserDto);
+      // return { id };
     } catch (error) {
       throw new BadRequestException(error);
     }

@@ -167,11 +167,24 @@ export interface HandleUserFormState {
 }
 
 export interface SignupProps {
-  register: UseFormRegister<HandleUserFormState>;
-  handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
-  onSignupSubmit: (data: HandleUserFormState) => void;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onSignupSubmit: (event: FormEvent<HTMLFormElement>) => void;
   setPage: React.Dispatch<React.SetStateAction<string>>;
+  initialName: string;
+  initialEmail: string;
+  initialPhone: string;
+  initialPassword: string;
 }
+
+// export interface SignupProps {
+//   register: UseFormRegister<HandleUserFormState>;
+//   handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
+//   onSignupSubmit: (data: HandleUserFormState) => void;
+//   setPage: React.Dispatch<React.SetStateAction<string>>;
+// }
 
 // ************** //
 // form interface //
@@ -224,6 +237,7 @@ export interface Partyroom {
   description: string;
   category: Category[];
   equipment: Equipment[];
+  image_filename: string;
 }
 
 export interface Booking {
@@ -239,21 +253,18 @@ export interface Booking {
   status: string;
   special_request: string;
   partyroom_id: number;
+  image_filename: string;
 }
 
-export interface BookingForHost {
+export interface BookingCard {
   id: number;
-  name: string;
-  partygoer_id: number;
-  partygoer_name: string;
-  phone: string;
-  address: string;
+  person_id: number;
   headcount: number;
-  start_time: string;
   booking_date: string;
-  status: string;
-  special_request: string;
-  partyroom_id: number;
+  start_time: string;
+  name: string;
+  address: string;
+  image_filename: string;
 }
 
 export interface Category {

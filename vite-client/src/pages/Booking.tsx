@@ -19,11 +19,7 @@ import { Toaster, toast } from "react-hot-toast";
 import sample from "../assets/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
-import {
-  BookingForHost,
-  Booking as BookingType,
-  ReviewFormData,
-} from "../app/interface";
+import { Booking as BookingType, ReviewFormData } from "../app/interface";
 import { useNavigate } from "react-router-dom";
 
 export default function Booking() {
@@ -141,7 +137,7 @@ export default function Booking() {
 
     const bookingDetails = await response.json();
     const bookingDetailsTreated = bookingDetails.map(
-      (booking: BookingForHost) => ({
+      (booking: BookingType) => ({
         ...booking,
         booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
           timeZone: "Asia/Hong_Kong",
@@ -212,35 +208,60 @@ export default function Booking() {
   };
 
   const handleConfirmBooking = async () => {
-    await fetch(
-      `${import.meta.env.VITE_API_SERVER}/booking/confirm/${bookingId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: "confirmed" }),
-      }
-    );
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/booking/update_status/${bookingId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "confirmed" }),
+        }
+      );
 
-    getBookingDetailsAsHost();
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
+        getBookingDetailsAsHost();
+      } else {
+        console.log("Confirmation not submitted");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancelBooking = async () => {
-    await fetch(
-      `${import.meta.env.VITE_API_SERVER}/booking/cancel/${bookingId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: "cancelled" }),
-      }
-    );
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/booking/update_status/${bookingId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "cancelled" }),
+        }
+      );
 
-    getBookingDetailsAsHost();
+      if (response.ok) {
+        const { message } = await response.json();
+        toast(message);
+
+        if (viewMode === "host") {
+          getBookingDetailsAsHost();
+        } else if (viewMode === "partygoer") {
+          getBookingDetails();
+        }
+      } else {
+        console.log("Cancellation not submitted");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
