@@ -62,8 +62,8 @@ export interface Option {
 export interface InputProps {
   type?: string;
   placeholder?: string;
-  value?: string;
-  defaultValue?: string;
+  value?: string | number;
+  defaultValue?: string | number;
   register?: UseFormRegisterReturn;
   onChange?: (arg: any) => void;
   name?: string;
@@ -80,6 +80,9 @@ export interface InputProps {
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
   options?: Option[];
+  step?: number | string;
+  max?: number | string;
+  min?: number | string;
 }
 
 export interface HeaderProps {
@@ -126,6 +129,9 @@ export interface FormProps {
   register: UseFormRegister<SubmitRoomFormState>;
   handleNameInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   dropdownOptions?: any[];
+  priceLists?: number[];
+  addPriceList?: () => void;
+  removePriceList?: (index: number) => void;
 }
 
 export interface FormCategoryEquipmentProps extends FormProps {
@@ -236,7 +242,15 @@ export interface SubmitRoomFormState {
   category: CategoryField[];
   description: string;
   image: PartyroomImage[];
-  price_list: string[]; // change this
+  price_list: PriceList[];
+}
+
+export interface PriceList {
+  base_room_fee: number;
+  headcount: number;
+  start_time: string;
+  total_hours: number;
+  is_holiday: boolean;
 }
 
 export interface ReviewFormData {
