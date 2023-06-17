@@ -115,7 +115,7 @@ export default function NewRoom() {
           ></Sidebar>
           <NewRoomTab handleClick={handleClick} isSelected={isSelected} />
           <form
-            className="flex mt-6 flex-col w-full md:px-16 md:mt-12 mb-12"
+            className="flex mt-6 flex-col w-full md:px-16 px-6 md:mt-12 mb-12"
             onSubmit={handleSubmit((v) => onSubmit(v))}
             ref={formRef}
           >

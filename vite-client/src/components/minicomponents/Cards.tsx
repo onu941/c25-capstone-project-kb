@@ -8,21 +8,21 @@ export function BookingCardLarge(props: CardProps) {
   return (
     <a
       href=""
+      onClick={props.onClick}
       className=" hover:brightness-125 transform transition-all duration-200 ease-in-out"
     >
-      <div className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2">
+      <div
+        key={props.id}
+        className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2"
+      >
         <figure>
           <img src={props.image} alt={props.alt} />
         </figure>
-        <div className="card-body mb-1 flex flex-col place-content-between">
-          <h2 className="card-title text-slate-200 text-3xl mb-1">
-            {props.name}
-          </h2>
-          <div className="text-slate-300 text-sm md:mb-12 mb-8">
-            {props.address}
-          </div>
+        <div className="card-body flex flex-col place-content-around">
+          <h2 className="card-title text-slate-200 text-2xl">{props.name}</h2>
+          <div className="text-slate-300 text-sm md:mb-8">{props.address}</div>
           <div className="text-slate-200 text-xl font-semibold">{`${props.time}`}</div>
-          <div className="text-slate-200 text-base mb-3">
+          <div className="text-slate-200 text-sm">
             {`${props.date} ${props.month} | ${props.pax} pax`}
           </div>
         </div>
@@ -68,7 +68,7 @@ export function BookingCard(props: CardProps) {
 
 export function PartyroomCard(props: CardProps) {
   return (
-    <div className="flex place-content-center mb-8 w-full" data-id={props.id}>
+    <div className="flex place-content-center mb-8 w-full" key={props.id}>
       <a
         href=""
         onClick={props.onClick}
@@ -110,7 +110,7 @@ export function OwnerCard(props: CardProps) {
                 rel="noopener noreferrer"
                 className="underline text-slate-400"
               >
-                <ChatBubbleLeftEllipsisIcon className="h-9 w-9 text-slate-300" />
+                <ChatBubbleLeftEllipsisIcon className="h-9 w-9 text-slate-300 hover:brightness-110 hover:-translate-y-1 transform transition-all duration-200 ease-in-out" />
               </a>
             </div>
           </div>

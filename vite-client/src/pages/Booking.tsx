@@ -16,16 +16,20 @@ import {
 } from "../components/minicomponents/Cards";
 import { TextArea } from "../components/minicomponents/Inputs";
 import { Toaster, toast } from "react-hot-toast";
-import sample from "../assets/img/sample_partyroom.jpg";
+import sample from "../../public/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { Booking as BookingType, ReviewFormData } from "../app/interface";
+import { useNavigate } from "react-router-dom";
 
 export default function Booking() {
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const bookingId = params.get("booking_id");
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+
+  const viewMode = useSelector((state: RootState) => state.user.bookingsTab);
+  console.log("view mode:", viewMode);
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [showTimeSensitiveSection, setShowTimeSensitiveSection] =
@@ -33,8 +37,8 @@ export default function Booking() {
   const [bookingDetails, setBookingDetails] = useState<BookingType>({
     id: Number(bookingId),
     name: "",
-    host_id: NaN,
-    host_name: "",
+    person_id: NaN,
+    person_name: "",
     phone: "",
     address: "",
     headcount: NaN,
@@ -42,6 +46,8 @@ export default function Booking() {
     booking_date: "",
     status: "",
     special_request: "",
+    partyroom_id: NaN,
+    image_filename: "",
   });
 
   const initialReviewFormData: ReviewFormData = {
@@ -56,54 +62,111 @@ export default function Booking() {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
+  const getTargetDate = () => {
+    console.log(bookingDetails.booking_date);
+    const bookingDate = bookingDetails.booking_date.split(",")[0].trim();
+    const bookingTime = bookingDetails.start_time;
+
+    const [month, day, year] = bookingDate.split("/");
+    const [hours, minutes] = bookingTime.split(":");
+
+    const monthIndex = parseInt(month) - 1;
+
+    const targetDate = new Date(
+      parseInt(year),
+      monthIndex,
+      parseInt(day),
+      parseInt(hours),
+      parseInt(minutes)
+    );
+
+    return targetDate;
+  };
+
   const isPastDateTime = (targetDate: Date) => {
     const currentDate = new Date();
-    return currentDate > targetDate;
+    console.log("currentDate:", currentDate);
+    console.log("targetDate", targetDate);
+    const result: boolean = currentDate > targetDate;
+    return result;
+  };
+
+  const checkTime = async () => {
+    const targetDate = getTargetDate();
+    if (isPastDateTime(targetDate)) setShowTimeSensitiveSection(true);
+  };
+
+  const getBookingDetails = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/partygoer/${bookingId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const bookingDetails = await response.json();
+    const bookingDetailsTreated = bookingDetails.map(
+      (booking: BookingType) => ({
+        ...booking,
+        booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
+          timeZone: "Asia/Hong_Kong",
+        }),
+        start_time: booking.start_time.slice(0, -3),
+        status: booking.status
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      })
+    );
+
+    setBookingDetails(bookingDetailsTreated[0]);
+  };
+
+  const getBookingDetailsAsHost = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/host/${bookingId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const bookingDetails = await response.json();
+    const bookingDetailsTreated = bookingDetails.map(
+      (booking: BookingType) => ({
+        ...booking,
+        booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
+          timeZone: "Asia/Hong_Kong",
+        }),
+        start_time: booking.start_time.slice(0, -3),
+        status: booking.status
+          .split(" ")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" "),
+      })
+    );
+
+    setBookingDetails(bookingDetailsTreated[0]);
   };
 
   useEffect(() => {
-    const getBookingDetails = async () => {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/booking/partygoer/${bookingId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    if (viewMode === "partygoer") {
+      getBookingDetails();
+    }
 
-      const bookingDetails = await response.json();
-      const bookingDetailsTreated = bookingDetails.map(
-        (booking: BookingType) => ({
-          ...booking,
-          booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
-            timeZone: "Asia/Hong_Kong",
-          }),
-          start_time: booking.start_time.slice(0, -3),
-          status: booking.status
-            .split(" ")
-            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-            .join(" "),
-        })
-      );
+    if (viewMode === "host") {
+      getBookingDetailsAsHost();
+    }
+  }, [viewMode]);
 
-      setBookingDetails(bookingDetailsTreated[0]);
-    };
-
-    getBookingDetails();
-
-    const targetDate = new Date(2023, 2, 18, 16, 0, 0); // replace with database data
-    const checkTime = () => {
-      if (isPastDateTime(targetDate)) setShowTimeSensitiveSection(true);
-    };
-
-    const timer = setInterval(checkTime, 1000);
-
-    return () => {
-      clearInterval(timer);
-    };
-  }, []);
+  useEffect(() => {
+    checkTime();
+  }, [bookingDetails]);
 
   const handleFormChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -145,8 +208,62 @@ export default function Booking() {
     }
   };
 
-  console.log("booking details", bookingDetails);
-  console.log(bookingDetails.booking_date);
+  const handleConfirmBooking = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/booking/update_status/${bookingId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "confirmed" }),
+        }
+      );
+
+      if (response.ok) {
+        const { message } = await response.json();
+        toast.success(message);
+        getBookingDetailsAsHost();
+      } else {
+        console.log("Confirmation not submitted");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCancelBooking = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/booking/update_status/${bookingId}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "cancelled" }),
+        }
+      );
+
+      if (response.ok) {
+        const { message } = await response.json();
+        toast(message);
+
+        if (viewMode === "host") {
+          getBookingDetailsAsHost();
+        } else if (viewMode === "partygoer") {
+          getBookingDetails();
+        }
+      } else {
+        console.log("Cancellation not submitted");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -169,7 +286,7 @@ export default function Booking() {
               Booking Status:{" "}
               <span className="text-slate-100">{bookingDetails.status}</span>
             </span>
-            {!showTimeSensitiveSection && (
+            {!showTimeSensitiveSection && viewMode === "partygoer" && (
               <DangerButton label="Cancel Booking" />
             )}
           </div>
@@ -180,6 +297,9 @@ export default function Booking() {
           >
             <BookingCardLarge
               image={sample}
+              onClick={() =>
+                navigate(`/partyroom?room_id=${bookingDetails.partyroom_id}`)
+              }
               name={bookingDetails.name}
               address={bookingDetails.address}
               date={bookingDetails.booking_date.split(/[\/\s,:]+/)[1]}
@@ -194,16 +314,48 @@ export default function Booking() {
               time={bookingDetails.start_time}
             />
             <div className="flex flex-col place-content-between">
-              <OwnerCard name={bookingDetails.host_name} />
+              <OwnerCard
+                name={bookingDetails.person_name}
+                whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
+              />
               <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
                 <span className="italic">
-                  {bookingDetails.special_request}&nbsp;
+                  {bookingDetails.special_request &&
+                    `${bookingDetails.special_request}`}
                 </span>
-                <span className="text-slate-500">Your special request</span>
+                <span className="text-slate-500">
+                  {bookingDetails.special_request
+                    ? `\u00A0-\u00A0${
+                        viewMode === "host" ? "Their" : "Your"
+                      } special request`
+                    : "No special requests"}
+                </span>
               </div>
             </div>
           </div>
-          {showTimeSensitiveSection && (
+          {viewMode === "host" && (
+            <div className="w-full flex justify-center mt-20">
+              <div className="w-5/12 flex flex-wrap justify-between">
+                <DangerButton
+                  disabled={
+                    bookingDetails.status === "Confirmed" ||
+                    bookingDetails.status === "Cancelled"
+                  }
+                  onClick={() => handleCancelBooking()}
+                  label="Cancel Booking"
+                />
+                <SubmitButton
+                  disabled={
+                    bookingDetails.status === "Confirmed" ||
+                    bookingDetails.status === "Cancelled"
+                  }
+                  onClick={() => handleConfirmBooking()}
+                  label="Confirm Booking"
+                />
+              </div>
+            </div>
+          )}
+          {viewMode === "partygoer" && showTimeSensitiveSection && (
             <>
               <form className="w-full" onSubmit={handleSubmitReview}>
                 <ReviewHeader

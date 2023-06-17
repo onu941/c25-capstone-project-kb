@@ -1,5 +1,5 @@
 import { CarouselProps } from "../../app/interface";
-import sample from "../../assets/img/sample_partyroom.jpg";
+import sample from "../../../public/img/sample_partyroom.jpg";
 
 export function LandingCarousel(props: CarouselProps) {
   return (

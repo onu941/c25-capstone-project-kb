@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
@@ -26,10 +27,11 @@ export class UserController {
   ) {}
 
   @Post('/signup')
-  async createUser(@Body(new ValidationPipe()) CreateUserDto: CreateUserDto) {
+  async createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     try {
-      const { id } = await this.userService.createUser(CreateUserDto);
-      return { id };
+      return await this.userService.createUser(createUserDto);
+      // const { id } = await this.userService.createUser(CreateUserDto);
+      // return { id };
     } catch (error) {
       throw new BadRequestException(error);
     }
@@ -46,13 +48,11 @@ export class UserController {
     return { users };
   }
 
-  @Get(':id')
+  @Get()
   @UseGuards(AuthGuard('jwt'))
-  async getUserById(@Param('id') id: number) {
-    if (!id) {
-      throw new BadRequestException('invalid id in params, expect integer');
-    }
-    const user = await this.userService.getUserById(id);
+  async getUserById(@Request() req: Express.Request) {
+    // console.log(req.user);
+    const user = await this.userService.getUserById(req.user['id']);
     return { user };
   }
 
