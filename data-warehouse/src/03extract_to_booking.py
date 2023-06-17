@@ -77,7 +77,7 @@ def rename_booking(old_df: DataFrame) -> DataFrame:
     df = df.withColumnRenamed('total_hour','booking_info.total_hour')
     df = df.withColumnRenamed('headcount','booking_info.headcount')
     df = df.withColumnRenamed('booking_fee','booking_info.total_fee')
-    df = df.withColumnRenamed('host_user_id','partyroom.host_id')
+    df = df.withColumnRenamed('host_users_id','partyroom.host_id')
     df = df.withColumnRenamed('partyroom_district','district.name')
     df = df.withColumnRenamed('partyroom_capacity','partyroom.capacity')
     return df
