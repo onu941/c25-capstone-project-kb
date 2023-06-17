@@ -7,7 +7,7 @@ import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { LandingCarousel } from "../components/minicomponents/Carousels";
 import { BookingCardLarge } from "../components/minicomponents/Cards";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
@@ -17,8 +17,9 @@ import { RootState } from "../redux/store";
 import { BookingCard } from "../app/interface";
 
 export default function Landing() {
-  const imageDirectory = "../../public/img/room/";
-  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  const roomImageDirectory = "../../public/img/room/";
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
@@ -47,97 +48,89 @@ export default function Landing() {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
-  const fetchUserDetails = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const userDetails = await response.json();
-    const name = userDetails.user.name;
-    setUsername(name);
-  };
-
-  const fetchNextBookingAsPartygoer = async () => {
-    const response = await fetch(
-      `${
-        import.meta.env.VITE_API_SERVER
-      }/booking/next/partygoer/${reduxUserId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const bookingDetails = await response.json();
-    const bookingDetailsTreated = {
-      ...bookingDetails,
-      booking_date: new Date(bookingDetails.booking_date).toLocaleString(
-        "en-US",
-        {
-          timeZone: "Asia/Hong_Kong",
-        }
-      ),
-      start_time: bookingDetails.start_time.slice(0, -3),
-    };
-    console.log(
-      "partygoer room img filename:",
-      bookingDetailsTreated.image_filename
-    );
-    setPartygoerDetails(bookingDetailsTreated);
-  };
-
-  const fetchNextBookingAsHost = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_SERVER}/booking/next/host/${reduxUserId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const bookingDetails = await response.json();
-    console.log("host bookingDetails", bookingDetails);
-    const bookingDetailsTreated = {
-      ...bookingDetails,
-      booking_date: new Date(bookingDetails.booking_date).toLocaleString(
-        "en-US",
-        {
-          timeZone: "Asia/Hong_Kong",
-        }
-      ),
-      start_time: bookingDetails.start_time.slice(0, -3),
-    };
-    console.log(
-      "host room img filename:",
-      bookingDetailsTreated.image_filename
-    );
-    setHostDetails(bookingDetailsTreated);
-  };
-
   useEffect(() => {
-    fetchUserDetails();
+    const token = localStorage.getItem("token");
 
-    const successMessage = localStorage.getItem("successMessage");
-    if (successMessage) toast.success(successMessage);
-    localStorage.removeItem("successMessage");
+    const fetchUserDetails = async () => {
+      const response = await fetch(`${import.meta.env.VITE_API_SERVER}/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const userDetails = await response.json();
+      const name = userDetails.user.name;
+      setUsername(name);
+    };
+
+    const fetchNextBookingAsPartygoer = async () => {
+      const response = await fetch(
+        `${
+          import.meta.env.VITE_API_SERVER
+        }/booking/next/partygoer/${reduxUserId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const bookingDetails = await response.json();
+      const bookingDetailsTreated = {
+        ...bookingDetails,
+        booking_date: new Date(bookingDetails.booking_date).toLocaleString(
+          "en-US",
+          {
+            timeZone: "Asia/Hong_Kong",
+          }
+        ),
+        start_time: bookingDetails.start_time.slice(0, -3),
+      };
+
+      setPartygoerDetails(bookingDetailsTreated);
+    };
+
+    const fetchNextBookingAsHost = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/booking/next/host/${reduxUserId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const bookingDetails = await response.json();
+      console.log("host bookingDetails", bookingDetails);
+      const bookingDetailsTreated = {
+        ...bookingDetails,
+        booking_date: new Date(bookingDetails.booking_date).toLocaleString(
+          "en-US",
+          {
+            timeZone: "Asia/Hong_Kong",
+          }
+        ),
+        start_time: bookingDetails.start_time.slice(0, -3),
+      };
+
+      setHostDetails(bookingDetailsTreated);
+    };
+
+    const fetchAllData = async () => {
+      console.log("fetchAllData");
+      await fetchUserDetails();
+      await fetchNextBookingAsPartygoer();
+      await fetchNextBookingAsHost();
+
+      const successMessage = localStorage.getItem("successMessage");
+      if (successMessage) toast.success(successMessage);
+      localStorage.removeItem("successMessage");
+    };
+    fetchAllData();
   }, []);
-
-  useEffect(() => {
-    fetchNextBookingAsPartygoer();
-    fetchNextBookingAsHost();
-  }, [username]);
-
-  console.log(imageDirectory + partygoerDetails.image_filename);
 
   return (
     <>
@@ -158,8 +151,8 @@ export default function Landing() {
           <BodyHeader title="Your next booking:"></BodyHeader>
           <div className="w-full px-6 md:px-96 mb-16">
             <BookingCardLarge
-              image={imageDirectory + partygoerDetails.image_filename}
-              alt="sample"
+              image={roomImageDirectory + partygoerDetails.image_filename}
+              alt={hostDetails.image_filename}
               name={partygoerDetails.name}
               address={partygoerDetails.address}
               time={partygoerDetails.start_time}
@@ -178,8 +171,8 @@ export default function Landing() {
           <BodyHeader title="Your room has been booked!"></BodyHeader>
           <div className="w-full px-6 md:px-96 mb-8">
             <BookingCardLarge
-              image={imageDirectory + hostDetails.image_filename}
-              alt="sample"
+              image={roomImageDirectory + hostDetails.image_filename}
+              alt={hostDetails.image_filename}
               name={hostDetails.name}
               address={hostDetails.address}
               time={hostDetails.start_time}
@@ -203,7 +196,7 @@ export default function Landing() {
           </div>
           <div className="flex justify-center mb-24">
             <Link to="/search">
-              <PrimaryButton label="Find A Partyroom"></PrimaryButton>
+              <PrimaryButton label="Find By District"></PrimaryButton>
             </Link>
           </div>
         </ResponsiveContainer>

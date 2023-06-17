@@ -58,6 +58,11 @@ export class PartyroomController {
     return this.partyroomService.findEquipmentForOne(id);
   }
 
+  @Get('/images/:id')
+  async findAllImagesForOne(@Param('id') id: number) {
+    return this.partyroomService.findAllImagesForOne(id);
+  }
+
   @Get('/reviews/:id')
   @UseGuards(AuthGuard('jwt'))
   async findAllReviewsForOne(@Param('id') id: number) {

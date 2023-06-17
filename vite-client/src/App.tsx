@@ -11,6 +11,7 @@ import Landing from "./pages/Landing";
 import { AuthGuard } from "./AuthGuard";
 import Test from "./pages/Test";
 import NotFound404 from "./pages/NotFound404";
+import SubmitRoom from "./pages/SubmitRoom";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route element={<AuthGuard />}>
           <Route path="/test" element={<Test />} />
           <Route path="/landing" element={<Landing />} />
+          <Route path="/submit_room" element={<SubmitRoom />} />
           <Route path="/new_room" element={<NewRoom />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />

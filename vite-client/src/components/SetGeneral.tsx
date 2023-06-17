@@ -17,7 +17,7 @@ export function SetGeneral() {
     email: "",
     // password: "",
   });
-  const [isEditing, setIsEditing] = useState({
+  const [isGoodForEditing, setisGoodForEditing] = useState({
     username: false,
     phone: false,
     email: false,
@@ -28,20 +28,16 @@ export function SetGeneral() {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const token = localStorage.getItem("token");
-      const params = new URLSearchParams(window.location.search);
-      const userId = params.get("user_id");
-      const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+
+      const response = await fetch(`${import.meta.env.VITE_API_SERVER}/user/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       const userDetails = await response.json();
-
+      console.log(userDetails);
       setUserInputs({
         id: NaN,
         username: userDetails.user.name,
@@ -55,11 +51,11 @@ export function SetGeneral() {
   }, []);
 
   const handleEditClick = (field: string) => {
-    setIsEditing({ ...isEditing, [field]: true });
+    setisGoodForEditing({ ...isGoodForEditing, [field]: true });
   };
 
   const handleSaveClick = (field: string) => {
-    setIsEditing({ ...isEditing, [field]: false });
+    setisGoodForEditing({ ...isGoodForEditing, [field]: false });
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,7 +71,6 @@ export function SetGeneral() {
 
     const token = localStorage.getItem("token");
     const params = new URLSearchParams(window.location.search);
-    const userId = params.get("user_id");
 
     const response = await fetch(
       `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
@@ -122,7 +117,7 @@ export function SetGeneral() {
               canEdit
               handleEditClick={() => handleEditClick("username")}
               handleSaveClick={() => handleSaveClick("username")}
-              isEditing={isEditing["username"]}
+              isGoodForEditing={isGoodForEditing["username"]}
               onChange={handleInputChange}
             />
             <SettingsInput
@@ -131,7 +126,7 @@ export function SetGeneral() {
               canEdit
               handleEditClick={() => handleEditClick("phone")}
               handleSaveClick={() => handleSaveClick("phone")}
-              isEditing={isEditing["phone"]}
+              isGoodForEditing={isGoodForEditing["phone"]}
               onChange={handleInputChange}
             />
             <SettingsInput
@@ -140,7 +135,7 @@ export function SetGeneral() {
               canEdit
               handleEditClick={() => handleEditClick("email")}
               handleSaveClick={() => handleSaveClick("email")}
-              isEditing={isEditing["email"]}
+              isGoodForEditing={isGoodForEditing["email"]}
               onChange={handleInputChange}
             />
             {/* <SettingsInput value="*****" name="password" canEdit /> */}

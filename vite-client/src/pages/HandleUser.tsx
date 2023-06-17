@@ -28,7 +28,10 @@ export default function HandleUser() {
     const email = form.email.value;
     const password = form.password.value;
     const success = await localLogin(email, password);
+
     if (success.status) {
+      // console.log(success.token);
+      // localStorage.setItem("token", success.token);
       dispatch(login(success.token));
       localStorage.setItem("successMessage", "Welcome back");
       const token = localStorage.getItem("token");
