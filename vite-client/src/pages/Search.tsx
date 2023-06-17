@@ -20,7 +20,7 @@ export function Search() {
           <AppHeader
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
-            title="Find A Partyroom"
+            title="Find By District"
           ></AppHeader>
           <Sidebar
             isOpen={sidebarIsOpen}

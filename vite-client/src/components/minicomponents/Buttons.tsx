@@ -107,74 +107,97 @@ export function FormIconButton(props: ButtonProps) {
     >
       {props.icon === "general" && (
         <>
-          <GeneralPartyIcon color={props.color!} className="w-16 h-16" />
+          <GeneralPartyIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>General</span>
         </>
       )}
       {props.icon === "dates" && (
         <>
-          <HeartIcon className={`${props.color} w-16 h-16`} />
+          <HeartIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
           <span className={props.spanClassName}>Dates</span>
         </>
       )}
       {props.icon === "families" && (
         <>
-          <FamilyIcon color={props.color!} className="w-16 h-16" />
+          <FamilyIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Families</span>
         </>
       )}
       {props.icon === "businesses" && (
         <>
-          <BriefcaseIcon className={`${props.color} w-16 h-16`} />
+          <BriefcaseIcon
+            className={`${props.color} md:w-16 md:h-16 w-12 h-12`}
+          />
           <span className={props.spanClassName}>Businesses</span>
         </>
       )}
       {props.icon === "birthdays" && (
         <>
-          <CakeIcon className={`${props.color} w-16 h-16`} />
+          <CakeIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
           <span className={props.spanClassName}>Birthdays</span>
         </>
       )}
       {props.icon === "weddings" && (
         <>
-          <WeddingIcon color={props.color!} className="w-16 h-16" />
+          <WeddingIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Weddings</span>
         </>
       )}
       {props.icon === "mahjong" && (
         <>
-          <MahjongIcon color={props.color!} className="w-16 h-16" />
+          <MahjongIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Mahjong</span>
         </>
       )}
       {props.icon === "video_games" && (
         <>
-          <VideoGamesIcon color={props.color!} className="w-16 h-16" />
+          <VideoGamesIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Video Games</span>
         </>
       )}
       {props.icon === "bbq" && (
         <>
-          <BBQIcon color={props.color!} className="w-16 h-16" />
+          <BBQIcon color={props.color!} className="md:w-16 md:h-16 w-12 h-12" />
           <span className={props.spanClassName}>BBQ</span>
         </>
       )}
       {props.icon === "board_games" && (
         <>
-          <BoardGamesIcon color={props.color!} className="w-16 h-16" />
+          <BoardGamesIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Board Games</span>
         </>
       )}
       {props.icon === "karaoke" && (
         <>
-          <KaraokeIcon color={props.color!} className="w-16 h-16" />
+          <KaraokeIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Karaoke</span>
         </>
       )}
       {props.icon === "tv" && (
         <>
-          <TvIcon className={`${props.color} w-16 h-16`} />
-          <span className={props.spanClassName}>TV / Streaming</span>
+          <TvIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
+          <span className={props.spanClassName}>Streaming</span>
         </>
       )}
     </button>

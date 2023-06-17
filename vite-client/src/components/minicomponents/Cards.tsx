@@ -18,15 +18,11 @@ export function BookingCardLarge(props: CardProps) {
         <figure>
           <img src={props.image} alt={props.alt} />
         </figure>
-        <div className="card-body mb-1 flex flex-col place-content-between">
-          <h2 className="card-title text-slate-200 text-3xl mb-1">
-            {props.name}
-          </h2>
-          <div className="text-slate-300 text-sm md:mb-12 mb-8">
-            {props.address}
-          </div>
+        <div className="card-body flex flex-col place-content-around">
+          <h2 className="card-title text-slate-200 text-2xl">{props.name}</h2>
+          <div className="text-slate-300 text-sm md:mb-8">{props.address}</div>
           <div className="text-slate-200 text-xl font-semibold">{`${props.time}`}</div>
-          <div className="text-slate-200 text-base mb-3">
+          <div className="text-slate-200 text-sm">
             {`${props.date} ${props.month} | ${props.pax} pax`}
           </div>
         </div>

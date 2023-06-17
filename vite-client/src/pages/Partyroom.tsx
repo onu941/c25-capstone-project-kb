@@ -27,7 +27,11 @@ import {
 } from "../assets/MaterialIcons";
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
-import { Partyroom as PartyroomType, Review } from "../app/interface";
+import {
+  PartyroomImage,
+  Partyroom as PartyroomType,
+  Review,
+} from "../app/interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 
@@ -58,6 +62,12 @@ export default function Partyroom() {
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [reviews, setReviews] = useState<Review[]>([]);
 
+  const roomImageDirectory = "../../public/img/room/";
+  const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
+  const [mainRoomImage, setMainRoomImage] = useState<string>("");
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
@@ -72,6 +82,10 @@ export default function Partyroom() {
     );
     const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
     window.open(googleMapsURL, "_blank");
+  };
+
+  const handleRoomImageRollClick = (index: number) => {
+    setMainRoomImage(roomImages[index].filename);
   };
 
   useEffect(() => {
@@ -141,6 +155,23 @@ export default function Partyroom() {
       }));
     };
 
+    const fetchPartyroomImages = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/partyroom/images/${partyroomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const images = await response.json();
+      console.log("images[0].filename", images[0].filename);
+      setMainRoomImage(images[0].filename);
+      setRoomImages(images);
+    };
+
     const fetchPartyroomReviews = async () => {
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/partyroom/reviews/${partyroomId}`,
@@ -156,11 +187,21 @@ export default function Partyroom() {
       setReviews(reviewsData);
     };
 
-    fetchPartyroomDetails();
-    fetchCategories();
-    fetchEquipment();
-    fetchPartyroomReviews();
+    const fetchAllData = async () => {
+      await fetchPartyroomDetails();
+      await fetchCategories();
+      await fetchEquipment();
+      await fetchPartyroomImages();
+      await fetchPartyroomReviews();
+
+      setIsLoading(false);
+    };
+    fetchAllData();
   }, []);
+
+  if (isLoading) {
+    return <div>Is Loading..</div>;
+  }
 
   return (
     <>
@@ -217,259 +258,272 @@ export default function Partyroom() {
               </>
             )}
           </div>
-          <div className="w-full flex md:px-0 justify-between columns-2 mb-6 gap-8">
-            <div className="flex columns-2 gap-2">
+          <div className="w-full columns-3 mb-12">
+            <div>
+              {" "}
               <img
-                src={sample}
-                className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl"
+                src={roomImageDirectory + mainRoomImage}
+                className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl object-fill"
               ></img>
-              <div className="border-solid border-2 border-slate-700 px-4">
-                image carousel
+            </div>
+            <div>
+              {" "}
+              <div className="border-solid rounded-lg border-2 border-slate-700 border-opacity-30 px-0 bg-slate-800 bg-opacity-10 w-48">
+                {roomImages.map((roomImage, index) => (
+                  <img
+                    src={roomImageDirectory + roomImage.filename}
+                    className="w-40 mb-2"
+                    onClick={() => handleRoomImageRollClick(index)}
+                  ></img>
+                ))}
               </div>
             </div>
-            <div className="bg-slate-800 px-8 py-12 rounded-lg border-slate-700 border-solid border-2 text-2xl flex flex-col place-items-center">
-              <div className="grid grid-cols-3 grid-flow-row gap-8 mb-16">
-                <div className="text-base flex flex-col place-items-center">
-                  <GeneralPartyIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
+            <div>
+              {" "}
+              <div className="bg-slate-800 px-8 py-12 rounded-lg border-slate-700 border-solid border-2 text-2xl flex flex-col place-items-center">
+                <div className="grid grid-cols-3 grid-flow-row gap-8 mb-16">
+                  <div className="text-base flex flex-col place-items-center">
+                    <GeneralPartyIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.category.some(
+                          (category) => category.name === "general"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.category.some(
+                          (category) => category.name === "general"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      General
+                    </span>
+                  </div>
+                  <div className="text-base flex flex-col place-items-center">
+                    <FamilyIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.category.some(
+                          (category) => category.name === "families"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.category.some(
+                          (category) => category.name === "families"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      Families
+                    </span>
+                  </div>
+                  <div
+                    className={`text-base flex flex-col place-items-center ${
                       partyroom.category.some(
-                        (category) => category.name === "general"
+                        (category) => category.name === "birthdays"
                       )
                         ? "text-slate-300"
                         : "text-slate-600"
                     }`}
-                  />
-                  <span
-                    className={`${
+                  >
+                    <CakeIcon className={"w-16 h-16 mb-1"} />
+                    Birthdays
+                  </div>
+                  <div
+                    className={`text-base flex flex-col place-items-center ${
                       partyroom.category.some(
-                        (category) => category.name === "general"
+                        (category) => category.name === "dates"
                       )
                         ? "text-slate-300"
                         : "text-slate-600"
-                    }`}
+                    } text-slate-300`}
                   >
-                    General
-                  </span>
-                </div>
-                <div className="text-base flex flex-col place-items-center">
-                  <FamilyIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
+                    <HeartIcon className={"w-16 h-16 mb-1"} />
+                    Dates
+                  </div>
+                  <div
+                    className={`text-base flex flex-col place-items-center ${
                       partyroom.category.some(
-                        (category) => category.name === "families"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.category.some(
-                        (category) => category.name === "families"
+                        (category) => category.name === "businesses"
                       )
                         ? "text-slate-300"
                         : "text-slate-600"
                     }`}
                   >
-                    Families
-                  </span>
+                    <BriefcaseIcon className={"w-16 h-16 mb-1"} />
+                    Businesses
+                  </div>
+                  <div className="text-base flex flex-col place-items-center">
+                    <WeddingIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.category.some(
+                          (category) => category.name === "weddings"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.category.some(
+                          (category) => category.name === "weddings"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      Weddings
+                    </span>
+                  </div>
                 </div>
-                <div
-                  className={`text-base flex flex-col place-items-center ${
-                    partyroom.category.some(
-                      (category) => category.name === "birthdays"
-                    )
-                      ? "text-slate-300"
-                      : "text-slate-600"
-                  }`}
-                >
-                  <CakeIcon className={"w-16 h-16 mb-1"} />
-                  Birthdays
-                </div>
-                <div
-                  className={`text-base flex flex-col place-items-center ${
-                    partyroom.category.some(
-                      (category) => category.name === "dates"
-                    )
-                      ? "text-slate-300"
-                      : "text-slate-600"
-                  } text-slate-300`}
-                >
-                  <HeartIcon className={"w-16 h-16 mb-1"} />
-                  Dates
-                </div>
-                <div
-                  className={`text-base flex flex-col place-items-center ${
-                    partyroom.category.some(
-                      (category) => category.name === "businesses"
-                    )
-                      ? "text-slate-300"
-                      : "text-slate-600"
-                  }`}
-                >
-                  <BriefcaseIcon className={"w-16 h-16 mb-1"} />
-                  Businesses
-                </div>
-                <div className="text-base flex flex-col place-items-center">
-                  <WeddingIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
-                      partyroom.category.some(
-                        (category) => category.name === "weddings"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.category.some(
-                        (category) => category.name === "weddings"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  >
-                    Weddings
-                  </span>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 grid-flow-row gap-8">
-                <div className="text-base flex flex-col place-items-center">
-                  <MahjongIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "mahjong"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "mahjong"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  >
-                    Mahjong
-                  </span>
-                </div>
-                <div className="text-base flex flex-col place-items-center">
-                  <BBQIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "bbq"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "bbq"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  >
-                    BBQ
-                  </span>
-                </div>
-                <div className="text-base flex flex-col place-items-center text-slate-300">
-                  <KaraokeIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "karaoke"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "karaoke"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  >
-                    Karaoke
-                  </span>
-                </div>
-                <div className="text-base flex flex-col place-items-center text-slate-300">
-                  <VideoGamesIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "video games"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "video games"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    } text-sm translate-y-1`}
-                  >
-                    Video Games
-                  </span>
-                </div>
-                <div className="text-base flex flex-col place-items-center text-slate-300">
-                  <BoardGamesIcon
-                    className={"w-16 h-16 mb-1"}
-                    color={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "board games"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    }`}
-                  />
-                  <span
-                    className={`${
-                      partyroom.equipment.some(
-                        (equipment) => equipment.name === "board games"
-                      )
-                        ? "text-slate-300"
-                        : "text-slate-600"
-                    } text-sm translate-y-1`}
-                  >
-                    Board Games
-                  </span>
-                </div>
-                <div
-                  className={`text-base flex flex-col place-items-center ${
-                    partyroom.equipment.some(
-                      (equipment) => equipment.name === "tv"
-                    )
-                      ? "text-slate-300"
-                      : "text-slate-600"
-                  }`}
-                >
-                  <TvIcon
-                    className={`w-16 h-16 mb-1 ${
+                <div className="grid grid-cols-3 grid-flow-row gap-8">
+                  <div className="text-base flex flex-col place-items-center">
+                    <MahjongIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "mahjong"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "mahjong"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      Mahjong
+                    </span>
+                  </div>
+                  <div className="text-base flex flex-col place-items-center">
+                    <BBQIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "bbq"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "bbq"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      BBQ
+                    </span>
+                  </div>
+                  <div className="text-base flex flex-col place-items-center text-slate-300">
+                    <KaraokeIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "karaoke"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "karaoke"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    >
+                      Karaoke
+                    </span>
+                  </div>
+                  <div className="text-base flex flex-col place-items-center text-slate-300">
+                    <VideoGamesIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "video games"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "video games"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      } text-sm translate-y-1`}
+                    >
+                      Video Games
+                    </span>
+                  </div>
+                  <div className="text-base flex flex-col place-items-center text-slate-300">
+                    <BoardGamesIcon
+                      className={"w-16 h-16 mb-1"}
+                      color={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "board games"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    <span
+                      className={`${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "board games"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      } text-sm translate-y-1`}
+                    >
+                      Board Games
+                    </span>
+                  </div>
+                  <div
+                    className={`text-base flex flex-col place-items-center ${
                       partyroom.equipment.some(
                         (equipment) => equipment.name === "tv"
                       )
                         ? "text-slate-300"
                         : "text-slate-600"
                     }`}
-                  />
-                  Streaming
+                  >
+                    <TvIcon
+                      className={`w-16 h-16 mb-1 ${
+                        partyroom.equipment.some(
+                          (equipment) => equipment.name === "tv"
+                        )
+                          ? "text-slate-300"
+                          : "text-slate-600"
+                      }`}
+                    />
+                    Streaming
+                  </div>
                 </div>
               </div>
             </div>

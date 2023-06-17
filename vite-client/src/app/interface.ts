@@ -73,7 +73,7 @@ export interface InputProps {
   className?: string;
   isDisabled?: boolean;
   isReadOnly?: boolean;
-  isEditing?: boolean;
+  isGoodForEditing?: boolean;
   handleEditClick?: () => void;
   handleSaveClick?: () => void;
   handleReviewDetailInputChange?: (
@@ -120,6 +120,17 @@ export interface LoginProps {
   setPage: React.Dispatch<React.SetStateAction<string>>;
   initialEmail: string;
   initialPassword: string;
+}
+
+export interface FormProps {
+  register: UseFormRegister<SubmitRoomFormState>;
+  handleNameInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  dropdownOptions?: any[];
+}
+
+export interface FormCategoryEquipmentProps extends FormProps {
+  activeIconButtons: { [key: string]: boolean };
+  handleFormIconButton: (iconType: string) => void;
 }
 
 export interface Form1Props {
@@ -215,6 +226,19 @@ export interface NewRoomFormState {
   description: string;
 }
 
+export interface SubmitRoomFormState {
+  name: string;
+  room_size: number;
+  capacity: number;
+  address: string;
+  district: string;
+  equipment: EquipmentField[];
+  category: CategoryField[];
+  description: string;
+  image: PartyroomImage[];
+  price_list: string[]; // change this
+}
+
 export interface ReviewFormData {
   detail: string;
   rating: string;
@@ -273,6 +297,10 @@ export interface Category {
 
 export interface Equipment {
   name: string;
+}
+
+export interface PartyroomImage {
+  filename: string;
 }
 
 export interface Review {
