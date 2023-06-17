@@ -17,6 +17,7 @@ export interface ButtonProps {
   color?: string;
   spanClassName?: string;
   icon?: string;
+  disabled?: boolean;
 }
 
 export interface SettingsTabButtonProps {
@@ -53,11 +54,16 @@ export interface CarouselProps {
   image: string;
 }
 
+export interface Option {
+  value: string;
+  label: string;
+}
+
 export interface InputProps {
   type?: string;
   placeholder?: string;
-  value?: string;
-  defaultValue?: string;
+  value?: string | number;
+  defaultValue?: string | number;
   register?: UseFormRegisterReturn;
   onChange?: (arg: any) => void;
   name?: string;
@@ -67,12 +73,16 @@ export interface InputProps {
   className?: string;
   isDisabled?: boolean;
   isReadOnly?: boolean;
-  isEditing?: boolean;
+  isGoodForEditing?: boolean;
   handleEditClick?: () => void;
   handleSaveClick?: () => void;
-  handleReviewDetailInputChange: (
+  handleReviewDetailInputChange?: (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
+  options?: Option[];
+  step?: number | string;
+  max?: number | string;
+  min?: number | string;
 }
 
 export interface HeaderProps {
@@ -95,6 +105,7 @@ export interface SidebarProps {
 export interface SettingTabProps {
   handleClick: (string: string) => void;
   isSelected?: string;
+  bookingsTabIsSelected?: string;
 }
 
 // ******************** //
@@ -112,6 +123,20 @@ export interface LoginProps {
   setPage: React.Dispatch<React.SetStateAction<string>>;
   initialEmail: string;
   initialPassword: string;
+}
+
+export interface FormProps {
+  register: UseFormRegister<SubmitRoomFormState>;
+  handleNameInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  dropdownOptions?: any[];
+  priceLists?: number[];
+  addPriceList?: () => void;
+  removePriceList?: (index: number) => void;
+}
+
+export interface FormCategoryEquipmentProps extends FormProps {
+  activeIconButtons: { [key: string]: boolean };
+  handleFormIconButton: (iconType: string) => void;
 }
 
 export interface Form1Props {
@@ -159,11 +184,24 @@ export interface HandleUserFormState {
 }
 
 export interface SignupProps {
-  register: UseFormRegister<HandleUserFormState>;
-  handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
-  onSignupSubmit: (data: HandleUserFormState) => void;
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onSignupSubmit: (event: FormEvent<HTMLFormElement>) => void;
   setPage: React.Dispatch<React.SetStateAction<string>>;
+  initialName: string;
+  initialEmail: string;
+  initialPhone: string;
+  initialPassword: string;
 }
+
+// export interface SignupProps {
+//   register: UseFormRegister<HandleUserFormState>;
+//   handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
+//   onSignupSubmit: (data: HandleUserFormState) => void;
+//   setPage: React.Dispatch<React.SetStateAction<string>>;
+// }
 
 // ************** //
 // form interface //
@@ -194,6 +232,27 @@ export interface NewRoomFormState {
   description: string;
 }
 
+export interface SubmitRoomFormState {
+  name: string;
+  room_size: number;
+  capacity: number;
+  address: string;
+  district: string;
+  equipment: EquipmentField[];
+  category: CategoryField[];
+  description: string;
+  image: PartyroomImage[];
+  price_list: PriceList[];
+}
+
+export interface PriceList {
+  base_room_fee: number;
+  headcount: number;
+  start_time: string;
+  total_hours: number;
+  is_holiday: boolean;
+}
+
 export interface ReviewFormData {
   detail: string;
   rating: string;
@@ -216,13 +275,14 @@ export interface Partyroom {
   description: string;
   category: Category[];
   equipment: Equipment[];
+  image_filename: string;
 }
 
 export interface Booking {
   id: number;
   name: string;
-  host_id: number;
-  host_name: string;
+  person_id: number;
+  person_name: string;
   phone: string;
   address: string;
   headcount: number;
@@ -230,6 +290,19 @@ export interface Booking {
   booking_date: string;
   status: string;
   special_request: string;
+  partyroom_id: number;
+  image_filename: string;
+}
+
+export interface BookingCard {
+  id: number;
+  person_id: number;
+  headcount: number;
+  booking_date: string;
+  start_time: string;
+  name: string;
+  address: string;
+  image_filename: string;
 }
 
 export interface Category {
@@ -238,6 +311,10 @@ export interface Category {
 
 export interface Equipment {
   name: string;
+}
+
+export interface PartyroomImage {
+  filename: string;
 }
 
 export interface Review {

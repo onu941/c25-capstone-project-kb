@@ -93,6 +93,20 @@ export class PartyroomService {
     }
   }
 
+  async findAllImagesForOne(id: number) {
+    if (!id) {
+      throw new NotFoundException('No images for the given partyroom ID');
+    }
+
+    const partyroomImages = await this.knex
+      .select('image.filename')
+      .from('partyroom_image')
+      .join('image', 'partyroom_image.image_id', '=', 'image.id')
+      .where('partyroom_image.partyroom_id', id)
+      .orderBy('partyroom_image.id', 'asc');
+    return partyroomImages;
+  }
+
   async findByUserIdforSettings(id: number) {
     if (!id) {
       throw new NotFoundException('No partyrooms found for the given user ID');

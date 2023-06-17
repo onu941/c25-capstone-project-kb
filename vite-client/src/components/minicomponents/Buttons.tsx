@@ -17,8 +17,13 @@ export function PrimaryButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 bg-slate-800 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-offset-1 outline-slate-700 transition duration-200 ease-in-out hover:scale-110 hover:-translate-y-1 hover:brightness-125 "
+        className={`py-2 px-4 bg-slate-800 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-offset-1 outline-slate-700 transition duration-200 ease-in-out ${
+          props.disabled
+            ? "opacity-50"
+            : "hover:scale-110 hover:-translate-y-1 hover:brightness-125"
+        }`}
         onClick={props.onClick}
+        disabled={props.disabled}
       >
         {props.label}
       </button>
@@ -31,8 +36,13 @@ export function DangerButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type={props.type}
-        className="py-2 px-4 bg-pink-600 hover:bg-fuchsia-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
+        className={`py-2 px-4 bg-pink-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out ${
+          props.disabled
+            ? "opacity-40"
+            : "hover:-translate-y-1 hover:scale-110 active:translate-y-0 hover:bg-fuchsia-600"
+        }`}
         onClick={props.onClick}
+        disabled={props.disabled}
       >
         {props.label}
       </button>
@@ -45,8 +55,13 @@ export function SubmitButton(props: ButtonProps) {
     <div className={`${props.isCentered ? "flex justify-center" : ""}`}>
       <button
         type="submit"
-        className="py-2 px-4 bg-emerald-600 hover:bg-lime-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out hover:-translate-y-1 hover:scale-110 active:translate-y-0"
+        className={`py-2 px-4 bg-emerald-600 rounded-xl flex place-content-center place-items-center mb-6 w-fit drop-shadow-lg outline outline-2 outline-offset-1 outline-neutral-400 transform transition duration-200 ease-in-out ${
+          props.disabled
+            ? "opacity-40"
+            : "hover:-translate-y-1 hover:scale-110 active:translate-y-0 hover:bg-lime-600"
+        }`}
         onClick={props.onClick}
+        disabled={props.disabled}
       >
         {props.label}
       </button>
@@ -92,74 +107,97 @@ export function FormIconButton(props: ButtonProps) {
     >
       {props.icon === "general" && (
         <>
-          <GeneralPartyIcon color={props.color!} className="w-16 h-16" />
+          <GeneralPartyIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>General</span>
         </>
       )}
       {props.icon === "dates" && (
         <>
-          <HeartIcon className={`${props.color} w-16 h-16`} />
+          <HeartIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
           <span className={props.spanClassName}>Dates</span>
         </>
       )}
       {props.icon === "families" && (
         <>
-          <FamilyIcon color={props.color!} className="w-16 h-16" />
+          <FamilyIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Families</span>
         </>
       )}
       {props.icon === "businesses" && (
         <>
-          <BriefcaseIcon className={`${props.color} w-16 h-16`} />
+          <BriefcaseIcon
+            className={`${props.color} md:w-16 md:h-16 w-12 h-12`}
+          />
           <span className={props.spanClassName}>Businesses</span>
         </>
       )}
       {props.icon === "birthdays" && (
         <>
-          <CakeIcon className={`${props.color} w-16 h-16`} />
+          <CakeIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
           <span className={props.spanClassName}>Birthdays</span>
         </>
       )}
       {props.icon === "weddings" && (
         <>
-          <WeddingIcon color={props.color!} className="w-16 h-16" />
+          <WeddingIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Weddings</span>
         </>
       )}
       {props.icon === "mahjong" && (
         <>
-          <MahjongIcon color={props.color!} className="w-16 h-16" />
+          <MahjongIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Mahjong</span>
         </>
       )}
       {props.icon === "video_games" && (
         <>
-          <VideoGamesIcon color={props.color!} className="w-16 h-16" />
+          <VideoGamesIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Video Games</span>
         </>
       )}
       {props.icon === "bbq" && (
         <>
-          <BBQIcon color={props.color!} className="w-16 h-16" />
+          <BBQIcon color={props.color!} className="md:w-16 md:h-16 w-12 h-12" />
           <span className={props.spanClassName}>BBQ</span>
         </>
       )}
       {props.icon === "board_games" && (
         <>
-          <BoardGamesIcon color={props.color!} className="w-16 h-16" />
+          <BoardGamesIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Board Games</span>
         </>
       )}
       {props.icon === "karaoke" && (
         <>
-          <KaraokeIcon color={props.color!} className="w-16 h-16" />
+          <KaraokeIcon
+            color={props.color!}
+            className="md:w-16 md:h-16 w-12 h-12"
+          />
           <span className={props.spanClassName}>Karaoke</span>
         </>
       )}
       {props.icon === "tv" && (
         <>
-          <TvIcon className={`${props.color} w-16 h-16`} />
-          <span className={props.spanClassName}>TV / Streaming</span>
+          <TvIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
+          <span className={props.spanClassName}>Streaming</span>
         </>
       )}
     </button>

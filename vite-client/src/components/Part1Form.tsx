@@ -1,10 +1,21 @@
 import { FormHeader } from "./minicomponents/Headers";
-import { MiniInput, StandardInput, TextArea } from "./minicomponents/Inputs";
+import {
+  DropdownInput,
+  MiniInput,
+  StandardInput,
+  TextArea,
+} from "./minicomponents/Inputs";
 import { Form1Props } from "../app/interface";
-import DistrictInput from "./minicomponents/Inputs";
 import { FormIconButton } from "./minicomponents/Buttons";
 
 export function Part1Form(props: Form1Props) {
+  const districts = [
+    { value: "Kwai Tsing", label: "Kwai Tsing" },
+    { value: "Yau Tsim Mong", label: "Yau Tsim Mong" },
+    { value: "Wan Chai", label: "Wan Chai" },
+    { value: "Kwun Tong", label: "Kwun Tong" },
+  ];
+
   return (
     <>
       <div id="basics" className="mb-8">
@@ -14,7 +25,6 @@ export function Part1Form(props: Form1Props) {
           placeholder="name your partyroom"
           register={props.register("name")}
           onChange={props.handleInputChange}
-          isEditing
         />
         <div className="flex flex-row w-full justify-between">
           <MiniInput
@@ -37,13 +47,12 @@ export function Part1Form(props: Form1Props) {
           placeholder="address line 1 (room, building, street)"
           type="text"
           register={props.register("address")}
-          isEditing
         />
-        <DistrictInput
+        <DropdownInput
           name="district"
-          type="text"
-          placeholder="address line 2 (district)"
+          options={districts}
           register={props.register("district")}
+          placeholder="your district"
         />
       </div>
       <FormHeader title="What is your partyroom designed for?" />
@@ -151,7 +160,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("category.0.name" as const)}
               name="category.0.name"
-              isEditing
             />
           </div>
         )}
@@ -163,7 +171,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("category.1.name" as const)}
               name="category.1.name"
-              isEditing
             />
           </div>
         )}
@@ -175,7 +182,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("category.2.name" as const)}
               name="category.2.name"
-              isEditing
             />
           </div>
         )}
@@ -187,7 +193,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("category.3.name" as const)}
               name="category.3.name"
-              isEditing
             />
           </div>
         )}
@@ -199,7 +204,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("category.4.name" as const)}
               name="category.4.name"
-              isEditing
             />
           </div>
         )}
@@ -211,7 +215,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("category.5.name" as const)}
               name="category.5.name"
-              isEditing
             />
           </div>
         )}
@@ -225,7 +228,6 @@ export function Part1Form(props: Form1Props) {
                 `category.${field.id - 1}.name` as const
               )}
               name={`category.${field.id - 1}.name`}
-              isEditing
             />
           ) : (
             <StandardInput
@@ -238,7 +240,6 @@ export function Part1Form(props: Form1Props) {
               name={`category.${field.id - 1}.name`}
               canDelete
               onDelete={() => props.handleDeleteCategories(field.id)}
-              isEditing
             />
           )
         )}
@@ -347,7 +348,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("equipment.0.name" as const)}
               name="equipment.0.name"
-              isEditing
             />
           </div>
         )}
@@ -359,7 +359,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("equipment.1.name" as const)}
               name="equipment.1.name"
-              isEditing
             />
           </div>
         )}
@@ -371,7 +370,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("equipment.2.name" as const)}
               name="equipment.2.name"
-              isEditing
             />
           </div>
         )}
@@ -383,7 +381,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("equipment.3.name" as const)}
               name="equipment.3.name"
-              isEditing
             />
           </div>
         )}
@@ -395,7 +392,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("equipment.4.name" as const)}
               name="equipment.4.name"
-              isEditing
             />
           </div>
         )}
@@ -407,7 +403,6 @@ export function Part1Form(props: Form1Props) {
               type="text"
               {...props.register("equipment.5.name" as const)}
               name="equipment.5.name"
-              isEditing
             />
           </div>
         )}
@@ -421,7 +416,6 @@ export function Part1Form(props: Form1Props) {
                 `equipment.${field.id - 1}.name` as const
               )}
               name={`equipment.${field.id - 1}.name`}
-              isEditing
             />
           ) : (
             <StandardInput
@@ -434,7 +428,6 @@ export function Part1Form(props: Form1Props) {
               name={`equipment.${field.id - 1}.name`}
               onDelete={() => props.handleDelete(field.id)}
               canDelete
-              isEditing
             />
           )
         )}

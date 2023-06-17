@@ -1,4 +1,4 @@
-import { CarouselProps } from "../../app/interface";
+import { CarouselProps } from "../../../app/interface";
 import sample from "../../../public/img/sample_partyroom.jpg";
 
 export function LandingCarousel(props: CarouselProps) {
