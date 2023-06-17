@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import lit
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -12,6 +13,8 @@ class Config_env:
     WAREHOUSE_USER=os.getenv("WAREHOUSE_USER")
     WAREHOUSE_PASSWORD=os.getenv("WAREHOUSE_PASSWORD")
     WAREHOUSE_HOST=os.getenv("WAREHOUSE_HOST")
+
+cfg = Config_env()
 
 # Prepare environment
 def prepare_env():
@@ -29,39 +32,37 @@ def prepare_env():
 
 # Read Dataframes
 #%%
-def extract_partyroom(cfg: Config_env) -> DataFrame:
+def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
     partyroom_sql_query = """
         (   
             SELECT 
-                partyroom.host_id, 
-                district.name, 
-                partyroom.capacity, 
-                partyroom.id,
-                partyroom.create_at,
-                category.name, 
-                category.created_at,
-                equipment.name, 
-                equipment.created_at,
-                partyroom.district_id,
-                partyroom_category.id, 
-                partyroom_category.partyroom_id, 
-                partyroom_category.category_id,  
-                partyroom_equipment.id, 
-                partyroom_equipment.partyroom_id, 
-                partyroom_equipment.equipment_id,  
-                category.id
-                equipment.id, 
-                district.id,
-                partyroom.is_hidden, 
-                partyroom.created_at
+                partyroom.host_id AS host_users_id, 
+                district.name AS partyroom_district, 
+                partyroom.capacity AS partyroom_capacity, 
+                partyroom.id AS partyroom_application_db_id,
+                partyroom.created_at AS partyroom_start_date,
+                category.name AS partyroom_category_name, 
+                partyroom_category.created_at AS partyroom_category_start_date,
+                equipment.name AS partyroom_equipment_name, 
+                partyroom_equipment.created_at AS partyroom_equipment_start_date,
+                partyroom.district_id AS partyroom_district_id,
+                partyroom_category.id AS partyroom_category_id, 
+                partyroom_category.partyroom_id AS partyroom_category_partyroom_id, 
+                partyroom_category.category_id AS partyroom_category_category_id,  
+                partyroom_equipment.id AS partyroom_equipment_id, 
+                partyroom_equipment.partyroom_id AS partyroom_equipment_partyroom_id,  
+                partyroom_equipment.equipment_id AS partyroom_equipment_equipment_id,   
+                category.id AS category_id,
+                equipment.id AS equipment_id, 
+                district.id AS district_id,
+                partyroom.is_hidden AS partyroom_is_hidden
             FROM partyroom 
             JOIN partyroom_category on partyroom.id = partyroom_category.partyroom_id
             JOIN partyroom_equipment ON partyroom.id = partyroom_equipment.partyroom_id 
             JOIN category ON category.id = partyroom_category.category_id
             JOIN equipment ON equipment.id = partyroom_equipment.equipment_id 
             JOIN district ON district.id = partyroom.district_id
-            JOIN partyroom_price_list 
-            WHERE partyroom.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
+            JOIN partyroom_price_list ON partyroom.id = partyroom_price_list.partyroom_id
         ) tmp_partyroom_table
     """
     return spark.read.format('jdbc') \
@@ -71,42 +72,47 @@ def extract_partyroom(cfg: Config_env) -> DataFrame:
         .option('password', cfg.POSTGRES_PASSWORD)\
         .option('driver','org.postgresql.Driver').load()
 
-# Transform 
-#%%
-def rename_partyroom(old_df: DataFrame) -> DataFrame:
+# Transform
+def drop_column_partyroom(old_df):
     df = old_df
-    df = df.withColumnRenamed('host_user_id','partyroom.host_id')
-    df = df.withColumnRenamed('district','district.name')
-    df = df.withColumnRenamed('capacity','partyroom.capacity')
-    df = df.withColumnRenamed('partyroom_source','partyroom.id')
-    df = df.withColumnRenamed('category_name','category.name')
-    df = df.withColumnRenamed('equipment_name','equipment.name')
-    return df
-
-def transform_partyroom(old_df: DataFrame) -> DataFrame:
-    import pyspark.sql.functions as F
-    df = old_df
-    df = df.withColumn('partyroom_start_date', F.year(df['partyroom.create_at']))
-    df = df.withColumn('category_start_date', F.year(df['category.created_at']))
-    df = df.withColumn('equipment_start_date', F.month(df['equipment.created_at']))
-    return df
-    
-def perform_etl_for_partyroom(df: DataFrame) -> DataFrame:
-    df = rename_partyroom(df)
-    df = transform_partyroom(df)
+    df = df.drop('partyroom_district_id')
+    df = df.drop('partyroom_category_id')
+    df = df.drop('partyroom_category_partyroom_id')
+    df = df.drop('partyroom_category_category_id')
+    df = df.drop('partyroom_equipment_id')
+    df = df.drop('partyroom_equipment_partyroom_id')
+    df = df.drop('partyroom_equipment_equipment_id')
+    df = df.drop('category_id')
+    df = df.drop('equipment_id')
+    df = df.drop('district_id')
+    df = df.drop('partyroom_is_hidden')
+    df = df.withColumn('avg_rating', lit(0))
+    df = df.withColumn('partyroom_end_date', lit("TBC"))
+    df = df.withColumn('partyroom_category_end_date', lit("TBC"))
+    df = df.withColumn('partyroom_equipment_end_date', lit("TBC"))
     return df
 
 # Load into Data warehouse
 #%%
 def write_to_data_warehouse(df: DataFrame, cfg: Config_env) -> None:
-    import os
     df.write.format('jdbc')\
-        .option('url',f"jdbc:postgresql://{cfg.WAREHOUSE_HOST}:5433/{cfg.WAREHOUSE_DB}")\
+        .option('url',f"jdbc:postgresql://{cfg.WAREHOUSE_HOST}:5432/{cfg.WAREHOUSE_DB}")\
         .option('dbtable','staging_partyroom_register')\
         .option('user',cfg.WAREHOUSE_USER)\
         .option('password',cfg.WAREHOUSE_PASSWORD)\
         .option('driver','org.postgresql.Driver')\
         .mode('append').save()
+
+def perform_etl_for_partyroom():
+    df = read_dataframes_partyroom(cfg)
+    df.show()
+    print("//////////////////////////////////////step2 done")
+    df = drop_column_partyroom(df)
+    print("//////////////////////////////////////step3 done")
+    write_to_data_warehouse(df=df, cfg=cfg)
+    print("//////////////////////////////////////step4 done")
+
+
 
 # General Structure
 #%%
@@ -114,18 +120,17 @@ def main():
     # Step 1: Prepare environment
     cfg = Config_env()
     prepare_env()
-    # Step 2: Extract
-    df = extract_partyroom(cfg)
-    df.show()
-    # Step 3: Transform
-    df = perform_etl_for_partyroom(df)
-    # Step 4: Load
-    write_to_data_warehouse(df=df, cfg=cfg)
+    print("//////////////////////////////////////step1 done")
+    # Step 2: ETL
+    perform_etl_for_partyroom()
 
 if __name__ == "__main__":
-    import schedule,time
+    main()
 
-    schedule.every(1).minutes.do(main)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # import schedule,time
+
+    # schedule.every(1).minutes.do(main)
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)
+
