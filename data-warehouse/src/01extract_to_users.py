@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession, DataFrame
+from pyspark.sql.functions import lit
 from dotenv import load_dotenv
 import os
 load_dotenv()
@@ -34,10 +35,9 @@ def read_dataframes_users(cfg: Config_env) -> DataFrame:
     users_sql_query = """
         (   
             SELECT 
-                users.id AS booking_users_application_db_id,
+                concat('application_db_id=', users.id) AS users_source,
                 users.created_at
             FROM users 
-            WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
         ) tmp_users_table
     """
     return spark.read.format('jdbc') \
@@ -47,23 +47,22 @@ def read_dataframes_users(cfg: Config_env) -> DataFrame:
         .option('password', cfg.POSTGRES_PASSWORD)\
         .option('driver','org.postgresql.Driver').load()
 
+# Transform
+def drop_column_users(old_df):
+    df = old_df
+    df = df.drop('users.created_at')
+    df = df.withColumn('users_promotion', lit("Null"))
+    return df
+
 # Load
 def write_to_data_warehouse(df: DataFrame, cfg: Config_env) -> None:
     df.write.format('jdbc')\
         .option('url',f"jdbc:postgresql://{cfg.WAREHOUSE_HOST}:5432/{cfg.WAREHOUSE_DB}")\
-        .option('dbtable','staging_users_register')\
+        .option('dbtable','staging_registered_users')\
         .option('user',cfg.WAREHOUSE_USER)\
         .option('password',cfg.WAREHOUSE_PASSWORD)\
         .option('driver','org.postgresql.Driver')\
         .mode('append').save()
-
-
-def perform_etl_for_users():
-    df = read_dataframes_users(cfg)
-    df.show()
-    write_to_data_warehouse(df=df, cfg=cfg)
-
-
 
 # General Structure
 #%%
@@ -71,8 +70,13 @@ def main():
     # Step 1: Prepare environment
     cfg = Config_env()
     prepare_env()
-    # Step 2: ETL
-    perform_etl_for_users()
+    # Step 2: Extract
+    df = read_dataframes_users(cfg)
+    df.show()
+    # Step 3: Transform
+    df = drop_column_users(df)
+    # Step 4: Load
+    write_to_data_warehouse(df=df, cfg=cfg)
 
 if __name__ == "__main__":
     main()
@@ -83,3 +87,5 @@ if __name__ == "__main__":
     # while True:
     #     schedule.run_pending()
     #     time.sleep(1)
+
+# WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
