@@ -18,7 +18,7 @@ export function BookingCardLarge(props: CardProps) {
         <figure>
           <img src={props.image} alt={props.alt} />
         </figure>
-        <div className="card-body flex flex-col place-content-around">
+        <div className="card-body flex flex-col place-content-">
           <h2 className="card-title text-slate-200 text-2xl">{props.name}</h2>
           <div className="text-slate-300 text-sm md:mb-8">{props.address}</div>
           <div className="text-slate-200 text-xl font-semibold">{`${props.time}`}</div>
@@ -63,6 +63,30 @@ export function BookingCard(props: CardProps) {
         </div>
       </a>
     </div>
+  );
+}
+
+export function PartyroomCardLarge(props: CardProps) {
+  return (
+    <a
+      href=""
+      onClick={props.onClick}
+      className=" hover:brightness-125 transform transition-all duration-200 ease-in-out"
+    >
+      <div
+        key={props.id}
+        className="card lg:card-side bg-slate-800 drop-shadow-xl border-solid border-slate-700 border-opacity-40 border-2"
+      >
+        <figure>
+          <img src={props.image} alt={props.alt} />
+        </figure>
+        <div className="card-body flex flex-col place-content-">
+          <h2 className="card-title text-slate-200 text-lg">{props.name}</h2>
+          <div className="text-slate-300 text-sm md:mb-4">{props.address}</div>
+          <div className="text-slate-200 text-base font-semibold">{`${props.pax} pax`}</div>
+        </div>
+      </div>
+    </a>
   );
 }
 

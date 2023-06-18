@@ -12,17 +12,18 @@ export function DropdownInput(props: InputProps) {
       <select
         className="text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
         {...props}
+        defaultValue={props.placeholder}
+        value={props.value}
+        onChange={props.onChange}
       >
-        <option disabled value="">
-          Select {props.placeholder}
-        </option>
+        <option disabled>{props.placeholder}</option>
         {props.options!.map((option, index) => (
           <option
-            className="text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
             key={index}
-            value={option.value}
+            value={option.id}
+            className="text-slate-300 px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
           >
-            {option.label}
+            {option.name}
           </option>
         ))}
       </select>
@@ -36,7 +37,7 @@ export function StandardInput(props: InputProps) {
       <div className="w-full">
         <input
           {...props}
-          className={`text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent`}
+          className={`text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-60 border-transparent`}
         />
       </div>
     </div>

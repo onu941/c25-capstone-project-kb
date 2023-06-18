@@ -84,10 +84,10 @@ export function SettingsTabButton(props: SettingsTabButtonProps) {
 
 export function BookingButton(props: ButtonProps) {
   return (
-    <div className="absolute md:bottom-32 md:right-12 z-30 drop-shadow-lg">
+    <div className="absolute md:bottom-32 md:right-16 z-30 drop-shadow-lg">
       <button
         type={props.type}
-        className="bg-slate-400 bg-opacity-80 md:w-32 md:h-32 rounded-full border-solid border-4 border-slate-300"
+        className="bg-fuchsia-500 bg-opacity-80 md:w-32 md:h-32 rounded-full border-solid border-4 border-slate-300"
         onClick={props.onClick}
       >
         <div className="flex flex-wrap flex-col text-2xl font-bold">

@@ -51,7 +51,6 @@ export class UserController {
   @Get()
   @UseGuards(AuthGuard('jwt'))
   async getUserById(@Request() req: Express.Request) {
-    // console.log(req.user);
     const user = await this.userService.getUserById(req.user['id']);
     return { user };
   }
