@@ -98,7 +98,7 @@ export function Search() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="mt-12 mb-8 px-6 bg-slate-800 bg-opacity-40 rounded-lg border-solid border-2 border-slate-500 border-opacity-50">
+          <div className="mt-12 mx-6 md:mx-0 mb-6 px-6 bg-slate-800 bg-opacity-40 rounded-lg border-solid border-2 border-slate-500 border-opacity-50">
             <form onSubmit={onSearchSubmit} className="mb-4 pt-6">
               <div className="mt-4">
                 <DropdownInput
@@ -116,8 +116,7 @@ export function Search() {
             </form>
           </div>
           <BodyHeader title="Results:" />
-
-          <div className="grid grid-cols-2 gap-8 mb-32">
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-8 mb-32 mx-6 md:mx-0">
             {searchResults.length > 0 &&
               searchResults.map((result, index) => (
                 <div
