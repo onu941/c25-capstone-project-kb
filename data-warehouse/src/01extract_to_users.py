@@ -13,6 +13,8 @@ class Config_env:
     WAREHOUSE_PASSWORD=os.getenv("WAREHOUSE_PASSWORD")
     WAREHOUSE_HOST=os.getenv("WAREHOUSE_HOST")
 
+cfg = Config_env()
+
 # Prepare environment
 def prepare_env():
     global spark
@@ -27,16 +29,15 @@ def prepare_env():
             .config("spark.hadoop.fs.s3a.multipart.size",104857600)\
             .getOrCreate()
 
-# Read Dataframes
-#%%
-def extract_users(cfg: Config_env) -> DataFrame:
+# Extract and Transform
+def read_dataframes_users(cfg: Config_env) -> DataFrame:
     users_sql_query = """
         (   
             SELECT 
-                users.id AS booking_user_source,
+                users.id AS booking_users_application_db_id,
                 users.created_at
             FROM users 
-            WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY;
+            WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
         ) tmp_users_table
     """
     return spark.read.format('jdbc') \
@@ -46,26 +47,23 @@ def extract_users(cfg: Config_env) -> DataFrame:
         .option('password', cfg.POSTGRES_PASSWORD)\
         .option('driver','org.postgresql.Driver').load()
 
-# Transform 
-#%%
-def rename_users(old_df: DataFrame) -> DataFrame:
-    df = old_df
-    df = df.withColumnRenamed('booking_user_source','users.id')
-    return df
-
-def perform_etl_for_users(df: DataFrame) -> DataFrame:
-    df = rename_users(df)
-
-# Load into Data warehouse
-#%%
+# Load
 def write_to_data_warehouse(df: DataFrame, cfg: Config_env) -> None:
     df.write.format('jdbc')\
-        .option('url',f"jdbc:postgresql://{cfg.WAREHOUSE_HOST}:5433/{cfg.WAREHOUSE_DB}")\
+        .option('url',f"jdbc:postgresql://{cfg.WAREHOUSE_HOST}:5432/{cfg.WAREHOUSE_DB}")\
         .option('dbtable','staging_users_register')\
         .option('user',cfg.WAREHOUSE_USER)\
         .option('password',cfg.WAREHOUSE_PASSWORD)\
         .option('driver','org.postgresql.Driver')\
         .mode('append').save()
+
+
+def perform_etl_for_users():
+    df = read_dataframes_users(cfg)
+    df.show()
+    write_to_data_warehouse(df=df, cfg=cfg)
+
+
 
 # General Structure
 #%%
@@ -73,22 +71,15 @@ def main():
     # Step 1: Prepare environment
     cfg = Config_env()
     prepare_env()
-    print("///////////////////////////step 1 complete//////////////////////////////")
-    # Step 2: Extract
-    df = extract_users(cfg)
-    df.show()
-    print("///////////////////////////step 2 complete//////////////////////////////")
-    # Step 3: Transform
-    df = perform_etl_for_users(df)
-    print("///////////////////////////step 3 complete//////////////////////////////")
-    # Step 4: Load
-    write_to_data_warehouse(df=df, cfg=cfg)
-    print("///////////////////////////step 4 complete//////////////////////////////")
+    # Step 2: ETL
+    perform_etl_for_users()
 
 if __name__ == "__main__":
-    import schedule,time
+    main()
+    
+    # import schedule,time
 
-    schedule.every(1).minutes.do(main)
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # schedule.every(1).minutes.do(main)
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)

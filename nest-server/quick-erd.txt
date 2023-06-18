@@ -122,23 +122,27 @@ time_slot
 id integer PK
 start_time datetime
 
-# partyroom (326, 273)
-# partyroom_image (615, 549)
-# image (863, 499)
-# district (103, 528)
-# partyroom_category (42, 403)
-# category (48, 303)
-# partyroom_equipment (81, 142)
-# equipment (80, 48)
-# partyroom_price_list (306, 12)
-# price (64, 743)
-# booking_info (583, -103)
-# zoom: 0.778
-# view: (16, 119)
-# users (619, 233)
-# chat (907, 292)
-# time_slot (211, 762)
-# comment (932, 63)
-# text-bg: #3d3d3d
-# text-color: #ffffff
-# diagram-bg: #d4d4d4
+# zoom: 1.093
+# view: (-136, -92)
+# text-bg: #6495ed
+# text-color: #000000
+# diagram-bg: #f5f5f5
+# diagram-text: #f5f5f5
+# table-bg: #ffffff
+# table-text: #000000
+# users (1189, 664)
+# partyroom (746, 612)
+# partyroom_image (451, 971)
+# image (1117, 1107)
+# district (278, 689)
+# partyroom_category (559, 290)
+# category (569, 169)
+# partyroom_equipment (243, 454)
+# equipment (249, 330)
+# partyroom_price_list (1128, 189)
+# booking_info (1563, 198)
+# chat (1638, 993)
+# review (1641, 670)
+# staging_booking (2085, 241)
+# staging_partyroom_register (2105, 943)
+# staging_users_register (1600, 1260)
