@@ -48,19 +48,19 @@ id integer PK
 time time
 hour integer
 minute integer
-AMPM string
+ampm string
 
 dim_users
 ---------
 id integer PK
 promotion string
-users_register_id FK - fact_registered_users.id
+source string 
 
 dim_partyroom
 --------------
 id integer PK
 host_users_id integer
-source string FK - fact_registered_partyroom.source
+source string 
 district varchar(255)
 capacity integer
 
@@ -105,28 +105,19 @@ day_of_week integer
 time time
 hour integer
 minute integer
-AMPM string
+ampm string
+booking_users_promotion string
+booking_users_source string
+host_users_id integer
+partyroom_source string
+partyroom_district varchar(255)
+partyroom_capacity integer
 total_hour number(4,2)
 headcount integer
 booking_fee numberic(7,2)
-booking_rating decimal(3,1)
-booking_users_promotion string
-host_users_id integer
-partyroom_district varchar(255)
-partyroom_capacity integer
+booking_review_rating decimal(3,1)
 created_at datetime
-
-staging_partyroom_register
---------------------------
-id integer PK
-avg_rating decimal(3,1)
-host_users_id integer
-district varchar(255)
-capacity integer
-partyroom_source string
-partyroom_start_date datetime
-partyroom_end_date datetime
-created_at datetime
+updated_at datetime
 
 staging_users_register
 --------------------------
@@ -134,29 +125,7 @@ id integer PK
 booking_users_source string
 booking_users_promotion string
 created_at datetime
-
-staging_booking
----------------
-id integer PK
-year integer
-month integer
-day_of_month integer
-day_of_year integer
-date string
-quarter integer
-is_holiday boolean
-day_of_week integer
-time time
-hour integer
-minute integer
-AMPM string
-source string
-total_hour number(4,2)
-headcount integer
-booking_fee numberic(7,2)
-rating decimal(3,1)
-users_promotion string
-created_at datetime
+updated_at datetime
 
 staging_partyroom_register
 --------------------------
@@ -175,31 +144,22 @@ equipment_name
 equipment_start_date string
 equipment_end_date string
 created_at datetime
-
-staging_users_register
---------------------------
-id integer PK
-booking_users_source string
-booking_users_promotion string
-created_at datetime
-
-
-
+updated_at datetime
 
 
 # fact_booking (661, 48)
 # dim_date (331, -16)
-# dim_time (346, 178)
+# dim_time (362, 183)
 # dim_users (957, 27)
-# dim_partyroom (961, 349)
-# view: (-286, 61)
-# fact_registered_partyroom (972, 209)
-# fact_registered_users (982, 126)
+# dim_partyroom (1032, 358)
+# view: (-72, -166)
+# fact_registered_partyroom (1070, 217)
+# fact_registered_users (944, 119)
 # zoom: 0.346
 # dim_equipment_list (735, 304)
 # dim_equipment (579, 337)
 # dim_category_list (738, 416)
 # dim_category (583, 448)
-# staging_booking (1213, 26)
-# staging_partyroom_register (314, 308)
-# staging_users_register (1204, 456)
+# staging_booking (270, 296)
+# staging_users_register (994, 529)
+# staging_partyroom_register (666, 533)

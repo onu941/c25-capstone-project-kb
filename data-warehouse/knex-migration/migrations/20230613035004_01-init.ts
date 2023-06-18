@@ -10,20 +10,19 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("day_of_year");
       table.string("date", 255);
       table.integer("quarter");
-      table.boolean("is_hidden");
+      table.boolean("is_holiday");
       table.integer("day_of_week");
-      table.unique(["year","month","day_of_month","day_of_year","date","quarter","is_hidden","day_of_week"], {indexName: "date_unique_idx"});
+      table.unique(["year","month","day_of_month"], {indexName: "date_unique_idx"});
     });
   }
   
   if (!(await knex.schema.hasTable("dim_time"))) {
     await knex.schema.createTable("dim_time", (table) => {
       table.increments("id");
-      table.time("time");
+      table.time("time").unique();
       table.integer("hour");
       table.integer("minute");
-      table.string("AMPM");
-      table.unique(["time","hour","minute","AMPM"], {indexName: "time_unique_idx"});
+      table.string("ampm", 255);
     });
   }
   
@@ -103,11 +102,11 @@ export async function up(knex: Knex): Promise<void> {
   if (!(await knex.schema.hasTable("fact_booking"))) {
     await knex.schema.createTable("fact_booking", (table) => {
       table.increments("id");
-      table.integer("start_date_id").unique().unsigned().references("dim_date.id");
-      table.integer("start_time_id").unique().unsigned().references("dim_time.id");
-      table.integer("users_id").unique().unsigned().references("dim_users.id");
-      table.integer("partyroom_id").unique().unsigned().references("dim_partyroom.id");
-      table.string("source", 255).unique().unique();
+      table.integer("start_date_id").unsigned().references("dim_date.id");
+      table.integer("start_time_id").unsigned().references("dim_time.id");
+      table.integer("users_id").unsigned().references("dim_users.id");
+      table.integer("partyroom_id").unsigned().references("dim_partyroom.id");
+      table.string("source", 255).unique();
       table.decimal("total_hour", 4, 2);
       table.integer("headcount");
       table.decimal("booking_fee", 7, 2);
@@ -130,13 +129,14 @@ export async function up(knex: Knex): Promise<void> {
       table.time("time");
       table.integer("hour");
       table.integer("minute");
-      table.string("AMPM", 255);
+      table.string("ampm", 255);
       table.string("booking_users_promotion", 255);
       table.string("booking_users_source", 255);
       table.integer("host_users_id");
       table.string("partyroom_source", 255);
       table.string("partyroom_district", 255);
       table.integer("partyroom_capacity");
+      table.string("booking_source", 255)
       table.decimal("total_hour", 4, 1);
       table.integer("headcount");
       table.decimal("booking_fee", 7, 2);
@@ -238,11 +238,13 @@ export async function up(knex: Knex): Promise<void> {
 
         INSERT INTO dim_equipment_list (partyroom_id, equipment_id, start_date, end_date) VALUES 
             (partyroom_id, equipment_id, NEW.equipment_start_date, NEW.equipment_end_date)
-            ON CONFLICT DO NOTHING;
+            ON CONFLICT ON CONSTRAINT equipment_list_unique_idx
+            DO NOTHING;
 
         INSERT INTO dim_category_list (partyroom_id, category_id, start_date, end_date) VALUES 
             (partyroom_id, category_id, NEW.category_start_date, NEW.category_end_date)
-            ON CONFLICT DO NOTHING;
+            ON CONFLICT ON CONSTRAINT category_list_unique_idx
+            DO NOTHING;
                
         INSERT INTO fact_registered_partyroom (avg_rating, source, start_date, end_date) VALUES
             (NEW.avg_rating, temp_source, NEW.partyroom_start_date, NEW.partyroom_end_date)
@@ -258,43 +260,64 @@ export async function up(knex: Knex): Promise<void> {
     FOR EACH ROW EXECUTE PROCEDURE insert_partyroom_register();
   `)
 
-  // // staging booking
-  // await knex.raw(`
-  //   CREATE OR REPLACE FUNCTION insert_booking() RETURNS trigger AS $$
-  //   DECLARE
-  //       start_date_id integer;
-  //       start_time_id integer;
-  //       users_id integer;
-  //       partyroom_id integer;
+  // staging booking
+  await knex.raw(`
+    CREATE OR REPLACE FUNCTION insert_booking() RETURNS trigger AS $$
+    DECLARE
+        start_date_id integer;
+        start_time_id integer;
+        users_id integer;
+        partyroom_id integer;
 
-  //   BEGIN
-  //       INSERT INTO dim_date (year, month, day_of_month, day_of_year, date, quarter, is_holiday, day_of_week) VALUES
-  //           (NEW.year, NEW.month, NEW.day_of_month, NEW.day_of_year, NEW.date, NEW.quarter, NEW.is_holiday, NEW.day_of_week)
-  //           RETURNING id into start_date_id;
+    BEGIN
+        INSERT INTO dim_date (year, month, day_of_month, day_of_year, date, quarter, is_holiday, day_of_week) VALUES
+            (NEW.year, NEW.month, NEW.day_of_month, NEW.day_of_year, NEW.date, NEW.quarter, NEW.is_holiday, NEW.day_of_week)
+            ON CONFLICT DO NOTHING
+            RETURNING id into start_date_id;
 
-  //       INSERT INTO dim_time (time, hour, minute, AMPM) VALUES 
-  //           (NEW.time, NEW.hour, NEW.minute, NEW.AMPM) 
-  //           RETURNING id into start_time_id;
+        IF NOT FOUND THEN
+            SELECT id INTO start_date_id 
+            FROM dim_date 
+            WHERE year = NEW.year
+                AND month = NEW.month
+                AND day_of_month = NEW.day_of_month;
+        END IF;
+
+        INSERT INTO dim_time (time, hour, minute, ampm) VALUES 
+            (NEW.time, NEW.hour, NEW.minute, NEW.ampm) 
+            ON CONFLICT DO NOTHING
+            RETURNING id into start_time_id;
+
+        IF NOT FOUND THEN
+            SELECT id INTO start_time_id 
+            FROM dim_time 
+            WHERE time = NEW.time;
+        END IF;
         
-  //       INSERT INTO dim_users (promotion, users_register_id) VALUES 
-  //           (NEW.promotion, NEW.users_register_id) 
-  //           RETURNING id into users_id;
+        SELECT id INTO users_id 
+            FROM dim_users 
+            WHERE promotion = NEW.booking_users_promotion
+                AND source = NEW.booking_users_source;
+
+        SELECT id INTO partyroom_id 
+            FROM dim_partyroom 
+            WHERE host_users_id = NEW.host_users_id
+                AND source = NEW.partyroom_source
+                AND district = NEW.partyroom_district
+                AND capacity = NEW.partyroom_capacity;
         
-  //       INSERT INTO dim_partyroom (host_users_id, partyroom_register_id, district, capacity) VALUES 
-  //           (NEW.host_users_id, NEW.partyroom_application_db_id, NEW.district, NEW.capacity) 
-  //           RETURNING partyroom_register_id into partyroom_id;
+        INSERT INTO fact_booking (start_date_id,start_time_id,users_id,partyroom_id,source,total_hour,headcount,booking_fee,rating) VALUES
+            (start_date_id,start_time_id,users_id,partyroom_id,NEW.booking_source,NEW.total_hour,NEW.headcount,NEW.booking_fee,NEW.booking_review_rating)
+            ON CONFLICT DO NOTHING;
 
-  //       INSERT INTO fact_booking (start_date_id,start_time_id,users_id,partyroom_id,application_db_id,total_hour,headcount,booking_fee,rating) VALUES
-  //           (start_date_id,start_time_id,users_id,partyroom_id,NEW.application_db_id,NEW.total_hour,NEW.headcount,NEW.booking_fee,NEW.rating);
+        return NEW;
+    END
+    $$ LANGUAGE plpgsql;
+  `)
 
-  //       return NEW;
-  //   END
-  //   $$ LANGUAGE plpgsql;
-  // `)
-
-  // await knex.raw(
-  //   `CREATE TRIGGER booking_trigger AFTER INSERT ON staging_booking
-  //   FOR EACH ROW EXECUTE PROCEDURE insert_booking();`)
+  await knex.raw(
+    `CREATE TRIGGER booking_trigger AFTER INSERT ON staging_booking
+    FOR EACH ROW EXECUTE PROCEDURE insert_booking();`)
   
   // // update equipment
   // await knex.raw(`
@@ -387,10 +410,10 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.dropTable('dim_date');
   await knex.raw('DROP TRIGGER booking_users_register_trigger ON staging_registered_users')
   await knex.raw('DROP FUNCTION insert_users_register')
-  // await knex.raw('DROP TRIGGER booking_partyroom_register_trigger ON staging_registered_partyroom')
-  // await knex.raw('DROP FUNCTION insert_partyroom_register')
-  // await knex.raw('DROP TRIGGER booking_trigger ON staging_booking')
-  // await knex.raw('DROP FUNCTION insert_booking')
+  await knex.raw('DROP TRIGGER booking_partyroom_register_trigger ON staging_registered_partyroom')
+  await knex.raw('DROP FUNCTION insert_partyroom_register')
+  await knex.raw('DROP TRIGGER booking_trigger ON staging_booking')
+  await knex.raw('DROP FUNCTION insert_booking')
   // await knex.raw('DROP TRIGGER review_trigger ON staging_registered_partyroom')
   // await knex.raw('DROP FUNCTION insert_review')
   // await knex.raw('DROP TRIGGER update_partyroom_avg_rating_trigger ON dim_review')
