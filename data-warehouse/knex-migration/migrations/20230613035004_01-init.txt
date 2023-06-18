@@ -11,21 +11,24 @@ headcount integer
 booking_fee numeric(7,2)
 rating integer
 created_at datetime
+updated_at datetime
 
 fact_registered_partyroom
 -----------------------
 id integer PK
 avg_rating decimal(3,1)
-source string
+source string FK - dim_partyroom.source
 start_date datetime
 end_date datetime
 created_at datetime
+updated_at datetime
 
 fact_registered_users
 ----------
 id integer PK
-source string
+source string FK - dim_users.source
 created_at datetime
+updated_at datetime
 
 dim_date
 --------
@@ -57,7 +60,7 @@ dim_partyroom
 --------------
 id integer PK
 host_users_id integer
-source FK - fact_registered_partyroom.source
+source string FK - fact_registered_partyroom.source
 district varchar(255)
 capacity integer
 
@@ -73,7 +76,7 @@ end_date datetime
 dim_equipment
 -------------
 id integer PK
-source string
+name string
 
 dim_category_list
 -----------------------
@@ -86,7 +89,7 @@ end_date datetime
 dim_category
 ------------
 id integer PK
-source string
+name string
 
 staging_booking
 ---------------
