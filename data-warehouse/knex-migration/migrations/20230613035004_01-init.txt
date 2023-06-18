@@ -9,7 +9,23 @@ source string
 total_hour numberic(4,2)
 headcount integer
 booking_fee numeric(7,2)
-review_rating integer FK - dim_review.id
+rating integer
+created_at datetime
+
+fact_registered_partyroom
+-----------------------
+id integer PK
+avg_rating decimal(3,1)
+source string
+start_date datetime
+end_date datetime
+created_at datetime
+
+fact_registered_users
+----------
+id integer PK
+source string
+created_at datetime
 
 dim_date
 --------
@@ -35,64 +51,40 @@ dim_users
 ---------
 id integer PK
 promotion string
-user_register_id FK - fact_users_register.id
+users_register_id FK - fact_registered_users.id
 
 dim_partyroom
 --------------
 id integer PK
 host_users_id integer
-partyroom_register_id FK - fact_partyroom_register.id
+source FK - fact_registered_partyroom.source
 district varchar(255)
 capacity integer
 
 
-dim_partyroom_equipment
+dim_equipment_list
 -----------------------
 id integer PK
-partyroom_id FK >0- dim_partyroom.id
+partyroom_id FK - dim_partyroom.id
 equipment_id FK >0- dim_equipment.id
 start_date datetime
 end_date datetime
 
 dim_equipment
--------
+-------------
 id integer PK
-name varchar(255)
+source string
 
-dim_partyroom_category
+dim_category_list
 -----------------------
 id integer PK
-partyroom_id FK >0- dim_partyroom.id
+partyroom_id FK - dim_partyroom.id
 category_id FK >0- dim_category.id
 start_date datetime
 end_date datetime
 
 dim_category
--------
-id integer PK
-name varchar(255)
-
-fact_partyroom_register
------------------------
-id integer PK
-avg_rating decimal(3,1)
-source string
-start_date datetime
-end_date datetime
-
-fact_users_register
-----------
-id integer PK
-source string
-
-dim_review
-----------
-id integer PK
-review_id FK - fact_review.id
-rating decimal(3,1)
-
-fact_review
------------
+------------
 id integer PK
 source string
 
@@ -115,7 +107,7 @@ total_hour number(4,2)
 headcount integer
 booking_fee numberic(7,2)
 booking_rating decimal(3,1)
-booking_user_promotion string
+booking_users_promotion string
 host_users_id integer
 partyroom_district varchar(255)
 partyroom_capacity integer
@@ -131,24 +123,80 @@ capacity integer
 partyroom_source string
 partyroom_start_date datetime
 partyroom_end_date datetime
-category_name
-category_start_date datetime
-category_end_date datetime
-equipment_name
-equipment_start_date datetime
-equipment_end_date datetime
 created_at datetime
 
 staging_users_register
 --------------------------
 id integer PK
-booking_user_source string
-booking_user_promotion string
+booking_users_source string
+booking_users_promotion string
 created_at datetime
 
-staging_review
---------------
+staging_booking
+---------------
 id integer PK
-booking_review_source string
-booking_rating decimal(3,1)
+year integer
+month integer
+day_of_month integer
+day_of_year integer
+date string
+quarter integer
+is_holiday boolean
+day_of_week integer
+time time
+hour integer
+minute integer
+AMPM string
+source string
+total_hour number(4,2)
+headcount integer
+booking_fee numberic(7,2)
+rating decimal(3,1)
+users_promotion string
 created_at datetime
+
+staging_partyroom_register
+--------------------------
+id integer PK
+avg_rating decimal(3,1)
+host_users_id integer
+district varchar(255)
+capacity integer
+partyroom_source string
+partyroom_start_date datetime
+partyroom_end_date datetime
+category_name
+category_start_date string
+category_end_date string
+equipment_name
+equipment_start_date string
+equipment_end_date string
+created_at datetime
+
+staging_users_register
+--------------------------
+id integer PK
+booking_users_source string
+booking_users_promotion string
+created_at datetime
+
+
+
+
+
+# fact_booking (661, 48)
+# dim_date (331, -16)
+# dim_time (346, 178)
+# dim_users (957, 27)
+# dim_partyroom (961, 349)
+# view: (-286, 61)
+# fact_registered_partyroom (972, 209)
+# fact_registered_users (982, 126)
+# zoom: 0.346
+# dim_equipment_list (735, 304)
+# dim_equipment (579, 337)
+# dim_category_list (738, 416)
+# dim_category (583, 448)
+# staging_booking (1213, 26)
+# staging_partyroom_register (314, 308)
+# staging_users_register (1204, 456)
