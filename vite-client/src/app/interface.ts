@@ -51,7 +51,7 @@ export interface CardProps {
 }
 
 export interface CarouselProps {
-  image: string;
+  randomRooms: RandomLandingRooms[];
 }
 
 export interface Option {
@@ -79,7 +79,7 @@ export interface InputProps {
   handleReviewDetailInputChange?: (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => void;
-  options?: Option[];
+  options?: any[];
   step?: number | string;
   max?: number | string;
   min?: number | string;
@@ -137,6 +137,15 @@ export interface FormProps {
 export interface FormCategoryEquipmentProps extends FormProps {
   activeIconButtons: { [key: string]: boolean };
   handleFormIconButton: (iconType: string) => void;
+}
+
+export interface FormImageProps extends FormProps {
+  multiple?: boolean;
+  selectedImages: File[];
+  imagePreviews: string[];
+  handleImageUpload: () => void;
+  handleImageFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleDeleteImage: (index: number) => void;
 }
 
 export interface Form1Props {
@@ -326,4 +335,18 @@ export interface Review {
 
 export interface JWT {
   id: number;
+}
+
+export interface RandomLandingRooms {
+  id: number;
+  filename: string;
+}
+
+export interface SearchResults {
+  partyroom_id: number;
+  name: string;
+  address: string;
+  district_id: number;
+  capacity: number;
+  filename: string;
 }

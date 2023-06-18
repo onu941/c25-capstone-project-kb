@@ -1,4 +1,3 @@
-import { FormCarousel } from "./minicomponents/Carousels";
 import { Switch } from "@headlessui/react";
 import { Form2Props } from "../app/interface";
 

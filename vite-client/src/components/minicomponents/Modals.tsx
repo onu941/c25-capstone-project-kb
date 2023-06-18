@@ -9,31 +9,57 @@ export function BookingModal(props: BookingModalProps) {
         className="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"
         onClick={props.toggleModal}
       ></div>
-      <div className="px-12 py-8 bg-gray-800 text-white rounded-lg z-50 border-solid border-4 border-slate-400">
-        <p className="text-5xl mb-8">Book Your Stay!</p>
-        <p className="text-lg">User Details</p>
-        <StandardInput type="text" placeholder="name (autofilled)" />
-        <StandardInput type="text" placeholder="phone (autofilled)" />
-        <p className="text-lg mt-3">Booking Details</p>
-        <StandardInput type="text" placeholder="how many people?" />
-        <StandardInput type="text" placeholder="what date??" />
-        <StandardInput type="text" placeholder="what time?" />
-        <TextArea placeholder="any special requests?" />
-        <div className="mt-8 w-full flex columns-2 gap-6 place-content-center">
-          <div>
-            <PrimaryButton
-              type="button"
-              onClick={props.toggleModal}
-              label="Go back"
+      <div className="px-10 py-8 bg-slate-900 text-slate-300 rounded-lg z-50 border-solid border-4 border-slate-400 w-2/3">
+        <p className="text-3xl mb-4 text-slate-200 font-semibold">
+          Book This Room!
+        </p>
+        <div className="h-96 overflow-auto">
+          <form>
+            <p className="text-lg mt-3 mb-6 font-semibold">Booking Details</p>
+            <p className="text-sm ms-2">how many people?</p>
+            <StandardInput type="number" name="headcount" defaultValue={6} />
+            <p className="text-sm ms-2">what date?</p>
+            <StandardInput
+              type="date"
+              name="booking_date"
+              placeholder="what date??"
             />
-          </div>
-          <div>
-            <SubmitButton
-              type="submit"
-              onClick={props.toggleModal}
-              label="Submit"
+            <p className="text-sm ms-2">what time?</p>
+            <StandardInput
+              type="time"
+              name="start_time"
+              placeholder="what time?"
+              min="10:00:00"
+              max="18:00:00"
             />
-          </div>
+            <p className="text-sm ms-2">for how long (hours)?</p>
+            <StandardInput type="number" defaultValue={4} />
+            <div className="my-6">
+              <TextArea placeholder="any special requests?" />
+            </div>
+            <div className="mt-6">
+              <p className="text-center">
+                Based on this room's pricing blocks, your stay would cost{" "}
+                <span className="font-bold underline">$</span>
+              </p>
+            </div>
+            <div className="mt-8 w-full flex columns-2 gap-6 place-content-center">
+              <div>
+                <PrimaryButton
+                  type="button"
+                  onClick={props.toggleModal}
+                  label="Go back"
+                />
+              </div>
+              <div>
+                <SubmitButton
+                  type="submit"
+                  onClick={props.toggleModal}
+                  label="Submit"
+                />
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

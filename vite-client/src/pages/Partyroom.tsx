@@ -235,7 +235,7 @@ export default function Partyroom() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="mb-12">
+          <div className="mb-10">
             <div className="text-slate-300">
               {partyroom.address} | {partyroom.district} |{" "}
               <a
@@ -258,21 +258,19 @@ export default function Partyroom() {
               </>
             )}
           </div>
-          <div className="w-full columns-3 mb-12">
-            <div>
-              {" "}
-              <img
-                src={roomImageDirectory + mainRoomImage}
-                className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl object-fill"
-              ></img>
-            </div>
-            <div>
-              {" "}
-              <div className="border-solid rounded-lg border-2 border-slate-700 border-opacity-30 px-0 bg-slate-800 bg-opacity-10 w-48">
+          <div className="w-full mb-12 grid grid-cols-3 grid-flow-row">
+            <div className="col-span-2 flex flex-wrap justify-center">
+              <div className="w-4/5">
+                <img
+                  src={roomImageDirectory + mainRoomImage}
+                  className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl object-fill"
+                ></img>
+              </div>
+              <div className="w-4/5 mt-3 border-solid rounded-lg border-2 border-slate-700 border-opacity-30 px-0 bg-slate-800 bg-opacity-10 w-fill flex place-items-center place-content-start">
                 {roomImages.map((roomImage, index) => (
                   <img
                     src={roomImageDirectory + roomImage.filename}
-                    className="w-40 mb-2"
+                    className="h-20 p-1"
                     onClick={() => handleRoomImageRollClick(index)}
                   ></img>
                 ))}
@@ -541,16 +539,18 @@ export default function Partyroom() {
           </div>
           <div className="mb-48">
             <BodyHeader title="Reviews"></BodyHeader>
-            <div className="grid grid-cols-3 gap-8">
-              {reviews.map((review) => (
-                <ReviewCard
-                  key={review.id}
-                  review_text={review.detail}
-                  score={`${review.rating}/10`}
-                  name={review.name}
-                  date="18 June 23"
-                />
-              ))}
+            <div className="grid grid-cols-3 gap-8 text-slate-300">
+              {reviews.length > 0
+                ? reviews.map((review) => (
+                    <ReviewCard
+                      key={review.id}
+                      review_text={review.detail}
+                      score={`${review.rating}/10`}
+                      name={review.name}
+                      date="18 June 23"
+                    />
+                  ))
+                : "No reviews yet!"}
             </div>
           </div>
         </ResponsiveContainer>
