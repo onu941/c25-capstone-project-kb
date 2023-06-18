@@ -321,7 +321,7 @@ export default function Booking() {
               <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
                 <span className="italic">
                   {bookingDetails.special_request &&
-                    `${bookingDetails.special_request}`}
+                    `"${bookingDetails.special_request}"`}
                 </span>
                 <span className="text-slate-500">
                   {bookingDetails.special_request

@@ -29,15 +29,21 @@ export function Sidebar(props: SidebarProps) {
         <button onClick={props.toggleSidebar} className="mb-48">
           <XMarkIcon className="h-9 w-9 text-slate-200 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></XMarkIcon>
         </button>
-        <button onClick={() => navigate(`/dashboard`)}>
-          <PresentationChartBarIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></PresentationChartBarIcon>
-        </button>
-        <button onClick={() => navigate(`/settings`)}>
-          <Cog6ToothIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></Cog6ToothIcon>
-        </button>
-        <button onClick={() => dispatch(logout())}>
-          <ArrowRightOnRectangleIcon className="mb-10 h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></ArrowRightOnRectangleIcon>
-        </button>
+        <div className="mb-10">
+          <button onClick={() => navigate(`/dashboard`)}>
+            <PresentationChartBarIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></PresentationChartBarIcon>
+          </button>
+        </div>
+        <div className="mb-10">
+          <button onClick={() => navigate(`/settings`)}>
+            <Cog6ToothIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></Cog6ToothIcon>
+          </button>
+        </div>
+        <div className="mb-10">
+          <button onClick={() => dispatch(logout())}>
+            <ArrowRightOnRectangleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-110"></ArrowRightOnRectangleIcon>
+          </button>
+        </div>
       </div>
     </>
   );

@@ -25,6 +25,23 @@ export class PartyroomService {
   //   return id;
   // }
 
+  async findRandomForLanding() {
+    const query = await this.knex('partyroom')
+      .select('partyroom.id', 'image.filename')
+      .join(
+        'partyroom_image',
+        'partyroom.id',
+        '=',
+        'partyroom_image.partyroom_id',
+      )
+      .join('image', 'partyroom_image.image_id', '=', 'image.id')
+      .where('partyroom.host_id', '<>', 1)
+      .orderByRaw('RANDOM()')
+      .limit(8);
+
+    return query;
+  }
+
   async findAllDistricts() {
     return await this.knex.select('*').from('district');
   }
@@ -151,6 +168,35 @@ export class PartyroomService {
         .join('users', 'booking_info.booking_users_id', '=', 'users.id')
         .where('partyroom_price_list.partyroom_id', partyroom_id)
         .where('review.is_hidden', false);
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async searchByDistrict(districtId: number) {
+    try {
+      const query = await this.knex
+        .select(
+          'partyroom.id AS partyroom_id',
+          'partyroom.name',
+          'partyroom.address',
+          'partyroom.district_id',
+          'partyroom.capacity',
+          'image.filename',
+        )
+        .distinctOn('partyroom.id')
+        .from('partyroom')
+        .join(
+          'partyroom_image',
+          'partyroom.id',
+          '=',
+          'partyroom_image.partyroom_id',
+        )
+        .join('image', 'partyroom_image.image_id', '=', 'image.id')
+        .where('partyroom.district_id', districtId)
+        .andWhere('partyroom.is_hidden', false);
 
       return query;
     } catch (error) {

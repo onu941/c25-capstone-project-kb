@@ -9,8 +9,10 @@ export function BookingModal(props: BookingModalProps) {
         className="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"
         onClick={props.toggleModal}
       ></div>
-      <div className="px-12 py-8 bg-gray-800 text-white rounded-lg z-50 border-solid border-4 border-slate-400">
-        <p className="text-5xl mb-8">Book Your Stay!</p>
+      <div className="px-10 py-8 bg-slate-900 text-slate-300 rounded-lg z-50 border-solid border-4 border-slate-400">
+        <p className="text-3xl mb-8 text-slate-200 font-semibold">
+          Book Your Stay!
+        </p>
         <p className="text-lg">User Details</p>
         <StandardInput type="text" placeholder="name (autofilled)" />
         <StandardInput type="text" placeholder="phone (autofilled)" />
