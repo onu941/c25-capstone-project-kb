@@ -17,7 +17,7 @@ export function LandingCarousel(props: CarouselProps) {
           <img
             src={roomImageDirectory + room.filename}
             alt={room.filename}
-            className="rounded-sm ms-3 border-solid border-4 border-slate-500 border-opacity-50"
+            className="rounded-sm ms-3 border-solid border-2 border-slate-100 border-opacity-50"
           />
         </div>
       ))}
