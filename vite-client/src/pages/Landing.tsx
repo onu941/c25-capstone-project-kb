@@ -14,13 +14,13 @@ import toast, { Toaster } from "react-hot-toast";
 import sample from "../../public/img/sample_partyroom.jpg";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { BookingCard } from "../app/interface";
+import { BookingCard, RandomLandingRooms } from "../app/interface";
 
 export default function Landing() {
   const navigate = useNavigate();
-
   const roomImageDirectory = "../../public/img/room/";
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [partygoerDetails, setPartygoerDetails] = useState<BookingCard>({
@@ -43,6 +43,7 @@ export default function Landing() {
     address: "",
     image_filename: "",
   });
+  const [randomRooms, setRandomRooms] = useState<RandomLandingRooms[]>([]);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -119,11 +120,27 @@ export default function Landing() {
       setHostDetails(bookingDetailsTreated);
     };
 
+    const fetchRandomRooms = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/partyroom/random`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const randomRoomsData = await response.json();
+      setRandomRooms(randomRoomsData);
+    };
+
     const fetchAllData = async () => {
       console.log("fetchAllData");
       await fetchUserDetails();
       await fetchNextBookingAsPartygoer();
       await fetchNextBookingAsHost();
+      await fetchRandomRooms();
 
       const successMessage = localStorage.getItem("successMessage");
       if (successMessage) toast.success(successMessage);
@@ -152,7 +169,10 @@ export default function Landing() {
           <div className="w-full px-6 md:px-96 mb-16">
             <BookingCardLarge
               image={roomImageDirectory + partygoerDetails.image_filename}
-              alt={hostDetails.image_filename}
+              onClick={() =>
+                navigate(`/booking?booking_id=${partygoerDetails.id}`)
+              }
+              alt={partygoerDetails.image_filename}
               name={partygoerDetails.name}
               address={partygoerDetails.address}
               time={partygoerDetails.start_time}
@@ -172,6 +192,9 @@ export default function Landing() {
           <div className="w-full px-6 md:px-96 mb-8">
             <BookingCardLarge
               image={roomImageDirectory + hostDetails.image_filename}
+              onClick={() =>
+                navigate(`/booking?booking_id=${partygoerDetails.id}`)
+              }
               alt={hostDetails.image_filename}
               name={hostDetails.name}
               address={hostDetails.address}
@@ -185,14 +208,14 @@ export default function Landing() {
             />
           </div>
           <div className="w-full flex place-content-center pt-6">
-            <Link to="/new_room">
+            <Link to="/submit_room">
               <PrimaryButton label="Submit a New Room" />
             </Link>
           </div>
           <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
           <BodyHeader title="Explore new partyrooms:"></BodyHeader>
           <div className=" w-full md:px-0 px-4 mb-12">
-            <LandingCarousel image={sample}></LandingCarousel>
+            <LandingCarousel randomRooms={randomRooms} />
           </div>
           <div className="flex justify-center mb-24">
             <Link to="/search">

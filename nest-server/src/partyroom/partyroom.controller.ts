@@ -33,9 +33,13 @@ export class PartyroomController {
   // }
 
   @Get('/district')
-  @UseGuards(AuthGuard('jwt'))
   async findAllDistricts() {
     return this.partyroomService.findAllDistricts();
+  }
+
+  @Get('/random')
+  async findRandomForLanding() {
+    return this.partyroomService.findRandomForLanding();
   }
 
   @Get(':id')
@@ -71,7 +75,6 @@ export class PartyroomController {
     }
 
     const reviews = await this.partyroomService.findAllReviewsForOne(id);
-
     return reviews;
   }
 
@@ -84,6 +87,11 @@ export class PartyroomController {
 
     const partyrooms = await this.partyroomService.findByUserIdforSettings(id);
     return partyrooms;
+  }
+
+  @Post('/search')
+  async searchByDistrict(@Body('districtId') districtId: number) {
+    return await this.partyroomService.searchByDistrict(districtId);
   }
 
   //   @Delete(':id')

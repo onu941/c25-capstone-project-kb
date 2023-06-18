@@ -13,7 +13,7 @@ export function Tab() {
   return (
     <div className="z-20 fixed bottom-0 columns-3 flex justify-around w-full py-4 bg-slate-800 border-solid border-t-slate-600 border-opacity-60 border-2 border-transparent">
       <div>
-        <button onClick={() => navigate(`/new_room`)}>
+        <button onClick={() => navigate(`/submit_room`)}>
           <PlusCircleIcon className="h-8 w-8 text-slate-300 drop-shadow-lg transform transition duration-200 ease-in-out hover:scale-125"></PlusCircleIcon>
         </button>
       </div>

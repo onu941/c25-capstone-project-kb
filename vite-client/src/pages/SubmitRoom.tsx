@@ -21,26 +21,30 @@ import { Switch } from "@headlessui/react";
 import {
   DangerButton,
   PrimaryButton,
+  SubmitButton,
 } from "../components/minicomponents/Buttons";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function SubmitRoom() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [submitRoomTab, setSubmitRoomTab] = useState<string>("part_1");
   const [partyroomName, setPartyroomName] =
-    useState<string>("Submit a partyroom");
+    useState<string>("Submit a Partyroom");
   const [districts, setDistricts] = useState<District[]>([]);
   const [activeIconButtons, setActiveIconButtons] = useState<ActiveIconButtons>(
     {}
   );
   const [priceLists, setPriceLists] = useState([1]);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [switchEnabled, setSwitchEnabled] = useState(false);
-
-  const handleRoomTabClick = (string: string) => {
-    return setSubmitRoomTab(string);
-  };
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
+  };
+
+  const handleRoomTabClick = (string: string) => {
+    return setSubmitRoomTab(string);
   };
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -66,14 +70,11 @@ export default function SubmitRoom() {
       );
 
       const districts = await response.json();
-      console.log(districts);
       setDistricts(districts);
     };
 
     getDistricts();
   }, []);
-
-  // const oldDistricts = ["Wan Chai", "Kwun Tong", "Tsuen Wan"];
 
   function handleFormIconButton(iconType: string) {
     setActiveIconButtons((prev) => ({
@@ -90,14 +91,60 @@ export default function SubmitRoom() {
     setPriceLists((prevLists) => prevLists.filter((_, i) => i !== index));
   };
 
+  const onImageUpload = (imageUrls: string[]) => {
+    setImagePreviews(imageUrls);
+  };
+
+  const handleImageUpload = () => {
+    if (selectedImages.length === 0) {
+      return toast.error("Please choose a photo to upload");
+    }
+
+    const imageUrls: string[] = [];
+
+    selectedImages.forEach((image) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onloadend = () => {
+        if (reader.result) {
+          imageUrls.push(reader.result as string);
+          if (imageUrls.length === selectedImages.length) {
+            onImageUpload(imageUrls);
+          }
+        }
+      };
+    });
+  };
+
+  const handleImageFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files) {
+      const filesArray = Array.from(event.target.files);
+      setSelectedImages(filesArray);
+    }
+  };
+
+  const handleDeleteImage = (index: number) => {
+    const updatedPreviews = [...imagePreviews];
+    updatedPreviews.splice(index, 1);
+    setImagePreviews(updatedPreviews);
+  };
+
   const handleResetForm = () => {
     setSubmitRoomTab("part_1");
     formRef.current?.reset();
+    setActiveIconButtons({});
     setPartyroomName("Submit Your Partyroom");
+    setImagePreviews([]);
+    setSelectedImages([]);
+  };
+
+  const handleBack = () => {
+    setSubmitRoomTab("part_1");
   };
 
   const { register, handleSubmit } = useForm<SubmitRoomFormState>();
-
   const onSubmit: SubmitHandler<SubmitRoomFormState> = (data) => {
     console.log(data);
   };
@@ -105,6 +152,9 @@ export default function SubmitRoom() {
   return (
     <>
       <FullScreen>
+        <div>
+          <Toaster />
+        </div>
         <ResponsiveContainer>
           <AppHeader
             title={partyroomName}
@@ -126,25 +176,40 @@ export default function SubmitRoom() {
           >
             {/* form part 2*/}
             <div className={`${submitRoomTab === "part_1" ? "hidden" : ""}`}>
-              form part 2
-              <RoomFormImages />
-              <Switch
-                checked={switchEnabled}
-                onChange={setSwitchEnabled}
-                className={`${switchEnabled ? "bg-pink-500" : "bg-pink-800"}
+              <RoomFormImages
+                register={register}
+                multiple={true}
+                selectedImages={selectedImages}
+                imagePreviews={imagePreviews}
+                handleImageUpload={handleImageUpload}
+                handleImageFileChange={handleImageFileChange}
+                handleDeleteImage={handleDeleteImage}
+              />
+              {/* initiate form detials confirm */}
+              <div className="columns-2 flex place-content-center place-items-center gap-5 mb-8">
+                <div>
+                  <p className="text-slate-300 text-md">I'm done uploading!</p>
+                </div>
+                <div>
+                  <Switch
+                    checked={switchEnabled}
+                    onChange={setSwitchEnabled}
+                    className={`${switchEnabled ? "bg-pink-500" : "bg-pink-800"}
         relative inline-flex h-[29px] w-[52px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors shadow-lg duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-              >
-                <span className="sr-only">Use setting</span>
-                <span
-                  aria-hidden="true"
-                  className={`${
-                    switchEnabled ? "translate-x-6" : "translate-x-0"
-                  }
+                  >
+                    <span className="sr-only">Use setting</span>
+                    <span
+                      aria-hidden="true"
+                      className={`${
+                        switchEnabled ? "translate-x-6" : "translate-x-0"
+                      }
           pointer-events-none inline-block h-[24px] w-[24px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                />
-              </Switch>
+                    />
+                  </Switch>
+                </div>
+              </div>
             </div>
-            {/* confirm form detail */}
+            {/* confirm form details */}
             <div
               className={`${
                 switchEnabled && submitRoomTab === "part_2" ? "" : "hidden"
@@ -198,6 +263,30 @@ export default function SubmitRoom() {
                     onClick={() => handleResetForm()}
                   />
                 </div>
+              </div>
+            </div>
+            {/* button row (incl submit) */}
+            <div
+              className={`${
+                switchEnabled && submitRoomTab === "part_2" ? "" : "hidden"
+              } mt-12 mb-24 flex flex-wrap justify-center columns-3 gap-5`}
+            >
+              <div>
+                <PrimaryButton
+                  label="Back"
+                  type="button"
+                  onClick={() => handleBack()}
+                />
+              </div>
+              <div>
+                <DangerButton
+                  label="Reset"
+                  type="button"
+                  onClick={() => handleResetForm()}
+                />
+              </div>
+              <div>
+                <SubmitButton label="Submit Your Room!" type="submit" />
               </div>
             </div>
           </form>
