@@ -11,10 +11,10 @@ export function DropdownInput(props: InputProps) {
     <div className="w-full">
       <select
         className="text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
-        {...props}
         defaultValue={props.placeholder}
         value={props.value}
         onChange={props.onChange}
+        {...props.register}
       >
         <option disabled>{props.placeholder}</option>
         {props.options!.map((option, index) => (
@@ -36,7 +36,9 @@ export function StandardInput(props: InputProps) {
     <div className={`flex place-content-center`}>
       <div className="w-full">
         <input
-          {...props}
+          placeholder={props.placeholder}
+          type={props.type}
+          {...props.register}
           className={`text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-60 border-transparent`}
         />
       </div>
@@ -69,8 +71,8 @@ export function TextArea(props: InputProps) {
       }dark:bg-transparent dark:text-slate-300 rounded-lg h-32 w-full`}
       placeholder={props.placeholder}
       maxLength={150}
-      value={props.value}
       name={props.name}
+      value={props.value}
       {...props.register}
       onChange={props.handleReviewDetailInputChange}
       disabled={props.isDisabled}

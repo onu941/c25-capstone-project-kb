@@ -34,7 +34,7 @@ export default function SubmitRoom() {
   const [activeIconButtons, setActiveIconButtons] = useState<ActiveIconButtons>(
     {}
   );
-  const [priceLists, setPriceLists] = useState([1]);
+  const [priceLists, setPriceLists] = useState([0]);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [switchEnabled, setSwitchEnabled] = useState(false);
@@ -84,11 +84,11 @@ export default function SubmitRoom() {
   }
 
   const addPriceList = () => {
-    setPriceLists((prevLists) => [...prevLists, priceLists.length + 1]);
+    setPriceLists((prevLists) => [...prevLists, priceLists.length]);
   };
 
   const removePriceList = (index: number) => {
-    setPriceLists((prevLists) => prevLists.filter((_, i) => i !== index));
+    setPriceLists((prevLists) => prevLists.filter((_, i) => i + 1 !== index));
   };
 
   const onImageUpload = (imageUrls: string[]) => {
