@@ -64,6 +64,7 @@ def read_dataframes_booking(cfg: Config_env) -> DataFrame:
             JOIN partyroom ON partyroom.id = partyroom_price_list.partyroom_id 
             JOIN district ON district.id = partyroom.district_id
             WHERE booking_info.is_hidden = false
+            AND users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
         ) tmp_booking_table
     """
     return spark.read.format('jdbc') \
@@ -128,25 +129,24 @@ def main():
     # Step 1: Prepare environment
     cfg = Config_env()
     prepare_env()
+    print("///////////////////////////////Booking STEP1////////////////////////////////////")
     # Step 2: Extract
     df = read_dataframes_booking(cfg)
     df.show()
-    print("///////////////////////////////STEP2////////////////////////////////////")
+    print("///////////////////////////////Booking STEP2////////////////////////////////////")
     # Step 3: Transform
     df = transform_booking(df)
-    print("///////////////////////////////STEP3 TB////////////////////////////////////")
+    print("///////////////////////////////Booking STEP3 TB////////////////////////////////////")
     df = drop_column_booking(df)
-    print("///////////////////////////////STEP3 DC////////////////////////////////////")
+    print("///////////////////////////////Booking STEP3 DC////////////////////////////////////")
     # Step 4: Load
     write_to_data_warehouse(df=df, cfg=cfg)
-    print("///////////////////////////////STEP3 TB////////////////////////////////////")
+    print("///////////////////////////////Booking STEP4////////////////////////////////////")
 
 if __name__ == "__main__":
-    main()
-    
-    # import schedule,time
+    import schedule,time
 
-    # schedule.every(1).minutes.do(main)
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
+    schedule.every(1).minutes.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
