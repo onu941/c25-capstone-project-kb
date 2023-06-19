@@ -37,14 +37,14 @@ def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
         (   
             SELECT 
                 partyroom.host_id AS host_users_id, 
-                district.name AS partyroom_district, 
-                partyroom.capacity AS partyroom_capacity, 
-                partyroom.id AS partyroom_application_db_id,
+                district.name AS district, 
+                partyroom.capacity AS capacity, 
+                concat('application_db_id=', partyroom.id) AS partyroom_source,
                 partyroom.created_at AS partyroom_start_date,
-                category.name AS partyroom_category_name, 
-                partyroom_category.created_at AS partyroom_category_start_date,
-                equipment.name AS partyroom_equipment_name, 
-                partyroom_equipment.created_at AS partyroom_equipment_start_date,
+                category.name AS category_name, 
+                partyroom_category.created_at AS category_start_date,
+                equipment.name AS equipment_name, 
+                partyroom_equipment.created_at AS equipment_start_date,
                 partyroom.district_id AS partyroom_district_id,
                 partyroom_category.id AS partyroom_category_id, 
                 partyroom_category.partyroom_id AS partyroom_category_partyroom_id, 
@@ -88,8 +88,8 @@ def drop_column_partyroom(old_df):
     df = df.drop('partyroom_is_hidden')
     df = df.withColumn('avg_rating', lit(0))
     df = df.withColumn('partyroom_end_date', lit("TBC"))
-    df = df.withColumn('partyroom_category_end_date', lit("TBC"))
-    df = df.withColumn('partyroom_equipment_end_date', lit("TBC"))
+    df = df.withColumn('category_end_date', lit("TBC"))
+    df = df.withColumn('equipment_end_date', lit("TBC"))
     return df
 
 # Load into Data warehouse
@@ -97,22 +97,11 @@ def drop_column_partyroom(old_df):
 def write_to_data_warehouse(df: DataFrame, cfg: Config_env) -> None:
     df.write.format('jdbc')\
         .option('url',f"jdbc:postgresql://{cfg.WAREHOUSE_HOST}:5432/{cfg.WAREHOUSE_DB}")\
-        .option('dbtable','staging_partyroom_register')\
+        .option('dbtable','staging_registered_partyroom')\
         .option('user',cfg.WAREHOUSE_USER)\
         .option('password',cfg.WAREHOUSE_PASSWORD)\
         .option('driver','org.postgresql.Driver')\
         .mode('append').save()
-
-def perform_etl_for_partyroom():
-    df = read_dataframes_partyroom(cfg)
-    df.show()
-    print("//////////////////////////////////////step2 done")
-    df = drop_column_partyroom(df)
-    print("//////////////////////////////////////step3 done")
-    write_to_data_warehouse(df=df, cfg=cfg)
-    print("//////////////////////////////////////step4 done")
-
-
 
 # General Structure
 #%%
@@ -121,8 +110,16 @@ def main():
     cfg = Config_env()
     prepare_env()
     print("//////////////////////////////////////step1 done")
-    # Step 2: ETL
-    perform_etl_for_partyroom()
+    # Step 2: Extract
+    df = read_dataframes_partyroom(cfg)
+    df.show()
+    print("//////////////////////////////////////step2 done")
+    # Step 3: Transform
+    df = drop_column_partyroom(df)
+    print("//////////////////////////////////////step3 done")
+    # Step 4: Load
+    write_to_data_warehouse(df=df, cfg=cfg)
+    print("//////////////////////////////////////step4 done")
 
 if __name__ == "__main__":
     main()
