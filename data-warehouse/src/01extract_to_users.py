@@ -38,6 +38,7 @@ def read_dataframes_users(cfg: Config_env) -> DataFrame:
                 concat('application_db_id=', users.id) AS users_source,
                 users.created_at
             FROM users 
+            WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
         ) tmp_users_table
     """
     return spark.read.format('jdbc') \
@@ -70,22 +71,22 @@ def main():
     # Step 1: Prepare environment
     cfg = Config_env()
     prepare_env()
+    print("///////////////////////////////Partyroom STEP1////////////////////////////////////")
     # Step 2: Extract
     df = read_dataframes_users(cfg)
     df.show()
+    print("///////////////////////////////Partyroom STEP2////////////////////////////////////")
     # Step 3: Transform
     df = drop_column_users(df)
+    print("///////////////////////////////Partyroom STEP3////////////////////////////////////")
     # Step 4: Load
     write_to_data_warehouse(df=df, cfg=cfg)
+    print("///////////////////////////////Partyroom STEP4////////////////////////////////////")
 
 if __name__ == "__main__":
-    main()
-    
-    # import schedule,time
+    import schedule,time
 
-    # schedule.every(1).minutes.do(main)
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
-
-# WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
+    schedule.every(1).minutes.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)

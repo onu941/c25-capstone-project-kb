@@ -5,7 +5,7 @@ start_date_id FK - dim_date.id
 start_time_id FK - dim_time.id
 users_id FK - dim_users.id
 partyroom_id FK >0- dim_partyroom.id
-source string
+source varchar(255)
 total_hour numberic(4,2)
 headcount integer
 booking_fee numeric(7,2)
@@ -17,7 +17,7 @@ fact_registered_partyroom
 -----------------------
 id integer PK
 avg_rating decimal(3,1)
-source string FK - dim_partyroom.source
+source varchar(255) FK - dim_partyroom.source
 start_date datetime
 end_date datetime
 created_at datetime
@@ -26,7 +26,7 @@ updated_at datetime
 fact_registered_users
 ----------
 id integer PK
-source string FK - dim_users.source
+source varchar(255) FK - dim_users.source
 created_at datetime
 updated_at datetime
 
@@ -37,7 +37,7 @@ year integer
 month integer
 day_of_month integer
 day_of_year integer
-date string
+date varchar(255)
 quarter integer
 is_holiday boolean
 day_of_week integer
@@ -48,22 +48,22 @@ id integer PK
 time time
 hour integer
 minute integer
-ampm string
+ampm varchar(255)
 
 dim_users
 ---------
 id integer PK
-promotion string
-source string 
+promotion varchar(255)
+source varchar(255) 
 
 dim_partyroom
 --------------
 id integer PK
 host_users_id integer
-source string 
+source varchar(255) 
 district varchar(255)
 capacity integer
-
+base_room_fee decimal (4,1)
 
 dim_equipment_list
 -----------------------
@@ -76,7 +76,7 @@ end_date datetime
 dim_equipment
 -------------
 id integer PK
-name string
+name varchar(255)
 
 dim_category_list
 -----------------------
@@ -89,7 +89,17 @@ end_date datetime
 dim_category
 ------------
 id integer PK
-name string
+name varchar(255)
+
+dim_price_list
+--------------
+id integer PK
+partyroom_id FK >0- dim_partyroom.id
+headcount_price decimal(4,1)
+is_holiday boolean
+start_time time
+ampm varchar(255)
+total_hour integer
 
 staging_booking
 ---------------
@@ -98,18 +108,18 @@ year integer
 month integer
 day_of_month integer
 day_of_year integer
-date string
+date varchar(255)
 quarter integer
 is_holiday boolean
 day_of_week integer
 time time
 hour integer
 minute integer
-ampm string
-booking_users_promotion string
-booking_users_source string
+ampm varchar(255)
+booking_users_promotion varchar(255)
+booking_users_source varchar(255)
 host_users_id integer
-partyroom_source string
+partyroom_source varchar(255)
 partyroom_district varchar(255)
 partyroom_capacity integer
 total_hour number(4,2)
@@ -122,8 +132,8 @@ updated_at datetime
 staging_users_register
 --------------------------
 id integer PK
-booking_users_source string
-booking_users_promotion string
+booking_users_source varchar(255)
+booking_users_promotion varchar(255)
 created_at datetime
 updated_at datetime
 
@@ -134,15 +144,15 @@ avg_rating decimal(3,1)
 host_users_id integer
 district varchar(255)
 capacity integer
-partyroom_source string
+partyroom_source varchar(255)
 partyroom_start_date datetime
 partyroom_end_date datetime
 category_name
-category_start_date string
-category_end_date string
+category_start_date varchar(255)
+category_end_date varchar(255)
 equipment_name
-equipment_start_date string
-equipment_end_date string
+equipment_start_date varchar(255)
+equipment_end_date varchar(255)
 created_at datetime
 updated_at datetime
 
@@ -152,14 +162,15 @@ updated_at datetime
 # dim_time (362, 183)
 # dim_users (957, 27)
 # dim_partyroom (1032, 358)
-# view: (-72, -166)
-# fact_registered_partyroom (1070, 217)
+# view: (-62, 22)
+# fact_registered_partyroom (1059, 509)
 # fact_registered_users (944, 119)
 # zoom: 0.346
 # dim_equipment_list (735, 304)
 # dim_equipment (579, 337)
 # dim_category_list (738, 416)
 # dim_category (583, 448)
+# dim_price_list (1021, 215)
 # staging_booking (270, 296)
-# staging_users_register (994, 529)
+# staging_users_register (982, 694)
 # staging_partyroom_register (666, 533)
