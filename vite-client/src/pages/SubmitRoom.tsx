@@ -7,15 +7,11 @@ import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  ActiveIconButtons,
-  District,
-  SubmitRoomFormState,
-} from "../app/interface";
+import { District, PartyroomImage } from "../app/interface";
 import RoomFormBasics from "../components/form/RoomFormBasics";
 import RoomFormCategoryEquipment from "../components/form/RoomFormCategoryEquipment";
 import RoomFormDescription from "../components/form/RoomFormDescription";
-import RoomFormPricing from "../components/form/RoomFormPricing";
+import RoomFormPricing, { PriceList } from "../components/form/RoomFormPricing";
 import RoomFormImages from "../components/form/RoomFormImages";
 import { Switch } from "@headlessui/react";
 import {
@@ -25,16 +21,38 @@ import {
 } from "../components/minicomponents/Buttons";
 import toast, { Toaster } from "react-hot-toast";
 
+export interface SubmitRoomFormState {
+  name: string;
+  room_size: number;
+  capacity: number;
+  address: string;
+  district: string;
+  equipment: number[];
+  category: number[];
+  description: string;
+  image: PartyroomImage[];
+  price_list: PriceList[];
+}
+
 export default function SubmitRoom() {
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [submitRoomTab, setSubmitRoomTab] = useState<string>("part_1");
   const [partyroomName, setPartyroomName] =
     useState<string>("Submit a Partyroom");
   const [districts, setDistricts] = useState<District[]>([]);
-  const [activeIconButtons, setActiveIconButtons] = useState<ActiveIconButtons>(
-    {}
-  );
-  const [priceLists, setPriceLists] = useState([0]);
+  const [activeIconButtons, setActiveIconButtons] = useState<number[]>([]);
+  const [categories, setCategories] = useState([NaN]);
+  const [equipment, setEquipment] = useState([NaN]);
+  const [priceListDetails, setPriceListDetails] = useState<PriceList[]>([
+    {
+      id: crypto.randomUUID(),
+      base_room_fee: 0,
+      headcount_price: 0,
+      start_time: "",
+      total_hours: 0,
+      is_holiday: false,
+    },
+  ]);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [switchEnabled, setSwitchEnabled] = useState(false);
@@ -76,19 +94,30 @@ export default function SubmitRoom() {
     getDistricts();
   }, []);
 
-  function handleFormIconButton(iconType: string) {
-    setActiveIconButtons((prev) => ({
-      ...prev,
-      [iconType]: !prev[iconType],
-    }));
+  function handleFormIconButton(id: string | number) {
+    setActiveIconButtons((prev) => [...prev, +id]);
   }
 
   const addPriceList = () => {
-    setPriceLists((prevLists) => [...prevLists, priceLists.length]);
+    const newListIndex: string = crypto.randomUUID();
+
+    setPriceListDetails((prevDetails) => [
+      ...prevDetails,
+      {
+        id: newListIndex,
+        base_room_fee: 0,
+        headcount_price: 0,
+        start_time: "",
+        total_hours: 0,
+        is_holiday: false,
+      },
+    ]);
+    // return [...prevLists, newListIndex];
   };
 
-  const removePriceList = (index: number) => {
-    setPriceLists((prevLists) => prevLists.filter((_, i) => i + 1 !== index));
+  const removePriceList = (id: string) => {
+    const newData = priceListDetails.filter((v) => v.id !== id);
+    setPriceListDetails(newData);
   };
 
   const onImageUpload = (imageUrls: string[]) => {
@@ -134,8 +163,10 @@ export default function SubmitRoom() {
   const handleResetForm = () => {
     setSubmitRoomTab("part_1");
     formRef.current?.reset();
-    setActiveIconButtons({});
+    setActiveIconButtons([]);
     setPartyroomName("Submit Your Partyroom");
+    setCategories([NaN]);
+    setEquipment([NaN]);
     setImagePreviews([]);
     setSelectedImages([]);
   };
@@ -144,10 +175,15 @@ export default function SubmitRoom() {
     setSubmitRoomTab("part_1");
   };
 
-  const { register, handleSubmit } = useForm<SubmitRoomFormState>();
+  const form = useForm<SubmitRoomFormState>();
   const onSubmit: SubmitHandler<SubmitRoomFormState> = (data) => {
-    console.log(data);
+    const category_id = categories.filter((value) => !isNaN(value));
+    const equipment_id = equipment.filter((value) => !isNaN(value));
+    console.log({ data, category_id, equipment_id, priceListDetails });
   };
+  const { register, handleSubmit } = form;
+
+  console.log(priceListDetails);
 
   return (
     <>
@@ -185,7 +221,7 @@ export default function SubmitRoom() {
                 handleImageFileChange={handleImageFileChange}
                 handleDeleteImage={handleDeleteImage}
               />
-              {/* initiate form detials confirm */}
+              {/* initiate form details confirm */}
               <div className="columns-2 flex place-content-center place-items-center gap-5 mb-8">
                 <div>
                   <p className="text-slate-300 text-md">I'm done uploading!</p>
@@ -235,12 +271,24 @@ export default function SubmitRoom() {
                 register={register}
                 activeIconButtons={activeIconButtons}
                 handleFormIconButton={handleFormIconButton}
+                selectedCategory={categories}
+                setSelectedCategory={setCategories}
+                selectedEquipment={equipment}
+                setSelectedEquipment={setEquipment}
               />
               <RoomFormPricing
                 register={register}
-                priceLists={priceLists}
+                // priceListIndex={priceListIndex}
+                priceListDetails={priceListDetails}
                 addPriceList={addPriceList}
                 removePriceList={removePriceList}
+                setPriceListDetails={setPriceListDetails}
+
+                // handleCheckboxChange={handleCheckboxChange}
+                // handleBaseRoomFeeChange={handleBaseRoomFeeChange}
+                // handleHeadcountPriceChange={handleHeadcountPriceChange}
+                // handleStartTimeChange={handleStartTimeChange}
+                // handleTotalHoursChange={handleTotalHoursChange}
               />
               <RoomFormDescription register={register} />
               {/* next button */}
