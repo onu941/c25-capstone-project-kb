@@ -41,7 +41,7 @@ export default function RoomFormBasics(props: FormProps) {
             name="district"
             options={props.dropdownOptions}
             register={props.register("district")}
-            placeholder="your district"
+            placeholder="Select your district"
           />
         </div>
       </div>
