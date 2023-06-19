@@ -131,12 +131,15 @@ export interface FormProps {
   dropdownOptions?: any[];
   priceLists?: number[];
   addPriceList?: () => void;
-  removePriceList?: (index: number) => void;
 }
 
 export interface FormCategoryEquipmentProps extends FormProps {
   activeIconButtons: { [key: string]: boolean };
   handleFormIconButton: (iconType: string) => void;
+}
+
+export interface FormPricingProps extends FormProps {
+  removePriceList: (index: number) => void;
 }
 
 export interface FormImageProps extends FormProps {
@@ -350,3 +353,11 @@ export interface SearchResults {
   capacity: number;
   filename: string;
 }
+
+export interface CheckboxRefs {
+  [key: string]: React.RefObject<HTMLInputElement>;
+}
+
+// export interface CategoryAndEquipmentIds {
+//   [key: string]: number;
+// }

@@ -1,21 +1,39 @@
-import { PlusIcon, MinusIcon } from "@heroicons/react/20/solid";
+import { PlusIcon, MinusIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import { FormHeader } from "../minicomponents/Headers";
 import { StandardInput } from "../minicomponents/Inputs";
-import { FormProps } from "../../app/interface";
+import { FormPricingProps } from "../../app/interface";
+import { PrimaryButton } from "../minicomponents/Buttons";
 
-export default function RoomFormPricing(props: FormProps) {
+export default function RoomFormPricing(props: FormPricingProps) {
   return (
     <>
       <div className="mb-8">
         <FormHeader title="Price your partyroom:" />
-        <div className="text-slate-300 w-full flex justify-center bg-slate-950 bg-opacity-30 p-12 border-solid border-2 rounded-md border-slate-500 border-opacity-30 overflow-auto">
+        <div className="flex place-content-center place-items-center text-center">
+          <PrimaryButton
+            type="button"
+            label="Add A Price List"
+            onClick={props.addPriceList}
+          />
+        </div>
+        <div className="text-slate-300 w-full grid md:grid-cols-3 grid-cols-1 gap-8 place-items-center place-content-center bg-slate-950 bg-opacity-30 md:p-12 p-6 border-solid border-2 rounded-md border-slate-500 border-opacity-30 overflow-auto">
           {props.priceLists!.map((listIndex) => (
             <div
               key={listIndex}
-              className="price-list w-96 rounded-lg p-8 md:px-10 px-8 border-solid border-2 border-slate-300 border-opacity-50 drop-shadow-lg bg-slate-800 bg-opacity-60"
+              className=" relative price-list rounded-lg p-8 md:px-10 px-8 border-solid border-2 border-slate-300 border-opacity-50 drop-shadow-lg bg-slate-800 bg-opacity-60"
             >
+              {listIndex !== 0 && (
+                <div className="h-12 w-12 bg-slate-700 bg-opacity-70 absolute right-0 top-0 rounded-lg">
+                  <button
+                    type="button"
+                    onClick={() => props.removePriceList(listIndex)}
+                  >
+                    <XMarkIcon className="h-12 w-12  drop-shadow-lg" />
+                  </button>
+                </div>
+              )}
               <div className="text-xl mb-8 text-center font-semibold text-slate-200">
-                Price List {listIndex}
+                Price List {listIndex + 1}
               </div>
               <div>Is this plan for weekdays or weekends & holidays?</div>
               <StandardInput
@@ -54,15 +72,6 @@ export default function RoomFormPricing(props: FormProps) {
               />
             </div>
           ))}
-          <div className="flex place-content-center place-items-center text-center">
-            <button
-              type="button"
-              className="ms-8 drop-shadow-lg"
-              onClick={props.addPriceList}
-            >
-              <PlusIcon className="h-24 w-24 text-slate-300" />
-            </button>
-          </div>
         </div>
       </div>
     </>
