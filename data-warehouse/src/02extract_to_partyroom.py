@@ -45,6 +45,12 @@ def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
                 partyroom_category.created_at AS category_start_date,
                 equipment.name AS equipment_name, 
                 partyroom_equipment.created_at AS equipment_start_date,
+                partyroom_price_list.headcount_price AS headcount_price,
+                partyroom_price_list.is_holiday AS is_holiday,
+                partyroom_price_list.start_time AS start_time,
+                partyroom_price_list.total_hour AS total_hour,
+                partyroom_price_list.base_room_fee AS base_room_fee,
+                partyroom_price_list.created_at AS price_list_start_date,
                 partyroom.district_id AS partyroom_district_id,
                 partyroom_category.id AS partyroom_category_id, 
                 partyroom_category.partyroom_id AS partyroom_category_partyroom_id, 
@@ -52,6 +58,7 @@ def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
                 partyroom_equipment.id AS partyroom_equipment_id, 
                 partyroom_equipment.partyroom_id AS partyroom_equipment_partyroom_id,  
                 partyroom_equipment.equipment_id AS partyroom_equipment_equipment_id,   
+                partyroom_price_list.partyroom_id AS partyroom_price_list_partyroom_id,
                 category.id AS category_id,
                 equipment.id AS equipment_id, 
                 district.id AS district_id,
@@ -63,6 +70,7 @@ def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
             JOIN equipment ON equipment.id = partyroom_equipment.equipment_id 
             JOIN district ON district.id = partyroom.district_id
             JOIN partyroom_price_list ON partyroom.id = partyroom_price_list.partyroom_id
+            WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
         ) tmp_partyroom_table
     """
     return spark.read.format('jdbc') \
@@ -74,6 +82,7 @@ def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
 
 # Transform
 def drop_column_partyroom(old_df):
+    import pyspark.sql.functions as F
     df = old_df
     df = df.drop('partyroom_district_id')
     df = df.drop('partyroom_category_id')
@@ -84,12 +93,13 @@ def drop_column_partyroom(old_df):
     df = df.drop('partyroom_equipment_equipment_id')
     df = df.drop('category_id')
     df = df.drop('equipment_id')
+    df = df.drop('partyroom_price_list_partyroom_id')
     df = df.drop('district_id')
     df = df.drop('partyroom_is_hidden')
-    df = df.withColumn('avg_rating', lit(0))
-    df = df.withColumn('partyroom_end_date', lit("TBC"))
-    df = df.withColumn('category_end_date', lit("TBC"))
-    df = df.withColumn('equipment_end_date', lit("TBC"))
+    df = df.withColumn('AMPM', F.when(F.hour(df['start_time']) < 7, "midnight") \
+                     .when(F.hour(df['start_time']) < 13, "morning") \
+                     .when(F.hour(df['start_time']) < 19, "afternoon") \
+                     .otherwise("evening"))
     return df
 
 # Load into Data warehouse
@@ -109,25 +119,23 @@ def main():
     # Step 1: Prepare environment
     cfg = Config_env()
     prepare_env()
-    print("//////////////////////////////////////step1 done")
+    print("///////////////////////////////Partyroom STEP1////////////////////////////////////")
     # Step 2: Extract
     df = read_dataframes_partyroom(cfg)
     df.show()
-    print("//////////////////////////////////////step2 done")
+    print("///////////////////////////////Partyroom STEP2////////////////////////////////////")
     # Step 3: Transform
     df = drop_column_partyroom(df)
-    print("//////////////////////////////////////step3 done")
+    print("///////////////////////////////Partyroom STEP3////////////////////////////////////")
     # Step 4: Load
     write_to_data_warehouse(df=df, cfg=cfg)
-    print("//////////////////////////////////////step4 done")
+    print("///////////////////////////////Partyroom STEP4////////////////////////////////////")
 
 if __name__ == "__main__":
-    main()
+    import schedule,time
 
-    # import schedule,time
-
-    # schedule.every(1).minutes.do(main)
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
+    schedule.every(1).minutes.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
