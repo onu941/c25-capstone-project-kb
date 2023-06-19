@@ -11,7 +11,7 @@ export function DropdownInput(props: InputProps) {
     <div className="w-full">
       <select
         className="text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
-        defaultValue={props.placeholder}
+        defaultValue={""}
         value={props.value}
         onChange={props.onChange}
         {...props.register}
@@ -40,6 +40,7 @@ export function StandardInput(props: InputProps) {
           type={props.type}
           {...props.register}
           className={`text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-60 border-transparent`}
+          onChange={props.onChange}
         />
       </div>
     </div>
