@@ -1,11 +1,39 @@
 import { FormIconButton } from "../minicomponents/Buttons";
 import { FormHeader } from "../minicomponents/Headers";
-import { FormCategoryEquipmentProps, FormProps } from "../../app/interface";
+import {
+  CheckboxRefs,
+  FormCategoryEquipmentProps,
+  FormProps,
+} from "../../app/interface";
 import { StandardInput } from "../minicomponents/Inputs";
+import { useRef } from "react";
 
 export default function RoomFormCategoryEquipment(
   props: FormCategoryEquipmentProps
 ) {
+  const checkboxRefs: CheckboxRefs = {
+    General: useRef<HTMLInputElement>(null),
+    Dates: useRef<HTMLInputElement>(null),
+    Families: useRef<HTMLInputElement>(null),
+    Businesses: useRef<HTMLInputElement>(null),
+    Birthdays: useRef<HTMLInputElement>(null),
+    Weddings: useRef<HTMLInputElement>(null),
+    Mahjong: useRef<HTMLInputElement>(null),
+    BBQ: useRef<HTMLInputElement>(null),
+    Karaoke: useRef<HTMLInputElement>(null),
+    VideoGames: useRef<HTMLInputElement>(null),
+    BoardGames: useRef<HTMLInputElement>(null),
+    TV: useRef<HTMLInputElement>(null),
+  };
+
+  function handleIconButtonClick(name: string) {
+    if (checkboxRefs[name].current) {
+      checkboxRefs[name].current!.checked =
+        !checkboxRefs[name].current!.checked;
+    }
+    props.handleFormIconButton(name);
+  }
+
   return (
     <>
       <div>
@@ -14,7 +42,7 @@ export default function RoomFormCategoryEquipment(
           <div className="flex flex-col justify-center">
             <FormIconButton
               icon="general"
-              onClick={() => props.handleFormIconButton("General")}
+              onClick={() => handleIconButtonClick("General")}
               color={
                 props.activeIconButtons.General
                   ? "text-slate-300"
@@ -28,7 +56,7 @@ export default function RoomFormCategoryEquipment(
             />
             <FormIconButton
               icon="dates"
-              onClick={() => props.handleFormIconButton("Dates")}
+              onClick={() => handleIconButtonClick("Dates")}
               color={
                 props.activeIconButtons.Dates
                   ? "text-slate-300"
@@ -44,7 +72,7 @@ export default function RoomFormCategoryEquipment(
           <div className="flex flex-col justify-center">
             <FormIconButton
               icon="families"
-              onClick={() => props.handleFormIconButton("Families")}
+              onClick={() => handleIconButtonClick("Families")}
               color={
                 props.activeIconButtons.Families
                   ? "text-slate-300"
@@ -58,7 +86,7 @@ export default function RoomFormCategoryEquipment(
             />
             <FormIconButton
               icon="businesses"
-              onClick={() => props.handleFormIconButton("Businesses")}
+              onClick={() => handleIconButtonClick("Businesses")}
               color={
                 props.activeIconButtons.Businesses
                   ? "text-slate-300"
@@ -74,7 +102,7 @@ export default function RoomFormCategoryEquipment(
           <div className="flex flex-col justify-center">
             <FormIconButton
               icon="birthdays"
-              onClick={() => props.handleFormIconButton("Birthdays")}
+              onClick={() => handleIconButtonClick("Birthdays")}
               color={
                 props.activeIconButtons.Birthdays
                   ? "text-slate-300"
@@ -88,7 +116,7 @@ export default function RoomFormCategoryEquipment(
             />
             <FormIconButton
               icon="weddings"
-              onClick={() => props.handleFormIconButton("Weddings")}
+              onClick={() => handleIconButtonClick("Weddings")}
               color={
                 props.activeIconButtons.Weddings
                   ? "text-slate-300"
@@ -103,73 +131,74 @@ export default function RoomFormCategoryEquipment(
           </div>
         </div>
       </div>
-      <div id="hidden-category-inputs" hidden>
-        {props.activeIconButtons.General && (
-          <div>
-            <StandardInput
-              key="general"
-              defaultValue="general"
-              type="text"
-              {...props.register("category.0.name" as const)}
-              name="category.0.name"
+      <div id="hidden-category-inputs">
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">General</span>
+            <input
+              type="checkbox"
+              name="general"
+              className="checkbox"
+              ref={checkboxRefs.General}
+              value={1}
             />
-          </div>
-        )}
-        {props.activeIconButtons.Families && (
-          <div>
-            <StandardInput
-              key="families"
-              defaultValue="families"
-              type="text"
-              {...props.register("category.1.name" as const)}
-              name="category.1.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Families</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.Families}
+              value={2}
             />
-          </div>
-        )}
-        {props.activeIconButtons.Birthdays && (
-          <div>
-            <StandardInput
-              key="birthdays"
-              defaultValue="birthdays"
-              type="text"
-              {...props.register("category.2.name" as const)}
-              name="category.2.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Businesses</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.Businesses}
+              value={5}
             />
-          </div>
-        )}
-        {props.activeIconButtons.Dates && (
-          <div>
-            <StandardInput
-              key="dates"
-              defaultValue="dates"
-              type="text"
-              {...props.register("category.3.name" as const)}
-              name="category.3.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Dates</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.Dates}
+              value={4}
             />
-          </div>
-        )}
-        {props.activeIconButtons.Businesses && (
-          <div>
-            <StandardInput
-              key="businesses"
-              defaultValue="businesses"
-              type="text"
-              {...props.register("category.4.name" as const)}
-              name="category.4.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Birthdays</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.Birthdays}
+              value={3}
             />
-          </div>
-        )}
-        {props.activeIconButtons.Weddings && (
-          <div>
-            <StandardInput
-              key="weddings"
-              defaultValue="weddings"
-              type="text"
-              {...props.register("category.5.name" as const)}
-              name="category.5.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Weddings</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.Weddings}
+              value={6}
             />
-          </div>
-        )}
+          </label>
+        </div>
       </div>
       <FormHeader title="What are your partyroom's key items?" />
       <div
@@ -179,7 +208,7 @@ export default function RoomFormCategoryEquipment(
         <div className="w-full flex flex-col justify-center">
           <FormIconButton
             icon="mahjong"
-            onClick={() => props.handleFormIconButton("Mahjong")}
+            onClick={() => handleIconButtonClick("Mahjong")}
             color={
               props.activeIconButtons.Mahjong
                 ? "text-slate-300"
@@ -193,7 +222,7 @@ export default function RoomFormCategoryEquipment(
           />
           <FormIconButton
             icon="video_games"
-            onClick={() => props.handleFormIconButton("VideoGames")}
+            onClick={() => handleIconButtonClick("VideoGames")}
             color={
               props.activeIconButtons.VideoGames
                 ? "text-slate-300"
@@ -209,7 +238,7 @@ export default function RoomFormCategoryEquipment(
         <div className="w-full flex flex-col justify-center">
           <FormIconButton
             icon="bbq"
-            onClick={() => props.handleFormIconButton("BBQ")}
+            onClick={() => handleIconButtonClick("BBQ")}
             color={
               props.activeIconButtons.BBQ ? "text-slate-300" : "text-slate-600"
             }
@@ -219,7 +248,7 @@ export default function RoomFormCategoryEquipment(
           />
           <FormIconButton
             icon="board_games"
-            onClick={() => props.handleFormIconButton("BoardGames")}
+            onClick={() => handleIconButtonClick("BoardGames")}
             color={
               props.activeIconButtons.BoardGames
                 ? "text-slate-300"
@@ -235,7 +264,7 @@ export default function RoomFormCategoryEquipment(
         <div className="w-full flex flex-col justify-center">
           <FormIconButton
             icon="karaoke"
-            onClick={() => props.handleFormIconButton("Karaoke")}
+            onClick={() => handleIconButtonClick("Karaoke")}
             color={
               props.activeIconButtons.Karaoke
                 ? "text-slate-300"
@@ -249,7 +278,7 @@ export default function RoomFormCategoryEquipment(
           />
           <FormIconButton
             icon="tv"
-            onClick={() => props.handleFormIconButton("TV")}
+            onClick={() => handleIconButtonClick("TV")}
             color={
               props.activeIconButtons.TV ? "text-slate-300" : "text-slate-600"
             }
@@ -259,73 +288,74 @@ export default function RoomFormCategoryEquipment(
           />
         </div>
       </div>
-      <div id="hidden-equipment-inputs" hidden>
-        {props.activeIconButtons.Mahjong && (
-          <div>
-            <StandardInput
-              key="mahjong"
-              defaultValue="mahjong"
-              type="text"
-              {...props.register("equipment.0.name" as const)}
-              name="equipment.0.name"
+      <div id="hidden-equipment-inputs">
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Mahjong</span>
+            <input
+              type="checkbox"
+              name="general"
+              className="checkbox"
+              ref={checkboxRefs.Mahjong}
+              value={1}
             />
-          </div>
-        )}
-        {props.activeIconButtons.BBQ && (
-          <div>
-            <StandardInput
-              key="bbq"
-              defaultValue="bbq"
-              type="text"
-              {...props.register("equipment.1.name" as const)}
-              name="equipment.1.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">BBQ</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.BBQ}
+              value={2}
             />
-          </div>
-        )}
-        {props.activeIconButtons.Karaoke && (
-          <div>
-            <StandardInput
-              key="karaoke"
-              defaultValue="karaoke"
-              type="text"
-              {...props.register("equipment.2.name" as const)}
-              name="equipment.2.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Karaoke</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.Karaoke}
+              value={3}
             />
-          </div>
-        )}
-        {props.activeIconButtons.VideoGames && (
-          <div>
-            <StandardInput
-              key="videogames"
-              defaultValue="video games"
-              type="text"
-              {...props.register("equipment.3.name" as const)}
-              name="equipment.3.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Video Games</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.VideoGames}
+              value={4}
             />
-          </div>
-        )}
-        {props.activeIconButtons.BoardGames && (
-          <div>
-            <StandardInput
-              key="boardgames"
-              defaultValue="board games"
-              type="text"
-              {...props.register("equipment.4.name" as const)}
-              name="equipment.4.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Board Games</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.BoardGames}
+              value={5}
             />
-          </div>
-        )}
-        {props.activeIconButtons.TV && (
-          <div>
-            <StandardInput
-              key="tv"
-              defaultValue="tv"
-              type="text"
-              {...props.register("equipment.5.name" as const)}
-              name="equipment.5.name"
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer">
+            <span className="label-text">Streaming</span>
+            <input
+              type="checkbox"
+              className="checkbox"
+              ref={checkboxRefs.TV}
+              value={6}
             />
-          </div>
-        )}
+          </label>
+        </div>
       </div>
     </>
   );
