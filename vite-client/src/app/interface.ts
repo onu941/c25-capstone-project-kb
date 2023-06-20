@@ -5,10 +5,15 @@ import {
   UseFormRegisterReturn,
 } from "react-hook-form";
 import { SubmitRoomFormState } from "../pages/SubmitRoom";
+import { PriceList } from "../components/form/RoomFormPricing";
 
 // ************************ //
 // minicomponents interface //
 // ************************ //
+
+export interface PriceListTableProps {
+  data: PriceList[];
+}
 
 export interface ButtonProps {
   label?: string;

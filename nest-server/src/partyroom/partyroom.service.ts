@@ -100,18 +100,23 @@ export class PartyroomService {
     }
   }
 
-  async findAllImagesForOne(id: number) {
-    if (!id) {
-      throw new NotFoundException('No images for the given partyroom ID');
-    }
+  async findPriceListsForOne(id: number) {
+    try {
+      const query = await this.knex
+        .select(
+          'partyroom_price_list.headcount_price',
+          'partyroom_price_list.is_holiday',
+          'partyroom_price_list.start_time',
+          'partyroom_price_list.total_hour',
+          'partyroom_price_list.base_room_fee',
+        )
+        .from('partyroom_price_list')
+        .where('partyroom_price_list.partyroom_id', id);
 
-    const partyroomImages = await this.knex
-      .select('image.filename')
-      .from('partyroom_image')
-      .join('image', 'partyroom_image.image_id', '=', 'image.id')
-      .where('partyroom_image.partyroom_id', id)
-      .orderBy('partyroom_image.id', 'asc');
-    return partyroomImages;
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async findImagesOnNest(id: number) {
@@ -126,7 +131,6 @@ export class PartyroomService {
       .where('partyroom_image.partyroom_id', id)
       .orderBy('partyroom_image.id', 'asc');
 
-    console.log('partyroom service sql query:', query);
     return query;
   }
 
