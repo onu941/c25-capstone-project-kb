@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   BadRequestException,
   UseGuards,
 } from '@nestjs/common';
@@ -22,15 +23,6 @@ export class PartyroomController {
     private partyroomService: PartyroomService,
     private authService: AuthService,
   ) {}
-
-  // @Post()
-  // async create(
-  //   @Body(new ValidationPipe()) createPartyroomDto: CreatePartyroomDto,
-  // ) {
-  //   return {
-  //     id: await this.partyroomService.create(createPartyroomDto),
-  //   };
-  // }
 
   @Get('/district')
   async findAllDistricts() {
@@ -78,34 +70,15 @@ export class PartyroomController {
     return reviews;
   }
 
-  @Get('/user/:id')
+  // issue
+  @Get('/user')
   @UseGuards(AuthGuard('jwt'))
-  async findByUserIdforSettings(@Param('id') id: number) {
-    if (!id) {
-      throw new BadRequestException('invalid id in params, expect integer');
-    }
-
-    const partyrooms = await this.partyroomService.findByUserIdforSettings(id);
-    return partyrooms;
+  async findByUserIdforSettings(@Request() req: Express.Request) {
+    return this.partyroomService.findByUserIdforSettings(req.user['id']);
   }
 
   @Post('/search')
   async searchByDistrict(@Body('districtId') districtId: number) {
     return await this.partyroomService.searchByDistrict(districtId);
   }
-
-  //   @Delete(':id')
-  //   async remove(@Param('id') id: string) {
-  //     await this.partyroomService.remove(+id);
-  //     return { message: `Partyroom with ID ${id} removed` };
-  //   }
-
-  //   @Patch(':id')
-  //   async update(
-  //     @Param('id') id: string,
-  //     @Body(new ValidationPipe()) updatePartyroomDto: UpdatePartyroomDto,
-  //   ) {
-  //     await this.partyroomService.update(+id, updatePartyroomDto);
-  //     return { message: `Partyroom with ID ${id} updated` };
-  //   }
 }
