@@ -93,6 +93,7 @@ export interface InputProps {
   step?: number | string;
   max?: number | string;
   min?: number | string;
+  hasExtras?: boolean;
 }
 
 export interface HeaderProps {
@@ -101,10 +102,6 @@ export interface HeaderProps {
   toggleSidebar?: () => void;
   handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   rating?: string;
-}
-
-export interface BookingModalProps {
-  toggleModal: () => void;
 }
 
 export interface SidebarProps {

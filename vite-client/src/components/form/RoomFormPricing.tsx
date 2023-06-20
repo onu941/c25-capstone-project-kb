@@ -10,7 +10,7 @@ export interface PriceList {
   base_room_fee: number;
   headcount_price: number;
   start_time: string;
-  total_hours: number;
+  total_hour: number;
   is_holiday: boolean;
 }
 
@@ -132,7 +132,7 @@ export default function RoomFormPricing({
                 defaultValue={6}
                 onChange={(e) =>
                   setFieldsValues(
-                    "total_hours",
+                    "total_hour",
                     listIndex,
                     parseInt(e.target.value)
                   )
