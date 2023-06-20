@@ -66,7 +66,6 @@ export default function Partyroom() {
   const roomImageDirectory = "../../public/img/room/";
   const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
   const [mainRoomImage, setMainRoomImage] = useState<string>("");
-
   const [isLoading, setIsLoading] = useState(true);
 
   const toggleSidebar = () => {
@@ -167,9 +166,26 @@ export default function Partyroom() {
       }));
     };
 
-    const fetchPartyroomImages = async () => {
+    // const fetchPartyroomImages = async () => {
+    //   const response = await fetch(
+    //     `${import.meta.env.VITE_API_SERVER}/partyroom/images/${partyroomId}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         "Content-Type": "application/json",
+    //       },
+    //     }
+    //   );
+
+    //   const images = await response.json();
+    //   console.log("images[0].filename", images[0].filename);
+    //   setMainRoomImage(images[0].filename);
+    //   setRoomImages(images);
+    // };
+
+    const newFetchPartyroomImages = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/partyroom/images/${partyroomId}`,
+        `${import.meta.env.VITE_API_SERVER}/partyroom/img/${partyroomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -179,7 +195,11 @@ export default function Partyroom() {
       );
 
       const images = await response.json();
-      console.log("images[0].filename", images[0].filename);
+      console.log("new img route:", images);
+      console.log(
+        "new images[0].filename.filename",
+        images[0].filename.filename
+      );
       setMainRoomImage(images[0].filename);
       setRoomImages(images);
     };
@@ -218,7 +238,7 @@ export default function Partyroom() {
       await fetchPartyroomDetails();
       await fetchCategories();
       await fetchEquipment();
-      await fetchPartyroomImages();
+      await newFetchPartyroomImages();
       // await fetchPartyroomPriceLists();
       await fetchPartyroomReviews();
 
@@ -230,6 +250,9 @@ export default function Partyroom() {
   if (isLoading) {
     return <div>Is Loading..</div>;
   }
+
+  console.log("mainroomimage:", mainRoomImage);
+  console.log("images", roomImages);
 
   return (
     <>
@@ -296,15 +319,19 @@ export default function Partyroom() {
             <div className="col-span-2 flex flex-wrap justify-center">
               <div className="w-4/5">
                 <img
-                  src={roomImageDirectory + mainRoomImage}
+                  src={`${
+                    import.meta.env.VITE_API_SERVER
+                  }/rooms/${mainRoomImage}`}
                   className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl object-fill"
                 ></img>
               </div>
               <div className="w-4/5 mt-3 border-solid rounded-lg border-2 border-slate-700 border-opacity-30 px-0 bg-slate-800 bg-opacity-10 w-fill flex place-items-center place-content-start">
                 {roomImages.map((roomImage, index) => (
                   <img
-                    src={roomImageDirectory + roomImage.filename}
-                    className="h-20 p-1"
+                    src={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                      roomImage.filename
+                    }`}
+                    className="h-20 p-1 object-scale-down"
                     onClick={() => handleRoomImageRollClick(index)}
                   ></img>
                 ))}

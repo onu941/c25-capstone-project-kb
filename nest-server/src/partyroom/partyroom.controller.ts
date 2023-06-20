@@ -16,6 +16,8 @@ import { UpdatePartyroomDto } from './dto/update-partyroom.dto';
 import { ValidationPipe } from 'src/validation/validation.pipe';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { readdirSync } from 'fs';
+import path from 'path';
 
 @Controller('partyroom')
 export class PartyroomController {
@@ -57,6 +59,17 @@ export class PartyroomController {
   @Get('/images/:id')
   async findAllImagesForOne(@Param('id') id: number) {
     return this.partyroomService.findAllImagesForOne(id);
+  }
+
+  @Get('/img/:id')
+  async findImagesOnNest(@Param('id') id: number) {
+    const serveQuery = await this.partyroomService.findImagesOnNest(id);
+
+    const imageUrls = serveQuery.map((filename) => {
+      return filename;
+    });
+
+    return imageUrls;
   }
 
   @Get('/reviews/:id')
