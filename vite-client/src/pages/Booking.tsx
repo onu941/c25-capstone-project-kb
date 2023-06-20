@@ -266,13 +266,15 @@ export default function Booking() {
   };
 
   const handleGuestCancel = () => {
-    const emailAddress = "admin@partymate.io";
-    const mailtoLink = `mailto:${emailAddress}`;
+    const whatsAppLink = `https://wa.me/${bookingDetails.phone}`;
     toast(
-      <a href={mailtoLink}>
-        Please contact <span className="underline">{emailAddress}</span>
-      </a>,
-      { icon: "📬" }
+      <span className="text-gray-600">
+        Please contact the host @{" "}
+        <a href={whatsAppLink} className="underline">
+          {bookingDetails.phone}
+        </a>
+      </span>,
+      { icon: "📱" }
     );
   };
 

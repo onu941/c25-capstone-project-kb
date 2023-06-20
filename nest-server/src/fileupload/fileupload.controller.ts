@@ -7,27 +7,32 @@ import {
   BadRequestException,
   UseGuards,
 } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { SubmitRoomDto } from './dto/submit-room.dto';
+import {
+  AnyFilesInterceptor,
+  FileFieldsInterceptor,
+  FilesInterceptor,
+} from '@nestjs/platform-express';
+import { SubmitRawRoomDto, SubmitRoomDto } from './dto/submit-room.dto';
 import { FileUploadService } from './fileupload.service';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('fileupload')
+@Controller('upload')
 @UseGuards(AuthGuard('jwt'))
 export class FileUploadController {
   constructor(private readonly fileUploadService: FileUploadService) {}
 
   @Post('/submit_room')
   @UseInterceptors(
-    FilesInterceptor('images', 5, {
+    AnyFilesInterceptor({
       storage: diskStorage({
-        destination: './uploads',
+        destination: './uploads/rooms',
         filename: (req, file, callback) => {
           const uniqueSuffix =
             Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const generatedFilename = `${file.fieldname}-${uniqueSuffix}${extname(
+          const originalNameNoExt = file.originalname.replace(/\.[^/.]+$/, '');
+          const generatedFilename = `${originalNameNoExt}-${uniqueSuffix}${extname(
             file.originalname,
           )}`;
           callback(null, generatedFilename);
@@ -41,13 +46,33 @@ export class FileUploadController {
           callback(new BadRequestException('Unsupported file type'), false);
         }
       },
+      limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB
+      },
     }),
   )
   async uploadFiles(
-    @UploadedFiles() files: Array<Express.Multer.File>,
-    @Body() formData: SubmitRoomDto,
+    @UploadedFiles() imgFiles: Array<Express.Multer.File>,
+    @Body() formData: SubmitRawRoomDto,
   ) {
-    await this.fileUploadService.uploadFiles(files, formData);
+    const imgFilenameArr = imgFiles.map((img) => img.filename);
+
+    const treatedFormData: SubmitRoomDto = {
+      name: formData.name,
+      host_id: parseInt(formData.host_id),
+      address: formData.address,
+      capacity: parseInt(formData.capacity),
+      district_id: parseInt(formData.district),
+      room_size: parseInt(formData.room_size),
+      phone: parseInt(formData.phone),
+      description: formData.description,
+      is_hidden: formData.is_hidden === 'true',
+      category_id: JSON.parse(formData.category_id),
+      equipment_id: JSON.parse(formData.equipment_id),
+      price_list: JSON.parse(formData.price_list),
+      images: imgFilenameArr,
+    };
+    await this.fileUploadService.uploadFiles(treatedFormData);
     return { message: 'Partyroom successfully uploaded' };
   }
 }

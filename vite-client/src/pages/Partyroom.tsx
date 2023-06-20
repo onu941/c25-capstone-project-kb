@@ -60,6 +60,7 @@ export default function Partyroom() {
     image_filename: "",
   });
   const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [priceLists, setPriceLists] = useState<any>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
 
   const roomImageDirectory = "../../public/img/room/";
@@ -183,6 +184,21 @@ export default function Partyroom() {
       setRoomImages(images);
     };
 
+    const fetchPartyroomPriceLists = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVEr}/partyroom/pricelist/${partyroomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const priceListsData = await response.json();
+      setPriceLists(priceListsData);
+    };
+
     const fetchPartyroomReviews = async () => {
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/partyroom/reviews/${partyroomId}`,
@@ -203,6 +219,7 @@ export default function Partyroom() {
       await fetchCategories();
       await fetchEquipment();
       await fetchPartyroomImages();
+      // await fetchPartyroomPriceLists();
       await fetchPartyroomReviews();
 
       setIsLoading(false);
@@ -553,6 +570,10 @@ export default function Partyroom() {
             <div className="border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center flex text-slate-300 h-fill ms-8 text-lg leading-relaxed italic">
               <p>{`"${partyroom.description}"`}</p>
             </div>
+          </div>
+          <div className="mb-8 flex flex-row flex-wrap">
+            <BodyHeader title="Price Lists" />
+            <div></div>
           </div>
           <div className="mb-48">
             <BodyHeader title="Reviews"></BodyHeader>
