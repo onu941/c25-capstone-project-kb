@@ -4,6 +4,7 @@ import {
   UseFormRegister,
   UseFormRegisterReturn,
 } from "react-hook-form";
+import { SubmitRoomFormState } from "../pages/SubmitRoom";
 
 // ************************ //
 // minicomponents interface //
@@ -18,6 +19,10 @@ export interface ButtonProps {
   spanClassName?: string;
   icon?: string;
   disabled?: boolean;
+}
+
+export interface FormIconButtonProps extends ButtonProps {
+  selected: boolean;
 }
 
 export interface SettingsTabButtonProps {
@@ -129,17 +134,17 @@ export interface FormProps {
   register: UseFormRegister<SubmitRoomFormState>;
   handleNameInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   dropdownOptions?: any[];
-  priceLists?: number[];
+  priceListIndex?: any[];
   addPriceList?: () => void;
 }
 
 export interface FormCategoryEquipmentProps extends FormProps {
-  activeIconButtons: { [key: string]: boolean };
+  activeIconButtons: number[];
   handleFormIconButton: (iconType: string) => void;
-}
-
-export interface FormPricingProps extends FormProps {
-  removePriceList: (index: number) => void;
+  selectedCategory: number[];
+  setSelectedCategory(selected: number[]): void;
+  selectedEquipment: number[];
+  setSelectedEquipment(selected: number[]): void;
 }
 
 export interface FormImageProps extends FormProps {
@@ -151,19 +156,19 @@ export interface FormImageProps extends FormProps {
   handleDeleteImage: (index: number) => void;
 }
 
-export interface Form1Props {
-  register: UseFormRegister<NewRoomFormState>;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  equipmentFields: EquipmentField[];
-  categoryFields: CategoryField[];
-  handleDelete: (id: number) => void;
-  handleAddMoreEquipment: () => void;
-  handleAddMoreCategories: () => void;
-  handleDeleteCategories: (id: number) => void;
-  activeIconButtons: { [key: string]: boolean };
-  handleFormIconButton: (iconType: string) => void;
-  color?: string;
-}
+// export interface Form1Props {
+//   register: UseFormRegister<NewRoomFormState>;
+//   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+//   equipmentFields: EquipmentField[];
+//   categoryFields: CategoryField[];
+//   handleDelete: (id: number) => void;
+//   handleAddMoreEquipment: () => void;
+//   handleAddMoreCategories: () => void;
+//   handleDeleteCategories: (id: number) => void;
+//   activeIconButtons: { [key: string]: boolean };
+//   handleFormIconButton: (iconType: string) => void;
+//   color?: string;
+// }
 
 export interface Form2Props {
   isSelected?: string;
@@ -219,51 +224,20 @@ export interface SignupProps {
 // form interface //
 // ************** //
 
-export interface EquipmentField {
-  id: number;
-  name: string;
-}
+// export interface ActiveIconButtons {
+//   [key: string]: boolean;
+// }
 
-export interface CategoryField {
-  id: number;
-  name: string;
-}
-
-export interface ActiveIconButtons {
-  [key: string]: boolean;
-}
-
-export interface NewRoomFormState {
-  name: string;
-  room_size: number;
-  capacity: number;
-  address: string;
-  district: string;
-  equipment: EquipmentField[];
-  category: CategoryField[];
-  description: string;
-}
-
-export interface SubmitRoomFormState {
-  name: string;
-  room_size: number;
-  capacity: number;
-  address: string;
-  district: string;
-  equipment: EquipmentField[];
-  category: CategoryField[];
-  description: string;
-  image: PartyroomImage[];
-  price_list: PriceList[];
-}
-
-export interface PriceList {
-  base_room_fee: number;
-  headcount: number;
-  start_time: string;
-  total_hours: number;
-  is_holiday: boolean;
-}
+// export interface NewRoomFormState {
+//   name: string;
+//   room_size: number;
+//   capacity: number;
+//   address: string;
+//   district: string;
+//   equipment: EquipmentField[];
+//   category: CategoryField[];
+//   description: string;
+// }
 
 export interface ReviewFormData {
   detail: string;

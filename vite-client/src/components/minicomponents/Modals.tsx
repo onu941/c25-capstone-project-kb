@@ -16,15 +16,15 @@ export function BookingModal(props: BookingModalProps) {
         <div className="h-96 overflow-auto">
           <form>
             <p className="text-lg mt-3 mb-6 font-semibold">Booking Details</p>
-            <p className="text-sm ms-2">how many people?</p>
+            <p className="text-sm">How many partygoers?</p>
             <StandardInput type="number" name="headcount" defaultValue={6} />
-            <p className="text-sm ms-2">what date?</p>
+            <p className="text-sm">What date?</p>
             <StandardInput
               type="date"
               name="booking_date"
               placeholder="what date??"
             />
-            <p className="text-sm ms-2">what time?</p>
+            <p className="text-sm">What time?</p>
             <StandardInput
               type="time"
               name="start_time"
@@ -32,10 +32,10 @@ export function BookingModal(props: BookingModalProps) {
               min="10:00:00"
               max="18:00:00"
             />
-            <p className="text-sm ms-2">for how long (hours)?</p>
+            <p className="text-sm">For how long (hours)?</p>
             <StandardInput type="number" defaultValue={4} />
             <div className="my-6">
-              <TextArea placeholder="any special requests?" />
+              <TextArea placeholder="Please note down any special requests" />
             </div>
             <div className="mt-6">
               <p className="text-center">
