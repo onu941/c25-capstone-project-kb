@@ -265,6 +265,17 @@ export default function Booking() {
     }
   };
 
+  const handleGuestCancel = () => {
+    const emailAddress = "admin@partymate.io";
+    const mailtoLink = `mailto:${emailAddress}`;
+    toast(
+      <a href={mailtoLink}>
+        Please contact <span className="underline">{emailAddress}</span>
+      </a>,
+      { icon: "📬" }
+    );
+  };
+
   return (
     <>
       <div>
@@ -287,7 +298,10 @@ export default function Booking() {
               <span className="text-slate-100">{bookingDetails.status}</span>
             </span>
             {!showTimeSensitiveSection && viewMode === "partygoer" && (
-              <DangerButton label="Cancel Booking" />
+              <DangerButton
+                onClick={() => handleGuestCancel()}
+                label="Cancel Booking"
+              />
             )}
           </div>
           <div
