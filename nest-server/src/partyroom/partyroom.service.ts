@@ -8,22 +8,12 @@ import { UpdatePartyroomDto } from './dto/update-partyroom.dto';
 import { Partyroom } from './entities/partyroom.entity';
 import { InjectKnex } from 'nestjs-knex';
 import { Knex } from 'knex';
+import { readdirSync } from 'fs';
+import { match } from 'assert';
 
 @Injectable()
 export class PartyroomService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
-
-  // async create(createPartyroomDto: CreatePartyroomDto) {
-  //   let id =
-  //     this.partyrooms.reduce((id, partyroom) => Math.max(id, partyroom.id), 0) +
-  //     1;
-  //   this.partyrooms[id] = {
-  //     id,
-  //     title: createPartyroomDto.title,
-  //     price: createPartyroomDto.price,
-  //   };
-  //   return id;
-  // }
 
   async findRandomForLanding() {
     const query = await this.knex('partyroom')
@@ -110,18 +100,38 @@ export class PartyroomService {
     }
   }
 
-  async findAllImagesForOne(id: number) {
+  async findPriceListsForOne(id: number) {
+    try {
+      const query = await this.knex
+        .select(
+          'partyroom_price_list.headcount_price',
+          'partyroom_price_list.is_holiday',
+          'partyroom_price_list.start_time',
+          'partyroom_price_list.total_hour',
+          'partyroom_price_list.base_room_fee',
+        )
+        .from('partyroom_price_list')
+        .where('partyroom_price_list.partyroom_id', id);
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async findImagesOnNest(id: number) {
     if (!id) {
-      throw new NotFoundException('No images for the given partyroom ID');
+      throw new NotFoundException('No images found for this partyroom');
     }
 
-    const partyroomImages = await this.knex
+    const query = await this.knex
       .select('image.filename')
       .from('partyroom_image')
       .join('image', 'partyroom_image.image_id', '=', 'image.id')
       .where('partyroom_image.partyroom_id', id)
       .orderBy('partyroom_image.id', 'asc');
-    return partyroomImages;
+
+    return query;
   }
 
   async findByUserIdforSettings(id: number) {
@@ -203,20 +213,4 @@ export class PartyroomService {
       console.log(error);
     }
   }
-
-  // async update(id: number, updatePartyroomDto: UpdatePartyroomDto) {
-  //   let partyroom = await this.findOne(id);
-  //   if ('price' in updatePartyroomDto) {
-  //     partyroom.price = updatePartyroomDto.price;
-  //   }
-  //   if ('title' in updatePartyroomDto) {
-  //     partyroom.title = updatePartyroomDto.title;
-  //   }
-  //   return `updated`;
-  // }
-
-  // async remove(id: number) {
-  //   delete this.partyrooms[id];
-  //   return `deleted`;
-  // }
 }

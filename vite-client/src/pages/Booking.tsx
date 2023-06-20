@@ -16,7 +16,6 @@ import {
 } from "../components/minicomponents/Cards";
 import { TextArea } from "../components/minicomponents/Inputs";
 import { Toaster, toast } from "react-hot-toast";
-import sample from "../../public/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { Booking as BookingType, ReviewFormData } from "../app/interface";
@@ -47,7 +46,7 @@ export default function Booking() {
     status: "",
     special_request: "",
     partyroom_id: NaN,
-    image_filename: "",
+    filename: "",
   });
 
   const initialReviewFormData: ReviewFormData = {
@@ -266,15 +265,20 @@ export default function Booking() {
   };
 
   const handleGuestCancel = () => {
-    const emailAddress = "admin@partymate.io";
-    const mailtoLink = `mailto:${emailAddress}`;
+    const whatsAppLink = `https://wa.me/${bookingDetails.phone}`;
     toast(
-      <a href={mailtoLink}>
-        Please contact <span className="underline">{emailAddress}</span>
-      </a>,
-      { icon: "📬" }
+      <span className="text-gray-600">
+        Please contact the host @{" "}
+        <a href={whatsAppLink} className="underline">
+          {bookingDetails.phone}
+        </a>
+      </span>,
+      { icon: "📱" }
     );
   };
+
+  console.log("whole thing:", bookingDetails);
+  console.log("finding img url:", bookingDetails.filename);
 
   return (
     <>
@@ -310,7 +314,9 @@ export default function Booking() {
             } columns-2 gap-8`}
           >
             <BookingCardLarge
-              image={sample}
+              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                bookingDetails.filename
+              }`}
               onClick={() =>
                 navigate(`/partyroom?room_id=${bookingDetails.partyroom_id}`)
               }

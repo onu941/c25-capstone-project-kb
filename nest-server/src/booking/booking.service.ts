@@ -95,6 +95,7 @@ export class BookingService {
           'partyroom.address',
           'users.name AS person_name',
           'users.phone',
+          'image.filename',
         )
         .from('booking_info')
         .join(
@@ -110,6 +111,13 @@ export class BookingService {
           'partyroom.id',
         )
         .join('users', 'booking_info.booking_users_id', '=', 'users.id')
+        .join(
+          'partyroom_image',
+          'partyroom.id',
+          '=',
+          'partyroom_image.partyroom_id',
+        )
+        .join('image', 'partyroom_image.image_id', 'image.id')
         .where('booking_info.id', id);
 
       return query;
@@ -134,6 +142,7 @@ export class BookingService {
           'partyroom.phone',
           'partyroom.address',
           'users.name AS person_name',
+          'image.filename',
         )
         .from('booking_info')
         .join(
@@ -149,6 +158,13 @@ export class BookingService {
           'partyroom.id',
         )
         .join('users', 'partyroom.host_id', '=', 'users.id')
+        .join(
+          'partyroom_image',
+          'partyroom.id',
+          '=',
+          'partyroom_image.partyroom_id',
+        )
+        .join('image', 'partyroom_image.image_id', 'image.id')
         .where('booking_info.id', id);
 
       return query;

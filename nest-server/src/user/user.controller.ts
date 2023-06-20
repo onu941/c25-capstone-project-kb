@@ -55,6 +55,12 @@ export class UserController {
     return { user };
   }
 
+  @Get('/phone')
+  @UseGuards(AuthGuard('jwt'))
+  async getUserPhone(@Request() req: Express.Request) {
+    return await this.userService.getUserPhone(req.user['id']);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   async updateUser(

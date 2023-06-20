@@ -113,6 +113,15 @@ export class UserService {
     return user;
   }
 
+  async getUserPhone(id: number) {
+    const phone = await this.knex.table('users').where({ id }).first(['phone']);
+    if (!phone) {
+      throw new NotFoundException('No such user or phone number');
+    }
+
+    return phone;
+  }
+
   async updateUser(id: number, updateUserDto: UpdateUserDto) {
     let user = await this.getUserById(id);
     if ('name' in updateUserDto) {
