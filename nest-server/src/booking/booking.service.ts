@@ -167,7 +167,6 @@ export class BookingService {
         .join('image', 'partyroom_image.image_id', 'image.id')
         .where('booking_info.id', id);
 
-      console.log('from booking service query:', query);
       return query;
     } catch (error) {
       console.log(error);
