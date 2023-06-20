@@ -83,11 +83,9 @@ console.log(
 // minute integer
 // AMPM string
 
-const AMPM = ["morning", "afternoon", "evening", "midnight"];
-const AMPMChance = [0.04, 0.32, 0.48, 0.16];
 
 console.log(
-"AMPM:",chance.weighted(AMPM, AMPMChance),
+"AMPM:",chance.weighted(["morning", "afternoon", "evening", "midnight"], [0.04, 0.32, 0.48, 0.16]),
 )
 
 // dim_users
@@ -111,12 +109,9 @@ console.log(
 // district varchar(255)
 // capacity integer
 
-const district = ["Wan Chai","Kwun Tong","Yau Tsim Mong","Kwai Tsing","Tsuen Wan","Tuen Mun"];
-const districtChance = [0.06, 0.29, 0.42, 0.1, 0.09, 0.04];
-
 console.log(
 "host_users_id:",chance.integer({ min: 10000, max: 10192 }),
-"district:",chance.weighted(district, districtChance),
+"district:",chance.weighted(["Wan Chai","Kwun Tong","Yau Tsim Mong","Kwai Tsing","Tsuen Wan","Tuen Mun"], [0.06, 0.29, 0.42, 0.1, 0.09, 0.04]),
 "capacity:",chance.integer({ min: 1, max: 20 })
 )
 
@@ -137,10 +132,9 @@ console.log(
 // -------
 // id integer PK
 // name varchar(255)
-const equipment = ["mahjong","bbq","karaoke","video games","board games","tv"]
-const equipmentChance = [0.15,0.05,0.25,0.1,0.3,0.15]
+
 console.log(
-"equipment:",chance.weighted(equipment,equipmentChance)
+"equipment:",chance.weighted(["mahjong","bbq","karaoke","video games","board games","tv"],[0.15,0.05,0.25,0.1,0.3,0.15])
 )
 
 // dim_partyroom_category
@@ -159,10 +153,9 @@ console.log(
 // -------
 // id integer PK
 // name varchar(255)
-const category = ["general","families","birthdays","dates","business","weddings"]
-const categoryChance = [0.2,0.2,0.2,0.2,0.05,0.15]
+
 console.log(
-"category:",chance.weighted(category,categoryChance)
+"category:",chance.weighted(["general","families","birthdays","dates","business","weddings"],[0.2,0.2,0.2,0.2,0.05,0.15])
 )
 
 // fact_partyroom_register

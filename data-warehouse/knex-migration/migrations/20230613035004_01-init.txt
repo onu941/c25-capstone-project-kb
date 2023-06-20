@@ -132,8 +132,8 @@ updated_at datetime
 staging_users_register
 --------------------------
 id integer PK
-booking_users_source varchar(255)
-booking_users_promotion varchar(255)
+users_source varchar(255)
+users_promotion varchar(255)
 created_at datetime
 updated_at datetime
 
@@ -144,6 +144,7 @@ avg_rating decimal(3,1)
 host_users_id integer
 district varchar(255)
 capacity integer
+base_room_fee integer
 partyroom_source varchar(255)
 partyroom_start_date datetime
 partyroom_end_date datetime
@@ -153,6 +154,13 @@ category_end_date varchar(255)
 equipment_name
 equipment_start_date varchar(255)
 equipment_end_date varchar(255)
+price_list_start_date varchar(255)
+price_list_end_date varchar(255)
+headcount_price decimal(4,1)
+is_holiday boolean
+start_time datetime
+ampm varchar(255)
+total_hour integer
 created_at datetime
 updated_at datetime
 
@@ -162,7 +170,7 @@ updated_at datetime
 # dim_time (362, 183)
 # dim_users (957, 27)
 # dim_partyroom (1032, 358)
-# view: (-62, 22)
+# view: (-36, 29)
 # fact_registered_partyroom (1059, 509)
 # fact_registered_users (944, 119)
 # zoom: 0.346
@@ -174,3 +182,4 @@ updated_at datetime
 # staging_booking (270, 296)
 # staging_users_register (982, 694)
 # staging_partyroom_register (666, 533)
+# partyroom_price_list (1128, 190)
