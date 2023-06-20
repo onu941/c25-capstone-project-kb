@@ -2,7 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { FullScreen } from "./components/minicomponents/Containers";
 import HandleUser from "./pages/HandleUser";
 import { Search } from "./pages/Search";
-import NewRoom from "./pages/NewRoom";
 import { Dashboard } from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import Booking from "./pages/Booking";
@@ -24,7 +23,6 @@ function App() {
           <Route path="/test" element={<Test />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/submit_room" element={<SubmitRoom />} />
-          <Route path="/new_room" element={<NewRoom />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/booking" element={<Booking />} />
