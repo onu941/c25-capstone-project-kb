@@ -90,6 +90,22 @@ export function MiniInput(props: InputProps) {
 }
 
 export function TextArea(props: InputProps) {
+  if (!!props.handleReviewDetailInputChange) {
+    return (
+      <textarea
+        className={`${
+          props.isReadOnly ? "read-only" : ""
+        }dark:bg-transparent dark:text-slate-300 rounded-lg h-32 w-full`}
+        placeholder={props.placeholder}
+        maxLength={150}
+        name={props.name}
+        value={props.value}
+        onChange={props.handleReviewDetailInputChange}
+        disabled={props.isDisabled}
+        readOnly={props.isReadOnly}
+      ></textarea>
+    );
+  }
   return (
     <textarea
       className={`${
@@ -98,9 +114,9 @@ export function TextArea(props: InputProps) {
       placeholder={props.placeholder}
       maxLength={150}
       name={props.name}
-      value={props.value}
+      // value={props.value}
       {...props.register}
-      onChange={props.handleReviewDetailInputChange}
+      // onChange={props.handleReviewDetailInputChange}
       disabled={props.isDisabled}
       readOnly={props.isReadOnly}
     ></textarea>

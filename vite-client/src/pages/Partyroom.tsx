@@ -34,12 +34,15 @@ import {
 } from "../app/interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import {
+  PriceListTable,
+  NewPriceListTable,
+} from "../components/minicomponents/Table";
 
 export default function Partyroom() {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
-
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -60,12 +63,10 @@ export default function Partyroom() {
     image_filename: "",
   });
   const [isOwner, setIsOwner] = useState<boolean>(false);
+  const [priceLists, setPriceLists] = useState<any>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
-
-  const roomImageDirectory = "../../public/img/room/";
   const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
   const [mainRoomImage, setMainRoomImage] = useState<string>("");
-
   const [isLoading, setIsLoading] = useState(true);
 
   const toggleSidebar = () => {
@@ -168,7 +169,7 @@ export default function Partyroom() {
 
     const fetchPartyroomImages = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/partyroom/images/${partyroomId}`,
+        `${import.meta.env.VITE_API_SERVER}/partyroom/img/${partyroomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -178,9 +179,24 @@ export default function Partyroom() {
       );
 
       const images = await response.json();
-      console.log("images[0].filename", images[0].filename);
       setMainRoomImage(images[0].filename);
       setRoomImages(images);
+    };
+
+    const fetchPartyroomPriceLists = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/partyroom/pricelist/${partyroomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const priceListsData = await response.json();
+      console.log("checking price list data:", priceListsData);
+      setPriceLists(priceListsData);
     };
 
     const fetchPartyroomReviews = async () => {
@@ -203,6 +219,7 @@ export default function Partyroom() {
       await fetchCategories();
       await fetchEquipment();
       await fetchPartyroomImages();
+      await fetchPartyroomPriceLists();
       await fetchPartyroomReviews();
 
       setIsLoading(false);
@@ -279,15 +296,19 @@ export default function Partyroom() {
             <div className="col-span-2 flex flex-wrap justify-center">
               <div className="w-4/5">
                 <img
-                  src={roomImageDirectory + mainRoomImage}
+                  src={`${
+                    import.meta.env.VITE_API_SERVER
+                  }/rooms/${mainRoomImage}`}
                   className="rounded-lg border-solid border-2 border-slate-700 drop-shaadow-xl object-fill"
                 ></img>
               </div>
               <div className="w-4/5 mt-3 border-solid rounded-lg border-2 border-slate-700 border-opacity-30 px-0 bg-slate-800 bg-opacity-10 w-fill flex place-items-center place-content-start">
                 {roomImages.map((roomImage, index) => (
                   <img
-                    src={roomImageDirectory + roomImage.filename}
-                    className="h-20 p-1"
+                    src={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                      roomImage.filename
+                    }`}
+                    className="h-20 p-1 object-scale-down"
                     onClick={() => handleRoomImageRollClick(index)}
                   ></img>
                 ))}
@@ -550,9 +571,16 @@ export default function Partyroom() {
                 whatsAppUrl={`https://wa.me/${partyroom.phone}`}
               />
             </div>
-            <div className="border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center flex text-slate-300 h-fill ms-8 text-lg leading-relaxed italic">
+            <div className="border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center flex text-slate-300 h-fill ms-8 text-lg leading-relaxed italic w-full">
               <p>{`"${partyroom.description}"`}</p>
             </div>
+          </div>
+          <div className="mb-8 flex flex-col flex-wrap">
+            <BodyHeader title="Price Lists" />
+            <div className="flex justify-center md:rotate-0 rotate-90 w-full">
+              <PriceListTable data={priceLists} />
+            </div>
+            <div></div>
           </div>
           <div className="mb-48">
             <BodyHeader title="Reviews"></BodyHeader>

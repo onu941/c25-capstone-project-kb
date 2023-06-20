@@ -20,6 +20,8 @@ import {
   SubmitButton,
 } from "../components/minicomponents/Buttons";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
 
 export interface SubmitRoomFormState {
   name: string;
@@ -35,6 +37,10 @@ export interface SubmitRoomFormState {
 }
 
 export default function SubmitRoom() {
+  const reduxUserId = useSelector(
+    (state: RootState) => state.auth.user_id
+  )!.toString();
+  const [userPhone, setUserPhone] = useState<string>("");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [submitRoomTab, setSubmitRoomTab] = useState<string>("part_1");
   const [partyroomName, setPartyroomName] =
@@ -91,7 +97,25 @@ export default function SubmitRoom() {
       setDistricts(districts);
     };
 
+    const getUserPhone = async () => {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/user/phone`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const phoneData = await response.json();
+      setUserPhone(phoneData.phone);
+    };
+
     getDistricts();
+    getUserPhone();
   }, []);
 
   function handleFormIconButton(id: string | number) {
@@ -179,18 +203,52 @@ export default function SubmitRoom() {
   };
 
   const form = useForm<SubmitRoomFormState>();
-  const onSubmit: SubmitHandler<SubmitRoomFormState> = (data) => {
+  const onSubmit: SubmitHandler<SubmitRoomFormState> = async (data) => {
+    const token = localStorage.getItem("token");
+    const formData = new FormData();
     const category_id = categories.filter((value) => !isNaN(value));
     const equipment_id = equipment.filter((value) => !isNaN(value));
-    console.log({
-      data,
-      category_id,
-      equipment_id,
-      priceListDetails,
-      selectedImages,
-    });
 
-    console.log("selectedImages:", selectedImages);
+    console.log("room images", selectedImages);
+
+    formData.append("name", data.name);
+    formData.append("host_id", reduxUserId);
+    formData.append("address", data.address);
+    formData.append("capacity", data.capacity.toString());
+    formData.append("district", data.district);
+    formData.append("room_size", data.room_size.toString());
+    formData.append("phone", userPhone);
+    formData.append("description", data.description);
+    formData.append("is_hidden", "false");
+    formData.append("category_id", JSON.stringify(category_id));
+    formData.append("equipment_id", JSON.stringify(equipment_id));
+    formData.append("price_list", JSON.stringify(priceListDetails));
+    selectedImages.forEach((img, i) =>
+      formData.append(`images-${i}`, img as any)
+    );
+
+    console.log(selectedImages);
+    console.log("formData", formData);
+
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/upload/submit_room`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      }
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log("testing form submission - result", result);
+      toast.success("working");
+    } else {
+      toast("not working");
+    }
   };
   const { register, handleSubmit } = form;
 

@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
@@ -13,6 +14,7 @@ import { BookingModule } from './booking/booking.module';
 import { FileUploadController } from './fileupload/fileupload.controller';
 import { FileUploadModule } from './fileupload/fileupload.module';
 import { FileUploadService } from './fileupload/fileupload.service';
+import { join } from 'path';
 dotenv.config();
 
 @Module({
@@ -22,6 +24,10 @@ dotenv.config();
     AuthModule,
     BookingModule,
     FileUploadModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'uploads'),
+      serveRoot: '/uploads',
+    }),
   ],
   controllers: [AppController, FileUploadController],
   providers: [AppService, JwtStrategy, UserService, FileUploadService],

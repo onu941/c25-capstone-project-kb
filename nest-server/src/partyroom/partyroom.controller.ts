@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   BadRequestException,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,8 @@ import { UpdatePartyroomDto } from './dto/update-partyroom.dto';
 import { ValidationPipe } from 'src/validation/validation.pipe';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
+import { readdirSync } from 'fs';
+import path from 'path';
 
 @Controller('partyroom')
 export class PartyroomController {
@@ -22,15 +25,6 @@ export class PartyroomController {
     private partyroomService: PartyroomService,
     private authService: AuthService,
   ) {}
-
-  // @Post()
-  // async create(
-  //   @Body(new ValidationPipe()) createPartyroomDto: CreatePartyroomDto,
-  // ) {
-  //   return {
-  //     id: await this.partyroomService.create(createPartyroomDto),
-  //   };
-  // }
 
   @Get('/district')
   async findAllDistricts() {
@@ -62,9 +56,20 @@ export class PartyroomController {
     return this.partyroomService.findEquipmentForOne(id);
   }
 
-  @Get('/images/:id')
-  async findAllImagesForOne(@Param('id') id: number) {
-    return this.partyroomService.findAllImagesForOne(id);
+  @Get('/pricelist/:id')
+  async findPriceListsForOne(@Param('id') id: number) {
+    return this.partyroomService.findPriceListsForOne(id);
+  }
+
+  @Get('/img/:id')
+  async findImagesOnNest(@Param('id') id: number) {
+    const serveQuery = await this.partyroomService.findImagesOnNest(id);
+
+    const imageUrls = serveQuery.map((filename) => {
+      return filename;
+    });
+
+    return imageUrls;
   }
 
   @Get('/reviews/:id')
@@ -78,34 +83,15 @@ export class PartyroomController {
     return reviews;
   }
 
-  @Get('/user/:id')
+  // issue
+  @Get('/user')
   @UseGuards(AuthGuard('jwt'))
-  async findByUserIdforSettings(@Param('id') id: number) {
-    if (!id) {
-      throw new BadRequestException('invalid id in params, expect integer');
-    }
-
-    const partyrooms = await this.partyroomService.findByUserIdforSettings(id);
-    return partyrooms;
+  async findByUserIdforSettings(@Request() req: Express.Request) {
+    return this.partyroomService.findByUserIdforSettings(req.user['id']);
   }
 
   @Post('/search')
   async searchByDistrict(@Body('districtId') districtId: number) {
     return await this.partyroomService.searchByDistrict(districtId);
   }
-
-  //   @Delete(':id')
-  //   async remove(@Param('id') id: string) {
-  //     await this.partyroomService.remove(+id);
-  //     return { message: `Partyroom with ID ${id} removed` };
-  //   }
-
-  //   @Patch(':id')
-  //   async update(
-  //     @Param('id') id: string,
-  //     @Body(new ValidationPipe()) updatePartyroomDto: UpdatePartyroomDto,
-  //   ) {
-  //     await this.partyroomService.update(+id, updatePartyroomDto);
-  //     return { message: `Partyroom with ID ${id} updated` };
-  //   }
 }

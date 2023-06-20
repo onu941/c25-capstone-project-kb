@@ -5,6 +5,7 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { BookingService } from './booking.service';
@@ -20,16 +21,16 @@ export class BookingController {
     private authService: AuthService,
   ) {}
 
-  @Get('/user/:id')
+  @Get('/user')
   @UseGuards(AuthGuard('jwt'))
-  async findByUserIdForSettings(@Param('id') id: number) {
-    return this.bookingService.findByUserIdForSettings(id);
+  async findByUserIdForSettings(@Request() req: Express.Request) {
+    return this.bookingService.findByUserIdForSettings(req.user['id']);
   }
 
-  @Get('/settings_host/:id')
+  @Get('/settings_host')
   @UseGuards(AuthGuard('jwt'))
-  async findByHostIdForSettings(@Param('id') id: number) {
-    return this.bookingService.findByHostIdForSettings(id);
+  async findByHostIdForSettings(@Request() req: Express.Request) {
+    return this.bookingService.findByHostIdForSettings(req.user['id']);
   }
 
   @Get(`/host/:id`)
@@ -44,16 +45,16 @@ export class BookingController {
     return this.bookingService.findOneAsPartygoer(id);
   }
 
-  @Get(`/next/partygoer/:id`)
+  @Get(`/next/partygoer`)
   @UseGuards(AuthGuard('jwt'))
-  async findNextBookingAsPartygoer(@Param('id') id: number) {
-    return this.bookingService.findNextBookingAsPartygoer(id);
+  async findNextBookingAsPartygoer(@Request() req: Express.Request) {
+    return this.bookingService.findNextBookingAsPartygoer(req.user['id']);
   }
 
-  @Get(`/next/host/:id`)
+  @Get(`/next/host`)
   @UseGuards(AuthGuard('jwt'))
-  async findNextBookingAsHost(@Param('id') id: number) {
-    return this.bookingService.findNextBookingAsHost(id);
+  async findNextBookingAsHost(@Request() req: Express.Request) {
+    return this.bookingService.findNextBookingAsHost(req.user['id']);
   }
 
   @Patch(`/update_status/:id`)
