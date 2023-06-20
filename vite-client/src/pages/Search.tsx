@@ -8,6 +8,7 @@ import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
 import {
   DropdownInput,
+  DropdownInputSimple,
   StandardInput,
 } from "../components/minicomponents/Inputs";
 import { SubmitButton } from "../components/minicomponents/Buttons";
@@ -50,6 +51,7 @@ export function Search() {
     event.preventDefault();
     const token = localStorage.getItem("token");
     const form = event.target as HTMLFormElement;
+    console.log("form", form.district);
     const districtId = form.district.value;
 
     const response = await fetch(
@@ -101,7 +103,7 @@ export function Search() {
           <div className="mt-12 mx-6 md:mx-0 mb-6 px-6 bg-slate-800 bg-opacity-40 rounded-lg border-solid border-2 border-slate-500 border-opacity-50">
             <form onSubmit={onSearchSubmit} className="mb-4 pt-6">
               <div className="mt-4">
-                <DropdownInput
+                <DropdownInputSimple
                   name="district"
                   type="text"
                   placeholder="Select a district"

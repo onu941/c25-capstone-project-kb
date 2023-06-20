@@ -15,8 +15,7 @@ export default function RoomFormImages(props: FormImageProps) {
             type="file"
             multiple={props.multiple}
             onChange={props.handleImageFileChange}
-            name="image"
-            {...props.register}
+            name="images"
           ></input>
         </div>
         <PrimaryButton
@@ -36,7 +35,7 @@ export default function RoomFormImages(props: FormImageProps) {
           </span>
         )}
         {props.imagePreviews.map((preview, index) => (
-          <div className="relative">
+          <div className="relative" key={index}>
             <img
               key={index}
               src={preview}

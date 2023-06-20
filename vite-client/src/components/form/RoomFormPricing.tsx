@@ -27,15 +27,6 @@ export default function RoomFormPricing({
   addPriceList,
   setPriceListDetails,
 }: FormPricingProps) {
-  // function setFieldsValues(fieldsName: string, ind: number, value: any) {
-  //   setPriceListDetails((v: any) => {
-  //     let newObj: any[] = [...v];
-  //     newObj[ind][fieldsName] = value;
-
-  //     return newObj;
-  //   });
-  // }
-
   function setFieldsValues(
     fieldName: keyof PriceList,
     listIndex: number,
@@ -104,7 +95,6 @@ export default function RoomFormPricing({
                 defaultValue={200}
                 min={100}
                 onChange={(e) =>
-                  // handleBaseRoomFeeChange(listIndex, parseInt(e.target.value))
                   setFieldsValues(
                     "base_room_fee",
                     listIndex,
@@ -118,29 +108,20 @@ export default function RoomFormPricing({
                 step={50}
                 defaultValue={100}
                 min={0}
-                onChange={
-                  (e) =>
-                    setFieldsValues(
-                      "headcount_price",
-                      listIndex,
-                      parseInt(e.target.value)
-                    )
-
-                  // handleHeadcountPriceChange(
-                  //   listIndex,
-                  //   parseInt(e.target.value)
-                  // )
+                onChange={(e) =>
+                  setFieldsValues(
+                    "headcount_price",
+                    listIndex,
+                    parseInt(e.target.value)
+                  )
                 }
               />
               <div>Enter the start time for this price block (24 hr time)</div>
               <StandardInput
                 type="time"
                 step={1800}
-                onChange={
-                  (e) =>
-                    setFieldsValues("start_time", listIndex, e.target.value)
-
-                  // handleStartTimeChange(listIndex, e.target.value)
+                onChange={(e) =>
+                  setFieldsValues("start_time", listIndex, e.target.value)
                 }
               />
               <div>Enter the duration of this price block in hours</div>
@@ -149,15 +130,12 @@ export default function RoomFormPricing({
                 step={1}
                 min={1}
                 defaultValue={6}
-                onChange={
-                  (e) =>
-                    setFieldsValues(
-                      "total_hours",
-                      listIndex,
-                      parseInt(e.target.value)
-                    )
-
-                  // handleTotalHoursChange(listIndex, parseInt(e.target.value))
+                onChange={(e) =>
+                  setFieldsValues(
+                    "total_hours",
+                    listIndex,
+                    parseInt(e.target.value)
+                  )
                 }
               />
             </div>

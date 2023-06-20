@@ -13,7 +13,7 @@ import {
   PrimaryButton,
 } from "../components/minicomponents/Buttons";
 import { BookingModal } from "../components/minicomponents/Modals";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import sample from "../../public/img/sample_partyroom.jpg";
 import {
   BBQIcon,
@@ -82,6 +82,17 @@ export default function Partyroom() {
     );
     const googleMapsURL = `https://www.google.com/maps/search/?api=1&query=${addressQuery}`;
     window.open(googleMapsURL, "_blank");
+  };
+
+  const handlePartyroomMod = () => {
+    const emailAddress = "admin@partymate.io";
+    const mailtoLink = `mailto:${emailAddress}`;
+    toast(
+      <a href={mailtoLink}>
+        Please contact <span className="underline">{emailAddress}</span>
+      </a>,
+      { icon: "📬" }
+    );
   };
 
   const handleRoomImageRollClick = (index: number) => {
@@ -253,8 +264,14 @@ export default function Partyroom() {
           <div className="mb-4 w-full columns-2 flex justify-center gap-12">
             {isOwner && (
               <>
-                <PrimaryButton label="Edit Partyroom" />
-                <DangerButton label="Delete Partyroom" />
+                <PrimaryButton
+                  onClick={() => handlePartyroomMod()}
+                  label="Edit Partyroom"
+                />
+                <DangerButton
+                  onClick={() => handlePartyroomMod()}
+                  label="Delete Partyroom"
+                />
               </>
             )}
           </div>

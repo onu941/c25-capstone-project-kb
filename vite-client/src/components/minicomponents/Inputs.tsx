@@ -31,6 +31,31 @@ export function DropdownInput(props: InputProps) {
   );
 }
 
+export function DropdownInputSimple(props: InputProps) {
+  return (
+    <div className="w-full">
+      <select
+        className="text-slate-300 bg-transparent px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
+        defaultValue={""}
+        value={props.value}
+        onChange={props.onChange}
+        name={props.name}
+      >
+        <option disabled>{props.placeholder}</option>
+        {props.options!.map((option, index) => (
+          <option
+            key={index}
+            value={option.id}
+            className="text-slate-300 px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
+          >
+            {option.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}
+
 export function StandardInput(props: InputProps) {
   return (
     <div className={`flex place-content-center`}>
