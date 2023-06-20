@@ -567,7 +567,7 @@ export default function Partyroom() {
                 whatsAppUrl={`https://wa.me/${partyroom.phone}`}
               />
             </div>
-            <div className="border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center flex text-slate-300 h-fill ms-8 text-lg leading-relaxed italic">
+            <div className="border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center flex text-slate-300 h-fill ms-8 text-lg leading-relaxed italic w-full">
               <p>{`"${partyroom.description}"`}</p>
             </div>
           </div>
