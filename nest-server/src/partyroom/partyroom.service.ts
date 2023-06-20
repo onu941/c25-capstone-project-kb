@@ -8,22 +8,12 @@ import { UpdatePartyroomDto } from './dto/update-partyroom.dto';
 import { Partyroom } from './entities/partyroom.entity';
 import { InjectKnex } from 'nestjs-knex';
 import { Knex } from 'knex';
+import { readdirSync } from 'fs';
+import { match } from 'assert';
 
 @Injectable()
 export class PartyroomService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
-
-  // async create(createPartyroomDto: CreatePartyroomDto) {
-  //   let id =
-  //     this.partyrooms.reduce((id, partyroom) => Math.max(id, partyroom.id), 0) +
-  //     1;
-  //   this.partyrooms[id] = {
-  //     id,
-  //     title: createPartyroomDto.title,
-  //     price: createPartyroomDto.price,
-  //   };
-  //   return id;
-  // }
 
   async findRandomForLanding() {
     const query = await this.knex('partyroom')
@@ -124,6 +114,22 @@ export class PartyroomService {
     return partyroomImages;
   }
 
+  async findImagesOnNest(id: number) {
+    if (!id) {
+      throw new NotFoundException('No images found for this partyroom');
+    }
+
+    const query = await this.knex
+      .select('image.filename')
+      .from('partyroom_image')
+      .join('image', 'partyroom_image.image_id', '=', 'image.id')
+      .where('partyroom_image.partyroom_id', id)
+      .orderBy('partyroom_image.id', 'asc');
+
+    console.log('partyroom service sql query:', query);
+    return query;
+  }
+
   async findByUserIdforSettings(id: number) {
     if (!id) {
       throw new NotFoundException('No partyrooms found for the given user ID');
@@ -203,20 +209,4 @@ export class PartyroomService {
       console.log(error);
     }
   }
-
-  // async update(id: number, updatePartyroomDto: UpdatePartyroomDto) {
-  //   let partyroom = await this.findOne(id);
-  //   if ('price' in updatePartyroomDto) {
-  //     partyroom.price = updatePartyroomDto.price;
-  //   }
-  //   if ('title' in updatePartyroomDto) {
-  //     partyroom.title = updatePartyroomDto.title;
-  //   }
-  //   return `updated`;
-  // }
-
-  // async remove(id: number) {
-  //   delete this.partyrooms[id];
-  //   return `deleted`;
-  // }
 }
