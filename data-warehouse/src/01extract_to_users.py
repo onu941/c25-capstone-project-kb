@@ -90,3 +90,5 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         time.sleep(1)
+
+            # WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
