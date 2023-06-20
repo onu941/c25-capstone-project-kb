@@ -118,7 +118,7 @@ export async function seed(knex: Knex): Promise<void> {
         month: number;
         day_of_month: number;
         day_of_year: number;
-        date: string;
+        date: Date;
         quarter: number;
         is_holiday: boolean;
         day_of_week: number;
@@ -141,30 +141,22 @@ export async function seed(knex: Knex): Promise<void> {
       
       const booking_data: Booking[] = [];
       
-      for (let i = 1; i < 2200; i++) {
+      for (let i = 1; i < 1000; i++) {
         const dataSet: Booking[] = [];    
         
+        ////////////////////////////////////
         let year = chance.integer({max:2023, min:2022})
-        let month = chance.integer({max:12, min:1})
-        let day_of_month 
-        if (month = 2) {
-            day_of_month = chance.integer({max:28, min:1})
-        } else if (month = 1 || 3 || 5 || 7 || 8 || 10 || 12) {
-            day_of_month = chance.integer({max:31, min:1})
-        } else {
-            day_of_month = chance.integer({max:30, min:1})
-        }
-        let date = year+"-"+month+"-"+day_of_month
-        let quarter
-        if (month< 4) {
-          quarter = 1
-        } else if (month< 7) {
-          quarter = 2
-        }else if (month< 10) {
-          quarter = 3
-        }else {
-          quarter = 4
-        }
+        // let month = parseInt(chance.exp_month())
+        // let day_of_month 
+        // if (month = 2) {
+        //     day_of_month = chance.integer({max:28, min:1})
+        // } else if (month = 1 || 3 || 5 || 7 || 8 || 10 || 12) {
+        //     day_of_month = chance.integer({max:31, min:1})
+        // } else {
+        //     day_of_month = chance.integer({max:30, min:1})
+        // }
+        // let date = year+"-"+month+"-"+day_of_month
+
         let hour = chance.weighted([8, 12, 18, 0], [0.04, 0.32, 0.48, 0.16])
         let ampm
         if (hour == 8) {
@@ -176,19 +168,32 @@ export async function seed(knex: Knex): Promise<void> {
         } else {
             ampm = "midnight"
         } 
+        ///////////////////////////
+        // let startDate = new Date(2022, 1, 1)
+        // const genNewDate = () => {
+        //   let randomDay = Math.random() * 24 * 60 * 60 * 1000
+        //   let newDate = startDate + randomDay as any as Date
+
+        //   return newDate
+        // }
+
+
+
+
+        //////////////////////////////
         let partyroom_capacity = chance.integer({max:20, min:1})
         let headcount = chance.integer({max:partyroom_capacity, min:1})
         let booking_fee = chance.integer({ max: 220, min: 40 }) + headcount * chance.integer({ max: 160, min: 40 })
-
+        let randomDate = new Date(chance.date({year:year}))
           dataSet.push({
-            year: year,
-            month: month,
-            day_of_month: day_of_month,
-            day_of_year: chance.integer({max:366, min:1}),
-            date: date,
-            quarter: quarter,
+            year: randomDate.getFullYear(),
+            month: randomDate.getMonth(),
+            day_of_month: randomDate.getDate(),
+            day_of_year: Math.floor((randomDate.getSeconds() - (new Date(year, 1, 1)).getSeconds()) / (1000 * 60 * 60 * 24)),
+            date:randomDate,
+            quarter: Math.ceil(randomDate.getMonth()/3),
             is_holiday: chance.bool({ likelihood: 82 }),
-            day_of_week: chance.integer({max:7, min:1}),
+            day_of_week: randomDate.getDay(),
             time: `${hour}:00:00`,
             hour: hour,
             minute: 0,
@@ -209,5 +214,7 @@ export async function seed(knex: Knex): Promise<void> {
         booking_data.push(...dataSet);
       }
     
+    console.log('-----------------------------------------')
+    console.log(booking_data)
     await knex("staging_booking").insert(booking_data);
 };
