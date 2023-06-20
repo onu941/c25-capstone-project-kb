@@ -16,7 +16,6 @@ import {
 } from "../components/minicomponents/Cards";
 import { TextArea } from "../components/minicomponents/Inputs";
 import { Toaster, toast } from "react-hot-toast";
-import sample from "../../public/img/sample_partyroom.jpg";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { Booking as BookingType, ReviewFormData } from "../app/interface";
@@ -47,7 +46,7 @@ export default function Booking() {
     status: "",
     special_request: "",
     partyroom_id: NaN,
-    image_filename: "",
+    filename: "",
   });
 
   const initialReviewFormData: ReviewFormData = {
@@ -278,6 +277,9 @@ export default function Booking() {
     );
   };
 
+  console.log("whole thing:", bookingDetails);
+  console.log("finding img url:", bookingDetails.filename);
+
   return (
     <>
       <div>
@@ -312,7 +314,9 @@ export default function Booking() {
             } columns-2 gap-8`}
           >
             <BookingCardLarge
-              image={sample}
+              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                bookingDetails.filename
+              }`}
               onClick={() =>
                 navigate(`/partyroom?room_id=${bookingDetails.partyroom_id}`)
               }

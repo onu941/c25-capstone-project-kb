@@ -62,8 +62,6 @@ export default function Partyroom() {
   const [isOwner, setIsOwner] = useState<boolean>(false);
   const [priceLists, setPriceLists] = useState<any>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
-
-  const roomImageDirectory = "../../public/img/room/";
   const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
   const [mainRoomImage, setMainRoomImage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
@@ -166,24 +164,7 @@ export default function Partyroom() {
       }));
     };
 
-    // const fetchPartyroomImages = async () => {
-    //   const response = await fetch(
-    //     `${import.meta.env.VITE_API_SERVER}/partyroom/images/${partyroomId}`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   );
-
-    //   const images = await response.json();
-    //   console.log("images[0].filename", images[0].filename);
-    //   setMainRoomImage(images[0].filename);
-    //   setRoomImages(images);
-    // };
-
-    const newFetchPartyroomImages = async () => {
+    const fetchPartyroomImages = async () => {
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/partyroom/img/${partyroomId}`,
         {
@@ -238,7 +219,7 @@ export default function Partyroom() {
       await fetchPartyroomDetails();
       await fetchCategories();
       await fetchEquipment();
-      await newFetchPartyroomImages();
+      await fetchPartyroomImages();
       // await fetchPartyroomPriceLists();
       await fetchPartyroomReviews();
 
