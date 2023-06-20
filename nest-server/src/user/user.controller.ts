@@ -55,10 +55,10 @@ export class UserController {
     return { user };
   }
 
-  @Get('/phone/:id')
+  @Get('/phone')
   @UseGuards(AuthGuard('jwt'))
-  async getUserPhone(@Param('id') id: number) {
-    return await this.userService.getUserPhone(id);
+  async getUserPhone(@Request() req: Express.Request) {
+    return await this.userService.getUserPhone(req.user['id']);
   }
 
   @Patch(':id')

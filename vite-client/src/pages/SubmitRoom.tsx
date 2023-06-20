@@ -101,7 +101,7 @@ export default function SubmitRoom() {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/user/phone/${reduxUserId}`,
+        `${import.meta.env.VITE_API_SERVER}/user/phone`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

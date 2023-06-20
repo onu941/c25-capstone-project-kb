@@ -67,9 +67,7 @@ export default function Landing() {
 
     const fetchNextBookingAsPartygoer = async () => {
       const response = await fetch(
-        `${
-          import.meta.env.VITE_API_SERVER
-        }/booking/next/partygoer/${reduxUserId}`,
+        `${import.meta.env.VITE_API_SERVER}/booking/next/partygoer`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -95,7 +93,7 @@ export default function Landing() {
 
     const fetchNextBookingAsHost = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVER}/booking/next/host/${reduxUserId}`,
+        `${import.meta.env.VITE_API_SERVER}/booking/next/host`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -192,9 +190,7 @@ export default function Landing() {
           <div className="w-full px-6 md:px-96 mb-8">
             <BookingCardLarge
               image={roomImageDirectory + hostDetails.image_filename}
-              onClick={() =>
-                navigate(`/booking?booking_id=${partygoerDetails.id}`)
-              }
+              onClick={() => navigate(`/booking?booking_id=${hostDetails.id}`)}
               alt={hostDetails.image_filename}
               name={hostDetails.name}
               address={hostDetails.address}
