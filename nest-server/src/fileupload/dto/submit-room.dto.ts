@@ -2,8 +2,28 @@ import { IsInt, IsString, Length, Max, Min } from 'class-validator';
 
 export class SubmitRoomDto {
   @IsString()
-  @Length(5, 20)
-  title: string;
+  name: string;
+
+  @IsInt()
+  host_id: number;
+
+  @IsInt()
+  district: number;
+
+  @IsInt()
+  room_size: number;
+
+  @IsInt()
+  capacity: number;
+
+  @IsInt()
+  phone: number;
+
+  @IsString()
+  address: string;
+
+  @IsString()
+  description: string;
 
   @IsString()
   filename: string;

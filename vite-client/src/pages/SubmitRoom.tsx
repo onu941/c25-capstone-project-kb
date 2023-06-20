@@ -156,8 +156,11 @@ export default function SubmitRoom() {
 
   const handleDeleteImage = (index: number) => {
     const updatedPreviews = [...imagePreviews];
+    const updatedSelectedImages = [...selectedImages];
     updatedPreviews.splice(index, 1);
+    updatedSelectedImages.splice(index, 1);
     setImagePreviews(updatedPreviews);
+    setSelectedImages(updatedSelectedImages);
   };
 
   const handleResetForm = () => {
@@ -179,11 +182,17 @@ export default function SubmitRoom() {
   const onSubmit: SubmitHandler<SubmitRoomFormState> = (data) => {
     const category_id = categories.filter((value) => !isNaN(value));
     const equipment_id = equipment.filter((value) => !isNaN(value));
-    console.log({ data, category_id, equipment_id, priceListDetails });
+    console.log({
+      data,
+      category_id,
+      equipment_id,
+      priceListDetails,
+      selectedImages,
+    });
+
+    console.log("selectedImages:", selectedImages);
   };
   const { register, handleSubmit } = form;
-
-  console.log(priceListDetails);
 
   return (
     <>
@@ -283,12 +292,6 @@ export default function SubmitRoom() {
                 addPriceList={addPriceList}
                 removePriceList={removePriceList}
                 setPriceListDetails={setPriceListDetails}
-
-                // handleCheckboxChange={handleCheckboxChange}
-                // handleBaseRoomFeeChange={handleBaseRoomFeeChange}
-                // handleHeadcountPriceChange={handleHeadcountPriceChange}
-                // handleStartTimeChange={handleStartTimeChange}
-                // handleTotalHoursChange={handleTotalHoursChange}
               />
               <RoomFormDescription register={register} />
               {/* next button */}
