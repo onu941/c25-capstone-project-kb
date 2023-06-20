@@ -34,12 +34,15 @@ import {
 } from "../app/interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import {
+  PriceListTable,
+  NewPriceListTable,
+} from "../components/minicomponents/Table";
 
 export default function Partyroom() {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
-
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -176,18 +179,13 @@ export default function Partyroom() {
       );
 
       const images = await response.json();
-      console.log("new img route:", images);
-      console.log(
-        "new images[0].filename.filename",
-        images[0].filename.filename
-      );
       setMainRoomImage(images[0].filename);
       setRoomImages(images);
     };
 
     const fetchPartyroomPriceLists = async () => {
       const response = await fetch(
-        `${import.meta.env.VITE_API_SERVEr}/partyroom/pricelist/${partyroomId}`,
+        `${import.meta.env.VITE_API_SERVER}/partyroom/pricelist/${partyroomId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -197,6 +195,7 @@ export default function Partyroom() {
       );
 
       const priceListsData = await response.json();
+      console.log("checking price list data:", priceListsData);
       setPriceLists(priceListsData);
     };
 
@@ -220,7 +219,7 @@ export default function Partyroom() {
       await fetchCategories();
       await fetchEquipment();
       await fetchPartyroomImages();
-      // await fetchPartyroomPriceLists();
+      await fetchPartyroomPriceLists();
       await fetchPartyroomReviews();
 
       setIsLoading(false);
@@ -231,9 +230,6 @@ export default function Partyroom() {
   if (isLoading) {
     return <div>Is Loading..</div>;
   }
-
-  console.log("mainroomimage:", mainRoomImage);
-  console.log("images", roomImages);
 
   return (
     <>
@@ -579,8 +575,11 @@ export default function Partyroom() {
               <p>{`"${partyroom.description}"`}</p>
             </div>
           </div>
-          <div className="mb-8 flex flex-row flex-wrap">
+          <div className="mb-8 flex flex-col flex-wrap">
             <BodyHeader title="Price Lists" />
+            <div className="flex justify-center md:rotate-0 rotate-90 w-full">
+              <PriceListTable data={priceLists} />
+            </div>
             <div></div>
           </div>
           <div className="mb-48">

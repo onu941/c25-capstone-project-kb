@@ -56,9 +56,9 @@ export class PartyroomController {
     return this.partyroomService.findEquipmentForOne(id);
   }
 
-  @Get('/images/:id')
-  async findAllImagesForOne(@Param('id') id: number) {
-    return this.partyroomService.findAllImagesForOne(id);
+  @Get('/pricelist/:id')
+  async findPriceListsForOne(@Param('id') id: number) {
+    return this.partyroomService.findPriceListsForOne(id);
   }
 
   @Get('/img/:id')
