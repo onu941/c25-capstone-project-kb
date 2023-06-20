@@ -21,54 +21,6 @@ export function LandingCarousel(props: CarouselProps) {
           />
         </div>
       ))}
-      {/* <div className="carousel-item md:w-96 w-72 rounded-xl hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[0].filename}
-          alt={randomRooms[0].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[1].filename}
-          alt={randomRooms[1].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[2].filename}
-          alt={randomRooms[2].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[3].filename}
-          alt={randomRooms[3].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[4].filename}
-          alt={randomRooms[4].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[5].filename}
-          alt={randomRooms[5].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[6].filename}
-          alt={randomRooms[6].filename}
-        />
-      </div>
-      <div className="carousel-item md:w-96 w-72 hover:brightness-125 transition transition-200 ease-in-out">
-        <img
-          src={roomImageDirectory + randomRooms[7].filename}
-          alt={randomRooms[7].filename}
-        />
-      </div> */}
     </div>
   );
 }
