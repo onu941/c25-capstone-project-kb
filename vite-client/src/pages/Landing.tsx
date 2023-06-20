@@ -18,9 +18,7 @@ import { BookingCard, RandomLandingRooms } from "../app/interface";
 
 export default function Landing() {
   const navigate = useNavigate();
-  const roomImageDirectory = "../../public/img/room/";
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
-
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [partygoerDetails, setPartygoerDetails] = useState<BookingCard>({
@@ -115,6 +113,8 @@ export default function Landing() {
         start_time: bookingDetails.start_time.slice(0, -3),
       };
 
+      console.log("finding image urls:", bookingDetailsTreated);
+
       setHostDetails(bookingDetailsTreated);
     };
 
@@ -166,7 +166,9 @@ export default function Landing() {
           <BodyHeader title="Your next booking:"></BodyHeader>
           <div className="w-full px-6 md:px-96 mb-16">
             <BookingCardLarge
-              image={roomImageDirectory + partygoerDetails.image_filename}
+              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                partygoerDetails.image_filename
+              }`}
               onClick={() =>
                 navigate(`/booking?booking_id=${partygoerDetails.id}`)
               }
@@ -189,7 +191,9 @@ export default function Landing() {
           <BodyHeader title="Your room has been booked!"></BodyHeader>
           <div className="w-full px-6 md:px-96 mb-8">
             <BookingCardLarge
-              image={roomImageDirectory + hostDetails.image_filename}
+              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                hostDetails.image_filename
+              }`}
               onClick={() => navigate(`/booking?booking_id=${hostDetails.id}`)}
               alt={hostDetails.image_filename}
               name={hostDetails.name}

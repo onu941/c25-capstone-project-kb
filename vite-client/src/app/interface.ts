@@ -277,7 +277,7 @@ export interface Booking {
   status: string;
   special_request: string;
   partyroom_id: number;
-  image_filename: string;
+  filename: string;
 }
 
 export interface BookingCard {

@@ -20,7 +20,6 @@ import toast, { Toaster } from "react-hot-toast";
 
 export function Search() {
   const navigate = useNavigate();
-  const roomImageDirectory = "../../public/img/room/";
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [districts, setDistricts] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState(0);
@@ -128,7 +127,9 @@ export function Search() {
                   }
                 >
                   <PartyroomCardLarge
-                    image={roomImageDirectory + result.filename}
+                    image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                      result.filename
+                    }`}
                     alt="sample"
                     name={result.name}
                     address={result.address}
