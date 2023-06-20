@@ -167,10 +167,10 @@ export async function up(knex: Knex): Promise<void> {
       table.increments("id");
       table.decimal("avg_rating", 3 ,1).defaultTo(0);
       table.integer("host_users_id");
-      table.string("partyroom_source", 255);
       table.string("district", 255);
       table.integer("capacity");
       table.decimal("base_room_fee",5,1);
+      table.string("partyroom_source", 255);
       table.string("partyroom_start_date", 255);
       table.string("partyroom_end_date", 255).defaultTo('TBC');
       table.string("category_name", 255);
@@ -207,6 +207,7 @@ export async function up(knex: Knex): Promise<void> {
     BEGIN
         INSERT INTO dim_users (promotion, source) VALUES 
             (NEW.users_promotion, NEW.users_source) 
+            ON CONFLICT DO NOTHING
             RETURNING source into temp_source;
 
         INSERT INTO fact_registered_users (source) VALUES
@@ -326,15 +327,11 @@ export async function up(knex: Knex): Promise<void> {
         
         SELECT id INTO users_id 
             FROM dim_users 
-            WHERE promotion = NEW.booking_users_promotion
-                AND source = NEW.booking_users_source;
+            WHERE source = NEW.booking_users_source;
 
         SELECT id INTO partyroom_id 
             FROM dim_partyroom 
-            WHERE host_users_id = NEW.host_users_id
-                AND source = NEW.partyroom_source
-                AND district = NEW.partyroom_district
-                AND capacity = NEW.partyroom_capacity;
+            WHERE source = NEW.partyroom_source;
         
         INSERT INTO fact_booking (start_date_id,start_time_id,users_id,partyroom_id,source,total_hour,headcount,booking_fee,rating) VALUES
             (start_date_id,start_time_id,users_id,partyroom_id,NEW.booking_source,NEW.total_hour,NEW.headcount,NEW.booking_fee,NEW.booking_review_rating)
@@ -386,10 +383,8 @@ export async function up(knex: Knex): Promise<void> {
   `)
 
   await knex.raw(`
-      CREATE TRIGGER category_list_trigger
-      AFTER INSERT ON dim_category_list
-      FOR EACH ROW
-      EXECUTE FUNCTION update_category_list();
+      CREATE TRIGGER category_list_trigger AFTER INSERT ON dim_category_list
+      FOR EACH ROW EXECUTE FUNCTION update_category_list();
   `)
 
   // update price list
@@ -411,10 +406,8 @@ export async function up(knex: Knex): Promise<void> {
   `)
 
   await knex.raw(`
-      CREATE TRIGGER price_list_trigger
-      AFTER INSERT ON dim_price_list
-      FOR EACH ROW
-      EXECUTE FUNCTION update_price_list();
+      CREATE TRIGGER price_list_trigger AFTER INSERT ON dim_price_list
+      FOR EACH ROW EXECUTE FUNCTION update_price_list();
   `)
 
   // update review
@@ -426,12 +419,8 @@ export async function up(knex: Knex): Promise<void> {
           SELECT AVG(rating) 
           FROM fact_booking 
           JOIN dim_partyroom ON fact_booking.partyroom_id = dim_partyroom.id
-          WHERE dim_partyroom.source = NEW.source
-        )
-        WHERE id = (
-          SELECT id 
-          FROM fact_registered_partyroom
-          WHERE source = NEW.source
+          WHERE dim_partyroom.source = fact_registered_partyroom.source
+          AND rating !=0
         );
       
         return NEW;
@@ -440,13 +429,9 @@ export async function up(knex: Knex): Promise<void> {
   `)
 
   await knex.raw(`
-      CREATE TRIGGER partyroom_avg_rating_trigger
-      AFTER UPDATE OF rating ON fact_booking
-         FOR EACH ROW
-         WHEN (NEW.rating != 0 AND OLD.rating != NEW.rating)
-      EXECUTE FUNCTION update_partyroom_avg_rating();
-  `)
-}
+      CREATE TRIGGER partyroom_avg_rating_trigger AFTER INSERT ON fact_booking
+      FOR EACH ROW EXECUTE FUNCTION update_partyroom_avg_rating();
+  `)}
 
 export async function down(knex: Knex): Promise<void> {
   await knex.raw('DROP TRIGGER IF EXISTS registered_users_trigger ON staging_registered_users;');
