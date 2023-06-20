@@ -64,7 +64,7 @@ def read_dataframes_partyroom(cfg: Config_env) -> DataFrame:
                 district.id AS district_id,
                 partyroom.is_hidden AS partyroom_is_hidden
             FROM partyroom 
-            JOIN partyroom_category on partyroom.id = partyroom_category.partyroom_id
+            JOIN partyroom_category ON partyroom.id = partyroom_category.partyroom_id
             JOIN partyroom_equipment ON partyroom.id = partyroom_equipment.partyroom_id 
             JOIN category ON category.id = partyroom_category.category_id
             JOIN equipment ON equipment.id = partyroom_equipment.equipment_id 
