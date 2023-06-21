@@ -29,6 +29,7 @@ import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
 import {
   Booking,
+  JWT,
   PartyroomImage,
   Partyroom as PartyroomType,
   Review,
@@ -38,6 +39,7 @@ import { RootState } from "../redux/store";
 import { NewPriceListTable } from "../components/minicomponents/Table";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 export interface MakeBookingFormState {
   partyroom_id: number;
@@ -53,12 +55,12 @@ export interface MakeBookingFormState {
 
 export default function Partyroom() {
   const navigate = useNavigate();
-
   const token = localStorage.getItem("token");
+  const decoded: JWT = jwtDecode(token!);
+  // console.log("decoded:", decoded);
+  const jwtUserId = decoded.id;
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
-
   const [isLoading, setIsLoading] = useState(true);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
@@ -67,7 +69,7 @@ export default function Partyroom() {
   const [partyroom, setPartyroom] = useState<PartyroomType>({
     id: Number(partyroomId),
     name: "",
-    host_id: Number(reduxUserId),
+    host_id: Number(jwtUserId),
     host_name: "",
     district: "",
     room_size: NaN,
@@ -146,7 +148,7 @@ export default function Partyroom() {
         description: partyroomDetails.description,
       });
 
-      if (reduxUserId === partyroomDetails.host_id) setIsOwner(!isOwner);
+      if (jwtUserId === partyroomDetails.host_id) setIsOwner(!isOwner);
     };
 
     const fetchCategories = async () => {
@@ -274,7 +276,7 @@ export default function Partyroom() {
 
     const formJSON = {
       partyroom_price_list_id: databaseId,
-      booking_users_id: reduxUserId,
+      booking_users_id: jwtUserId,
       headcount: data.headcount,
       booking_date: data.booking_date,
       total_fee: totalFee,
@@ -282,16 +284,7 @@ export default function Partyroom() {
       is_hidden: false,
       status: "pending",
     };
-    // const formData = new FormData();
-    // formData.append("partyroom_price_list_id", databaseId.toString());
-    // formData.append("booking_users_id", reduxUserId!.toString());
-    // formData.append("headcount", data.headcount.toString());
-    // formData.append("booking_date", data.booking_date.toString());
-    // formData.append("total_fee", totalFee.toString());
-    // formData.append("special_request", data.special_request);
-    // formData.append("is_hidden", "false");
-    // formData.append("status", "pending");
-    // console.log("formData", formData);
+
     const response = await fetch(
       `${import.meta.env.VITE_API_SERVER}/booking/new`,
       {

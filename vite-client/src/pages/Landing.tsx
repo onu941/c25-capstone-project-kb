@@ -15,15 +15,31 @@ import sample from "../../public/img/sample_partyroom.jpg";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { BookingCard, RandomLandingRooms } from "../app/interface";
+import jwtDecode from "jwt-decode";
+
+export interface JWT {
+  id: number;
+  iat: number;
+  exp: number;
+}
 
 export default function Landing() {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const decoded: JWT = jwtDecode(token!);
+  // console.log("decoded:", decoded);
+  const jwtUserId = decoded.id;
+  console.log("jwtUserId:", jwtUserId);
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+  console.log("reduxUserId", reduxUserId);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
+  const [noBookingsAsPartygoer, setNoBookingsAsPartygoer] =
+    useState<boolean>(false);
+  const [noBookingsAsHost, setNoBookingsAsHost] = useState<boolean>(false);
   const [partygoerDetails, setPartygoerDetails] = useState<BookingCard>({
     id: NaN,
-    person_id: Number(reduxUserId),
+    person_id: Number(jwtUserId),
     headcount: NaN,
     booking_date: "",
     start_time: "",
@@ -33,7 +49,7 @@ export default function Landing() {
   });
   const [hostDetails, setHostDetails] = useState<BookingCard>({
     id: NaN,
-    person_id: Number(reduxUserId),
+    person_id: Number(jwtUserId),
     headcount: NaN,
     booking_date: "",
     start_time: "",
@@ -69,12 +85,15 @@ export default function Landing() {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
         }
       );
 
       const bookingDetails = await response.json();
+      if (bookingDetails.id == -1) {
+        setNoBookingsAsPartygoer(true);
+        return;
+      }
       const bookingDetailsTreated = {
         ...bookingDetails,
         booking_date: new Date(bookingDetails.booking_date).toLocaleString(
@@ -101,7 +120,10 @@ export default function Landing() {
       );
 
       const bookingDetails = await response.json();
-      console.log("host bookingDetails", bookingDetails);
+      if (bookingDetails.id == -1) {
+        setNoBookingsAsHost(true);
+        return;
+      }
       const bookingDetailsTreated = {
         ...bookingDetails,
         booking_date: new Date(bookingDetails.booking_date).toLocaleString(
@@ -134,7 +156,6 @@ export default function Landing() {
     };
 
     const fetchAllData = async () => {
-      console.log("fetchAllData");
       await fetchUserDetails();
       await fetchNextBookingAsPartygoer();
       await fetchNextBookingAsHost();
@@ -163,56 +184,90 @@ export default function Landing() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <BodyHeader title="Your next booking:"></BodyHeader>
-          <div className="w-full px-6 md:px-96 mb-16">
-            <BookingCardLarge
-              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
-                partygoerDetails.image_filename
-              }`}
-              onClick={() =>
-                navigate(`/booking?booking_id=${partygoerDetails.id}`)
-              }
-              alt={partygoerDetails.image_filename}
-              name={partygoerDetails.name}
-              address={partygoerDetails.address}
-              time={partygoerDetails.start_time}
-              date={partygoerDetails.booking_date.split(/[\/\s,:]+/)[1]}
-              month={new Date(
-                2000,
-                parseInt(
-                  partygoerDetails.booking_date.split(/[\/\s,:]+/)[0],
-                  10
-                ) - 1
-              ).toLocaleString("default", { month: "short" })}
-              pax={partygoerDetails.headcount}
-            />
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-6 px-4 md:px-0">
+            <div>
+              <BodyHeader title="Your next booking:"></BodyHeader>
+              {!noBookingsAsPartygoer ? (
+                <>
+                  <BookingCardLarge
+                    image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                      partygoerDetails.image_filename
+                    }`}
+                    onClick={() =>
+                      navigate(`/booking?booking_id=${partygoerDetails.id}`)
+                    }
+                    alt={partygoerDetails.image_filename}
+                    name={partygoerDetails.name}
+                    address={partygoerDetails.address}
+                    time={partygoerDetails.start_time}
+                    date={partygoerDetails.booking_date.split(/[\/\s,:]+/)[1]}
+                    month={new Date(
+                      2000,
+                      parseInt(
+                        partygoerDetails.booking_date.split(/[\/\s,:]+/)[0],
+                        10
+                      ) - 1
+                    ).toLocaleString("default", { month: "short" })}
+                    pax={partygoerDetails.headcount}
+                  />
+                  <div className="grid place-content-center place-items-center pt-10">
+                    <PrimaryButton label="See All Bookings (Partygoer)" />
+                  </div>
+                </>
+              ) : (
+                <div className="w-full h-60 rounded-lg flex place-content-center py-24 text-slate-300 text-xl bg-slate-800 bg-opacity-50 border-solid border-2 border-slate-700 border-opacity-50">
+                  No bookings yet
+                </div>
+              )}
+            </div>
+            <div>
+              <div>
+                <BodyHeader
+                  title={
+                    noBookingsAsHost
+                      ? "Get booked as a host!"
+                      : "Your room has been booked!"
+                  }
+                ></BodyHeader>
+                {!noBookingsAsHost ? (
+                  <>
+                    <BookingCardLarge
+                      image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                        hostDetails.image_filename
+                      }`}
+                      onClick={() =>
+                        navigate(`/booking?booking_id=${hostDetails.id}`)
+                      }
+                      alt={hostDetails.image_filename}
+                      name={hostDetails.name}
+                      address={hostDetails.address}
+                      time={hostDetails.start_time}
+                      date={hostDetails.booking_date.split(/[\/\s,:]+/)[1]}
+                      month={new Date(
+                        2000,
+                        parseInt(
+                          hostDetails.booking_date.split(/[\/\s,:]+/)[0],
+                          10
+                        ) - 1
+                      ).toLocaleString("default", { month: "short" })}
+                      pax={hostDetails.headcount}
+                    />
+                    <div className="grid grid-cols-2 place-content-center place-items-center pt-10">
+                      <Link to="/submit_room">
+                        <PrimaryButton label="Submit a New Room" />
+                      </Link>
+                      <PrimaryButton label="See All Bookings (Host)" />
+                    </div>
+                  </>
+                ) : (
+                  <div className="w-full h-60 rounded-lg flex place-content-center py-24 text-slate-300 text-xl bg-slate-800 bg-opacity-50 border-solid border-2 border-slate-700 border-opacity-50">
+                    No rooms registered with us yet
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-          <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
-          <BodyHeader title="Your room has been booked!"></BodyHeader>
-          <div className="w-full px-6 md:px-96 mb-8">
-            <BookingCardLarge
-              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
-                hostDetails.image_filename
-              }`}
-              onClick={() => navigate(`/booking?booking_id=${hostDetails.id}`)}
-              alt={hostDetails.image_filename}
-              name={hostDetails.name}
-              address={hostDetails.address}
-              time={hostDetails.start_time}
-              date={hostDetails.booking_date.split(/[\/\s,:]+/)[1]}
-              month={new Date(
-                2000,
-                parseInt(hostDetails.booking_date.split(/[\/\s,:]+/)[0], 10) - 1
-              ).toLocaleString("default", { month: "short" })}
-              pax={hostDetails.headcount}
-            />
-          </div>
-          <div className="w-full flex place-content-center pt-6">
-            <Link to="/submit_room">
-              <PrimaryButton label="Submit a New Room" />
-            </Link>
-          </div>
-          <hr className="md:mx-0 mx-8 mt-10 mb-8 border-slate-500"></hr>
+          <hr className="md:mx-0 mx-8 my-6 border-slate-500"></hr>
           <BodyHeader title="Explore new partyrooms:"></BodyHeader>
           <div className=" w-full md:px-0 px-4 mb-12">
             <LandingCarousel randomRooms={randomRooms} />

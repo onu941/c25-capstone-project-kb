@@ -7,7 +7,7 @@ import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { District, PartyroomImage } from "../app/interface";
+import { District, JWT, PartyroomImage } from "../app/interface";
 import RoomFormBasics from "../components/form/RoomFormBasics";
 import RoomFormCategoryEquipment from "../components/form/RoomFormCategoryEquipment";
 import RoomFormDescription from "../components/form/RoomFormDescription";
@@ -22,6 +22,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import jwtDecode from "jwt-decode";
 
 export interface SubmitRoomFormState {
   name: string;
@@ -37,9 +38,10 @@ export interface SubmitRoomFormState {
 }
 
 export default function SubmitRoom() {
-  const reduxUserId = useSelector(
-    (state: RootState) => state.auth.user_id
-  )!.toString();
+  const token = localStorage.getItem("token");
+  const decoded: JWT = jwtDecode(token!);
+  // console.log("decoded:", decoded);
+  const jwtUserId = decoded.id;
   const [userPhone, setUserPhone] = useState<string>("");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [submitRoomTab, setSubmitRoomTab] = useState<string>("part_1");
@@ -212,7 +214,7 @@ export default function SubmitRoom() {
     console.log("room images", selectedImages);
 
     formData.append("name", data.name);
-    formData.append("host_id", reduxUserId);
+    formData.append("host_id", jwtUserId.toString());
     formData.append("address", data.address);
     formData.append("capacity", data.capacity.toString());
     formData.append("district", data.district);

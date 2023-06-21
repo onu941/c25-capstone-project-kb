@@ -78,6 +78,7 @@ export class BookingService {
       .where('partyroom.host_id', id)
       .orderBy('booking_info.booking_date', 'asc');
 
+    if (!hostBookings) return { id: -1 };
     return hostBookings;
   }
 
@@ -217,6 +218,7 @@ export class BookingService {
         .orderBy('booking_date')
         .first();
 
+      if (!query) return { id: -1 };
       return query;
     } catch (error) {
       console.log(error);
@@ -265,6 +267,7 @@ export class BookingService {
         .orderBy('booking_date')
         .first();
 
+      if (!query) return { id: -1 };
       return query;
     } catch (error) {
       console.log(error);
