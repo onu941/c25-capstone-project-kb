@@ -15,10 +15,12 @@ import { FileUploadController } from './fileupload/fileupload.controller';
 import { FileUploadModule } from './fileupload/fileupload.module';
 import { FileUploadService } from './fileupload/fileupload.service';
 import { join } from 'path';
+import { DataModule } from './data/data.module';
 dotenv.config();
 
 @Module({
   imports: [
+    DataModule,
     UserModule,
     PartyroomModule,
     AuthModule,
@@ -28,6 +30,7 @@ dotenv.config();
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/uploads',
     }),
+    DataModule,
   ],
   controllers: [AppController, FileUploadController],
   providers: [AppService, JwtStrategy, UserService, FileUploadService],
