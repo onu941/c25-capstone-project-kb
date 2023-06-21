@@ -57,6 +57,10 @@ export class FileUploadController {
   ) {
     const imgFilenameArr = imgFiles.map((img) => img.filename);
 
+    console.log(
+      'checking price list total hour',
+      JSON.parse(formData.price_list),
+    );
     const treatedFormData: SubmitRoomDto = {
       name: formData.name,
       host_id: parseInt(formData.host_id),

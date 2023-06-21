@@ -101,6 +101,6 @@ export interface PriceList {
   base_room_fee: number;
   headcount_price: number;
   start_time: string;
-  total_hours: number;
+  total_hour: number;
   is_holiday: boolean;
 }

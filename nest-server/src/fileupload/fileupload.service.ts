@@ -50,14 +50,13 @@ export class FileUploadService {
           equipment_id: equipment,
         })),
       );
-
       await trx('partyroom_price_list').insert(
         formData.price_list.map((price_list) => ({
           partyroom_id: partyroomId,
           headcount_price: price_list.headcount_price,
           is_holiday: price_list.is_holiday,
           start_time: price_list.start_time,
-          total_hour: price_list.total_hours,
+          total_hour: price_list.total_hour,
           base_room_fee: price_list.base_room_fee,
         })),
       );
