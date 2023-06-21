@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("month");
       table.integer("day_of_month");
       table.integer("day_of_year");
-      table.string("date", 255);
+      table.date("date");
       table.integer("quarter");
       table.boolean("is_holiday");
       table.integer("day_of_week");
@@ -139,7 +139,7 @@ export async function up(knex: Knex): Promise<void> {
       table.integer("month");
       table.integer("day_of_month");
       table.integer("day_of_year");
-      table.string("date", 255);
+      table.date("date");
       table.integer("quarter");
       table.boolean("is_holiday");
       table.integer("day_of_week");
@@ -153,7 +153,7 @@ export async function up(knex: Knex): Promise<void> {
       table.string("partyroom_source", 255);
       table.string("partyroom_district", 255);
       table.integer("partyroom_capacity");
-      table.string("booking_source", 255)
+      table.string("booking_source", 255);
       table.decimal("total_hour", 4, 2);
       table.integer("headcount");
       table.decimal("booking_fee", 7, 2);
