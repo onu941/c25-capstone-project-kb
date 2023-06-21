@@ -122,8 +122,30 @@ time_slot
 id integer PK
 start_time datetime
 
+etl_booking
+---------------
+id integer PK
+year integer
+month integer
+date varchar(255)
+quarter integer
+ampm varchar(255)
+booking_source string
+partyroom_id FK >0- etl_partyroom.id
+booking_fee numberic(7,2)
+booking_review_rating decimal(3,1)
+created_at datetime
+updated_at datetime
+
+etl_partyroom
+-----------------
+id integer PK
+partyroom_source string
+avg_rating decimal(3,1)
+
+
 # zoom: 1.093
-# view: (-136, -92)
+# view: (606, 213)
 # text-bg: #6495ed
 # text-color: #000000
 # diagram-bg: #f5f5f5
@@ -143,6 +165,7 @@ start_time datetime
 # booking_info (1563, 198)
 # chat (1638, 993)
 # review (1641, 670)
-# staging_booking (2085, 241)
-# staging_partyroom_register (2105, 943)
-# staging_users_register (1600, 1260)
+# price (2736, 862)
+# time_slot (2596, 1121)
+# etl_booking (-208, -119)
+# etl_partyroom (-194, 307)
