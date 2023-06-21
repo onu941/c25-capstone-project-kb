@@ -74,7 +74,6 @@ export class PartyroomController {
     return reviews;
   }
 
-  // issue
   @Get('/user')
   @UseGuards(AuthGuard('jwt'))
   async findByUserIdforSettings(@Request() req: Express.Request) {
