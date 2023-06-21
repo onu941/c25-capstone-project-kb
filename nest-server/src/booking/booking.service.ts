@@ -7,6 +7,7 @@ import { Knex } from 'knex';
 import { InjectKnex } from 'nestjs-knex';
 import { CreateReviewDto } from 'src/booking/dto/create-review.dto';
 import { UpdateBookingStatusDto } from './dto/update-booking.dto';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Injectable()
 export class BookingService {
@@ -40,7 +41,7 @@ export class BookingService {
         'partyroom.id',
       )
       .where('booking_users_id', id)
-      .orderBy('booking_info.id', 'asc');
+      .orderBy('booking_info.booking_date', 'asc');
 
     return userBookings;
   }
@@ -74,7 +75,8 @@ export class BookingService {
         '=',
         'partyroom.id',
       )
-      .where('partyroom.host_id', id);
+      .where('partyroom.host_id', id)
+      .orderBy('booking_info.booking_date', 'asc');
 
     return hostBookings;
   }
@@ -262,6 +264,27 @@ export class BookingService {
         .andWhere('partyroom.host_id', id)
         .orderBy('booking_date')
         .first();
+
+      return query;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async createBooking(formData: CreateBookingDto) {
+    try {
+      const query = await this.knex('booking_info')
+        .insert({
+          partyroom_price_list_id: formData.partyroom_price_list_id,
+          booking_users_id: formData.booking_users_id,
+          headcount: formData.headcount,
+          booking_date: formData.booking_date,
+          total_fee: formData.total_fee,
+          special_request: formData.special_request,
+          is_hidden: formData.is_hidden,
+          status: formData.status,
+        })
+        .returning('id');
 
       return query;
     } catch (error) {

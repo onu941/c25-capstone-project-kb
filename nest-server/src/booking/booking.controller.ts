@@ -13,6 +13,7 @@ import { AuthService } from 'src/auth/auth.service';
 import { AuthGuard } from '@nestjs/passport';
 import { CreateReviewDto } from './dto/create-review.dto';
 import { UpdateBookingStatusDto } from './dto/update-booking.dto';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('booking')
 export class BookingController {
@@ -55,6 +56,14 @@ export class BookingController {
   @UseGuards(AuthGuard('jwt'))
   async findNextBookingAsHost(@Request() req: Express.Request) {
     return this.bookingService.findNextBookingAsHost(req.user['id']);
+  }
+
+  @Post(`/new`)
+  @UseGuards(AuthGuard('jwt'))
+  async createBooking(@Body() formData: CreateBookingDto) {
+    const bookingId = await this.bookingService.createBooking(formData);
+
+    return bookingId;
   }
 
   @Patch(`/update_status/:id`)

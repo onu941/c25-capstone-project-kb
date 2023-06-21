@@ -37,6 +37,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { NewPriceListTable } from "../components/minicomponents/Table";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 export interface MakeBookingFormState {
   partyroom_id: number;
@@ -51,6 +52,8 @@ export interface MakeBookingFormState {
 }
 
 export default function Partyroom() {
+  const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
@@ -269,32 +272,49 @@ export default function Partyroom() {
         priceLists[priceListIndex].headcount_price *
         priceLists[priceListIndex].total_hour;
 
-    const formData = new FormData();
-    formData.append("partyroom_price_list_id", databaseId.toString());
-    formData.append("booking_users_id", reduxUserId!.toString());
-    formData.append("headcount", data.headcount.toString());
-    formData.append("booking_date", data.booking_date.toString());
-    formData.append("total_fee", totalFee.toString());
-    formData.append("special_request", data.special_request);
-    formData.append("is_hidden", "false");
-    formData.append("status", "pending");
-    console.log("formData", formData);
-    // const response = await fetch(
-    //   `${import.meta.env.VITE_API_SERVER}/booking/new`,
-    //   {
-    //     method: "POST",
-    //     headers: { Authorization: `Bearer ${token}` },
-    //     body: formData,
-    //   }
-    // );
-    // const result = await response.json();
-    // if (response.ok) {
-    //   console.log("testing booking form submission");
-    //   toast.success("received backend response");
-    // } else {
-    //   toast("Hmm, something's not right");
-    //   toast.error("not working");
-    // }
+    const formJSON = {
+      partyroom_price_list_id: databaseId,
+      booking_users_id: reduxUserId,
+      headcount: data.headcount,
+      booking_date: data.booking_date,
+      total_fee: totalFee,
+      special_request: data.special_request,
+      is_hidden: false,
+      status: "pending",
+    };
+    // const formData = new FormData();
+    // formData.append("partyroom_price_list_id", databaseId.toString());
+    // formData.append("booking_users_id", reduxUserId!.toString());
+    // formData.append("headcount", data.headcount.toString());
+    // formData.append("booking_date", data.booking_date.toString());
+    // formData.append("total_fee", totalFee.toString());
+    // formData.append("special_request", data.special_request);
+    // formData.append("is_hidden", "false");
+    // formData.append("status", "pending");
+    // console.log("formData", formData);
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/new`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formJSON),
+      }
+    );
+    if (response.ok) {
+      const result = await response.json();
+      const pendingBookingId = result[0].id;
+      localStorage.setItem(
+        "bookingSuccess",
+        "Your booking has been confirmed!"
+      );
+      navigate(`/booking?booking_id=${pendingBookingId}`);
+    } else {
+      toast("Hmm, something's not right");
+      toast.error("not working");
+    }
   };
 
   if (isLoading) {
