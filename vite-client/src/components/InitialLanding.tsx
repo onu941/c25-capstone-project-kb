@@ -1,6 +1,6 @@
 import { InitialLandingProps } from "../app/interface";
 import { PrimaryButton } from "./minicomponents/Buttons";
-import logo from "../assets/logo.png";
+import logo from "../assets/logo04.png";
 
 export function InitialLanding(props: InitialLandingProps) {
   return (
