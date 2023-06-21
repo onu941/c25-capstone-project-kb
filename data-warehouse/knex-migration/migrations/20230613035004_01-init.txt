@@ -165,21 +165,25 @@ created_at datetime
 updated_at datetime
 
 
-# fact_booking (661, 48)
-# dim_date (331, -16)
-# dim_time (362, 183)
-# dim_users (957, 27)
-# dim_partyroom (1032, 358)
-# view: (-36, 29)
-# fact_registered_partyroom (1059, 509)
-# fact_registered_users (944, 119)
-# zoom: 0.346
-# dim_equipment_list (735, 304)
-# dim_equipment (579, 337)
-# dim_category_list (738, 416)
-# dim_category (583, 448)
-# dim_price_list (1021, 215)
-# staging_booking (270, 296)
-# staging_users_register (982, 694)
-# staging_partyroom_register (666, 533)
-# partyroom_price_list (1128, 190)
+# zoom: 1.093
+# view: (-99, -157)
+# text-bg: #6495ed
+# text-color: #000000
+# diagram-bg: #f5f5f5
+# diagram-text: #f5f5f5
+# table-bg: #ffffff
+# table-text: #000000
+# users (1190, 607)
+# partyroom (748, 548)
+# partyroom_image (433, 909)
+# image (863, 1045)
+# district (278, 689)
+# partyroom_category (562, 313)
+# category (571, 193)
+# partyroom_equipment (243, 454)
+# equipment (249, 330)
+# partyroom_price_list (1128, 189)
+# booking_info (1563, 198)
+# review (1641, 670)
+# price (2435, 1198)
+# time_slot (2596, 1121)
