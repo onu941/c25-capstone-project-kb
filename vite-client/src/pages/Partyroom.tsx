@@ -40,6 +40,8 @@ import { NewPriceListTable } from "../components/minicomponents/Table";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import { useAppDispatch } from "../app/hook";
+import { settings } from "../redux/userSlice";
 
 export interface MakeBookingFormState {
   partyroom_id: number;
@@ -55,6 +57,8 @@ export interface MakeBookingFormState {
 
 export default function Partyroom() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const token = localStorage.getItem("token");
   const decoded: JWT = jwtDecode(token!);
   // console.log("decoded:", decoded);
@@ -303,6 +307,7 @@ export default function Partyroom() {
         "bookingSuccess",
         "Your booking has been confirmed!"
       );
+      dispatch(settings("partygoer"));
       navigate(`/booking?booking_id=${pendingBookingId}`);
     } else {
       toast("Hmm, something's not right");
