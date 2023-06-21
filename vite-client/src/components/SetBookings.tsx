@@ -9,10 +9,11 @@ import { useAppDispatch } from "../app/hook";
 import { bookingsTab as bookingsTabSlice } from "../redux/userSlice";
 
 export function SetBookings() {
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const navigate = useNavigate();
   const [userBookings, setUserBookings] = useState<BookingInSettings[]>([]);
   const [hostBookings, setHostBookings] = useState<BookingInSettings[]>([]);
+  const [noUserBookings, setNoUserBookings] = useState<boolean>(false);
+  const [noHostBookings, setNoHostBookings] = useState<boolean>(false);
 
   const bookingsTab = useSelector((state: RootState) => state.user.bookingsTab);
   const dispatch = useAppDispatch();
@@ -35,6 +36,8 @@ export function SetBookings() {
       );
 
       const bookingsData = await response.json();
+      console.log("bookingsData as user", bookingsData);
+      if (bookingsData.length == 0) setNoUserBookings(true);
       const bookingsTreated = bookingsData.map(
         (booking: BookingInSettings) => ({
           ...booking,
@@ -62,6 +65,9 @@ export function SetBookings() {
       );
 
       const hostData = await response.json();
+      console.log("bookingsData as host", hostData);
+
+      if (hostData.length == 0) setNoHostBookings(true);
       const hostTreated = hostData.map((booking: BookingInSettings) => ({
         ...booking,
         booking_date: new Date(booking.booking_date).toLocaleString("en-US", {
@@ -78,6 +84,8 @@ export function SetBookings() {
     fetchHostBookings();
   }, []);
 
+  console.log("no user bookings", noUserBookings);
+  console.log("no host bookings", noHostBookings);
   return (
     <>
       <BookingsTab
@@ -87,7 +95,8 @@ export function SetBookings() {
       <div className="flex flex-row w-full md:pt-10 pt-6 place-content-center mb-36">
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 w-fit md:mb-0">
           {bookingsTab === "partygoer" &&
-            userBookings.map((booking) => (
+            !noUserBookings &&
+            userBookings!.map((booking) => (
               <div className="mx-4" key={booking.id}>
                 <BookingCard
                   id={booking.id}
@@ -107,7 +116,13 @@ export function SetBookings() {
                 />
               </div>
             ))}
+          {bookingsTab === "partygoer" && noUserBookings && (
+            <div className="text-slate-300 text-lg">
+              No bookings as partygoer
+            </div>
+          )}
           {bookingsTab === "host" &&
+            !noHostBookings &&
             hostBookings.map((booking) => (
               <div className="mx-4" key={booking.id}>
                 <BookingCard
@@ -128,6 +143,9 @@ export function SetBookings() {
                 />
               </div>
             ))}
+          {bookingsTab === "host" && noHostBookings && (
+            <div className="text-slate-300 text-lg">No bookings as host</div>
+          )}
         </div>
       </div>
     </>

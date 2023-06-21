@@ -15,7 +15,7 @@ import { match } from 'assert';
 export class PartyroomService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  async findRandomForLanding() {
+  async findRandomForLanding(id: number) {
     const query = await this.knex('partyroom')
       .select('partyroom.id', 'image.filename')
       .join(
@@ -25,7 +25,7 @@ export class PartyroomService {
         'partyroom_image.partyroom_id',
       )
       .join('image', 'partyroom_image.image_id', '=', 'image.id')
-      .where('partyroom.host_id', '<>', 1)
+      .where('partyroom.host_id', '<>', id)
       .orderByRaw('RANDOM()')
       .limit(8);
 

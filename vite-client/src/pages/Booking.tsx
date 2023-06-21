@@ -315,7 +315,7 @@ export default function Booking() {
           <div
             className={`mb-12 ${
               showTimeSensitiveSection && "mt-6"
-            } columns-2 gap-8`}
+            } grid md:grid-cols-2 grid-cols-1 gap-8 px-4 md:px-0`}
           >
             <BookingCardLarge
               image={`${import.meta.env.VITE_API_SERVER}/rooms/${
@@ -337,7 +337,7 @@ export default function Booking() {
               pax={bookingDetails.headcount}
               time={bookingDetails.start_time}
             />
-            <div className="flex flex-col place-content-between">
+            <div className="flex flex-col place-content-between md:mt-0 mt-8">
               <OwnerCard
                 name={bookingDetails.person_name}
                 whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
@@ -381,7 +381,10 @@ export default function Booking() {
           )}
           {viewMode === "partygoer" && showTimeSensitiveSection && (
             <>
-              <form className="w-full" onSubmit={handleSubmitReview}>
+              <form
+                className="w-full px-4 md:px-0"
+                onSubmit={handleSubmitReview}
+              >
                 <ReviewHeader
                   handleInputChange={handleFormChange}
                   rating={reviewFormData.rating}

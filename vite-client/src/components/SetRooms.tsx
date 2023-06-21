@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { PartyroomCard } from "./minicomponents/Cards";
 import { useEffect, useState } from "react";
-import { PartyroomInSettings } from "../app/interface";
+import { JWT, PartyroomInSettings } from "../app/interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import jwtDecode from "jwt-decode";
 
 export function SetRooms() {
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
   const navigate = useNavigate();
   const [userPartyrooms, setUserPartyrooms] = useState<PartyroomInSettings[]>(
     []
@@ -15,6 +15,9 @@ export function SetRooms() {
   useEffect(() => {
     const fetchUserPartyrooms = async () => {
       const token = localStorage.getItem("token");
+      const decoded: JWT = jwtDecode(token!);
+      // console.log("decoded:", decoded);
+      const jwtUserId = decoded.id;
 
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/partyroom/user`,
