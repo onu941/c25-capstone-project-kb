@@ -37,16 +37,6 @@ export class PartyroomController {
     return this.partyroomService.findRandomForLanding(req.user['id']);
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: number) {
-    if (!id) {
-      throw new BadRequestException('invalid id in params');
-    }
-
-    const partyroom = await this.partyroomService.findOne(id);
-    return partyroom[0];
-  }
-
   @Get('/categories/:id')
   async findCategoriesForOne(@Param('id') id: number) {
     return this.partyroomService.findCategoriesForOne(id);
@@ -88,11 +78,22 @@ export class PartyroomController {
   @Get('/user')
   @UseGuards(AuthGuard('jwt'))
   async findByUserIdforSettings(@Request() req: Express.Request) {
+    console.log(req.user);
     return this.partyroomService.findByUserIdforSettings(req.user['id']);
   }
 
   @Post('/search')
   async searchByDistrict(@Body('districtId') districtId: number) {
     return await this.partyroomService.searchByDistrict(districtId);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    if (!id) {
+      throw new BadRequestException('invalid id in params');
+    }
+
+    const partyroom = await this.partyroomService.findOne(id);
+    return partyroom[0];
   }
 }

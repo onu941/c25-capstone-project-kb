@@ -252,7 +252,7 @@ export default function Landing() {
                       ).toLocaleString("default", { month: "short" })}
                       pax={hostDetails.headcount}
                     />
-                    <div className="grid grid-cols-2 place-content-center place-items-center pt-10">
+                    <div className="grid md:grid-cols-2 grid-cols-1 place-content-center place-items-center pt-10">
                       <Link to="/submit_room">
                         <PrimaryButton label="Submit a New Room" />
                       </Link>
