@@ -58,7 +58,7 @@ export default function RoomFormPricing({
             priceListDetails!.length >= 3 && `md:grid-cols-3`
           } ${priceListDetails!.length == 2 && `md:grid-cols-2`} ${
             priceListDetails!.length <= 1 && `md:grid-cols-1`
-          } grid-cols-1 gap-8 place-items-center place-content-center bg-slate-950 bg-opacity-30 md:p-12 p-6 border-solid border-2 rounded-md border-slate-500 border-opacity-30 overflow-auto`}
+          } grid-cols-1 gap-8 place-items-center place-content-center md:bg-slate-950 md:bg-opacity-30 bg-transparent md:p-12 p-0 md:border-solid border-2 rounded-md md:border-slate-500 border-slate-800 md:border-opacity-30 border-none overflow-auto`}
         >
           {priceListDetails!.map((v, listIndex) => (
             <div

@@ -274,7 +274,7 @@ export default function SubmitRoom() {
             isSelected={submitRoomTab}
           />
           <form
-            className="md:px-16 px-4"
+            className="md:px-16 px-6"
             onSubmit={handleSubmit((v) => onSubmit(v))}
             ref={formRef}
           >
