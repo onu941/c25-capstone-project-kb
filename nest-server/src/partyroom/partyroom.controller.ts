@@ -32,8 +32,9 @@ export class PartyroomController {
   }
 
   @Get('/random')
-  async findRandomForLanding() {
-    return this.partyroomService.findRandomForLanding();
+  @UseGuards(AuthGuard('jwt'))
+  async findRandomForLanding(@Request() req: Express.Request) {
+    return this.partyroomService.findRandomForLanding(req.user['id']);
   }
 
   @Get(':id')
@@ -58,7 +59,7 @@ export class PartyroomController {
 
   @Get('/pricelist/:id')
   async findPriceListsForOne(@Param('id') id: number) {
-    return this.partyroomService.findPriceListsForOne(id);
+    return await this.partyroomService.findPriceListsForOne(id);
   }
 
   @Get('/img/:id')

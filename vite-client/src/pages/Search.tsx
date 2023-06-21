@@ -14,9 +14,12 @@ import {
 import { SubmitButton } from "../components/minicomponents/Buttons";
 import { PartyroomCardLarge } from "../components/minicomponents/Cards";
 import sample from "../../public/img/sample_partyroom.jpg";
-import { SearchResults } from "../app/interface";
+import { JWT, SearchResults } from "../app/interface";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import jwtDecode from "jwt-decode";
 
 export function Search() {
   const navigate = useNavigate();

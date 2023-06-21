@@ -6,9 +6,14 @@ import { FormEvent, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { JWT } from "../app/interface";
+import jwtDecode from "jwt-decode";
 
 export function SetGeneral() {
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
+  const token = localStorage.getItem("token");
+  const decoded: JWT = jwtDecode(token!);
+  // console.log("decoded:", decoded);
+  const jwtUserId = decoded.id;
 
   const [inputs, setUserInputs] = useState({
     id: NaN,
@@ -73,7 +78,7 @@ export function SetGeneral() {
     const params = new URLSearchParams(window.location.search);
 
     const response = await fetch(
-      `${import.meta.env.VITE_API_SERVER}/user/${reduxUserId}`,
+      `${import.meta.env.VITE_API_SERVER}/user/${jwtUserId}`,
       {
         method: "PATCH",
         headers: {
