@@ -184,7 +184,7 @@ export default function Landing() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-6 px-4 md:px-0">
+          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-2 px-4 md:px-0">
             <div>
               <BodyHeader title="Your next booking:"></BodyHeader>
               {!noBookingsAsPartygoer ? (

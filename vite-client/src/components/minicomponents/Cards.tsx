@@ -147,11 +147,11 @@ export function OwnerCard(props: CardProps) {
 export function ReviewCard(props: CardProps) {
   return (
     <div className="card lg:card-side bg-transparent drop-shadow-xl border-solid border-slate-700 border-2 columns-2">
-      <div className="p-2 px-8 place-items-center place-content-center flex italic text-slate-200 text-lg leading-relaxed border-r-2 border-solid border-slate-700">
+      <div className="p-2 py-8 px-8 place-items-center place-content-center text-center md:text-start flex italic text-slate-200 text-lg leading-relaxed border-r-2 border-solid border-slate-700">
         {`"${props.review_text}"`}
       </div>
-      <div className="card-body w-3/5 flex flex-col bg-slate-800 bg-opacity-50">
-        <div className="card-title text-slate-200 text-5xl mb-3 font-light tracking-wider">
+      <div className="card-body flex w-fill md:flex-col flex-row bg-slate-800 bg-opacity-50">
+        <div className="card-title text-slate-200 md:text-5xl text-4xl mb-3 md:me-0 me-6 font-light tracking-wider">
           {props.score}
         </div>
         <div className="text-slate-300 text-base mb-3">

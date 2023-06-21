@@ -300,7 +300,7 @@ export default function Booking() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="mt-8 flex justify-around place-items-center">
+          <div className="mt-8 flex justify-around place-items-center md:mx-0 mx-4">
             <span className="mb-6 text-xl text-slate-300">
               Booking Status:{" "}
               <span className="text-slate-100">{bookingDetails.status}</span>
@@ -337,7 +337,11 @@ export default function Booking() {
               pax={bookingDetails.headcount}
               time={bookingDetails.start_time}
             />
-            <div className="flex flex-col place-content-between md:mt-0 mt-4">
+            <div
+              className={`flex flex-col place-content-between md:mt-0 mt-4 ${
+                !showTimeSensitiveSection && `mb-16`
+              }`}
+            >
               <OwnerCard
                 name={bookingDetails.person_name}
                 whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}

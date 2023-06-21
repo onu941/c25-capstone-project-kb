@@ -29,9 +29,12 @@ export function NewPriceListTable(props: PriceListTableProps) {
   };
 
   return (
-    <div className="grid grid-cols-3 grid-flow-row w-full mt-4">
+    <div className="grid md:grid-cols-3 grid-cols-1 w-full md:mt-4">
       {props.data.map((d, index) => (
-        <div className="flex justify-center mb-8" key={index}>
+        <div
+          className="flex place-content-center place-items-center md:mb-8 mb-6"
+          key={index}
+        >
           <table className="bg-slate-800 bg-opacity-50 border-solid border-2 border-slate-500 border-opacity-30">
             {/* head */}
             <thead>
@@ -51,7 +54,7 @@ export function NewPriceListTable(props: PriceListTableProps) {
                   Period
                 </th>
                 <td className="text-slate-300 pt-3 pb-2 px-7 text-center">
-                  {d.is_holiday ? "Sat, Sun, Holidays" : "Mon - Fri"}
+                  {d.is_holiday ? "Sat, Sun, Hols" : "Mon - Fri"}
                 </td>
               </tr>
               {/* row 2 */}
