@@ -55,7 +55,7 @@ export default function SubmitRoom() {
       base_room_fee: 0,
       headcount_price: 0,
       start_time: "",
-      total_hours: 0,
+      total_hour: 0,
       is_holiday: false,
     },
   ]);
@@ -132,7 +132,7 @@ export default function SubmitRoom() {
         base_room_fee: 0,
         headcount_price: 0,
         start_time: "",
-        total_hours: 0,
+        total_hour: 0,
         is_holiday: false,
       },
     ]);
@@ -244,10 +244,9 @@ export default function SubmitRoom() {
     const result = await response.json();
 
     if (response.ok) {
-      console.log("testing form submission - result", result);
-      toast.success("working");
+      toast.success("Your partyroom has been uploaded!");
     } else {
-      toast("not working");
+      toast("Hmm, something's not right");
     }
   };
   const { register, handleSubmit } = form;

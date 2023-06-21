@@ -20,7 +20,11 @@ export function DropdownInput(props: InputProps) {
         {props.options!.map((option, index) => (
           <option
             key={index}
-            value={option.id}
+            value={
+              !props.hasExtras
+                ? `${option.id}`
+                : `${option.id}, ${option.extra}`
+            }
             className="text-slate-300 px-2 py-3 mb-5 text-center w-full drop-shadow-lg border-solid border-b-slate-300 border-opacity-50 border-transparent"
           >
             {option.name}
