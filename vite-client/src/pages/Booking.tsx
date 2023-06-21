@@ -161,6 +161,10 @@ export default function Booking() {
     if (viewMode === "host") {
       getBookingDetailsAsHost();
     }
+
+    const successMessage = localStorage.getItem("bookingSuccess");
+    if (successMessage) toast.success(successMessage);
+    localStorage.removeItem("bookingSuccess");
   }, [viewMode]);
 
   useEffect(() => {

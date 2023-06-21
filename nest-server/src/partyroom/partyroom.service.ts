@@ -104,6 +104,7 @@ export class PartyroomService {
     try {
       const query = await this.knex
         .select(
+          'partyroom_price_list.id AS database',
           'partyroom_price_list.headcount_price',
           'partyroom_price_list.is_holiday',
           'partyroom_price_list.start_time',

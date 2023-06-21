@@ -28,25 +28,42 @@ import {
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
 import {
+  Booking,
   PartyroomImage,
   Partyroom as PartyroomType,
   Review,
 } from "../app/interface";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import {
-  PriceListTable,
-  NewPriceListTable,
-} from "../components/minicomponents/Table";
+import { NewPriceListTable } from "../components/minicomponents/Table";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+export interface MakeBookingFormState {
+  partyroom_id: number;
+  partyroom_price_list_id: string;
+  booking_user_id: number;
+  headcount: number;
+  booking_date: string | Date;
+  total_fee: number;
+  special_request: string;
+  is_hidden: boolean;
+  status: string;
+}
 
 export default function Partyroom() {
+  const navigate = useNavigate();
+
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
   const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
+  const [bookingModalPriceListDropdown, setBookingModalPriceListDropdown] =
+    useState([]);
   const [partyroom, setPartyroom] = useState<PartyroomType>({
     id: Number(partyroomId),
     name: "",
@@ -67,7 +84,6 @@ export default function Partyroom() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
   const [mainRoomImage, setMainRoomImage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -76,6 +92,10 @@ export default function Partyroom() {
   const toggleBookingModal = () => {
     setBookingModalIsOpen(!bookingModalIsOpen);
   };
+
+  // const handleResetBookingModal = () => {
+  // formRef.current?.reset();
+  // }
 
   const openGoogleMaps = () => {
     const addressQuery = encodeURIComponent(
@@ -195,7 +215,6 @@ export default function Partyroom() {
       );
 
       const priceListsData = await response.json();
-      console.log("checking price list data:", priceListsData);
       setPriceLists(priceListsData);
     };
 
@@ -227,9 +246,82 @@ export default function Partyroom() {
     fetchAllData();
   }, []);
 
+  useEffect(() => {
+    setBookingModalPriceListDropdown(
+      priceLists.map((list: any, index: number) => ({
+        id: index,
+        name: `${
+          !list.is_holiday ? `Weekdays` : "Weekends & Hols"
+        }, ${list.start_time.slice(0, -3)} start`,
+        extra: list.database,
+      }))
+    );
+  }, [priceLists]);
+
+  const form = useForm<MakeBookingFormState>();
+  const onSubmitBooking: SubmitHandler<MakeBookingFormState> = async (data) => {
+    console.log(data);
+
+    const [priceListIndex, databaseId] = data.partyroom_price_list_id
+      .split(", ")
+      .map(Number);
+
+    const totalFee =
+      priceLists[priceListIndex].base_room_fee +
+      data.headcount *
+        priceLists[priceListIndex].headcount_price *
+        priceLists[priceListIndex].total_hour;
+
+    const formJSON = {
+      partyroom_price_list_id: databaseId,
+      booking_users_id: reduxUserId,
+      headcount: data.headcount,
+      booking_date: data.booking_date,
+      total_fee: totalFee,
+      special_request: data.special_request,
+      is_hidden: false,
+      status: "pending",
+    };
+    // const formData = new FormData();
+    // formData.append("partyroom_price_list_id", databaseId.toString());
+    // formData.append("booking_users_id", reduxUserId!.toString());
+    // formData.append("headcount", data.headcount.toString());
+    // formData.append("booking_date", data.booking_date.toString());
+    // formData.append("total_fee", totalFee.toString());
+    // formData.append("special_request", data.special_request);
+    // formData.append("is_hidden", "false");
+    // formData.append("status", "pending");
+    // console.log("formData", formData);
+    const response = await fetch(
+      `${import.meta.env.VITE_API_SERVER}/booking/new`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formJSON),
+      }
+    );
+    if (response.ok) {
+      const result = await response.json();
+      const pendingBookingId = result[0].id;
+      localStorage.setItem(
+        "bookingSuccess",
+        "Your booking has been confirmed!"
+      );
+      navigate(`/booking?booking_id=${pendingBookingId}`);
+    } else {
+      toast("Hmm, something's not right");
+      toast.error("not working");
+    }
+  };
+
   if (isLoading) {
     return <div>Is Loading..</div>;
   }
+
+  const { register, handleSubmit } = form;
 
   return (
     <>
@@ -245,7 +337,13 @@ export default function Partyroom() {
               onClick={toggleBookingModal}
             />
             {bookingModalIsOpen && (
-              <BookingModal toggleModal={toggleBookingModal} />
+              <BookingModal
+                toggleModal={toggleBookingModal}
+                register={register}
+                onSubmit={handleSubmit(onSubmitBooking)}
+                totalCost={100}
+                options={bookingModalPriceListDropdown}
+              />
             )}
           </>
         ) : (
@@ -575,11 +673,9 @@ export default function Partyroom() {
               <p>{`"${partyroom.description}"`}</p>
             </div>
           </div>
-          <div className="mb-8 flex flex-col flex-wrap">
+          <div className="mb-8 flex flex-row flex-wrap">
             <BodyHeader title="Price Lists" />
-            <div className="flex justify-center md:rotate-0 rotate-90 w-full">
-              <PriceListTable data={priceLists} />
-            </div>
+            <NewPriceListTable data={priceLists} />
             <div></div>
           </div>
           <div className="mb-48">
