@@ -40,7 +40,7 @@ export function SetRooms() {
   return (
     <div className="flex flex-row w-full md:pt-10 pt-6 place-content-center">
       <div className="grid grid-cols-1 md:grid-cols-3 md:gap-8 gap-2 w-fit mb-24 md:mb-0">
-        {/* {userPartyrooms.map((partyroom) => (
+        {userPartyrooms.map((partyroom) => (
           <div className="mx-4" key={partyroom.id}>
             <PartyroomCard
               key={partyroom.id}
@@ -51,7 +51,7 @@ export function SetRooms() {
               }}
             />
           </div>
-        ))} */}
+        ))}
       </div>
     </div>
   );

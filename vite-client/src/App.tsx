@@ -17,9 +17,9 @@ function App() {
     <FullScreen>
       <Routes>
         <Route path="/handle_user" element={<HandleUser />} />
-        <Route path="/partyroom" element={<Partyroom />} />
-        <Route path="/search" element={<Search />} />
         <Route element={<AuthGuard />}>
+          <Route path="/partyroom" element={<Partyroom />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/test" element={<Test />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/submit_room" element={<SubmitRoom />} />
