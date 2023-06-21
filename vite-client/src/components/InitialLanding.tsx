@@ -1,11 +1,12 @@
 import { InitialLandingProps } from "../app/interface";
 import { PrimaryButton } from "./minicomponents/Buttons";
+import logo from "../assets/logo.png";
 
 export function InitialLanding(props: InitialLandingProps) {
   return (
     <div className="flex flex-col place-content-center place-items-center">
-      <div className="h-36 w-52 dark:bg-slate-600 rounded-xl flex place-content-center place-items-center mb-28">
-        Logo
+      <div className="md:w-96 w-80 rounded-xl flex place-content-center place-items-center mb-14">
+        <img src={logo} className="w-96"></img>
       </div>
       <PrimaryButton
         label="New User"

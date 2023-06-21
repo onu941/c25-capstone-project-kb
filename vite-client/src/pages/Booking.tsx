@@ -337,28 +337,28 @@ export default function Booking() {
               pax={bookingDetails.headcount}
               time={bookingDetails.start_time}
             />
-            <div className="flex flex-col place-content-between md:mt-0 mt-8">
+            <div className="flex flex-col place-content-between md:mt-0 mt-4">
               <OwnerCard
                 name={bookingDetails.person_name}
                 whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
               />
-              <div className="mt-11 mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex items-center justify-center text-slate-300 text-lg">
-                <span className="italic">
+              <div className="mt-11 md:mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex flex-wrap items-center justify-center text-slate-300 md:text-lg text-base">
+                <div className="italic">
                   {bookingDetails.special_request &&
                     `"${bookingDetails.special_request}"`}
-                </span>
-                <span className="text-slate-500">
+                </div>
+                <div className="text-slate-500">
                   {bookingDetails.special_request
                     ? `\u00A0-\u00A0${
                         viewMode === "host" ? "Their" : "Your"
                       } special request`
                     : "No special requests"}
-                </span>
+                </div>
               </div>
             </div>
           </div>
           {viewMode === "host" && (
-            <div className="w-full flex justify-center mt-20">
+            <div className="w-full flex justify-center md:mt-20 md:mb-0 mb-24">
               <div className="w-5/12 flex flex-wrap justify-between">
                 <DangerButton
                   disabled={
