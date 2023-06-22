@@ -55,12 +55,6 @@ export function BookingModal(props: BookingModalProps) {
                 register={props.register("special_request")}
               />
             </div>
-            <div className="mt-6">
-              <p className="text-center">
-                Based on this room's pricing blocks, your stay would cost{" "}
-                <span className="font-bold underline">${props.totalCost}</span>
-              </p>
-            </div>
             <div className="mt-8 w-full flex columns-2 gap-6 place-content-center">
               <div>
                 <PrimaryButton
