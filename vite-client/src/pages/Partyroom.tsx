@@ -326,7 +326,6 @@ export default function Partyroom() {
                 toggleModal={toggleBookingModal}
                 register={register}
                 onSubmit={handleSubmit(onSubmitBooking)}
-                totalCost={totalCost}
                 options={bookingModalPriceListDropdown}
               />
             )}
