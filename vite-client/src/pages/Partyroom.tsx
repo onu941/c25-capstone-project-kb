@@ -62,7 +62,6 @@ export default function Partyroom() {
   const jwtUserId = decoded.id;
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
-  const [isLoading, setIsLoading] = useState(true);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [bookingModalIsOpen, setBookingModalIsOpen] = useState(false);
   const [bookingModalPriceListDropdown, setBookingModalPriceListDropdown] =
@@ -87,6 +86,7 @@ export default function Partyroom() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
   const [mainRoomImage, setMainRoomImage] = useState<string>("");
+  const [totalCost, setTotalCost] = useState<string | number>("___");
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -239,8 +239,6 @@ export default function Partyroom() {
       await fetchPartyroomImages();
       await fetchPartyroomPriceLists();
       await fetchPartyroomReviews();
-
-      setIsLoading(false);
     };
     fetchAllData();
   }, []);
@@ -328,7 +326,7 @@ export default function Partyroom() {
                 toggleModal={toggleBookingModal}
                 register={register}
                 onSubmit={handleSubmit(onSubmitBooking)}
-                totalCost={100}
+                totalCost={totalCost}
                 options={bookingModalPriceListDropdown}
               />
             )}
