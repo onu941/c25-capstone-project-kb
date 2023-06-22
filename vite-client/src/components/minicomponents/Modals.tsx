@@ -9,7 +9,6 @@ export interface BookingModalProps {
   toggleModal?: () => void;
   onSubmit: FormEventHandler<HTMLFormElement>;
   register: UseFormRegister<MakeBookingFormState>;
-  totalCost: number;
   options: any[];
 }
 
