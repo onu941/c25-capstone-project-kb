@@ -11,7 +11,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import sample from "../../public/img/sample_partyroom.jpg";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { BookingCard, RandomLandingRooms } from "../app/interface";

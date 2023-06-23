@@ -1,5 +1,5 @@
 import { UserCircleIcon } from "@heroicons/react/20/solid";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { HeaderProps } from "../../app/interface";
 
 export function AppHeader(props: HeaderProps) {

@@ -6,20 +6,12 @@ import {
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
-import {
-  DropdownInput,
-  DropdownInputSimple,
-  StandardInput,
-} from "../components/minicomponents/Inputs";
+import { DropdownInputSimple } from "../components/minicomponents/Inputs";
 import { SubmitButton } from "../components/minicomponents/Buttons";
 import { PartyroomCardLarge } from "../components/minicomponents/Cards";
-import sample from "../../public/img/sample_partyroom.jpg";
-import { JWT, SearchResults } from "../app/interface";
+import { SearchResults } from "../app/interface";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import jwtDecode from "jwt-decode";
 
 export function Search() {
   const navigate = useNavigate();

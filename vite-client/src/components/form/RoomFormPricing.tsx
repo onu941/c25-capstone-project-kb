@@ -1,9 +1,8 @@
-import { PlusIcon, MinusIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 import { FormHeader } from "../minicomponents/Headers";
 import { StandardInput } from "../minicomponents/Inputs";
 import { FormProps } from "../../app/interface";
 import { PrimaryButton } from "../minicomponents/Buttons";
-import { useState } from "react";
 
 export interface PriceList {
   id: string;

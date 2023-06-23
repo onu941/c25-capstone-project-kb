@@ -1,4 +1,4 @@
-import { SubmitHandler, UseFormRegister } from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 import { MakeBookingFormState } from "../../pages/Partyroom";
 import { PrimaryButton, SubmitButton } from "./Buttons";
 import { DropdownInput, StandardInput, TextArea } from "./Inputs";

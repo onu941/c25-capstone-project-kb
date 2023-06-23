@@ -1,5 +1,5 @@
 import { CheckboxRefs, FormCategoryEquipmentProps } from "../../app/interface";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import {
   BBQIcon,
@@ -17,21 +17,6 @@ import { TvIcon } from "@heroicons/react/24/outline";
 export default function RoomFormCategoryEquipment(
   props: FormCategoryEquipmentProps
 ) {
-  const checkboxRefs: CheckboxRefs = {
-    General: useRef<HTMLInputElement>(null),
-    Dates: useRef<HTMLInputElement>(null),
-    Families: useRef<HTMLInputElement>(null),
-    Businesses: useRef<HTMLInputElement>(null),
-    Birthdays: useRef<HTMLInputElement>(null),
-    Weddings: useRef<HTMLInputElement>(null),
-    Mahjong: useRef<HTMLInputElement>(null),
-    BBQ: useRef<HTMLInputElement>(null),
-    Karaoke: useRef<HTMLInputElement>(null),
-    VideoGames: useRef<HTMLInputElement>(null),
-    BoardGames: useRef<HTMLInputElement>(null),
-    TV: useRef<HTMLInputElement>(null),
-  };
-
   return (
     <>
       <FormIconButtonGroup

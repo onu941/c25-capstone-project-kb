@@ -1,9 +1,5 @@
 import { FormEvent } from "react";
-import {
-  UseFormHandleSubmit,
-  UseFormRegister,
-  UseFormRegisterReturn,
-} from "react-hook-form";
+import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
 import { SubmitRoomFormState } from "../pages/SubmitRoom";
 import { PriceList } from "../components/form/RoomFormPricing";
 

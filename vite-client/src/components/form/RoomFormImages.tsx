@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { FormImageProps } from "../../app/interface";
 import { PrimaryButton } from "../minicomponents/Buttons";
 import { XMarkIcon } from "@heroicons/react/20/solid";

@@ -86,7 +86,6 @@ export default function Partyroom() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [roomImages, setRoomImages] = useState<PartyroomImage[]>([]);
   const [mainRoomImage, setMainRoomImage] = useState<string>("");
-  const [totalCost, setTotalCost] = useState<string | number>("___");
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
