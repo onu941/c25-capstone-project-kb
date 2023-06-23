@@ -1,8 +1,8 @@
-import { Module, forwardRef } from '@nestjs/common';
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { KnexModule } from 'nestjs-knex';
-import { AuthModule } from 'src/auth/auth.module';
+import { Module, forwardRef } from "@nestjs/common";
+import { UserController } from "./user.controller";
+import { UserService } from "./user.service";
+import { KnexModule } from "nestjs-knex";
+import { AuthModule } from "src/auth/auth.module";
 
 @Module({
   imports: [
@@ -10,9 +10,9 @@ import { AuthModule } from 'src/auth/auth.module';
     KnexModule.forRootAsync({
       useFactory: async () => ({
         config: {
-          client: 'pg',
+          client: "pg",
           connection: {
-            host: 'localhost',
+            host: process.env.DB_HOST,
             port: 5432,
             user: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
