@@ -23,7 +23,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: "docker-testing:latest"
+    image: "onu941/docker-testing:latest"
     ports:
       - "8080:8080"
   postgres:
