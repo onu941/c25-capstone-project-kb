@@ -1,19 +1,10 @@
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
 import { PrimaryButton } from "./minicomponents/Buttons";
-import { FullScreen, ResponsiveContainer } from "./minicomponents/Containers";
-import { AppHeader } from "./minicomponents/Headers";
-import { Sidebar } from "./minicomponents/Sidebar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tab } from "./minicomponents/Tab";
 
 export default function Loading() {
   const navigate = useNavigate();
-  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
-  const toggleSidebar = () => {
-    setSidebarIsOpen(!sidebarIsOpen);
-  };
-
   const [showPrimaryButton, setShowPrimaryButton] = useState(false);
 
   useEffect(() => {

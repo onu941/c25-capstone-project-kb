@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
 import { UseFormRegister } from "react-hook-form";
-import { SubmitRoomFormState } from "../../app/interface";
+import { SubmitRoomFormState } from "../../pages/SubmitRoom";
 import { FormHeader } from "../minicomponents/Headers";
 
 type FormIconButtonGroupIcon =

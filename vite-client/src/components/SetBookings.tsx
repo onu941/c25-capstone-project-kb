@@ -1,9 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { BookingCard } from "./minicomponents/Cards";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useEffect, useState } from "react";
-import { Booking, BookingInSettings } from "../app/interface";
+import { BookingInSettings } from "../app/interface";
 import { BookingsTab } from "./minicomponents/Tab";
 import { useAppDispatch } from "../app/hook";
 import { bookingsTab as bookingsTabSlice } from "../redux/userSlice";

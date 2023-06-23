@@ -20,8 +20,6 @@ import {
   SubmitButton,
 } from "../components/minicomponents/Buttons";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import jwtDecode from "jwt-decode";
 
 export interface SubmitRoomFormState {
@@ -244,7 +242,7 @@ export default function SubmitRoom() {
     );
 
     const result = await response.json();
-
+    console.log(result);
     if (response.ok) {
       toast.success("Your partyroom has been uploaded!");
     } else {

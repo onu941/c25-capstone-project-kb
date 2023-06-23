@@ -3,7 +3,6 @@ import {
   ButtonProps,
   FormIconButtonProps,
   SettingsTabButtonProps,
-  SubmitRoomFormState,
 } from "../../app/interface";
 import {
   BBQIcon,
@@ -16,9 +15,6 @@ import {
   WeddingIcon,
 } from "../../assets/MaterialIcons";
 import { TvIcon } from "@heroicons/react/24/outline";
-import { ComponentType } from "react";
-import { FormHeader } from "./Headers";
-import { UseFormRegister } from "react-hook-form";
 
 export function PrimaryButton(props: ButtonProps) {
   return (

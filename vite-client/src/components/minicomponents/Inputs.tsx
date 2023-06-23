@@ -3,7 +3,6 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid";
-import { Fragment, useEffect, useState } from "react";
 import { InputProps } from "../../app/interface";
 
 export function DropdownInput(props: InputProps) {

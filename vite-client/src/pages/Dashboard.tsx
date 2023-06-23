@@ -8,25 +8,25 @@ import { Sidebar } from "../components/minicomponents/Sidebar";
 import { Tab } from "../components/minicomponents/Tab";
 
 export function Dashboard() {
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
 
-  const fetchData = async () => {
-    const response = await fetch(
-      `${import.meta.env.VITE_API_SERVER}/etl_booking/data`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  // const fetchData = async () => {
+  //   const response = await fetch(
+  //     `${import.meta.env.VITE_API_SERVER}/etl_booking/data`,
+  //     {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     }
+  //   );
 
-    const responseData = await response.json();
-  };
+  //   const responseData = await response.json();
+  // };
 
   return (
     <>

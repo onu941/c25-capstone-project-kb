@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { CarouselProps, RandomLandingRooms } from "../../app/interface";
+import { CarouselProps } from "../../app/interface";
 import { useNavigate } from "react-router-dom";
 
 export function LandingCarousel(props: CarouselProps) {
