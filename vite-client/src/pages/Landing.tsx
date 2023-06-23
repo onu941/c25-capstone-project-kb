@@ -210,7 +210,9 @@ export default function Landing() {
                     pax={partygoerDetails.headcount}
                   />
                   <div className="grid place-content-center place-items-center pt-10">
-                    <PrimaryButton label="See All Bookings (Partygoer)" />
+                    <Link to="/settings">
+                      <PrimaryButton label="See All Bookings (Partygoer)" />
+                    </Link>
                   </div>
                 </>
               ) : (
@@ -255,7 +257,9 @@ export default function Landing() {
                       <Link to="/submit_room">
                         <PrimaryButton label="Submit a New Room" />
                       </Link>
-                      <PrimaryButton label="See All Bookings (Host)" />
+                      <Link to="/settings">
+                        <PrimaryButton label="See All Bookings (Host)" />
+                      </Link>
                     </div>
                   </>
                 ) : (
