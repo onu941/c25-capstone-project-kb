@@ -1,5 +1,4 @@
-import { CheckboxRefs, FormCategoryEquipmentProps } from "../../app/interface";
-import { useRef } from "react";
+import { FormCategoryEquipmentProps } from "../../app/interface";
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import {
   BBQIcon,

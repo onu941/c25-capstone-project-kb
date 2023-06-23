@@ -73,7 +73,6 @@ export function SetGeneral() {
     const email = form.email.value;
 
     const token = localStorage.getItem("token");
-    const params = new URLSearchParams(window.location.search);
 
     const response = await fetch(
       `${import.meta.env.VITE_API_SERVER}/user/${jwtUserId}`,

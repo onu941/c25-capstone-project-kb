@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { PartyroomCard } from "./minicomponents/Cards";
 import { useEffect, useState } from "react";
-import { JWT, PartyroomInSettings } from "../app/interface";
-import jwtDecode from "jwt-decode";
+import { PartyroomInSettings } from "../app/interface";
 
 export function SetRooms() {
   const navigate = useNavigate();
