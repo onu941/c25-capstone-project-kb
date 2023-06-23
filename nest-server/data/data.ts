@@ -13,7 +13,7 @@ import {
   review,
 } from "./interface";
 import { faker } from "@faker-js/faker";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 
 export const imageSeed: image[] = [
   { filename: "kevin" },
