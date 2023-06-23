@@ -8,7 +8,6 @@ import Booking from "./pages/Booking";
 import Partyroom from "./pages/Partyroom";
 import Landing from "./pages/Landing";
 import { AuthGuard } from "./AuthGuard";
-import Test from "./pages/Test";
 import NotFound404 from "./pages/NotFound404";
 import SubmitRoom from "./pages/SubmitRoom";
 
@@ -20,7 +19,6 @@ function App() {
         <Route element={<AuthGuard />}>
           <Route path="/partyroom" element={<Partyroom />} />
           <Route path="/search" element={<Search />} />
-          <Route path="/test" element={<Test />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/submit_room" element={<SubmitRoom />} />
           <Route path="/dashboard" element={<Dashboard />} />
