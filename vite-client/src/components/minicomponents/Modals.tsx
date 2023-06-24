@@ -21,8 +21,8 @@ export function BookingModal(props: BookingModalProps) {
         className="absolute top-0 right-0 bottom-0 left-0 bg-black opacity-60"
         onClick={props.toggleModal}
       ></div>
-      <div className="px-10 py-8 bg-slate-900 text-slate-300 rounded-lg z-50 border-solid border-2 border-slate-500 border-opacity-30 w-2/3">
-        <p className="text-3xl mb-12 text-slate-200 font-semibold">
+      <div className="md:px-10 md:py-8 p-5 bg-slate-900 text-slate-300 rounded-lg z-50 border-solid border-2 border-slate-500 border-opacity-30 md:w-2/3 w-4/5">
+        <p className="md:text-3xl text-lg md:mb-12 mb-6 text-slate-200 font-semibold">
           Book This Room!
         </p>
         <div className="h-96 overflow-auto">
