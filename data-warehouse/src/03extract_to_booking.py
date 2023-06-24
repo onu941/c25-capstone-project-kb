@@ -64,7 +64,7 @@ def read_dataframes_booking(cfg: Config_env) -> DataFrame:
             JOIN partyroom ON partyroom.id = partyroom_price_list.partyroom_id 
             JOIN district ON district.id = partyroom.district_id
             WHERE booking_info.is_hidden = false
-            AND users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
+            AND booking_info.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
         ) tmp_booking_table
     """
     return spark.read.format('jdbc') \
@@ -146,7 +146,7 @@ def main():
 if __name__ == "__main__":
     import schedule,time
 
-    schedule.every(1).minutes.do(main)
+    schedule.every(1).day.do(main)
     while True:
         schedule.run_pending()
         time.sleep(1)
