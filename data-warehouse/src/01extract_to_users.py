@@ -86,9 +86,9 @@ def main():
 if __name__ == "__main__":
     import schedule,time
 
-    schedule.every(1).minutes.do(main)
+    schedule.every(1).day.do(main)
     while True:
         schedule.run_pending()
         time.sleep(1)
 
-            # WHERE users.created_at:: DATE = CURRENT_DATE - INTERVAL '1' DAY
+ 
