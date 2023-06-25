@@ -15,7 +15,7 @@ export function DropdownInput(props: InputProps) {
         onChange={props.onChange}
         {...props.register}
       >
-        <option disabled>{props.placeholder}</option>
+        <option>{props.placeholder}</option>
         {props.options!.map((option, index) => (
           <option
             key={index}
