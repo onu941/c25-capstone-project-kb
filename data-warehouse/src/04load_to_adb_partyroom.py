@@ -91,10 +91,9 @@ def main():
     print("///////////////////////////////Booking STEP4////////////////////////////////////")
 
 if __name__ == "__main__":
-    main()
-    # import schedule,time
+    import schedule,time
 
-    # schedule.every(1).minutes.do(main)
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
+    schedule.every(1).day.do(main)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
