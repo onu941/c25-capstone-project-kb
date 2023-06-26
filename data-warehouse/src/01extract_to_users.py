@@ -14,7 +14,7 @@ class Config_env:
     WAREHOUSE_PASSWORD=os.getenv("WAREHOUSE_PASSWORD")
     WAREHOUSE_HOST=os.getenv("WAREHOUSE_HOST")
 
-cfg = Config_env()
+
 
 # Prepare environment
 def prepare_env():
