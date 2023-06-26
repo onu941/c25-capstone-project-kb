@@ -1,2 +1,4 @@
 GOOGLE_APPLICATION_CREDENTIALS.json
 mongodb
+dags
+plugins

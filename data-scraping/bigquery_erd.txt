@@ -20,5 +20,4 @@ switch:BOOLEAN,
 vr_gaming:BOOLEAN,
 board_game:BOOLEAN,
 barbecue:BOOLEAN,
-hot_pot:BOOLEAN,
-created_at:TIMESTAMP
+hot_pot:BOOLEAN
