@@ -128,3 +128,4 @@ dataset
 data-warehouse/pgdata/
 data-warehouse/pgdata_application_db/
 pgdata
+pgdata_data_warehouse

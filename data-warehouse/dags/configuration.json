@@ -1,0 +1,13 @@
+{"aws_secret_access_key": "sIJ+85KKmJWa3ShGXilY/AULVZkak9umpgPeeI/w",
+"aws_access_key_id":"AKIA6AF3PV3WYSZ4RY4V",
+"service_name":"s3",
+"region_name":"ap-northeast-1",
+"bucket_name":"daeproj",
+"file_name":"staging_booking.csv",
+"database_type": "postgres",
+"project_id": "nth-anchor-387202",
+"location": "asia-southeast1-b",
+"instance": "daeproj",
+"use_proxy": true,
+"sql_proxy_use_tcp": false
+ }
