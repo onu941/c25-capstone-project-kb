@@ -1,5 +1,4 @@
-{"aws_secret_access_key": "sIJ+85KKmJWa3ShGXilY/AULVZkak9umpgPeeI/w",
-"aws_access_key_id":"AKIA6AF3PV3WYSZ4RY4V",
+{
 "service_name":"s3",
 "region_name":"ap-northeast-1",
 "bucket_name":"daeproj",
