@@ -10,7 +10,7 @@ from airflow.operators.python import PythonOperator
 dag = DAG(
     dag_id="get_psql_send_s3",
     start_date=airflow.utils.dates.days_ago(1),
-    schedule_interval=None)
+    schedule_interval="*/10 * * * *")
 
 def _wait_for_csv_booking(filepath):
     return Path(filepath).exists()
