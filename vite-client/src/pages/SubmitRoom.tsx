@@ -230,24 +230,36 @@ export default function SubmitRoom() {
     console.log(selectedImages);
     console.log("formData", formData);
 
-    const response = await fetch(
-      `${import.meta.env.VITE_API_SERVER}/upload/submit_room`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      }
-    );
+    const submitPromise = async () => {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_SERVER}/upload/submit_room`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
-    const result = await response.json();
-    console.log(result);
-    if (response.ok) {
-      toast.success("Your partyroom has been uploaded!");
-    } else {
-      toast("Hmm, something's not right");
-    }
+      const result = await response.json();
+      console.log(result);
+      if (!response.ok) {
+        throw new Error(result.error);
+      }
+      return result;
+    };
+
+    toast.promise(submitPromise(), {
+      loading: "Uploading your partyroom...",
+      success: "Your partyroom has been uploaded!",
+      error: "Hmm, something's not right",
+    });
+    // if (response.ok) {
+    //   toast.success("Your partyroom has been uploaded!");
+    // } else {
+    //   toast("Hmm, something's not right");
+    // }
   };
   const { register, handleSubmit } = form;
 
