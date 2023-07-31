@@ -344,40 +344,40 @@ export default function Partyroom() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
+          <div className="md:mb-10 w-full grid grid-rows-2 grid-flow-row md:px-0 px-4">
+            <div className="text-slate-300">
+              {partyroom.address} | {partyroom.district} |{" "}
+              <a
+                href=""
+                className="underline text-slate-400"
+                onClick={() => openGoogleMaps()}
+              >
+                locate on google maps
+              </a>
+            </div>
+            <div className="text-slate-300">
+              {partyroom.room_size} ft² | {partyroom.capacity} pax
+            </div>
+          </div>
+          <div className="mb-4 w-full flex flex-row flex-wrap justify-center">
+            {isOwner && (
+              <>
+                <div className="md:me-8 me-2">
+                  <PrimaryButton
+                    onClick={() => handlePartyroomMod()}
+                    label="Edit Partyroom"
+                  />
+                </div>
+                <div className="md:ms-8 ms-2">
+                  <DangerButton
+                    onClick={() => handlePartyroomMod()}
+                    label="Delete Partyroom"
+                  />
+                </div>
+              </>
+            )}
+          </div>
           <Suspense fallback={<Loading />}>
-            <div className="md:mb-10 w-full grid grid-rows-2 grid-flow-row md:px-0 px-4">
-              <div className="text-slate-300">
-                {partyroom.address} | {partyroom.district} |{" "}
-                <a
-                  href=""
-                  className="underline text-slate-400"
-                  onClick={() => openGoogleMaps()}
-                >
-                  locate on google maps
-                </a>
-              </div>
-              <div className="text-slate-300">
-                {partyroom.room_size} ft² | {partyroom.capacity} pax
-              </div>
-            </div>
-            <div className="mb-4 w-full flex flex-row flex-wrap justify-center">
-              {isOwner && (
-                <>
-                  <div className="md:me-8 me-2">
-                    <PrimaryButton
-                      onClick={() => handlePartyroomMod()}
-                      label="Edit Partyroom"
-                    />
-                  </div>
-                  <div className="md:ms-8 ms-2">
-                    <DangerButton
-                      onClick={() => handlePartyroomMod()}
-                      label="Delete Partyroom"
-                    />
-                  </div>
-                </>
-              )}
-            </div>
             <div className="w-full md:mb-12 mb-6 grid md:grid-cols-3 grid-cols-1 grid-flow-row">
               <div className="col-span-2 flex flex-wrap justify-center">
                 <div className="md:w-4/5 w-10/12">
@@ -652,45 +652,45 @@ export default function Partyroom() {
                 </div>
               </div>
             </div>
-            <div className="md:mb-8 grid md:grid-cols-4 grid-cols-1 w-full px-4">
-              <div className="mb-4 md:mb-0 mx-2 md:mx-0">
-                <OwnerCard
-                  name={partyroom.host_name}
-                  whatsAppUrl={`https://wa.me/${partyroom.phone}`}
-                />
-              </div>
-              <div className="flex md:col-span-3 border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center text-slate-300 h-fill md:ms-8 mx-2 md:text-lg leading-relaxed italic w-fill text-center">
-                <p>{`"${partyroom.description}"`}</p>
-              </div>
-            </div>
-            <div>
-              <BodyHeader title="Price Lists" />
-              <div>
-                <NewPriceListTable data={priceLists} />
-              </div>
-              <div></div>
-            </div>
-            <div className="mb-36">
-              <BodyHeader title="Reviews"></BodyHeader>
-              <div className="grid md:grid-cols-3 grid-cols-1 gap-8 text-slate-300">
-                {reviews.length > 0 ? (
-                  reviews.map((review) => (
-                    <div className="md:mx-0 mx-4">
-                      <ReviewCard
-                        key={review.id}
-                        review_text={review.detail}
-                        score={`${review.rating}/10`}
-                        name={review.name}
-                        date="18 June 23"
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <div className="md:mx-0 mx-4">No reviews yet!</div>
-                )}
-              </div>
-            </div>
           </Suspense>
+          <div className="md:mb-8 grid md:grid-cols-4 grid-cols-1 w-full px-4">
+            <div className="mb-4 md:mb-0 mx-2 md:mx-0">
+              <OwnerCard
+                name={partyroom.host_name}
+                whatsAppUrl={`https://wa.me/${partyroom.phone}`}
+              />
+            </div>
+            <div className="flex md:col-span-3 border-solid border-2 py-6 px-8 rounded-lg border-slate-700 place-items-center place-content-center text-slate-300 h-fill md:ms-8 mx-2 md:text-lg leading-relaxed italic w-fill text-center">
+              <p>{`"${partyroom.description}"`}</p>
+            </div>
+          </div>
+          <div>
+            <BodyHeader title="Price Lists" />
+            <div>
+              <NewPriceListTable data={priceLists} />
+            </div>
+            <div></div>
+          </div>
+          <div className="mb-36">
+            <BodyHeader title="Reviews"></BodyHeader>
+            <div className="grid md:grid-cols-3 grid-cols-1 gap-8 text-slate-300">
+              {reviews.length > 0 ? (
+                reviews.map((review) => (
+                  <div className="md:mx-0 mx-4">
+                    <ReviewCard
+                      key={review.id}
+                      review_text={review.detail}
+                      score={`${review.rating}/10`}
+                      name={review.name}
+                      date="18 June 23"
+                    />
+                  </div>
+                ))
+              ) : (
+                <div className="md:mx-0 mx-4">No reviews yet!</div>
+              )}
+            </div>
+          </div>
         </ResponsiveContainer>
       </FullScreen>
       <Tab />
