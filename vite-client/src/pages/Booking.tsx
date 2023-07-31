@@ -20,6 +20,7 @@ import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import { Booking as BookingType, ReviewFormData } from "../app/interface";
 import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function Booking() {
   const navigate = useNavigate();
@@ -46,6 +47,7 @@ export default function Booking() {
     partyroom_id: NaN,
     filename: "",
   });
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const initialReviewFormData: ReviewFormData = {
     detail: "",
@@ -160,6 +162,8 @@ export default function Booking() {
     const successMessage = localStorage.getItem("bookingSuccess");
     if (successMessage) toast.success(successMessage);
     localStorage.removeItem("bookingSuccess");
+
+    setIsLoading(false);
   }, [viewMode]);
 
   useEffect(() => {
@@ -292,119 +296,129 @@ export default function Booking() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="mt-8 flex justify-around place-items-center md:mx-0 mx-4">
-            <span className="mb-6 text-xl text-slate-300">
-              Booking Status:{" "}
-              <span className="text-slate-100">{bookingDetails.status}</span>
-            </span>
-            {!showTimeSensitiveSection && viewMode === "partygoer" && (
-              <DangerButton
-                onClick={() => handleGuestCancel()}
-                label="Cancel Booking"
-              />
-            )}
-          </div>
-          <div
-            className={`mb-12 ${
-              showTimeSensitiveSection && "mt-6"
-            } grid md:grid-cols-2 grid-cols-1 gap-8 px-4 md:px-0`}
-          >
-            <BookingCardLarge
-              image={`${import.meta.env.VITE_API_SERVER}/rooms/${
-                bookingDetails.filename
-              }`}
-              onClick={() =>
-                navigate(`/partyroom?room_id=${bookingDetails.partyroom_id}`)
-              }
-              name={bookingDetails.name}
-              address={bookingDetails.address}
-              date={bookingDetails.booking_date.split(/[\/\s,:]+/)[1]}
-              month={new Date(
-                2000,
-                parseInt(
-                  bookingDetails.booking_date.split(/[\/\s,:]+/)[0],
-                  10
-                ) - 1
-              ).toLocaleString("default", { month: "short" })}
-              pax={bookingDetails.headcount}
-              time={bookingDetails.start_time}
-            />
-            <div
-              className={`flex flex-col place-content-between md:mt-0 mt-4 ${
-                !showTimeSensitiveSection && `mb-16`
-              }`}
-            >
-              <OwnerCard
-                name={bookingDetails.person_name}
-                whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
-              />
-              <div className="mt-11 md:mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex flex-wrap items-center justify-center text-slate-300 md:text-lg text-base">
-                <div className="italic">
-                  {bookingDetails.special_request &&
-                    `"${bookingDetails.special_request}"`}
-                </div>
-                <div className="text-slate-500">
-                  {bookingDetails.special_request
-                    ? `\u00A0-\u00A0${
-                        viewMode === "host" ? "Their" : "Your"
-                      } special request`
-                    : "No special requests"}
-                </div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div>
+              <div className="mt-8 flex justify-around place-items-center md:mx-0 mx-4">
+                <span className="mb-6 text-xl text-slate-300">
+                  Booking Status:{" "}
+                  <span className="text-slate-100">
+                    {bookingDetails.status}
+                  </span>
+                </span>
+                {!showTimeSensitiveSection && viewMode === "partygoer" && (
+                  <DangerButton
+                    onClick={() => handleGuestCancel()}
+                    label="Cancel Booking"
+                  />
+                )}
               </div>
-            </div>
-          </div>
-          {viewMode === "host" && (
-            <div className="w-full flex justify-center md:mt-20 md:mb-0 mb-24">
-              <div className="w-5/12 flex flex-wrap justify-between">
-                <DangerButton
-                  disabled={
-                    bookingDetails.status === "Confirmed" ||
-                    bookingDetails.status === "Cancelled"
-                  }
-                  onClick={() => handleCancelBooking()}
-                  label="Cancel Booking"
-                />
-                <SubmitButton
-                  disabled={
-                    bookingDetails.status === "Confirmed" ||
-                    bookingDetails.status === "Cancelled"
-                  }
-                  onClick={() => handleConfirmBooking()}
-                  label="Confirm Booking"
-                />
-              </div>
-            </div>
-          )}
-          {viewMode === "partygoer" && showTimeSensitiveSection && (
-            <>
-              <form
-                className="w-full px-4 md:px-0"
-                onSubmit={handleSubmitReview}
+              <div
+                className={`mb-12 ${
+                  showTimeSensitiveSection && "mt-6"
+                } grid md:grid-cols-2 grid-cols-1 gap-8 px-4 md:px-0`}
               >
-                <ReviewHeader
-                  handleInputChange={handleFormChange}
-                  rating={reviewFormData.rating}
+                <BookingCardLarge
+                  image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                    bookingDetails.filename
+                  }`}
+                  onClick={() =>
+                    navigate(
+                      `/partyroom?room_id=${bookingDetails.partyroom_id}`
+                    )
+                  }
+                  name={bookingDetails.name}
+                  address={bookingDetails.address}
+                  date={bookingDetails.booking_date.split(/[\/\s,:]+/)[1]}
+                  month={new Date(
+                    2000,
+                    parseInt(
+                      bookingDetails.booking_date.split(/[\/\s,:]+/)[0],
+                      10
+                    ) - 1
+                  ).toLocaleString("default", { month: "short" })}
+                  pax={bookingDetails.headcount}
+                  time={bookingDetails.start_time}
                 />
                 <div
-                  id="review"
-                  className="flex flex-wrap w-full place-content-center mb-24"
+                  className={`flex flex-col place-content-between md:mt-0 mt-4 ${
+                    !showTimeSensitiveSection && `mb-16`
+                  }`}
                 >
-                  <div className="mb-8 w-full">
-                    <TextArea
-                      placeholder="Max 150 characters"
-                      name="detail"
-                      value={reviewFormData.detail}
-                      handleReviewDetailInputChange={handleFormChange}
+                  <OwnerCard
+                    name={bookingDetails.person_name}
+                    whatsAppUrl={`https://wa.me/${bookingDetails.phone}`}
+                  />
+                  <div className="mt-11 md:mx-16 border-solid border-2 border-slate-300 border-opacity-40 rounded-md px-8 p-4 h-32 flex flex-wrap items-center justify-center text-slate-300 md:text-lg text-base">
+                    <div className="italic">
+                      {bookingDetails.special_request &&
+                        `"${bookingDetails.special_request}"`}
+                    </div>
+                    <div className="text-slate-500">
+                      {bookingDetails.special_request
+                        ? `\u00A0-\u00A0${
+                            viewMode === "host" ? "Their" : "Your"
+                          } special request`
+                        : "No special requests"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {viewMode === "host" && (
+                <div className="w-full flex justify-center md:mt-20 md:mb-0 mb-24">
+                  <div className="w-5/12 flex flex-wrap justify-between">
+                    <DangerButton
+                      disabled={
+                        bookingDetails.status === "Confirmed" ||
+                        bookingDetails.status === "Cancelled"
+                      }
+                      onClick={() => handleCancelBooking()}
+                      label="Cancel Booking"
+                    />
+                    <SubmitButton
+                      disabled={
+                        bookingDetails.status === "Confirmed" ||
+                        bookingDetails.status === "Cancelled"
+                      }
+                      onClick={() => handleConfirmBooking()}
+                      label="Confirm Booking"
                     />
                   </div>
-                  <SubmitButton
-                    isCentered
-                    type="submit"
-                    label="Submit Your Review"
-                  />
                 </div>
-              </form>
-            </>
+              )}
+              {viewMode === "partygoer" && showTimeSensitiveSection && (
+                <>
+                  <form
+                    className="w-full px-4 md:px-0"
+                    onSubmit={handleSubmitReview}
+                  >
+                    <ReviewHeader
+                      handleInputChange={handleFormChange}
+                      rating={reviewFormData.rating}
+                    />
+                    <div
+                      id="review"
+                      className="flex flex-wrap w-full place-content-center mb-24"
+                    >
+                      <div className="mb-8 w-full">
+                        <TextArea
+                          placeholder="Max 150 characters"
+                          name="detail"
+                          value={reviewFormData.detail}
+                          handleReviewDetailInputChange={handleFormChange}
+                        />
+                      </div>
+                      <SubmitButton
+                        isCentered
+                        type="submit"
+                        label="Submit Your Review"
+                      />
+                    </div>
+                  </form>
+                </>
+              )}
+            </div>
           )}
         </ResponsiveContainer>
       </FullScreen>
