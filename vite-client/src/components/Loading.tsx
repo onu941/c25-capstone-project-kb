@@ -1,7 +1,7 @@
 import { ArrowPathIcon } from "@heroicons/react/20/solid";
-import { PrimaryButton } from "./minicomponents/Buttons";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { PrimaryButton } from "./minicomponents/Buttons";
+// import { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
 
 export default function Loading() {
   // const navigate = useNavigate();
