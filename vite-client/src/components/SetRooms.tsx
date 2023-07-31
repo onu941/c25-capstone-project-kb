@@ -25,9 +25,7 @@ export function SetRooms() {
       );
 
       const partyroomsData = await response.json();
-      console.log("partyroomsData:", partyroomsData);
       if (partyroomsData.length == 0) setNoRooms(true);
-      console.log(noRooms);
       setUserPartyrooms(partyroomsData);
     };
 

@@ -9,9 +9,6 @@ import { useAppDispatch } from "../app/hook";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 
-// import { useForm } from "react-hook-form";
-// import { HandleUserFormState } from "../app/interface";
-
 export default function HandleUser() {
   const [page, setPage] = useState("initial");
   const [name, setName] = useState("");
@@ -30,8 +27,6 @@ export default function HandleUser() {
     const success = await localLogin(email, password);
 
     if (success.status) {
-      // console.log(success.token);
-      // localStorage.setItem("token", success.token);
       dispatch(login(success.token));
       localStorage.setItem("successMessage", "Welcome back");
       const token = localStorage.getItem("token");
@@ -59,13 +54,6 @@ export default function HandleUser() {
       setPassword("");
     }
   };
-
-  // using react-hook-form
-  // const { register, handleSubmit } = useForm<HandleUserFormState>({});
-  // const onSignupSubmit = (data: HandleUserFormState) => {
-  //   data.phoneNo = parseInt(data.phoneNo, 10);
-  //   console.log("submitted form data:", data);
-  // };
 
   return (
     <FullScreenInitial>

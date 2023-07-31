@@ -117,9 +117,7 @@ export function TextArea(props: InputProps) {
       placeholder={props.placeholder}
       maxLength={150}
       name={props.name}
-      // value={props.value}
       {...props.register}
-      // onChange={props.handleReviewDetailInputChange}
       disabled={props.isDisabled}
       readOnly={props.isReadOnly}
     ></textarea>

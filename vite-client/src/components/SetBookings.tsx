@@ -36,7 +36,6 @@ export function SetBookings() {
       );
 
       const bookingsData = await response.json();
-      console.log("bookingsData as user", bookingsData);
       if (bookingsData.length == 0) setNoUserBookings(true);
       const bookingsTreated = bookingsData.map(
         (booking: BookingInSettings) => ({
@@ -47,7 +46,6 @@ export function SetBookings() {
           start_time: booking.start_time.slice(0, -3),
         })
       );
-      console.log("bookingsTreated:", bookingsTreated);
       setUserBookings(bookingsTreated);
     };
 
@@ -65,7 +63,6 @@ export function SetBookings() {
       );
 
       const hostData = await response.json();
-      console.log("bookingsData as host", hostData);
 
       if (hostData.length == 0) setNoHostBookings(true);
       const hostTreated = hostData.map((booking: BookingInSettings) => ({
@@ -76,7 +73,6 @@ export function SetBookings() {
         start_time: booking.start_time.slice(0, -3),
       }));
 
-      console.log("host bookings:", hostTreated);
       setHostBookings(hostTreated);
     };
 
@@ -84,8 +80,6 @@ export function SetBookings() {
     fetchHostBookings();
   }, []);
 
-  console.log("no user bookings", noUserBookings);
-  console.log("no host bookings", noHostBookings);
   return (
     <>
       <BookingsTab

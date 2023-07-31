@@ -45,7 +45,6 @@ export function Search() {
     event.preventDefault();
     const token = localStorage.getItem("token");
     const form = event.target as HTMLFormElement;
-    console.log("form", form.district);
     const districtId = form.district.value;
 
     const response = await fetch(
@@ -63,7 +62,6 @@ export function Search() {
     );
 
     const results = await response.json();
-    console.log(results);
 
     if (response.ok) {
       setSearchResults(results);

@@ -108,27 +108,3 @@ export function FormIconButton2(props: {
     </>
   );
 }
-
-// interface IconProps {
-//   color: string;
-// }
-
-// export let icons = {
-//   general: (props: IconProps) => (
-//     <>
-//       <GeneralPartyIcon
-//         color={props.color}
-//         className="md:w-16 md:h-16 w-12 h-12"
-//       />
-//       <span className={props.color}>General</span>
-//     </>
-//   ),
-//   dates: (props: IconProps) => (
-//     <>
-//       <HeartIcon className={`${props.color} md:w-16 md:h-16 w-12 h-12`} />
-//       <span className={props.color}>Dates</span>
-//     </>
-//   ),
-// };
-
-// type IconName = keyof typeof icons;

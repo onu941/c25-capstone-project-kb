@@ -10,7 +10,6 @@ import jwtDecode from "jwt-decode";
 export function SetGeneral() {
   const token = localStorage.getItem("token");
   const decoded: JWT = jwtDecode(token!);
-  // console.log("decoded:", decoded);
   const jwtUserId = decoded.id;
 
   const [inputs, setUserInputs] = useState({
@@ -18,7 +17,6 @@ export function SetGeneral() {
     username: "",
     phone: "",
     email: "",
-    // password: "",
   });
   const [isGoodForEditing, setisGoodForEditing] = useState({
     username: false,
@@ -40,13 +38,11 @@ export function SetGeneral() {
       });
 
       const userDetails = await response.json();
-      console.log(userDetails);
       setUserInputs({
         id: NaN,
         username: userDetails.user.name,
         phone: userDetails.user.phone,
         email: userDetails.user.email,
-        // password: "******",
       });
     };
 
@@ -88,7 +84,6 @@ export function SetGeneral() {
 
     if (response.ok) {
       const userDetails = await response.json();
-      console.log(userDetails);
       setUserInputs({
         ...inputs,
         username: userDetails.name,
@@ -140,7 +135,6 @@ export function SetGeneral() {
               isGoodForEditing={isGoodForEditing["email"]}
               onChange={handleInputChange}
             />
-            {/* <SettingsInput value="*****" name="password" canEdit /> */}
           </form>
         </div>
       </div>

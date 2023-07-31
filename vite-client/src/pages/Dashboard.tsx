@@ -9,25 +9,11 @@ import { Tab } from "../components/minicomponents/Tab";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 
 export function Dashboard() {
-  // const token = localStorage.getItem("token");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
   };
-
-  // const fetchData = async () => {
-  //   const response = await fetch(
-  //     `${import.meta.env.VITE_API_SERVER}/etl_booking/data`,
-  //     {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     }
-  //   );
-
-  //   const responseData = await response.json();
-  // };
 
   return (
     <>

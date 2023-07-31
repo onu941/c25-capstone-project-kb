@@ -26,9 +26,7 @@ export default function Booking() {
   const token = localStorage.getItem("token");
   const params = new URLSearchParams(window.location.search);
   const bookingId = params.get("booking_id");
-
   const viewMode = useSelector((state: RootState) => state.user.bookingsTab);
-  console.log("view mode:", viewMode);
 
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [showTimeSensitiveSection, setShowTimeSensitiveSection] =
@@ -62,7 +60,6 @@ export default function Booking() {
   };
 
   const getTargetDate = () => {
-    console.log(bookingDetails.booking_date);
     const bookingDate = bookingDetails.booking_date.split(",")[0].trim();
     const bookingTime = bookingDetails.start_time;
 
@@ -84,8 +81,6 @@ export default function Booking() {
 
   const isPastDateTime = (targetDate: Date) => {
     const currentDate = new Date();
-    console.log("currentDate:", currentDate);
-    console.log("targetDate", targetDate);
     const result: boolean = currentDate > targetDate;
     return result;
   };
@@ -280,9 +275,6 @@ export default function Booking() {
       { icon: "📱" }
     );
   };
-
-  console.log("whole thing:", bookingDetails);
-  console.log("finding img url:", bookingDetails.filename);
 
   return (
     <>

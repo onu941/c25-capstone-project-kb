@@ -25,6 +25,7 @@ export default function Landing() {
   const token = localStorage.getItem("token");
   const decoded: JWT = jwtDecode(token!);
   const jwtUserId = decoded.id;
+
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [noBookingsAsPartygoer, setNoBookingsAsPartygoer] =
@@ -127,8 +128,6 @@ export default function Landing() {
         ),
         start_time: bookingDetails.start_time.slice(0, -3),
       };
-
-      console.log("finding image urls:", bookingDetailsTreated);
 
       setHostDetails(bookingDetailsTreated);
     };

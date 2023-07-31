@@ -58,7 +58,6 @@ export default function Partyroom() {
 
   const token = localStorage.getItem("token");
   const decoded: JWT = jwtDecode(token!);
-  // console.log("decoded:", decoded);
   const jwtUserId = decoded.id;
   const params = new URLSearchParams(window.location.search);
   const partyroomId = params.get("room_id");
@@ -256,8 +255,6 @@ export default function Partyroom() {
 
   const form = useForm<MakeBookingFormState>();
   const onSubmitBooking: SubmitHandler<MakeBookingFormState> = async (data) => {
-    console.log(data);
-
     const [priceListIndex, databaseId] = data.partyroom_price_list_id
       .split(", ")
       .map(Number);

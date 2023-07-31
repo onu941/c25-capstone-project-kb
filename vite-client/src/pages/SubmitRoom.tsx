@@ -38,7 +38,6 @@ export interface SubmitRoomFormState {
 export default function SubmitRoom() {
   const token = localStorage.getItem("token");
   const decoded: JWT = jwtDecode(token!);
-  // console.log("decoded:", decoded);
   const jwtUserId = decoded.id;
   const [userPhone, setUserPhone] = useState<string>("");
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
@@ -136,7 +135,6 @@ export default function SubmitRoom() {
         is_holiday: false,
       },
     ]);
-    // return [...prevLists, newListIndex];
   };
 
   const removePriceList = (id: string) => {
@@ -209,8 +207,6 @@ export default function SubmitRoom() {
     const category_id = categories.filter((value) => !isNaN(value));
     const equipment_id = equipment.filter((value) => !isNaN(value));
 
-    console.log("room images", selectedImages);
-
     formData.append("name", data.name);
     formData.append("host_id", jwtUserId.toString());
     formData.append("address", data.address);
@@ -227,9 +223,6 @@ export default function SubmitRoom() {
       formData.append(`images-${i}`, img as any)
     );
 
-    console.log(selectedImages);
-    console.log("formData", formData);
-
     const submitPromise = async () => {
       const response = await fetch(
         `${import.meta.env.VITE_API_SERVER}/upload/submit_room`,
@@ -243,7 +236,6 @@ export default function SubmitRoom() {
       );
 
       const result = await response.json();
-      console.log(result);
       if (!response.ok) {
         throw new Error(result.error);
       }
@@ -255,11 +247,6 @@ export default function SubmitRoom() {
       success: "Your partyroom has been uploaded!",
       error: "Hmm, something's not right",
     });
-    // if (response.ok) {
-    //   toast.success("Your partyroom has been uploaded!");
-    // } else {
-    //   toast("Hmm, something's not right");
-    // }
   };
   const { register, handleSubmit } = form;
 
