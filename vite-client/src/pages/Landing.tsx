@@ -11,8 +11,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import { BookingCard, RandomLandingRooms } from "../app/interface";
 import jwtDecode from "jwt-decode";
 
@@ -26,11 +24,7 @@ export default function Landing() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const decoded: JWT = jwtDecode(token!);
-  // console.log("decoded:", decoded);
   const jwtUserId = decoded.id;
-  console.log("jwtUserId:", jwtUserId);
-  const reduxUserId = useSelector((state: RootState) => state.auth.user_id);
-  console.log("reduxUserId", reduxUserId);
   const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
   const [username, setUsername] = useState("");
   const [noBookingsAsPartygoer, setNoBookingsAsPartygoer] =

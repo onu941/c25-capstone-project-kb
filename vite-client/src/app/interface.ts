@@ -154,20 +154,6 @@ export interface FormImageProps extends FormProps {
   handleDeleteImage: (index: number) => void;
 }
 
-// export interface Form1Props {
-//   register: UseFormRegister<NewRoomFormState>;
-//   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-//   equipmentFields: EquipmentField[];
-//   categoryFields: CategoryField[];
-//   handleDelete: (id: number) => void;
-//   handleAddMoreEquipment: () => void;
-//   handleAddMoreCategories: () => void;
-//   handleDeleteCategories: (id: number) => void;
-//   activeIconButtons: { [key: string]: boolean };
-//   handleFormIconButton: (iconType: string) => void;
-//   color?: string;
-// }
-
 export interface Form2Props {
   isSelected?: string;
   isDragActive?: boolean;
@@ -211,31 +197,9 @@ export interface SignupProps {
   initialPassword: string;
 }
 
-// export interface SignupProps {
-//   register: UseFormRegister<HandleUserFormState>;
-//   handleSubmit: UseFormHandleSubmit<HandleUserFormState, any>;
-//   onSignupSubmit: (data: HandleUserFormState) => void;
-//   setPage: React.Dispatch<React.SetStateAction<string>>;
-// }
-
 // ************** //
 // form interface //
 // ************** //
-
-// export interface ActiveIconButtons {
-//   [key: string]: boolean;
-// }
-
-// export interface NewRoomFormState {
-//   name: string;
-//   room_size: number;
-//   capacity: number;
-//   address: string;
-//   district: string;
-//   equipment: EquipmentField[];
-//   category: CategoryField[];
-//   description: string;
-// }
 
 export interface ReviewFormData {
   detail: string;
@@ -329,7 +293,3 @@ export interface SearchResults {
 export interface CheckboxRefs {
   [key: string]: React.RefObject<HTMLInputElement>;
 }
-
-// export interface CategoryAndEquipmentIds {
-//   [key: string]: number;
-// }
