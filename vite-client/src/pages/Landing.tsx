@@ -13,6 +13,7 @@ import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
 import { BookingCard, RandomLandingRooms } from "../app/interface";
 import jwtDecode from "jwt-decode";
+import Loading from "../components/Loading";
 
 export interface JWT {
   id: number;
@@ -52,6 +53,7 @@ export default function Landing() {
     image_filename: "",
   });
   const [randomRooms, setRandomRooms] = useState<RandomLandingRooms[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const toggleSidebar = () => {
     setSidebarIsOpen(!sidebarIsOpen);
@@ -156,6 +158,8 @@ export default function Landing() {
       const successMessage = localStorage.getItem("successMessage");
       if (successMessage) toast.success(successMessage);
       localStorage.removeItem("successMessage");
+
+      setIsLoading(false);
     };
     fetchAllData();
   }, []);
@@ -176,93 +180,97 @@ export default function Landing() {
             isOpen={sidebarIsOpen}
             toggleSidebar={toggleSidebar}
           ></Sidebar>
-          <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-2 px-4 md:px-0">
-            <div>
-              <BodyHeader title="Your next booking:"></BodyHeader>
-              {!noBookingsAsPartygoer ? (
-                <>
-                  <BookingCardLarge
-                    image={`${import.meta.env.VITE_API_SERVER}/rooms/${
-                      partygoerDetails.image_filename
-                    }`}
-                    onClick={() =>
-                      navigate(`/booking?booking_id=${partygoerDetails.id}`)
-                    }
-                    alt={partygoerDetails.image_filename}
-                    name={partygoerDetails.name}
-                    address={partygoerDetails.address}
-                    time={partygoerDetails.start_time}
-                    date={partygoerDetails.booking_date.split(/[\/\s,:]+/)[1]}
-                    month={new Date(
-                      2000,
-                      parseInt(
-                        partygoerDetails.booking_date.split(/[\/\s,:]+/)[0],
-                        10
-                      ) - 1
-                    ).toLocaleString("default", { month: "short" })}
-                    pax={partygoerDetails.headcount}
-                  />
-                  <div className="grid place-content-center place-items-center pt-10">
-                    <Link to="/settings">
-                      <PrimaryButton label="See All Bookings (Partygoer)" />
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                <div className="w-full h-60 rounded-lg flex place-content-center py-24 text-slate-300 text-xl bg-slate-800 bg-opacity-50 border-solid border-2 border-slate-700 border-opacity-50">
-                  No bookings yet
-                </div>
-              )}
-            </div>
-            <div>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <div className="grid md:grid-cols-2 grid-cols-1 md:gap-16 gap-2 px-4 md:px-0">
               <div>
-                <BodyHeader
-                  title={
-                    noBookingsAsHost
-                      ? "Get booked as a host!"
-                      : "Your room has been booked!"
-                  }
-                ></BodyHeader>
-                {!noBookingsAsHost ? (
+                <BodyHeader title="Your next booking:"></BodyHeader>
+                {!noBookingsAsPartygoer ? (
                   <>
                     <BookingCardLarge
                       image={`${import.meta.env.VITE_API_SERVER}/rooms/${
-                        hostDetails.image_filename
+                        partygoerDetails.image_filename
                       }`}
                       onClick={() =>
-                        navigate(`/booking?booking_id=${hostDetails.id}`)
+                        navigate(`/booking?booking_id=${partygoerDetails.id}`)
                       }
-                      alt={hostDetails.image_filename}
-                      name={hostDetails.name}
-                      address={hostDetails.address}
-                      time={hostDetails.start_time}
-                      date={hostDetails.booking_date.split(/[\/\s,:]+/)[1]}
+                      alt={partygoerDetails.image_filename}
+                      name={partygoerDetails.name}
+                      address={partygoerDetails.address}
+                      time={partygoerDetails.start_time}
+                      date={partygoerDetails.booking_date.split(/[\/\s,:]+/)[1]}
                       month={new Date(
                         2000,
                         parseInt(
-                          hostDetails.booking_date.split(/[\/\s,:]+/)[0],
+                          partygoerDetails.booking_date.split(/[\/\s,:]+/)[0],
                           10
                         ) - 1
                       ).toLocaleString("default", { month: "short" })}
-                      pax={hostDetails.headcount}
+                      pax={partygoerDetails.headcount}
                     />
-                    <div className="grid md:grid-cols-2 grid-cols-1 place-content-center place-items-center pt-10">
-                      <Link to="/submit_room">
-                        <PrimaryButton label="Submit a New Room" />
-                      </Link>
+                    <div className="grid place-content-center place-items-center pt-10">
                       <Link to="/settings">
-                        <PrimaryButton label="See All Bookings (Host)" />
+                        <PrimaryButton label="See All Bookings (Partygoer)" />
                       </Link>
                     </div>
                   </>
                 ) : (
                   <div className="w-full h-60 rounded-lg flex place-content-center py-24 text-slate-300 text-xl bg-slate-800 bg-opacity-50 border-solid border-2 border-slate-700 border-opacity-50">
-                    No rooms registered with us yet
+                    No bookings yet
                   </div>
                 )}
               </div>
+              <div>
+                <div>
+                  <BodyHeader
+                    title={
+                      noBookingsAsHost
+                        ? "Get booked as a host!"
+                        : "Your room has been booked!"
+                    }
+                  ></BodyHeader>
+                  {!noBookingsAsHost ? (
+                    <>
+                      <BookingCardLarge
+                        image={`${import.meta.env.VITE_API_SERVER}/rooms/${
+                          hostDetails.image_filename
+                        }`}
+                        onClick={() =>
+                          navigate(`/booking?booking_id=${hostDetails.id}`)
+                        }
+                        alt={hostDetails.image_filename}
+                        name={hostDetails.name}
+                        address={hostDetails.address}
+                        time={hostDetails.start_time}
+                        date={hostDetails.booking_date.split(/[\/\s,:]+/)[1]}
+                        month={new Date(
+                          2000,
+                          parseInt(
+                            hostDetails.booking_date.split(/[\/\s,:]+/)[0],
+                            10
+                          ) - 1
+                        ).toLocaleString("default", { month: "short" })}
+                        pax={hostDetails.headcount}
+                      />
+                      <div className="grid md:grid-cols-2 grid-cols-1 place-content-center place-items-center pt-10">
+                        <Link to="/submit_room">
+                          <PrimaryButton label="Submit a New Room" />
+                        </Link>
+                        <Link to="/settings">
+                          <PrimaryButton label="See All Bookings (Host)" />
+                        </Link>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="w-full h-60 rounded-lg flex place-content-center py-24 text-slate-300 text-xl bg-slate-800 bg-opacity-50 border-solid border-2 border-slate-700 border-opacity-50">
+                      No rooms registered with us yet
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          )}
           <hr className="md:mx-0 mx-8 my-6 border-slate-500"></hr>
           <BodyHeader title="Explore new partyrooms:"></BodyHeader>
           <div className=" w-full md:px-0 px-4 mb-12">
