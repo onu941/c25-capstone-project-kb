@@ -4,14 +4,16 @@ import {
   ResponsiveContainer,
 } from "../components/minicomponents/Containers";
 import { AppHeader, BodyHeader } from "../components/minicomponents/Headers";
-import { LandingCarousel } from "../components/minicomponents/Carousels";
+import {
+  LandingCarousel,
+  RandomLandingRooms,
+} from "../components/minicomponents/Carousels";
 import { BookingCardLarge } from "../components/minicomponents/Cards";
 import { PrimaryButton } from "../components/minicomponents/Buttons";
 import { Link, useNavigate } from "react-router-dom";
 import { Tab } from "../components/minicomponents/Tab";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import toast, { Toaster } from "react-hot-toast";
-import { BookingCard, RandomLandingRooms } from "../app/interface";
 import jwtDecode from "jwt-decode";
 import Loading from "../components/Loading";
 
@@ -19,6 +21,17 @@ export interface JWT {
   id: number;
   iat: number;
   exp: number;
+}
+
+export interface BookingCard {
+  id: number;
+  person_id: number;
+  headcount: number;
+  booking_date: string;
+  start_time: string;
+  name: string;
+  address: string;
+  image_filename: string;
 }
 
 export default function Landing() {

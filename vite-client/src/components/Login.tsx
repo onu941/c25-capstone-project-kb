@@ -1,7 +1,16 @@
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
 import { PrimaryButton } from "./minicomponents/Buttons";
 import { FullScreenInitial } from "./minicomponents/Containers";
-import { LoginProps } from "../app/interface";
+import { FormEvent } from "react";
+
+export interface LoginProps {
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onLoginSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+  initialEmail: string;
+  initialPassword: string;
+}
 
 export function Login(props: LoginProps) {
   return (

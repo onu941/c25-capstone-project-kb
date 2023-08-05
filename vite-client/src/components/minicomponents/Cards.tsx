@@ -2,7 +2,25 @@ import {
   ChatBubbleLeftEllipsisIcon,
   UserCircleIcon,
 } from "@heroicons/react/20/solid";
-import { CardProps } from "../../app/interface";
+
+export interface CardProps {
+  id?: number;
+  date?: string | number;
+  month?: string;
+  year?: string | number;
+  name?: string;
+  time?: string;
+  pax?: number;
+  address?: string;
+  content?: string;
+  score?: string;
+  onClick?: () => void;
+  image?: string;
+  alt?: string;
+  review_text?: string;
+  phone?: number | string;
+  whatsAppUrl?: any;
+}
 
 export function BookingCardLarge(props: CardProps) {
   return (

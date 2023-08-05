@@ -7,7 +7,7 @@ import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { District, JWT, PartyroomImage } from "../app/interface";
+import { JWT, PartyroomImage } from "../app/interface";
 import RoomFormBasics from "../components/form/RoomFormBasics";
 import RoomFormCategoryEquipment from "../components/form/RoomFormCategoryEquipment";
 import RoomFormDescription from "../components/form/RoomFormDescription";
@@ -33,6 +33,11 @@ export interface SubmitRoomFormState {
   description: string;
   image: PartyroomImage[];
   price_list: PriceList[];
+}
+
+export interface District {
+  id: number;
+  name: string;
 }
 
 export default function SubmitRoom() {

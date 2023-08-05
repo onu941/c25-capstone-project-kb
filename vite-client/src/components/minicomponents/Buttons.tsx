@@ -1,10 +1,5 @@
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import {
-  ButtonProps,
-  FormIconButtonProps,
-  SettingsTabButtonProps,
-} from "../../app/interface";
-import {
   BBQIcon,
   BoardGamesIcon,
   FamilyIcon,
@@ -15,6 +10,27 @@ import {
   WeddingIcon,
 } from "../../assets/MaterialIcons";
 import { TvIcon } from "@heroicons/react/24/outline";
+
+export interface ButtonProps {
+  label?: string;
+  type?: "button" | "submit";
+  onClick?: (arg: any) => void;
+  isCentered?: boolean;
+  color?: string;
+  spanClassName?: string;
+  icon?: string;
+  disabled?: boolean;
+}
+
+export interface FormIconButtonProps extends ButtonProps {
+  selected: boolean;
+}
+
+export interface SettingsTabButtonProps {
+  name?: string;
+  onClick?: () => void;
+  isSelected?: boolean;
+}
 
 export function PrimaryButton(props: ButtonProps) {
   return (

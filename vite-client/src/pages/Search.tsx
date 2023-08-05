@@ -9,9 +9,17 @@ import { Tab } from "../components/minicomponents/Tab";
 import { DropdownInputSimple } from "../components/minicomponents/Inputs";
 import { SubmitButton } from "../components/minicomponents/Buttons";
 import { PartyroomCardLarge } from "../components/minicomponents/Cards";
-import { SearchResults } from "../app/interface";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+
+export interface SearchResults {
+  partyroom_id: number;
+  name: string;
+  address: string;
+  district_id: number;
+  capacity: number;
+  filename: string;
+}
 
 export function Search() {
   const navigate = useNavigate();

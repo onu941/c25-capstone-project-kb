@@ -26,12 +26,7 @@ import {
 } from "../assets/MaterialIcons";
 import { BriefcaseIcon, CakeIcon, HeartIcon } from "@heroicons/react/20/solid";
 import { TvIcon } from "@heroicons/react/24/outline";
-import {
-  JWT,
-  PartyroomImage,
-  Partyroom as PartyroomType,
-  Review,
-} from "../app/interface";
+import { JWT } from "../app/interface";
 import { NewPriceListTable } from "../components/minicomponents/Table";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -50,6 +45,41 @@ export interface MakeBookingFormState {
   special_request: string;
   is_hidden: boolean;
   status: string;
+}
+
+export interface Category {
+  name: string;
+}
+
+export interface Equipment {
+  name: string;
+}
+
+export interface PartyroomImage {
+  filename: string;
+}
+
+export interface PartyroomType {
+  id: number;
+  name: string;
+  host_id: number;
+  host_name: string;
+  district: string;
+  room_size: number;
+  capacity: number;
+  phone: string;
+  address: string;
+  description: string;
+  category: Category[];
+  equipment: Equipment[];
+  image_filename: string;
+}
+
+export interface Review {
+  id: number;
+  rating: number;
+  name: string;
+  detail: string;
 }
 
 export default function Partyroom() {

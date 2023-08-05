@@ -1,7 +1,20 @@
 import { FullScreenInitial } from "./minicomponents/Containers";
 import { ArrowRightCircleIcon } from "@heroicons/react/20/solid";
 import { PrimaryButton } from "./minicomponents/Buttons";
-import { SignupProps } from "../app/interface";
+import { FormEvent } from "react";
+
+export interface SignupProps {
+  setName: React.Dispatch<React.SetStateAction<string>>;
+  setEmail: React.Dispatch<React.SetStateAction<string>>;
+  setPhone: React.Dispatch<React.SetStateAction<string>>;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
+  onSignupSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+  initialName: string;
+  initialEmail: string;
+  initialPhone: string;
+  initialPassword: string;
+}
 
 export function Signup(props: SignupProps) {
   return (

@@ -18,9 +18,29 @@ import { TextArea } from "../components/minicomponents/Inputs";
 import { Toaster, toast } from "react-hot-toast";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
-import { Booking as BookingType, ReviewFormData } from "../app/interface";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+
+export interface ReviewFormData {
+  detail: string;
+  rating: string;
+}
+
+export interface BookingType {
+  id: number;
+  name: string;
+  person_id: number;
+  person_name: string;
+  phone: string;
+  address: string;
+  headcount: number;
+  start_time: string;
+  booking_date: string;
+  status: string;
+  special_request: string;
+  partyroom_id: number;
+  filename: string;
+}
 
 export default function Booking() {
   const navigate = useNavigate();

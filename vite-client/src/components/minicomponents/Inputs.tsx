@@ -3,7 +3,34 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/20/solid";
-import { InputProps } from "../../app/interface";
+import { UseFormRegister, UseFormRegisterReturn } from "react-hook-form";
+
+export interface InputProps {
+  type?: string;
+  placeholder?: string;
+  value?: string | number;
+  defaultValue?: string | number;
+  register?: UseFormRegisterReturn;
+  onChange?: (arg: any) => void;
+  name?: string;
+  onDelete?: () => void;
+  canEdit?: boolean;
+  canDelete?: boolean;
+  className?: string;
+  isDisabled?: boolean;
+  isReadOnly?: boolean;
+  isGoodForEditing?: boolean;
+  handleEditClick?: () => void;
+  handleSaveClick?: () => void;
+  handleReviewDetailInputChange?: (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => void;
+  options?: any[];
+  step?: number | string;
+  max?: number | string;
+  min?: number | string;
+  hasExtras?: boolean;
+}
 
 export function DropdownInput(props: InputProps) {
   return (

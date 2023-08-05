@@ -1,20 +1,23 @@
-import { PriceListTableProps } from "../../app/interface";
-
 import { useEffect, useState } from "react";
+import { PriceList } from "../form/RoomFormPricing";
 
-export function NewPriceListTable(props: PriceListTableProps) {
+export interface PriceListTableProps {
+  data: PriceList[];
+}
+
+export function NewPriceListTable({ data }: PriceListTableProps) {
   const [priceDurations, setPriceDurations] = useState<string[]>([]);
 
   useEffect(() => {
     const calculatePriceDurations = async () => {
       const durations = await Promise.all(
-        props.data.map((d) => findPriceDuration(d.start_time, d.total_hour))
+        data.map((d) => findPriceDuration(d.start_time, d.total_hour))
       );
       setPriceDurations(durations);
     };
 
     calculatePriceDurations();
-  }, [props.data]);
+  }, [data]);
 
   const findPriceDuration = async (start_time: string, total_hour: number) => {
     const time = new Date(`1970-01-01T${start_time}`);
@@ -30,7 +33,7 @@ export function NewPriceListTable(props: PriceListTableProps) {
 
   return (
     <div className="grid md:grid-cols-3 grid-cols-1 w-full md:mt-4">
-      {props.data.map((d, index) => (
+      {data.map((d, index) => (
         <div
           className="flex place-content-center place-items-center md:mb-8 mb-6"
           key={index}

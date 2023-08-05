@@ -1,7 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { PartyroomCard } from "./minicomponents/Cards";
 import { useEffect, useState } from "react";
-import { PartyroomInSettings } from "../app/interface";
+
+export interface PartyroomInSettings {
+  id: number;
+  name: string;
+  host_id: number;
+  address: string;
+  is_hidden: boolean;
+}
 
 export function SetRooms() {
   const navigate = useNavigate();

@@ -5,7 +5,12 @@ import {
 } from "@heroicons/react/20/solid";
 import { useNavigate } from "react-router-dom";
 import { SettingsTabButton } from "./Buttons";
-import { SettingTabProps } from "../../app/interface";
+
+export interface SettingTabProps {
+  handleClick: (string: string) => void;
+  isSelected?: string;
+  bookingsTabIsSelected?: string;
+}
 
 export function Tab() {
   const navigate = useNavigate();
@@ -31,57 +36,60 @@ export function Tab() {
   );
 }
 
-export function SettingsTab(props: SettingTabProps) {
+export function SettingsTab({ handleClick, isSelected }: SettingTabProps) {
   return (
     <div className="tabs mt-5 mb-6 w-full flex place-content-around">
       <SettingsTabButton
-        onClick={() => props.handleClick("bookings")}
+        onClick={() => handleClick("bookings")}
         name="Bookings"
-        isSelected={props.isSelected === "bookings"}
+        isSelected={isSelected === "bookings"}
       />
       <SettingsTabButton
-        onClick={() => props.handleClick("rooms")}
+        onClick={() => handleClick("rooms")}
         name="Rooms"
-        isSelected={props.isSelected === "rooms"}
+        isSelected={isSelected === "rooms"}
       />
       <SettingsTabButton
-        onClick={() => props.handleClick("general")}
+        onClick={() => handleClick("general")}
         name="General"
-        isSelected={props.isSelected === "general"}
+        isSelected={isSelected === "general"}
       />
     </div>
   );
 }
 
-export function BookingsTab(props: SettingTabProps) {
+export function BookingsTab({
+  handleClick,
+  bookingsTabIsSelected,
+}: SettingTabProps) {
   return (
     <div className="tabs mt-5 mb-6 w-full flex place-content-around">
       <SettingsTabButton
-        onClick={() => props.handleClick("partygoer")}
+        onClick={() => handleClick("partygoer")}
         name="As Partygoer"
-        isSelected={props.bookingsTabIsSelected === "partygoer"}
+        isSelected={bookingsTabIsSelected === "partygoer"}
       />
       <SettingsTabButton
-        onClick={() => props.handleClick("host")}
+        onClick={() => handleClick("host")}
         name="As Host"
-        isSelected={props.bookingsTabIsSelected === "host"}
+        isSelected={bookingsTabIsSelected === "host"}
       />
     </div>
   );
 }
 
-export function NewRoomTab(props: SettingTabProps) {
+export function NewRoomTab({ handleClick, isSelected }: SettingTabProps) {
   return (
     <div className="tabs mt-5 mb-6 w-full flex place-content-around">
       <SettingsTabButton
-        onClick={() => props.handleClick("part_1")}
+        onClick={() => handleClick("part_1")}
         name="Part 1"
-        isSelected={props.isSelected === "part_1"}
+        isSelected={isSelected === "part_1"}
       />
       <SettingsTabButton
-        onClick={() => props.handleClick("part_2")}
+        onClick={() => handleClick("part_2")}
         name="Part 2"
-        isSelected={props.isSelected === "part_2"}
+        isSelected={isSelected === "part_2"}
       />
     </div>
   );

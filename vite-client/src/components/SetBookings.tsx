@@ -3,10 +3,18 @@ import { BookingCard } from "./minicomponents/Cards";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { useEffect, useState } from "react";
-import { BookingInSettings } from "../app/interface";
 import { BookingsTab } from "./minicomponents/Tab";
 import { useAppDispatch } from "../app/hook";
 import { bookingsTab as bookingsTabSlice } from "../redux/userSlice";
+
+export interface BookingInSettings {
+  id: number;
+  name: string;
+  booking_date: string;
+  start_time: string;
+  headcount: number;
+  address: string;
+}
 
 export function SetBookings() {
   const navigate = useNavigate();
