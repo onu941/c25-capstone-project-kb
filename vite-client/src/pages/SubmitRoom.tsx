@@ -7,7 +7,7 @@ import { AppHeader, FormHeader } from "../components/minicomponents/Headers";
 import { Sidebar } from "../components/minicomponents/Sidebar";
 import { NewRoomTab, Tab } from "../components/minicomponents/Tab";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { JWT, PartyroomImage } from "../app/interface";
+import { JWT } from "../app/interface";
 import RoomFormBasics from "../components/form/RoomFormBasics";
 import RoomFormCategoryEquipment from "../components/form/RoomFormCategoryEquipment";
 import RoomFormDescription from "../components/form/RoomFormDescription";
@@ -21,6 +21,7 @@ import {
 } from "../components/minicomponents/Buttons";
 import toast, { Toaster } from "react-hot-toast";
 import jwtDecode from "jwt-decode";
+import { PartyroomImage } from "./Partyroom";
 
 export interface SubmitRoomFormState {
   name: string;
