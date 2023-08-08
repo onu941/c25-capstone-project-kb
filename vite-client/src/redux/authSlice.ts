@@ -60,6 +60,9 @@ export const authSlice = createSlice({
     logout: (state) => {
       state.token = null;
       localStorage.removeItem("token");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("settings");
+      localStorage.removeItem("bookingsTab");
       state.isAuthenticated = false;
     },
   },
