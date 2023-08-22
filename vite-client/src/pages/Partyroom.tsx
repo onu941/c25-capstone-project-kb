@@ -330,8 +330,7 @@ export default function Partyroom() {
       dispatch(settings("partygoer"));
       navigate(`/booking?booking_id=${pendingBookingId}`);
     } else {
-      toast("Hmm, something's not right");
-      toast.error("not working");
+      toast.error("Hmm, something's not right");
     }
   };
 
